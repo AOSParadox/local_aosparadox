@@ -479,7 +479,6 @@
   <project name="platform/vendor/qcom-opensource/time-services" path="vendor/qcom/opensource/time-services"/>
   <project name="platform/vendor/qcom-opensource/wlan/prima" path="vendor/qcom/opensource/wlan/prima"/>
   <project name="platform/vendor/qcom/copper" path="device/qcom/msm8974"/>
-  <project name="platform/vendor/qcom/msm8226" path="device/qcom/msm8226"/>
   <project name="platform/vendor/qcom/msm8610" path="device/qcom/msm8610"/>
 
 <!-- AOSParadox Stuff -->
@@ -510,6 +509,13 @@
   <project path="system/vold" name="system_vold" remote="par" revision="lollipop" groups="pdk" />
 
 <!-- Falcon Stuff -->
+
+  <project name="android_device_qcom_msm8226" path="device/qcom/msm8226" remote="par" revision="lollipop"/>
+  <project name="android_device_qcom_common" path="device/qcom/common" remote="par" revision="lollipop">
+    <copyfile dest="build.sh" src="build.sh"/>
+    <copyfile dest="vendor/qcom/build/tasks/generate_extra_images.mk" src="generate_extra_images.mk"/>
+  </project>
+
   <project path="device/motorola/falcon" name="android_device_motorola_falcon" remote="par" revision="lollipop" groups="pdk" />
   <project path="kernel" name="android_kernel_motorola_msm8226" remote="par" revision="lollipop" groups="pdk" />
   <project path="vendor/motorola" name="android_vendor_motorola" remote="par" revision="lollipop" groups="pdk" />
