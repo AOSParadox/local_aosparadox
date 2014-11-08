@@ -34,12 +34,8 @@
   <project name="kernel/lk" path="bootable/bootloader/lk"/>
   <project groups="pdk" name="platform/abi/cpp" path="abi/cpp"/>
   <project groups="pdk" name="platform/art" path="art"/>
-  <project groups="pdk" name="platform/bionic" path="bionic"/>
   <project groups="pdk-cw-fs" name="platform/bootable/bootloader/legacy" path="bootable/bootloader/legacy"/>
   <project groups="pdk" name="platform/bootable/recovery" path="bootable/recovery"/>
-  <project groups="pdk" name="platform/build" path="build">
-    <copyfile dest="Makefile" src="core/root.mk"/>
-  </project>
   <project groups="cts,pdk-cw-fs" name="platform/cts" path="cts"/>
   <project groups="pdk-cw-fs" name="platform/dalvik" path="dalvik"/>
   <project groups="pdk" name="platform/developers/build" path="developers/build"/>
@@ -277,8 +273,6 @@
   <project groups="pdk" name="platform/external/zlib" path="external/zlib"/>
   <project groups="pdk" name="platform/external/zopfli" path="external/zopfli"/>
   <project groups="pdk-cw-fs" name="platform/external/zxing" path="external/zxing"/>
-  <project groups="pdk" name="platform/frameworks/av" path="frameworks/av"/>
-  <project groups="pdk-cw-fs" name="platform/frameworks/base" path="frameworks/base"/>
   <project groups="pdk" name="platform/frameworks/compile/libbcc" path="frameworks/compile/libbcc"/>
   <project groups="pdk" name="platform/frameworks/compile/mclinker" path="frameworks/compile/mclinker"/>
   <project groups="pdk" name="platform/frameworks/compile/slang" path="frameworks/compile/slang"/>
@@ -287,7 +281,6 @@
   <project groups="pdk-cw-fs" name="platform/frameworks/minikin" path="frameworks/minikin"/>
   <project groups="pdk-cw-fs" name="platform/frameworks/ml" path="frameworks/ml"/>
   <project groups="pdk-cw-fs" name="platform/frameworks/multidex" path="frameworks/multidex"/>
-  <project groups="pdk" name="platform/frameworks/native" path="frameworks/native"/>
   <project name="platform/frameworks/opt/bitmap" path="frameworks/opt/bitmap"/>
   <project groups="pdk-cw-fs" name="platform/frameworks/opt/bluetooth" path="frameworks/opt/bluetooth"/>
   <project groups="pdk-cw-fs" name="platform/frameworks/opt/calendar" path="frameworks/opt/calendar"/>
@@ -297,22 +290,16 @@
   <project groups="pdk-cw-fs" name="platform/frameworks/opt/datetimepicker" path="frameworks/opt/datetimepicker"/>
   <project groups="pdk-cw-fs" name="platform/frameworks/opt/emoji" path="frameworks/opt/emoji"/>
   <project groups="pdk-cw-fs" name="platform/frameworks/opt/inputmethodcommon" path="frameworks/opt/inputmethodcommon"/>
-  <project groups="pdk-cw-fs" name="platform/frameworks/opt/mms" path="frameworks/opt/mms"/>
   <project name="platform/frameworks/opt/net/ethernet" path="frameworks/opt/net/ethernet"/>
   <project groups="frameworks_ims,pdk-cw-fs" name="platform/frameworks/opt/net/ims" path="frameworks/opt/net/ims"/>
-  <project groups="pdk-cw-fs" name="platform/frameworks/opt/net/voip" path="frameworks/opt/net/voip"/>
   <project groups="pdk" name="platform/frameworks/opt/net/wifi" path="frameworks/opt/net/wifi"/>
   <project groups="pdk-cw-fs" name="platform/frameworks/opt/photoviewer" path="frameworks/opt/photoviewer"/>
   <project groups="pdk-cw-fs" name="platform/frameworks/opt/setupwizard" path="frameworks/opt/setupwizard"/>
-  <project groups="pdk" name="platform/frameworks/opt/telephony" path="frameworks/opt/telephony"/>
   <project groups="pdk-cw-fs" name="platform/frameworks/opt/timezonepicker" path="frameworks/opt/timezonepicker"/>
-  <project groups="pdk-cw-fs" name="platform/frameworks/opt/vcard" path="frameworks/opt/vcard"/>
   <project groups="pdk-cw-fs" name="platform/frameworks/opt/widget" path="frameworks/opt/widget"/>
-  <project groups="pdk" name="platform/frameworks/rs" path="frameworks/rs"/>
   <project groups="pdk-cw-fs" name="platform/frameworks/support" path="frameworks/support"/>
   <project groups="pdk-cw-fs" name="platform/frameworks/testing" path="frameworks/testing"/>
   <project groups="pdk-cw-fs" name="platform/frameworks/volley" path="frameworks/volley"/>
-  <project groups="pdk-cw-fs" name="platform/frameworks/webview" path="frameworks/webview"/>
   <project groups="pdk-cw-fs" name="platform/frameworks/wilhelm" path="frameworks/wilhelm"/>
   <project groups="pdk" name="platform/hardware/akm" path="hardware/akm"/>
   <project groups="pdk" name="platform/hardware/broadcom/libbt" path="hardware/broadcom/libbt"/>
@@ -388,7 +375,6 @@
   <project name="platform/packages/apps/Protips" path="packages/apps/Protips"/>
   <project name="platform/packages/apps/Provision" path="packages/apps/Provision"/>
   <project name="platform/packages/apps/QuickSearchBox" path="packages/apps/QuickSearchBox"/>
-  <project name="platform/packages/apps/Settings" path="packages/apps/Settings"/>
   <project name="platform/packages/apps/SmartCardService" path="packages/apps/SmartCardService"/>
   <project name="platform/packages/apps/SnapdragonCamera" path="packages/apps/SnapdragonCamera"/>
   <project name="platform/packages/apps/SoundRecorder" path="packages/apps/SoundRecorder"/>
@@ -479,14 +465,7 @@
   <project groups="pdk" name="platform/prebuilts/sdk" path="prebuilts/sdk"/>
   <project groups="pdk,tools" name="platform/prebuilts/tools" path="prebuilts/tools"/>
   <project groups="pdk-cw-fs" name="platform/sdk" path="sdk"/>
-  <project groups="pdk" name="platform/system/core" path="system/core"/>
-  <project groups="pdk" name="platform/system/extras" path="system/extras"/>
   <project groups="pdk" name="platform/system/keymaster" path="system/keymaster"/>
-  <project groups="pdk" name="platform/system/media" path="system/media"/>
-  <project groups="pdk" name="platform/system/netd" path="system/netd"/>
-  <project name="platform/system/qcom" path="system/qcom"/>
-  <project groups="pdk" name="platform/system/security" path="system/security"/>
-  <project groups="pdk" name="platform/system/vold" path="system/vold"/>
   <project groups="pdk" name="platform/tools/build" path="tools/build"/>
   <project groups="tools" name="platform/tools/external/fat32lib" path="tools/external/fat32lib"/>
   <project groups="tools" name="platform/tools/external/gradle" path="tools/external/gradle"/>
@@ -518,6 +497,7 @@
   <project path="frameworks/opt/telephony" name="frameworks_opt_telephony" remote="par" revision="lollipop" groups="pdk" />
   <project path="frameworks/opt/vcard" name="frameworks_opt_vcard" remote="par" revision="lollipop" groups="pdk-cw-fs" />
   <project path="frameworks/rs" name="frameworks_rs" remote="par" revision="lollipop" groups="pdk" />
+  <project name="frameworks_webview" path="frameworks/webview" remote="par" revision="lollipop" groups="pdk" />
 
   <project path="packages/apps/Settings" name="packages_apps_Settings" remote="par" revision="lollipop" />
 
