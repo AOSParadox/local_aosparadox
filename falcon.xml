@@ -465,31 +465,31 @@
   <project name="platform/vendor/qcom/msm8610" path="device/qcom/msm8610"/>
 
 <!-- AOSParadox Stuff -->
-  <project path="build" name="build" remote="par" revision="lollipop" groups="pdk,tradefed" >
+  <project path="build" name="android_build" remote="par" revision="lollipop" groups="pdk,tradefed" >
     <copyfile src="core/root.mk" dest="Makefile" />
   </project>
   <project path="bionic" name="bionic" remote="par" revision="lollipop" groups="pdk" />
   <project path="external/busybox" name="android_external_busybox" remote="par" revision="lollipop" />
 
-  <project path="frameworks/av" name="frameworks_av" remote="par" revision="lollipop" groups="pdk" />
-  <project path="frameworks/base" name="frameworks_base" remote="par" revision="lollipop" groups="pdk-cw-fs" />
-  <project path="frameworks/native" name="frameworks_native" remote="par" revision="lollipop" groups="pdk" />
-  <project path="frameworks/opt/mms" name="frameworks_opt_mms" remote="par" revision="lollipop" groups="pdk-cw-fs" />
-  <project path="frameworks/opt/net/voip" name="frameworks_opt_net_voip" remote="par" revision="lollipop" groups="pdk-cw-fs" />
-  <project path="frameworks/opt/telephony" name="frameworks_opt_telephony" remote="par" revision="lollipop" groups="pdk" />
-  <project path="frameworks/opt/vcard" name="frameworks_opt_vcard" remote="par" revision="lollipop" groups="pdk-cw-fs" />
-  <project path="frameworks/rs" name="frameworks_rs" remote="par" revision="lollipop" groups="pdk" />
-  <project name="frameworks_webview" path="frameworks/webview" remote="par" revision="lollipop" groups="pdk" />
+  <project path="frameworks/av" name="android_frameworks_av" remote="par" revision="lollipop" groups="pdk" />
+  <project path="frameworks/base" name="android_frameworks_base" remote="par" revision="lollipop" groups="pdk-cw-fs" />
+  <project path="frameworks/native" name="android_frameworks_native" remote="par" revision="lollipop" groups="pdk" />
+  <project path="frameworks/opt/mms" name="android_frameworks_opt_mms" remote="par" revision="lollipop" groups="pdk-cw-fs" />
+  <project path="frameworks/opt/net/voip" name="android_frameworks_opt_net_voip" remote="par" revision="lollipop" groups="pdk-cw-fs" />
+  <project path="frameworks/opt/telephony" name="android_frameworks_opt_telephony" remote="par" revision="lollipop" groups="pdk" />
+  <project path="frameworks/opt/vcard" name="android_frameworks_opt_vcard" remote="par" revision="lollipop" groups="pdk-cw-fs" />
+  <project path="frameworks/rs" name="android_frameworks_rs" remote="par" revision="lollipop" groups="pdk" />
+  <project name="frameworks_webview" path="android_frameworks/webview" remote="par" revision="lollipop" groups="pdk" />
 
-  <project path="packages/apps/Settings" name="packages_apps_Settings" remote="par" revision="lollipop" />
+  <project path="packages/apps/Settings" name="android_packages_apps_Settings" remote="par" revision="lollipop" />
 
-  <project path="system/core" name="system_core" groups="pdk" remote="par" revision="lollipop" />
-  <project path="system/extras" name="system_extras" groups="pdk" remote="par" revision="lollipop" />
-  <project path="system/media" name="system_media" groups="pdk" remote="par" revision="lollipop" />
-  <project path="system/netd" name="system_netd" groups="pdk" remote="par" revision="lollipop" />
-  <project path="system/qcom" name="system_qcom" remote="par" revision="lollipop" groups="pdk" />
-  <project path="system/security" name="system_security" remote="par" revision="lollipop" groups="pdk" />
-  <project path="system/vold" name="system_vold" remote="par" revision="lollipop" groups="pdk" />
+  <project path="system/core" name="android_system_core" groups="pdk" remote="par" revision="lollipop" />
+  <project path="system/extras" name="android_system_extras" groups="pdk" remote="par" revision="lollipop" />
+  <project path="system/media" name="android_system_media" groups="pdk" remote="par" revision="lollipop" />
+  <project path="system/netd" name="android_system_netd" groups="pdk" remote="par" revision="lollipop" />
+  <project path="system/qcom" name="android_system_qcom" remote="par" revision="lollipop" groups="pdk" />
+  <project path="system/security" name="android_system_security" remote="par" revision="lollipop" groups="pdk" />
+  <project path="system/vold" name="android_system_vold" remote="par" revision="lollipop" groups="pdk" />
 
 <!-- Falcon Stuff -->
 
