@@ -525,5 +525,10 @@
   <project path="vendor/motorola" name="TheMuppets/android_vendor_motorola" remote="github" revision="lollipop"/>
 <!-- END Falcon Stuff -->
 
+<!-- Toolchains -->
+  <project name="SaberMod/arm-androideabi-4.8" remote="github" revision="master" path="prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-SM-4.8"/>
+  <project name="UBERUTILS/arm-eabi-4.10" remote="github" revision="master" path="prebuilts/gcc/linux-x86/arm/arm-linux-eabi-SM-4.10"/>
+<!-- END Toolchains -->
+
 <!-- END AOSParadox Stuff -->
 </manifest>
