@@ -5,6 +5,11 @@
             sync-j="4"
             revision="lollipop" />
 
+  <remote  name="github"
+            fetch="git://github.com/"
+            sync-j="4"
+            revision="lollipop" />
+
   <remote fetch="git://codeaurora.org/" name="caf" review="codeaurora.org"/>
 
   <default remote="caf" revision="LA.BF.1.1.2_rb1.1"/>
@@ -25,6 +30,10 @@
   <project groups="pdk" name="device/google/accessory/arduino"/>
   <project groups="pdk" name="device/google/accessory/demokit"/>
   <project groups="pdk" name="device/google/atv"/>
+  <project name="device/qcom/common">
+    <copyfile dest="build.sh" src="build.sh"/>
+    <copyfile dest="vendor/qcom/build/tasks/generate_extra_images.mk" src="generate_extra_images.mk"/>
+  </project>
   <project name="device/qcom/sepolicy"/>
   <project groups="pdk" name="device/sample"/>
   <project name="kernel/lk" path="bootable/bootloader/lk"/>
@@ -474,7 +483,6 @@
   <project name="platform/vendor/qcom-opensource/testframework" path="vendor/qcom/opensource/testframework"/>
   <project name="platform/vendor/qcom-opensource/time-services" path="vendor/qcom/opensource/time-services"/>
   <project name="platform/vendor/qcom-opensource/wlan/prima" path="vendor/qcom/opensource/wlan/prima"/>
-  <project name="platform/vendor/qcom/copper" path="device/qcom/msm8974"/>
   <project name="platform/vendor/qcom/msm8610" path="device/qcom/msm8610"/>
 
 <!-- AOSParadox Stuff -->
@@ -512,9 +520,9 @@
     <copyfile dest="vendor/qcom/build/tasks/generate_extra_images.mk" src="generate_extra_images.mk"/>
   </project>
 
-  <project path="device/motorola/falcon" name="android_device_motorola_falcon" remote="par" revision="lollipop" groups="pdk" />
-  <project path="kernel" name="android_kernel_motorola_msm8226" remote="par" revision="lollipop" groups="pdk" />
-  <project path="vendor/motorola" name="android_vendor_motorola" remote="par" revision="lollipop" groups="pdk" />
+  <project path="device/motorola/falcon" name="android_device_motorola_falcon" remote="par" revision="lollipop"/>
+  <project path="kernel/motorola/msm8226" name="android_kernel_motorola_msm8226" remote="par" revision="lollipop"/>
+  <project path="vendor/motorola" name="TheMuppets/android_vendor_motorola" remote="github" revision="lollipop"/>
 <!-- END Falcon Stuff -->
 
 <!-- END AOSParadox Stuff -->
