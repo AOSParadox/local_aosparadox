@@ -11,8 +11,7 @@
 
   <remote  name="github"
             fetch="git://github.com/"
-            sync-j="4"
-            revision="lollipop" />
+            sync-j="4"/>
 
   <remote fetch="git://codeaurora.org/" name="caf" review="codeaurora.org"/>
 
@@ -464,6 +463,7 @@
   <project name="platform/vendor/qcom-opensource/stm-log" path="vendor/qcom/opensource/stm-log"/>
   <project name="platform/vendor/qcom-opensource/testframework" path="vendor/qcom/opensource/testframework"/>
   <project name="platform/vendor/qcom-opensource/time-services" path="vendor/qcom/opensource/time-services"/>
+  <project name="platform/vendor/qcom-opensource/wlan/prima" path="vendor/qcom/opensource/wlan/prima"/>
   <project name="platform/vendor/qcom/copper" path="device/qcom/msm8974"/>
   <project name="platform/vendor/qcom/msm8610" path="device/qcom/msm8610"/>
 
