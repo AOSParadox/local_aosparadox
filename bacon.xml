@@ -5,6 +5,10 @@
             sync-j="4"
             revision="lollipop" />
 
+  <remote  name="aosp"
+           fetch="https://android.googlesource.com"
+           review="android-review.googlesource.com" />
+
   <remote  name="github"
             fetch="git://github.com/"
             sync-j="4"
@@ -77,7 +81,7 @@
   <project name="platform/external/chromium_org/third_party/eyesfree/src/android/java/src/com/googlecode/eyesfree/braille" path="external/chromium_org/third_party/eyesfree/src/android/java/src/com/googlecode/eyesfree/braille"/>
   <project name="platform/external/chromium_org/third_party/freetype" path="external/chromium_org/third_party/freetype"/>
   <project name="platform/external/chromium_org/third_party/icu" path="external/chromium_org/third_party/icu"/>
-  <project name="platform/external/chromium_org/third_party/leveldatabase/src" path="external/chromium_org/third_party/leveldatabase/src"/>
+  <project path="external/chromium_org/third_party/leveldatabase/src" name="platform/external/chromium_org/third_party/leveldatabase/src" remote="aosp" revision="refs/tags/android-5.0.0_r7" />
   <project name="platform/external/chromium_org/third_party/libaddressinput/src" path="external/chromium_org/third_party/libaddressinput/src"/>
   <project name="platform/external/chromium_org/third_party/libjingle/source/talk" path="external/chromium_org/third_party/libjingle/source/talk"/>
   <project name="platform/external/chromium_org/third_party/libjpeg_turbo" path="external/chromium_org/third_party/libjpeg_turbo"/>
@@ -460,7 +464,6 @@
   <project name="platform/vendor/qcom-opensource/stm-log" path="vendor/qcom/opensource/stm-log"/>
   <project name="platform/vendor/qcom-opensource/testframework" path="vendor/qcom/opensource/testframework"/>
   <project name="platform/vendor/qcom-opensource/time-services" path="vendor/qcom/opensource/time-services"/>
-  <project name="platform/vendor/qcom-opensource/wlan/prima" path="vendor/qcom/opensource/wlan/prima"/>
   <project name="platform/vendor/qcom/msm8226" path="device/qcom/msm8226"/>
   <project name="platform/vendor/qcom/msm8610" path="device/qcom/msm8610"/>
 
@@ -468,7 +471,7 @@
   <project path="build" name="android_build" remote="par" revision="lollipop" groups="pdk,tradefed" >
     <copyfile src="core/root.mk" dest="Makefile" />
   </project>
-  <project path="bionic" name="bionic" remote="par" revision="lollipop" groups="pdk" />
+  <project path="bionic" name="android_bionic" remote="par" revision="lollipop" groups="pdk" />
   <project path="external/busybox" name="android_external_busybox" remote="par" revision="lollipop" />
 
   <project path="frameworks/av" name="android_frameworks_av" remote="par" revision="lollipop" groups="pdk" />
@@ -479,7 +482,7 @@
   <project path="frameworks/opt/telephony" name="android_frameworks_opt_telephony" remote="par" revision="lollipop" groups="pdk" />
   <project path="frameworks/opt/vcard" name="android_frameworks_opt_vcard" remote="par" revision="lollipop" groups="pdk-cw-fs" />
   <project path="frameworks/rs" name="android_frameworks_rs" remote="par" revision="lollipop" groups="pdk" />
-  <project name="frameworks_webview" path="android_frameworks/webview" remote="par" revision="lollipop" groups="pdk" />
+  <project path="frameworks_webview" name="android_frameworks_webview" remote="par" revision="lollipop" groups="pdk" />
 
   <project path="packages/apps/Settings" name="android_packages_apps_Settings" remote="par" revision="lollipop" />
 
@@ -501,7 +504,7 @@
 
   <project path="device/oneplus/bacon" name="android_device_oneplus_bacon" remote="par" revision="lollipop"/>
   <project path="kernel/oneplus/msm8974" name="android_kernel_onelus_msm8974" remote="par" revision="lollipop"/>
-  <project path="vendor/oneplus" name="TheMuppets/android_vendor_oneplus" remote="github" revision="lollipop"/>
+  <project path="vendor/oneplus" name="TheMuppets/proprietary_vendor_oneplus" remote="github" revision="lollipop"/>
 <!-- END Bacon Stuff -->
 
 <!-- Toolchains -->
