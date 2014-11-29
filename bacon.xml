@@ -29,10 +29,10 @@
   <project groups="pdk" name="device/generic/x86_64"/>
   <project groups="pdk" name="device/google/accessory/arduino"/>
   <project groups="pdk" name="device/google/accessory/demokit"/>
+  <project groups="pdk" name="device/google/atv"/>
   <project name="device/qcom/sepolicy"/>
   <project groups="pdk" name="device/sample"/>
   <project name="kernel/lk" path="bootable/bootloader/lk"/>
-  <project name="kernel/msm" path="kernel"/>
   <project groups="pdk" name="platform/abi/cpp" path="abi/cpp"/>
   <project groups="pdk" name="platform/art" path="art"/>
   <project groups="pdk-cw-fs" name="platform/bootable/bootloader/legacy" path="bootable/bootloader/legacy"/>
