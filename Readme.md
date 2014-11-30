@@ -17,5 +17,5 @@ To build AOSParadox for Motorola Moto G (1st Gen) USE :
 
 Then to sync up:
 
-    repo sync
+    repo sync -c
 
