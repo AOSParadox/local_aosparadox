@@ -17,5 +17,5 @@ To build AOSParadox for Motorola Moto G (2013) USE :
 
 Then to sync up:
 
-    repo sync -c
+    repo sync 
 
