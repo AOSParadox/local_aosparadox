@@ -11,11 +11,11 @@ To build AOSParadox for OnePlus One USE :
 
     repo init -u git://github.com/AOSParadox/local_aosparadox.git -b lollipop_bacon
 
-To build AOSParadox for Motorola Moto G (1st Gen) USE :
+To build AOSParadox for Motorola Moto G (2013) USE :
 
     repo init -u git://github.com/AOSParadox/local_aosparadox.git -b lollipop_falcon
 
 Then to sync up:
 
-    repo sync -c
+    repo sync 
 
