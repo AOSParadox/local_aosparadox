@@ -1,0 +1,1980 @@
+/system/bin/sh: cat: /proc/kmsg: Permission denied
+failed: expect: 0xabcdefaa
+<6>[   24.527649,0] MSM-CPP cpp_load_fw:844 MC Bootloader Version: 0x3e646d63
+<6>[   24.543604,0] MSM-CPP cpp_load_fw:856 CPP FW Version: 0x1002000a
+<6>[   27.380661,1] cpr_irq_handler: IRQ_STATUS = 0x05
+<6>[   27.380780,1] cpr_scale: last_volt[corner:6, fuse_corner:3] = 1150000 uV
+<6>[   27.380954,1] cpr_scale: Down: cpr status = 0x00003219 (error_steps=6)
+<6>[   27.381051,1] cpr_scale: 6 is over down-limit(1): Clamp
+<6>[   27.381241,1] cpr_scale: DOWN: -> new_volt[corner:6, fuse_corner:3] = 1140000 uV
+<3>[   28.980150,2] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<4>[   29.017525,0] type=1400 audit(1424722812.651:33): avc: denied { connectto } for pid=1829 comm="omm.timeservice" path=0074696D655F67656E6F6666 scontext=u:r:platform_app:s0 tcontext=u:r:time_daemon:s0 tclass=unix_stream_socket
+<3>[   29.625150,0] MSM-CPP cpp_close_node:930 cpp_close_node: irq_status: 0x23e
+<3>[   29.625327,0] MSM-CPP cpp_close_node:932 cpp_close_node: DEBUG_SP: 0x0
+<3>[   29.625418,0] MSM-CPP cpp_close_node:934 cpp_close_node: DEBUG_T: 0x0
+<3>[   29.625577,0] MSM-CPP cpp_close_node:936 cpp_close_node: DEBUG_N: 0x0
+<3>[   29.625668,0] MSM-CPP cpp_close_node:938 cpp_close_node: DEBUG_R: 0x0
+<3>[   29.625828,0] MSM-CPP cpp_close_node:940 cpp_close_node: DEBUG_OPPC: 0x0
+<3>[   29.625918,0] MSM-CPP cpp_close_node:942 cpp_close_node: DEBUG_MO: 0x0
+<3>[   29.626009,0] MSM-CPP cpp_close_node:944 cpp_close_node: DEBUG_TIMER0: 0x0
+<3>[   29.626169,0] MSM-CPP cpp_close_node:946 cpp_close_node: DEBUG_TIMER1: 0x0
+<3>[   29.626260,0] MSM-CPP cpp_close_node:948 cpp_close_node: DEBUG_GPI: 0x0
+<3>[   29.626419,0] MSM-CPP cpp_close_node:950 cpp_close_node: DEBUG_GPO: 0x0
+<3>[   29.626509,0] MSM-CPP cpp_close_node:952 cpp_close_node: DEBUG_T0: 0x0
+<3>[   29.626668,0] MSM-CPP cpp_close_node:954 cpp_close_node: DEBUG_R0: 0x0
+<3>[   29.626828,0] MSM-CPP cpp_close_node:956 cpp_close_node: DEBUG_T1: 0x0
+<3>[   29.626920,0] MSM-CPP cpp_close_node:958 cpp_close_node: DEBUG_R1: 0x0
+<6>[   32.370670,0] sps:BAM 0xf9804000 (va:0xe6a98000) enabled: ver:0x8, number of pipes:6
+<6>[   32.380675,0] sps:BAM 0xf9804000 (va:0xe6a98000) enabled: ver:0x8, number of pipes:6
+<6>[   34.760436,1] cpr_irq_handler: IRQ_STATUS = 0x05
+<6>[   34.760631,1] cpr_scale: last_volt[corner:6, fuse_corner:3] = 1140000 uV
+<6>[   34.760732,1] cpr_scale: Down: cpr status = 0x00002c15 (error_steps=5)
+<6>[   34.760907,1] cpr_scale: [corn:6, fuse_corner:3] @ floor: 1140000 <= 1140000: NACK
+<6>[   34.761006,1] cpr_scale: gcnt = 0x00013401 (quot = 1025)
+<4>[   37.313780,1] IRQ40 no longer affine to CPU1
+<3>[   45.591335,0] wlan: [1017:E :SME] sme_FTUpdateKey: Unhandled state=0
+<4>[   46.641450,1] IRQ40 no longer affine to CPU1
+<3>[   49.013673,0] 
+<3>[   49.013682,0] SMSM: Modem SMSM state changed to SMSM_RESET.
+<3>[   49.014089,0] Fatal error on the modem.
+<3>[   49.014331,0] modem subsystem failure reason: dog.c:1495:Watchdog detects stalled initialization.
+<6>[   49.014559,0] subsys-restart: subsystem_restart_dev(): Restart sequence requested for modem, restart_level = RELATED.
+<3>[   49.014863,0] Notify: start reset
+<6>[   49.016520,0] subsys-restart: subsystem_shutdown(): [e49f8500]: Shutting down modem
+<4>[   49.116788,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[   49.216974,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948280 halt timeout
+<3>[   49.221014,0] Ramdump(ramdump_smem): No consumers. Aborting..
+<3>[   49.221256,0] restart_notifier_cb: unable to dump smem -32
+<3>[   49.223094,0] modem_notifier_cb: sysmon_send_event error -38
+<3>[   49.223340,0] M-Notify: General: 4
+<6>[   49.227762,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[   49.308666,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<3>[   49.308873,0] Ramdump(ramdump_modem): No consumers. Aborting..
+<3>[   49.309130,0] Unable to dump modem fw memory (rc = -32).
+<4>[   49.409280,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[   49.409684,0] subsys-restart: subsystem_ramdump(): modem[e49f8500]: Ramdump failed.
+<6>[   49.412840,0] subsys-restart: subsystem_powerup(): [e49f8500]: Powering up modem
+<6>[   49.417126,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[   49.498056,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<6>[   49.502182,0] pil-q6v5-mss fc880000.qcom,mss: modem: loading from 0x08400000 to 0x0c300000
+<3>[   49.530200,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<6>[   49.972902,0] pil-q6v5-mss fc880000.qcom,mss: modem: Brought out of reset
+<3>[   50.032836,0] Notify: smsm init
+<6>[   50.081871,0] pil-q6v5-mss fc880000.qcom,mss: mba: Power/Clock ready interrupt received
+<6>[   50.082044,0] pil-q6v5-mss fc880000.qcom,mss: Subsystem error monitoring/handling services are up
+<6>[   50.089815,0] subsys-restart: subsystem_restart_wq_func(): [e49f8500]: Restart sequence for modem completed.
+<3>[   70.591451,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<4>[   78.042701,2] IRQ40 no longer affine to CPU2
+<3>[   90.113908,0] 
+<3>[   90.113916,0] SMSM: Modem SMSM state changed to SMSM_RESET.
+<3>[   90.114350,0] Fatal error on the modem.
+<3>[   90.114605,0] modem subsystem failure reason: dog.c:1495:Watchdog detects stalled initialization.
+<6>[   90.114848,0] subsys-restart: subsystem_restart_dev(): Restart sequence requested for modem, restart_level = RELATED.
+<3>[   90.115154,0] Notify: start reset
+<6>[   90.120509,0] subsys-restart: subsystem_shutdown(): [e49f8500]: Shutting down modem
+<4>[   90.220814,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[   90.320936,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948280 halt timeout
+<3>[   90.325472,0] Ramdump(ramdump_smem): No consumers. Aborting..
+<3>[   90.325595,0] restart_notifier_cb: unable to dump smem -32
+<3>[   90.326885,0] modem_notifier_cb: sysmon_send_event error -38
+<3>[   90.326992,0] M-Notify: General: 4
+<6>[   90.330459,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[   90.418266,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<3>[   90.418605,0] Ramdump(ramdump_modem): No consumers. Aborting..
+<3>[   90.418738,0] Unable to dump modem fw memory (rc = -32).
+<4>[   90.519093,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[   90.519419,0] subsys-restart: subsystem_ramdump(): modem[e49f8500]: Ramdump failed.
+<6>[   90.520679,0] subsys-restart: subsystem_powerup(): [e49f8500]: Powering up modem
+<6>[   90.527206,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[   90.613868,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<6>[   90.618660,0] pil-q6v5-mss fc880000.qcom,mss: modem: loading from 0x08400000 to 0x0c300000
+<3>[   91.090222,1] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<6>[   91.100230,0] pil-q6v5-mss fc880000.qcom,mss: modem: Brought out of reset
+<3>[   91.160432,1] Notify: smsm init
+<6>[   91.209561,0] pil-q6v5-mss fc880000.qcom,mss: Subsystem error monitoring/handling services are up
+<6>[   91.209943,0] pil-q6v5-mss fc880000.qcom,mss: mba: Power/Clock ready interrupt received
+<6>[   91.211905,0] subsys-restart: subsystem_restart_wq_func(): [e49f8500]: Restart sequence for modem completed.
+<3>[  111.711245,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<3>[  131.242803,0] 
+<3>[  131.242812,0] SMSM: Modem SMSM state changed to SMSM_RESET.
+<3>[  131.243223,0] Fatal error on the modem.
+<3>[  131.243465,0] modem subsystem failure reason: dog.c:1495:Watchdog detects stalled initialization.
+<6>[  131.243694,0] subsys-restart: subsystem_restart_dev(): Restart sequence requested for modem, restart_level = RELATED.
+<3>[  131.243999,0] Notify: start reset
+<6>[  131.245637,0] subsys-restart: subsystem_shutdown(): [e49f8500]: Shutting down modem
+<4>[  131.345947,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[  131.446225,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948280 halt timeout
+<3>[  131.449698,0] Ramdump(ramdump_smem): No consumers. Aborting..
+<3>[  131.449940,0] restart_notifier_cb: unable to dump smem -32
+<3>[  131.452033,0] modem_notifier_cb: sysmon_send_event error -38
+<3>[  131.452279,0] M-Notify: General: 4
+<6>[  131.456674,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[  131.538068,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<3>[  131.538262,0] Ramdump(ramdump_modem): No consumers. Aborting..
+<3>[  131.538519,0] Unable to dump modem fw memory (rc = -32).
+<4>[  131.638703,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[  131.639096,0] subsys-restart: subsystem_ramdump(): modem[e49f8500]: Ramdump failed.
+<6>[  131.641293,0] subsys-restart: subsystem_powerup(): [e49f8500]: Powering up modem
+<6>[  131.645647,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[  131.727097,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<6>[  131.731773,0] pil-q6v5-mss fc880000.qcom,mss: modem: loading from 0x08400000 to 0x0c300000
+<6>[  132.202137,0] pil-q6v5-mss fc880000.qcom,mss: modem: Brought out of reset
+<3>[  132.210226,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<3>[  132.262289,0] Notify: smsm init
+<6>[  132.312987,0] pil-q6v5-mss fc880000.qcom,mss: Subsystem error monitoring/handling services are up
+<6>[  132.313211,0] pil-q6v5-mss fc880000.qcom,mss: mba: Power/Clock ready interrupt received
+<6>[  132.313580,0] subsys-restart: subsystem_restart_wq_func(): [e49f8500]: Restart sequence for modem completed.
+<4>[  141.473207,1] IRQ40 no longer affine to CPU1
+<3>[  152.820615,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<4>[  159.899344,0] type=1400 audit(1424722943.541:34): avc: denied { ioctl } for pid=650 comm="system_server" path="/dev/lis3dh" dev="tmpfs" ino=2480 scontext=u:r:system_server:s0 tcontext=u:object_r:device:s0 tclass=chr_file
+<3>[  160.075218,1] wlan: [944:E :SME] sme_QosPmcDeviceStateUpdateInd: 7443: nothing to process in PMC state BMPS (6)
+<3>[  160.075511,1] wlan: [944:E :TL ]  ----> CRegion 0, hRSSI -53, Alpha 5
+<6>[  160.542235,0] mdss_dsi_panel_off+: ctrl=e40da010 ndx=0
+<6>[  160.542835,0] synaptics_dsx_sensor_state: state change ACTIVE -> SUSPEND
+<6>[  160.782985,0] mdss_dsi_panel_off-:
+<6>[  160.783000,0] mdss_dsi_off+: ctrl=e40da010 ndx=0
+<6>[  160.805508,0] mdss_dsi_off-:
+<6>[  160.806848,0] pmdbg_display_notify(): action = 9, data = 4
+<4>[  162.227629,0] type=1400 audit(1424722945.861:35): avc: denied { search } for pid=363 comm="rild" name="usb" dev="sysfs" ino=14088 scontext=u:r:rild:s0 tcontext=u:object_r:sysfs_usb_supply:s0 tclass=dir
+<4>[  162.228204,0] type=1400 audit(1424722945.861:36): avc: denied { read } for pid=363 comm="rild" name="online" dev="sysfs" ino=14095 scontext=u:r:rild:s0 tcontext=u:object_r:sysfs_usb_supply:s0 tclass=file
+<4>[  162.228636,0] type=1400 audit(1424722945.861:37): avc: denied { open } for pid=363 comm="rild" name="online" dev="sysfs" ino=14095 scontext=u:r:rild:s0 tcontext=u:object_r:sysfs_usb_supply:s0 tclass=file
+<6>[  162.316143,0] healthd: battery l=52 v=3860 t=27.8 h=2 st=3 c=37 chg=
+<6>[  162.361458,0] healthd: battery l=52 v=3858 t=27.8 h=2 st=3 c=37 chg=
+<3>[  172.346285,0] 
+<3>[  172.346294,0] SMSM: Modem SMSM state changed to SMSM_RESET.
+<3>[  172.346716,0] Fatal error on the modem.
+<3>[  172.346963,0] modem subsystem failure reason: dog.c:1495:Watchdog detects stalled initialization.
+<6>[  172.347195,0] subsys-restart: subsystem_restart_dev(): Restart sequence requested for modem, restart_level = RELATED.
+<3>[  172.347586,0] Notify: start reset
+<6>[  172.349185,0] subsys-restart: subsystem_shutdown(): [e49f8500]: Shutting down modem
+<4>[  172.449470,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[  172.549683,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948280 halt timeout
+<3>[  172.555422,0] Ramdump(ramdump_smem): No consumers. Aborting..
+<3>[  172.555571,0] restart_notifier_cb: unable to dump smem -32
+<3>[  172.559600,0] modem_notifier_cb: sysmon_send_event error -38
+<3>[  172.559753,0] M-Notify: General: 4
+<6>[  172.564383,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[  172.652025,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<3>[  172.652311,0] Ramdump(ramdump_modem): No consumers. Aborting..
+<3>[  172.652472,0] Unable to dump modem fw memory (rc = -32).
+<4>[  172.752793,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[  172.753101,0] subsys-restart: subsystem_ramdump(): modem[e49f8500]: Ramdump failed.
+<6>[  172.755434,0] subsys-restart: subsystem_powerup(): [e49f8500]: Powering up modem
+<6>[  172.759967,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[  172.848714,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<6>[  172.861184,0] pil-q6v5-mss fc880000.qcom,mss: modem: loading from 0x08400000 to 0x0c300000
+<3>[  173.320210,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<6>[  173.406327,0] pil-q6v5-mss fc880000.qcom,mss: modem: Brought out of reset
+<3>[  173.467498,0] Notify: smsm init
+<6>[  173.564676,0] pil-q6v5-mss fc880000.qcom,mss: Subsystem error monitoring/handling services are up
+<6>[  173.565011,0] pil-q6v5-mss fc880000.qcom,mss: mba: Power/Clock ready interrupt received
+<6>[  173.572953,0] subsys-restart: subsystem_restart_wq_func(): [e49f8500]: Restart sequence for modem completed.
+<3>[  194.071454,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<3>[  213.597455,0] 
+<3>[  213.597465,0] SMSM: Modem SMSM state changed to SMSM_RESET.
+<3>[  213.597886,0] Fatal error on the modem.
+<3>[  213.598132,0] modem subsystem failure reason: dog.c:1495:Watchdog detects stalled initialization.
+<6>[  213.598365,0] subsys-restart: subsystem_restart_dev(): Restart sequence requested for modem, restart_level = RELATED.
+<3>[  213.598758,0] Notify: start reset
+<6>[  213.600367,0] subsys-restart: subsystem_shutdown(): [e49f8500]: Shutting down modem
+<4>[  213.700697,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[  213.800989,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948280 halt timeout
+<3>[  213.804466,0] Ramdump(ramdump_smem): No consumers. Aborting..
+<3>[  213.804713,0] restart_notifier_cb: unable to dump smem -32
+<3>[  213.806552,0] modem_notifier_cb: sysmon_send_event error -38
+<3>[  213.806804,0] M-Notify: General: 4
+<6>[  213.811608,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[  213.899285,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<3>[  213.899477,0] Ramdump(ramdump_modem): No consumers. Aborting..
+<3>[  213.899736,0] Unable to dump modem fw memory (rc = -32).
+<4>[  213.999926,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[  214.000535,0] subsys-restart: subsystem_ramdump(): modem[e49f8500]: Ramdump failed.
+<6>[  214.002956,0] subsys-restart: subsystem_powerup(): [e49f8500]: Powering up modem
+<6>[  214.007451,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[  214.095273,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<6>[  214.099551,0] pil-q6v5-mss fc880000.qcom,mss: modem: loading from 0x08400000 to 0x0c300000
+<3>[  214.570561,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<6>[  214.641190,0] pil-q6v5-mss fc880000.qcom,mss: modem: Brought out of reset
+<3>[  214.701188,0] Notify: smsm init
+<6>[  214.854300,0] pil-q6v5-mss fc880000.qcom,mss: Subsystem error monitoring/handling services are up
+<6>[  214.854640,0] pil-q6v5-mss fc880000.qcom,mss: mba: Power/Clock ready interrupt received
+<6>[  214.855461,0] subsys-restart: subsystem_restart_wq_func(): [e49f8500]: Restart sequence for modem completed.
+<6>[  217.040974,0] Report pwrkey press event
+<4>[  217.066750,0] type=1400 audit(1424723000.702:38): avc: denied { read } for pid=678 comm="PowerManagerSer" name="lis3dh" dev="tmpfs" ino=2480 scontext=u:r:system_server:s0 tcontext=u:object_r:device:s0 tclass=chr_file
+<4>[  217.067562,0] type=1400 audit(1424723000.702:39): avc: denied { open } for pid=678 comm="PowerManagerSer" name="lis3dh" dev="tmpfs" ino=2480 scontext=u:r:system_server:s0 tcontext=u:object_r:device:s0 tclass=chr_file
+<6>[  217.076639,0] mdss_dsi_on+: ctrl=e40da010 ndx=0
+<6>[  217.100350,0] mdss_dsi_on-:
+<6>[  217.100363,0] mdss_dsi_panel_on+: ctrl=e40da010 ndx=0
+<3>[  217.106397,0] wlan: [944:E :SME] sme_QosPmcDeviceStateUpdateInd: 7443: nothing to process in PMC state BMPS (6)
+<3>[  217.106419,0] wlan: [944:E :TL ]  ----> CRegion 0, hRSSI -53, Alpha 5
+<6>[  217.174242,0] Report pwrkey release event
+<3>[  217.294031,0] qup_i2c f9927000.i2c: QUP: I2C status flags :0xc1300c8, irq:131
+<3>[  217.294072,0] qup_i2c f9927000.i2c: I2C slave addr:0x20 not connected
+<3>[  217.294097,0] synaptics_dsx_i2c 5-0020: synaptics_rmi4_i2c_write: I2C retry 1
+<6>[  217.321646,0] synaptics_dsx_sensor_state: state change SUSPEND -> ACTIVE
+<6>[  217.321880,0] mdss_dsi_panel_on-. Pwr_mode(0x0A) = 0x9c
+<6>[  217.322134,0] pmdbg_display_notify(): action = 9, data = 0
+<6>[  217.361356,0] qcom,leds-qpnp leds-qpnp-e4a39a00: backlight on
+<4>[  217.653282,1] IRQ40 no longer affine to CPU1
+<4>[  221.356590,3] IRQ40 no longer affine to CPU3
+<4>[  221.812293,2] IRQ40 no longer affine to CPU2
+<4>[  226.417451,3] IRQ40 no longer affine to CPU3
+<4>[  226.473168,2] IRQ40 no longer affine to CPU2
+<4>[  226.529137,1] IRQ40 no longer affine to CPU1
+<4>[  232.037165,2] IRQ40 no longer affine to CPU2
+<4>[  234.888575,2] IRQ40 no longer affine to CPU2
+<3>[  235.350156,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<4>[  242.242559,0] type=1400 audit(1424723025.881:40): avc: denied { search } for pid=363 comm="rild" name="usb" dev="sysfs" ino=14088 scontext=u:r:rild:s0 tcontext=u:object_r:sysfs_usb_supply:s0 tclass=dir
+<4>[  242.243197,0] type=1400 audit(1424723025.881:41): avc: denied { read } for pid=363 comm="rild" name="online" dev="sysfs" ino=14095 scontext=u:r:rild:s0 tcontext=u:object_r:sysfs_usb_supply:s0 tclass=file
+<4>[  242.243724,0] type=1400 audit(1424723025.881:42): avc: denied { open } for pid=363 comm="rild" name="online" dev="sysfs" ino=14095 scontext=u:r:rild:s0 tcontext=u:object_r:sysfs_usb_supply:s0 tclass=file
+<6>[  242.289361,1] healthd: battery l=52 v=3798 t=27.8 h=2 st=3 c=505 chg=
+<6>[  242.327796,3] healthd: battery l=52 v=3792 t=27.9 h=2 st=3 c=364 chg=
+<4>[  243.978221,2] IRQ40 no longer affine to CPU2
+<4>[  244.797179,1] IRQ40 no longer affine to CPU1
+<3>[  254.887078,0] 
+<3>[  254.887087,0] SMSM: Modem SMSM state changed to SMSM_RESET.
+<3>[  254.887501,0] Fatal error on the modem.
+<3>[  254.887744,0] modem subsystem failure reason: dog.c:1495:Watchdog detects stalled initialization.
+<6>[  254.887973,0] subsys-restart: subsystem_restart_dev(): Restart sequence requested for modem, restart_level = RELATED.
+<3>[  254.888279,0] Notify: start reset
+<6>[  254.889936,0] subsys-restart: subsystem_shutdown(): [e401e400]: Shutting down modem
+<4>[  254.990283,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[  255.090459,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948280 halt timeout
+<3>[  255.094765,0] Ramdump(ramdump_smem): No consumers. Aborting..
+<3>[  255.094910,0] restart_notifier_cb: unable to dump smem -32
+<3>[  255.099006,0] modem_notifier_cb: sysmon_send_event error -38
+<3>[  255.099155,0] M-Notify: General: 4
+<6>[  255.104082,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[  255.185270,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<3>[  255.185562,0] Ramdump(ramdump_modem): No consumers. Aborting..
+<3>[  255.185818,0] Unable to dump modem fw memory (rc = -32).
+<4>[  255.285994,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[  255.286368,0] subsys-restart: subsystem_ramdump(): modem[e401e400]: Ramdump failed.
+<6>[  255.288987,0] subsys-restart: subsystem_powerup(): [e401e400]: Powering up modem
+<6>[  255.294150,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[  255.374931,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<6>[  255.379621,0] pil-q6v5-mss fc880000.qcom,mss: modem: loading from 0x08400000 to 0x0c300000
+<6>[  255.844145,0] pil-q6v5-mss fc880000.qcom,mss: modem: Brought out of reset
+<3>[  255.870440,1] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<3>[  255.904097,0] Notify: smsm init
+<6>[  255.953519,0] pil-q6v5-mss fc880000.qcom,mss: Subsystem error monitoring/handling services are up
+<6>[  255.953739,0] pil-q6v5-mss fc880000.qcom,mss: mba: Power/Clock ready interrupt received
+<6>[  255.955191,0] subsys-restart: subsystem_restart_wq_func(): [e401e400]: Restart sequence for modem completed.
+<4>[  256.053139,1] IRQ40 no longer affine to CPU1
+<6>[  262.317705,0] healthd: battery l=52 v=3826 t=27.7 h=2 st=3 c=290 chg=
+<6>[  262.371586,0] healthd: battery l=52 v=3820 t=27.7 h=2 st=3 c=230 chg=
+<3>[  276.450975,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<4>[  279.447302,1] IRQ40 no longer affine to CPU1
+<4>[  281.842229,1] IRQ40 no longer affine to CPU1
+<4>[  284.704770,1] IRQ40 no longer affine to CPU1
+<4>[  285.569017,2] IRQ40 no longer affine to CPU2
+<3>[  295.986764,0] 
+<3>[  295.986773,0] SMSM: Modem SMSM state changed to SMSM_RESET.
+<3>[  295.987093,0] Fatal error on the modem.
+<3>[  295.987339,0] modem subsystem failure reason: dog.c:1495:Watchdog detects stalled initialization.
+<6>[  295.987472,0] subsys-restart: subsystem_restart_dev(): Restart sequence requested for modem, restart_level = RELATED.
+<3>[  295.987787,0] Notify: start reset
+<6>[  295.989408,0] subsys-restart: subsystem_shutdown(): [e49f8500]: Shutting down modem
+<4>[  296.089578,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[  296.189844,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948280 halt timeout
+<3>[  296.193603,0] Ramdump(ramdump_smem): No consumers. Aborting..
+<3>[  296.193849,0] restart_notifier_cb: unable to dump smem -32
+<3>[  296.194328,0] modem_notifier_cb: sysmon_send_event error -38
+<3>[  296.194562,0] M-Notify: General: 4
+<6>[  296.198784,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[  296.281783,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<3>[  296.281990,0] Ramdump(ramdump_modem): No consumers. Aborting..
+<3>[  296.282248,0] Unable to dump modem fw memory (rc = -32).
+<4>[  296.382441,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[  296.382840,0] subsys-restart: subsystem_ramdump(): modem[e49f8500]: Ramdump failed.
+<6>[  296.384532,0] subsys-restart: subsystem_powerup(): [e49f8500]: Powering up modem
+<6>[  296.388763,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[  296.476465,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<6>[  296.480893,0] pil-q6v5-mss fc880000.qcom,mss: modem: loading from 0x08400000 to 0x0c300000
+<6>[  296.936900,0] pil-q6v5-mss fc880000.qcom,mss: modem: Brought out of reset
+<3>[  296.950225,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<3>[  296.996688,0] Notify: smsm init
+<6>[  297.043307,0] pil-q6v5-mss fc880000.qcom,mss: Subsystem error monitoring/handling services are up
+<6>[  297.043600,0] pil-q6v5-mss fc880000.qcom,mss: mba: Power/Clock ready interrupt received
+<6>[  297.048964,0] subsys-restart: subsystem_restart_wq_func(): [e49f8500]: Restart sequence for modem completed.
+<3>[  303.210866,0] wlan: [944:E :HDP] hdd_tx_rx_pkt_cnt_stat_timer_handler: Disable split scan
+<4>[  310.767536,2] IRQ40 no longer affine to CPU2
+<4>[  313.935774,1] IRQ40 no longer affine to CPU1
+<3>[  317.550793,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<6>[  322.271736,0] healthd: battery l=52 v=3826 t=27.7 h=2 st=3 c=182 chg=
+<6>[  322.320789,0] healthd: battery l=52 v=3831 t=27.7 h=2 st=3 c=271 chg=
+<4>[  335.420860,2] IRQ40 no longer affine to CPU2
+<4>[  336.810212,2] IRQ40 no longer affine to CPU2
+<3>[  337.074955,0] 
+<3>[  337.074961,0] SMSM: Modem SMSM state changed to SMSM_RESET.
+<3>[  337.075256,0] Fatal error on the modem.
+<3>[  337.075438,0] modem subsystem failure reason: dog.c:1495:Watchdog detects stalled initialization.
+<6>[  337.075602,0] subsys-restart: subsystem_restart_dev(): Restart sequence requested for modem, restart_level = RELATED.
+<3>[  337.075806,0] Notify: start reset
+<6>[  337.090281,0] subsys-restart: subsystem_shutdown(): [e401e400]: Shutting down modem
+<4>[  337.190589,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[  337.290804,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948280 halt timeout
+<3>[  337.292673,0] Ramdump(ramdump_smem): No consumers. Aborting..
+<3>[  337.292895,0] restart_notifier_cb: unable to dump smem -32
+<3>[  337.294218,0] modem_notifier_cb: sysmon_send_event error -38
+<3>[  337.294454,0] M-Notify: General: 4
+<6>[  337.298220,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[  337.382666,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<3>[  337.382797,0] Ramdump(ramdump_modem): No consumers. Aborting..
+<3>[  337.383038,0] Unable to dump modem fw memory (rc = -32).
+<4>[  337.483166,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[  337.483386,0] subsys-restart: subsystem_ramdump(): modem[e401e400]: Ramdump failed.
+<6>[  337.484764,0] subsys-restart: subsystem_powerup(): [e401e400]: Powering up modem
+<6>[  337.488079,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[  337.574011,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<6>[  337.578990,0] pil-q6v5-mss fc880000.qcom,mss: modem: loading from 0x08400000 to 0x0c300000
+<3>[  338.050133,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<6>[  338.083657,0] pil-q6v5-mss fc880000.qcom,mss: modem: Brought out of reset
+<3>[  338.143329,0] Notify: smsm init
+<6>[  338.190861,0] pil-q6v5-mss fc880000.qcom,mss: Subsystem error monitoring/handling services are up
+<6>[  338.191170,0] pil-q6v5-mss fc880000.qcom,mss: mba: Power/Clock ready interrupt received
+<6>[  338.191664,0] subsys-restart: subsystem_restart_wq_func(): [e401e400]: Restart sequence for modem completed.
+<4>[  341.052806,1] IRQ40 no longer affine to CPU1
+<6>[  342.232431,0] healthd: battery l=51 v=3825 t=27.7 h=2 st=3 c=213 chg=
+<6>[  342.296592,0] healthd: battery l=51 v=3822 t=27.7 h=2 st=3 c=236 chg=
+<4>[  348.340095,1] IRQ40 no longer affine to CPU1
+<3>[  355.486319,1] wlan: [1017:E :HDD] hdd_handle_batch_scan_ioctl: Batch scan feature is not supported by FW
+<3>[  355.500377,1] wlan: [1017:E :HDD] hdd_handle_batch_scan_ioctl: Batch scan feature is not supported by FW
+<6>[  355.578086,0] wlan: disconnected
+<6>[  355.578211,0] wlan(0) 00:00:00:00:00:00 Standalone
+<3>[  355.578380,0] wlan: [944:E :HDD] wlan_hdd_tdls_disconnection_callback: 1866: pHddTdlsCtx is NULL
+<6>[  355.579898,2] ADDRCONF(NETDEV_CHANGE): wlan0: link becomes ready
+<3>[  355.641001,3] wlan: [1017:E :HDD] wlan_hdd_tdls_exit: 814: pHddTdlsCtx is NULL
+<3>[  355.681151,1] wlan: [1017:E :HDD] wlan_hdd_tdls_exit: 814: pHddTdlsCtx is NULL
+<4>[  355.908977,2] IRQ40 no longer affine to CPU2
+<6>[  355.948686,0] wlan: unloading driver v3.8.20.24
+<3>[  355.948968,0] wlan: [795:E :HDD] hdd_wlan_exit: 7906: Unregister IPv6 notifier
+<3>[  355.949335,0] wlan: [795:E :HDD] hdd_wlan_exit: 7909: Unregister IPv4 notifier
+<4>[  355.963703,1] IRQ40 no longer affine to CPU1
+<3>[  356.010359,0] wlan: [944:E :WDA] Update channel list capability Not Supported
+<3>[  356.013089,0] wlan: [31:E :CTL] WCTS_NotifyCallback: received SMD_EVENT_REOPEN_READY from SMD
+<3>[  356.075998,0] wlan_logging_thread: Exiting the thread
+<6>[  356.076134,0] wlan_logging_thread: Terminating
+<6>[  356.076545,0] wlan_logging_sock_deactivate_svc: Deactivate wlan_logging svc
+<6>[  356.102493,0] wlan: driver unloaded
+<6>[  356.659706,0] wlan: loading driver v3.8.20.24
+<3>[  356.664126,0] wlan: [795:E :HDD] hdd_parse_config_ini: qcom_cfg.ini Size 7121
+<3>[  356.665303,0] wlan: [795:E :HDD] hdd_is_5g_supported: Hardware doesn't supports 5Ghz
+<3>[  356.665402,0] wlan: [795:E :HDD] hdd_is_5g_supported: Hardware doesn't supports 5Ghz
+<3>[  356.665567,0] wlan: [795:E :HDD] wlan_hdd_cfg80211_init: wiphy->bands[i] is NULL, i = 1
+<3>[  356.669552,0] wlan: [795:E :VOS] INFO: NV version = 2 is loaded, driver supports NV version = 3
+<3>[  356.669916,0] wlan: [795:E :VOS] INFO: Driver supports NV3 CH144 by default, NV2 is currently loaded, NV2 will be used.
+<6>[  356.670191,0] error: wiphy->bands[i] is NULL, i = 1
+<3>[  356.679139,0] wlan: [795:E :HDD] hdd_generate_iface_mac_addr_auto: Derived Mac Addr: 00:0a:f5:b4:bd:84
+<3>[  356.679346,0] wlan: [795:E :HDD] hdd_generate_iface_mac_addr_auto: Derived Mac Addr: 00:0a:f5:b4:bd:85
+<3>[  356.679536,0] wlan: [795:E :HDD] hdd_generate_iface_mac_addr_auto: Derived Mac Addr: 00:0a:f5:b4:bd:86
+<3>[  356.679655,0] wlan: [795:E :HDD] hdd_generate_iface_mac_addr_auto: Derived Mac Addr: 00:0a:f5:b4:bd:87
+<6>[  356.788421,0] wlan: WCNSS WLAN version 1.5.1.2
+<6>[  356.788667,0] wlan: WCNSS software version M8626AAAAANAZW12021221
+<6>[  356.788797,0] wlan: WCNSS hardware version WCN v2.0 RadioPhy vUnknown with 19.2MHz XO
+<3>[  356.789117,0] wlan: [795:E :CTL] Host caps b4c001ff 3df8f 0 80000000
+<3>[  356.789253,0] wlan: [795:E :CTL] Host Capability
+<3>[  356.789498,0] wlan: [795:E :CTL] 		MCC, P2P, DOT11AC, SLM_SESSIONIZATION, DOT11AC_OPMODE, SAP32STA, TDLS, P2P_GO_NOA_DECOUPLE_INIT_SCAN, WLANACTIVE_OFFLOAD, WOW, WLAN_ROAM_SCAN_OFFLOAD, , , , FW_IN_TX_PATH, EXTENDED_NSOFFLOAD_SLOT, CH_SWITCH_V1, HT40_OBSS_SCAN, , TDLS_SCAN_COEXISTENCE, LINK_LAYER_STATS_MEAS, MU_MIMO, EXTENDED_SCAN, DYNAMIC_WMM_PS, MAC_SPOOFED_SCAN, DISA, , WPS_PRBRSP_TMPL, BCN_IE_FLT_DELTA, 
+<6>[  356.790026,0] DefaultCountry is 00
+<3>[  356.790721,0] wlan: [3714:E :WDA] Update channel list capability Not Supported
+<3>[  356.791050,0] wlan: [3714:E :CTL] FW caps 1f877ff 0 0 0
+<3>[  356.791186,0] wlan: [3714:E :CTL] Firmware Capability
+<3>[  356.791424,0] wlan: [3714:E :CTL] 		MCC, P2P, DOT11AC, SLM_SESSIONIZATION, DOT11AC_OPMODE, SAP32STA, TDLS, P2P_GO_NOA_DECOUPLE_INIT_SCAN, WLANACTIVE_OFFLOAD, BEACON_OFFLOAD, SCAN_OFFLOAD, BCN_MISS_OFFLOAD, STA_POWERSAVE, , BCN_FILTER, RTT, RATECTRL, WOW, WLAN_ROAM_SCAN_OFFLOAD, 
+<3>[  356.801917,0] wlan: [795:E :HDD] wlan_hdd_sta_tdls_init TDLS not enabled (0) or FW doesn't support (1)!
+<3>[  356.839834,0] wlan: [795:E :HDD] wlan_hdd_sta_tdls_init TDLS not enabled (0) or FW doesn't support (1)!
+<3>[  356.862674,0] wlan: [795:E :HDD] wlan_hdd_tdls_init TDLS Implicit trigger not enabled!
+<6>[  356.863076,0] wlan_logging_sock_activate_svc: Initalizing FEConsoleLog = 1 NumBuff = 32
+<6>[  356.863578,0] wlan_logging_sock_activate_svc: Activated wlan_logging svc
+<3>[  356.864316,0] wlan: [3714:E :WDA] Update channel list capability Not Supported
+<3>[  356.864503,0] wlan: [795:E :HDD] hdd_wlan_startup: 9407: Registered IPv6 notifier
+<3>[  356.864860,0] wlan: [795:E :HDD] hdd_wlan_startup: 9421: Registered IPv4 notifier
+<6>[  356.865135,0] wlan: driver loaded
+<6>[  357.144606,1] wlan: unloading driver v3.8.20.24
+<3>[  357.144849,1] wlan: [795:E :HDD] hdd_wlan_exit: 7906: Unregister IPv6 notifier
+<3>[  357.150183,1] wlan: [795:E :HDD] hdd_wlan_exit: 7909: Unregister IPv4 notifier
+<3>[  357.150682,1] wlan: [795:E :HDD] wlan_hdd_tdls_exit: 814: pHddTdlsCtx is NULL
+<3>[  357.151053,1] wlan: [795:E :HDD] wlan_hdd_tdls_exit: 814: pHddTdlsCtx is NULL
+<3>[  357.210053,0] wlan: [3714:E :WDA] Update channel list capability Not Supported
+<3>[  357.210952,1] wlan: [795:E :VOS] vos_sched_flush_mc_mqs: Freeing MC PE MSG message type 4784
+<3>[  357.211156,1] wlan: [795:E :VOS] vos_sched_flush_mc_mqs: Freeing MC PE MSG message type 4784
+<3>[  357.211427,1] wlan: [795:E :VOS] vos_sched_flush_mc_mqs: Freeing MC PE MSG message type 5754
+<3>[  357.225231,0] wlan: [148:E :CTL] WCTS_NotifyCallback: received SMD_EVENT_REOPEN_READY from SMD
+<3>[  357.285963,0] wlan_logging_thread: Exiting the thread
+<6>[  357.286163,0] wlan_logging_thread: Terminating
+<6>[  357.286564,0] wlan_logging_sock_deactivate_svc: Deactivate wlan_logging svc
+<6>[  357.342685,0] wlan: driver unloaded
+<3>[  358.690273,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<6>[  365.855583,1] wlan: loading driver v3.8.20.24
+<3>[  365.860980,1] wlan: [795:E :HDD] hdd_parse_config_ini: qcom_cfg.ini Size 7121
+<3>[  365.862608,1] wlan: [795:E :HDD] hdd_is_5g_supported: Hardware doesn't supports 5Ghz
+<3>[  365.862899,1] wlan: [795:E :HDD] hdd_is_5g_supported: Hardware doesn't supports 5Ghz
+<3>[  365.863056,1] wlan: [795:E :HDD] wlan_hdd_cfg80211_init: wiphy->bands[i] is NULL, i = 1
+<3>[  365.867433,1] wlan: [795:E :VOS] INFO: NV version = 2 is loaded, driver supports NV version = 3
+<3>[  365.867649,1] wlan: [795:E :VOS] INFO: Driver supports NV3 CH144 by default, NV2 is currently loaded, NV2 will be used.
+<6>[  365.867868,1] error: wiphy->bands[i] is NULL, i = 1
+<3>[  365.879607,1] wlan: [795:E :HDD] hdd_generate_iface_mac_addr_auto: Derived Mac Addr: 00:0a:f5:b4:bd:84
+<3>[  365.879821,1] wlan: [795:E :HDD] hdd_generate_iface_mac_addr_auto: Derived Mac Addr: 00:0a:f5:b4:bd:85
+<3>[  365.880011,1] wlan: [795:E :HDD] hdd_generate_iface_mac_addr_auto: Derived Mac Addr: 00:0a:f5:b4:bd:86
+<3>[  365.880359,1] wlan: [795:E :HDD] hdd_generate_iface_mac_addr_auto: Derived Mac Addr: 00:0a:f5:b4:bd:87
+<6>[  365.975188,1] wlan: WCNSS WLAN version 1.5.1.2
+<6>[  365.975298,1] wlan: WCNSS software version M8626AAAAANAZW12021221
+<6>[  365.975464,1] wlan: WCNSS hardware version WCN v2.0 RadioPhy vUnknown with 19.2MHz XO
+<3>[  365.975602,1] wlan: [795:E :CTL] Host caps b4c001ff 3df8f 0 80000000
+<3>[  365.975802,1] wlan: [795:E :CTL] Host Capability
+<3>[  365.975939,1] wlan: [795:E :CTL] 		MCC, P2P, DOT11AC, SLM_SESSIONIZATION, DOT11AC_OPMODE, SAP32STA, TDLS, P2P_GO_NOA_DECOUPLE_INIT_SCAN, WLANACTIVE_OFFLOAD, WOW, WLAN_ROAM_SCAN_OFFLOAD, , , , FW_IN_TX_PATH, EXTENDED_NSOFFLOAD_SLOT, CH_SWITCH_V1, HT40_OBSS_SCAN, , TDLS_SCAN_COEXISTENCE, LINK_LAYER_STATS_MEAS, MU_MIMO, EXTENDED_SCAN, DYNAMIC_WMM_PS, MAC_SPOOFED_SCAN, DISA, , WPS_PRBRSP_TMPL, BCN_IE_FLT_DELTA, 
+<6>[  365.976459,1] DefaultCountry is 00
+<3>[  365.976891,1] wlan: [3821:E :WDA] Update channel list capability Not Supported
+<3>[  365.977226,1] wlan: [3821:E :CTL] FW caps 1f877ff 0 0 0
+<3>[  365.977480,1] wlan: [3821:E :CTL] Firmware Capability
+<3>[  365.977591,1] wlan: [3821:E :CTL] 		MCC, P2P, DOT11AC, SLM_SESSIONIZATION, DOT11AC_OPMODE, SAP32STA, TDLS, P2P_GO_NOA_DECOUPLE_INIT_SCAN, WLANACTIVE_OFFLOAD, BEACON_OFFLOAD, SCAN_OFFLOAD, BCN_MISS_OFFLOAD, STA_POWERSAVE, , BCN_FILTER, RTT, RATECTRL, WOW, WLAN_ROAM_SCAN_OFFLOAD, 
+<3>[  365.985413,0] wlan: [795:E :HDD] wlan_hdd_sta_tdls_init TDLS not enabled (0) or FW doesn't support (1)!
+<3>[  365.999862,2] wlan: [795:E :HDD] wlan_hdd_sta_tdls_init TDLS not enabled (0) or FW doesn't support (1)!
+<3>[  366.008775,2] wlan: [795:E :HDD] wlan_hdd_tdls_init TDLS Implicit trigger not enabled!
+<6>[  366.009529,2] wlan_logging_sock_activate_svc: Initalizing FEConsoleLog = 1 NumBuff = 32
+<6>[  366.010655,2] wlan_logging_sock_activate_svc: Activated wlan_logging svc
+<3>[  366.011333,2] wlan: [3821:E :WDA] Update channel list capability Not Supported
+<3>[  366.011620,2] wlan: [795:E :HDD] hdd_wlan_startup: 9407: Registered IPv6 notifier
+<3>[  366.011950,2] wlan: [795:E :HDD] hdd_wlan_startup: 9421: Registered IPv4 notifier
+<6>[  366.012125,2] wlan: driver loaded
+<3>[  366.063558,0] wlan: [3826:E :PMC] PMC: STA not associated with an AP with single active session. BMPS cannot be entered
+<6>[  366.064390,0] ADDRCONF(NETDEV_UP): p2p0: link is not ready
+<3>[  366.188561,0] wlan: [3826:E :PMC] PMC: STA not associated with an AP with single active session. BMPS cannot be entered
+<6>[  366.189173,0] ADDRCONF(NETDEV_UP): wlan0: link is not ready
+<3>[  366.216349,0] wlan: [795:E :HDD] wlan_hdd_cfg80211_set_spoofed_mac_oui: 4055: MAC_SPOOFED_SCAN disabled in ini
+<3>[  366.219569,3] wlan: [3821:E :WDA] Failure in host offload REQ WDI API, free all the memory 3
+<3>[  366.229418,0] wlan: [3826:E :HDD] hdd_setBand: band value 0 violate INI settings 1
+<3>[  366.229599,0] wlan: [3826:E :VOS] hdd_driver_command: failed to set band ret=-5
+<4>[  366.319991,2] IRQ40 no longer affine to CPU2
+<4>[  366.378666,1] IRQ40 no longer affine to CPU1
+<3>[  366.806530,0] wlan: [3821:E :WDA] Update channel list capability Not Supported
+<3>[  367.095431,0] wlan: [3821:E :PE ] wlan_cfgGetInt: 374: Not valid cfg id 1
+<6>[  367.121945,0] wlan: 00:0a:f5:b4:bd:84 connected to a4:b1:e9:d9:75:03
+<6>[  367.122231,0] wlan(1) a4:b1:e9:d9:75:03 Standalone
+<6>[  367.122974,0] ADDRCONF(NETDEV_CHANGE): wlan0: link becomes ready
+<3>[  367.127397,0] wlan: [3821:E :SME] sme_UpdateDSCPtoUPMapping: QOS Mapping IE not present
+<3>[  367.141651,0] wlan: [3826:E :SME] sme_FTUpdateKey: Unhandled state=0
+<3>[  367.142431,0] wlan: [3826:E :SME] sme_FTUpdateKey: Unhandled state=0
+<3>[  367.259074,1] wlan: [3826:E :HDD] hdd_handle_batch_scan_ioctl: Batch scan feature is not supported by FW
+<3>[  367.259587,1] wlan: [3826:E :HDD] hdd_handle_batch_scan_ioctl: Batch scan feature is not supported by FW
+<3>[  367.878250,0] wlan: [3821:E :SME] sme_QosPmcDeviceStateUpdateInd: 7443: nothing to process in PMC state BMPS (6)
+<3>[  367.878521,0] wlan: [3821:E :TL ]  ----> CRegion 0, hRSSI 0, Alpha 5
+<4>[  371.131822,1] IRQ40 no longer affine to CPU1
+<3>[  378.224139,0] 
+<3>[  378.224148,0] SMSM: Modem SMSM state changed to SMSM_RESET.
+<3>[  378.224556,0] Fatal error on the modem.
+<3>[  378.224796,0] modem subsystem failure reason: dog.c:1495:Watchdog detects stalled initialization.
+<6>[  378.225024,0] subsys-restart: subsystem_restart_dev(): Restart sequence requested for modem, restart_level = RELATED.
+<3>[  378.225390,0] Notify: start reset
+<6>[  378.227144,0] subsys-restart: subsystem_shutdown(): [e401e400]: Shutting down modem
+<4>[  378.327434,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[  378.427624,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948280 halt timeout
+<3>[  378.434900,0] Ramdump(ramdump_smem): No consumers. Aborting..
+<3>[  378.435142,0] restart_notifier_cb: unable to dump smem -32
+<3>[  378.437007,0] modem_notifier_cb: sysmon_send_event error -38
+<3>[  378.437251,0] M-Notify: General: 4
+<6>[  378.441743,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[  378.522352,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<3>[  378.522546,0] Ramdump(ramdump_modem): No consumers. Aborting..
+<3>[  378.522802,0] Unable to dump modem fw memory (rc = -32).
+<4>[  378.622993,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[  378.623389,0] subsys-restart: subsystem_ramdump(): modem[e401e400]: Ramdump failed.
+<6>[  378.626075,0] subsys-restart: subsystem_powerup(): [e401e400]: Powering up modem
+<6>[  378.630576,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[  378.711813,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<6>[  378.715835,0] pil-q6v5-mss fc880000.qcom,mss: modem: loading from 0x08400000 to 0x0c300000
+<6>[  379.185307,0] pil-q6v5-mss fc880000.qcom,mss: modem: Brought out of reset
+<3>[  379.190232,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<3>[  379.245278,0] Notify: smsm init
+<6>[  379.291693,0] pil-q6v5-mss fc880000.qcom,mss: mba: Power/Clock ready interrupt received
+<6>[  379.291882,0] pil-q6v5-mss fc880000.qcom,mss: Subsystem error monitoring/handling services are up
+<6>[  379.292526,0] subsys-restart: subsystem_restart_wq_func(): [e401e400]: Restart sequence for modem completed.
+<4>[  379.411302,2] IRQ40 no longer affine to CPU2
+<3>[  399.800929,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<3>[  419.324236,0] 
+<3>[  419.324246,0] SMSM: Modem SMSM state changed to SMSM_RESET.
+<3>[  419.324662,0] Fatal error on the modem.
+<3>[  419.324907,0] modem subsystem failure reason: dog.c:1495:Watchdog detects stalled initialization.
+<6>[  419.325135,0] subsys-restart: subsystem_restart_dev(): Restart sequence requested for modem, restart_level = RELATED.
+<3>[  419.325679,0] Notify: start reset
+<6>[  419.326574,0] subsys-restart: subsystem_shutdown(): [e401e400]: Shutting down modem
+<4>[  419.426888,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[  419.527092,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948280 halt timeout
+<3>[  419.528807,0] Ramdump(ramdump_smem): No consumers. Aborting..
+<3>[  419.528904,0] restart_notifier_cb: unable to dump smem -32
+<3>[  419.531250,0] modem_notifier_cb: sysmon_send_event error -38
+<3>[  419.531348,0] M-Notify: General: 4
+<6>[  419.537997,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[  419.619899,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<3>[  419.620174,0] Ramdump(ramdump_modem): No consumers. Aborting..
+<3>[  419.620385,0] Unable to dump modem fw memory (rc = -32).
+<4>[  419.720571,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[  419.720971,0] subsys-restart: subsystem_ramdump(): modem[e401e400]: Ramdump failed.
+<6>[  419.722604,0] subsys-restart: subsystem_powerup(): [e401e400]: Powering up modem
+<6>[  419.726970,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[  419.815725,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<6>[  419.821177,0] pil-q6v5-mss fc880000.qcom,mss: modem: loading from 0x08400000 to 0x0c300000
+<3>[  420.300153,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<6>[  420.392132,0] pil-q6v5-mss fc880000.qcom,mss: modem: Brought out of reset
+<3>[  420.452237,0] Notify: smsm init
+<6>[  420.500568,0] pil-q6v5-mss fc880000.qcom,mss: mba: Power/Clock ready interrupt received
+<6>[  420.500898,0] pil-q6v5-mss fc880000.qcom,mss: Subsystem error monitoring/handling services are up
+<6>[  420.502058,0] subsys-restart: subsystem_restart_wq_func(): [e401e400]: Restart sequence for modem completed.
+<4>[  420.680448,2] IRQ40 no longer affine to CPU2
+<4>[  421.533980,1] IRQ40 no longer affine to CPU1
+<3>[  441.000209,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<4>[  445.080970,2] IRQ40 no longer affine to CPU2
+<4>[  445.136104,1] IRQ40 no longer affine to CPU1
+<4>[  446.666249,1] IRQ40 no longer affine to CPU1
+<4>[  453.737394,0] avc:  denied  { set } for property=user.language scontext=u:r:system_server:s0 tcontext=u:object_r:default_prop:s0 tclass=property_service
+<4>[  454.603505,2] IRQ40 no longer affine to CPU2
+<4>[  455.060695,1] IRQ40 no longer affine to CPU1
+<4>[  459.975454,3] IRQ40 no longer affine to CPU3
+<3>[  460.532088,0] 
+<3>[  460.532094,0] SMSM: Modem SMSM state changed to SMSM_RESET.
+<3>[  460.532331,0] Fatal error on the modem.
+<3>[  460.532585,0] modem subsystem failure reason: dog.c:1495:Watchdog detects stalled initialization.
+<6>[  460.532685,0] subsys-restart: subsystem_restart_dev(): Restart sequence requested for modem, restart_level = RELATED.
+<3>[  460.532905,0] Notify: start reset
+<6>[  460.534194,0] subsys-restart: subsystem_shutdown(): [e49f8500]: Shutting down modem
+<4>[  460.634481,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[  460.734706,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948280 halt timeout
+<3>[  460.736662,0] Ramdump(ramdump_smem): No consumers. Aborting..
+<3>[  460.736805,0] restart_notifier_cb: unable to dump smem -32
+<3>[  460.739105,0] modem_notifier_cb: sysmon_send_event error -38
+<3>[  460.739217,0] M-Notify: General: 4
+<6>[  460.743618,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[  460.829821,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<3>[  460.830240,0] Ramdump(ramdump_modem): No consumers. Aborting..
+<3>[  460.830359,0] Unable to dump modem fw memory (rc = -32).
+<4>[  460.930661,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[  460.930984,0] subsys-restart: subsystem_ramdump(): modem[e49f8500]: Ramdump failed.
+<6>[  460.932688,0] subsys-restart: subsystem_powerup(): [e49f8500]: Powering up modem
+<6>[  460.937848,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[  461.026468,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<6>[  461.033045,0] pil-q6v5-mss fc880000.qcom,mss: modem: loading from 0x08400000 to 0x0c300000
+<3>[  461.510190,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<6>[  461.523893,0] pil-q6v5-mss fc880000.qcom,mss: modem: Brought out of reset
+<3>[  461.584350,0] Notify: smsm init
+<6>[  461.636292,0] pil-q6v5-mss fc880000.qcom,mss: Subsystem error monitoring/handling services are up
+<6>[  461.636645,0] pil-q6v5-mss fc880000.qcom,mss: mba: Power/Clock ready interrupt received
+<6>[  461.637289,0] subsys-restart: subsystem_restart_wq_func(): [e49f8500]: Restart sequence for modem completed.
+<4>[  461.958161,2] IRQ40 no longer affine to CPU2
+<4>[  462.166517,0] type=1400 audit(1424723245.801:43): avc: denied { search } for pid=363 comm="rild" name="usb" dev="sysfs" ino=14088 scontext=u:r:rild:s0 tcontext=u:object_r:sysfs_usb_supply:s0 tclass=dir
+<4>[  462.166924,0] type=1400 audit(1424723245.801:44): avc: denied { read } for pid=363 comm="rild" name="online" dev="sysfs" ino=14095 scontext=u:r:rild:s0 tcontext=u:object_r:sysfs_usb_supply:s0 tclass=file
+<4>[  462.167349,0] type=1400 audit(1424723245.801:45): avc: denied { open } for pid=363 comm="rild" name="online" dev="sysfs" ino=14095 scontext=u:r:rild:s0 tcontext=u:object_r:sysfs_usb_supply:s0 tclass=file
+<6>[  462.246202,0] healthd: battery l=51 v=3789 t=27.9 h=2 st=3 c=328 chg=
+<6>[  462.280932,0] healthd: battery l=51 v=3814 t=27.9 h=2 st=3 c=374 chg=
+<4>[  463.323503,2] IRQ40 no longer affine to CPU2
+<4>[  467.558033,2] IRQ40 no longer affine to CPU2
+<4>[  467.813293,1] IRQ40 no longer affine to CPU1
+<6>[  468.913231,1] Core dump to |/system/bin/coredump NuPlayerRendere 258 1424723252 pipe failed
+<4>[  469.365125,1] IRQ40 no longer affine to CPU1
+<6>[  472.133160,0] msm_vidc: 4: Opening video instance: e2ae8000, 0
+<6>[  472.141775,0] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  472.226124,1] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<7>[  472.246578,2] msm_vidc: 1: No more formats found
+<7>[  472.246601,2] msm_vidc: 1: No more formats found
+<6>[  472.259066,2] msm_vidc: 4: Closed video instance: e2ae8000
+<6>[  472.260065,2] msm_vidc: 4: Opening video instance: e2dbc000, 0
+<6>[  472.267515,2] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  472.336263,2] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<7>[  472.356775,2] msm_vidc: 1: No more formats found
+<7>[  472.356805,2] msm_vidc: 1: No more formats found
+<6>[  472.368104,2] msm_vidc: 4: Closed video instance: e2dbc000
+<6>[  472.369325,2] msm_vidc: 4: Opening video instance: d3817000, 0
+<6>[  472.374884,2] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  472.454073,2] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<7>[  472.475261,2] msm_vidc: 1: No more formats found
+<7>[  472.475295,2] msm_vidc: 1: No more formats found
+<6>[  472.489421,2] msm_vidc: 4: Closed video instance: d3817000
+<6>[  472.495125,0] audio_open:wmadec success mode[1]session[1]
+<6>[  472.502928,0] audio_open:wmapro decoder open success, session_id = 1
+<6>[  472.510657,0] audio_open:wmapro decoder open success, session_id = 1
+<4>[  472.512871,3] IRQ40 no longer affine to CPU3
+<6>[  472.532991,1] msm_vidc: 4: Opening video instance: e113e000, 1
+<6>[  472.539987,1] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  472.626535,1] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<6>[  472.669768,1] msm_vidc: 4: Closed video instance: e113e000
+<6>[  472.670922,1] msm_vidc: 4: Opening video instance: d350e000, 1
+<6>[  472.678117,1] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  472.762323,1] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<6>[  472.803911,1] msm_vidc: 4: Closed video instance: d350e000
+<6>[  472.805104,1] msm_vidc: 4: Opening video instance: e113d000, 1
+<6>[  472.811455,0] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  472.896041,1] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<7>[  472.926386,1] msm_vidc: 1: Failed setting 99201f
+<7>[  472.926409,1] msm_vidc: 1: Failed to set hal property for framesize
+<6>[  472.939862,1] msm_vidc: 4: Closed video instance: e113d000
+<6>[  472.940945,1] msm_vidc: 4: Opening video instance: d350e000, 1
+<6>[  472.947746,1] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  473.031910,1] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<6>[  473.069008,1] msm_vidc: 4: Closed video instance: d350e000
+<6>[  473.070041,1] msm_vidc: 4: Opening video instance: d350f000, 1
+<6>[  473.076873,1] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  473.162725,1] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<6>[  473.199750,1] msm_vidc: 4: Closed video instance: d350f000
+<6>[  473.201008,1] msm_vidc: 4: Opening video instance: e10f3000, 1
+<6>[  473.207748,1] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  473.293956,1] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<7>[  473.323729,1] msm_vidc: 1: Failed setting 99201f
+<7>[  473.323753,1] msm_vidc: 1: Failed to set hal property for framesize
+<6>[  473.335750,1] msm_vidc: 4: Closed video instance: e10f3000
+<6>[  473.336930,1] msm_vidc: 4: Opening video instance: d350e000, 1
+<6>[  473.343062,0] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  473.427770,1] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<7>[  473.449419,1] msm_vidc: 1: State not recognized
+<7>[  473.449437,1] msm_vidc: 1: Failed to move from state: 2 to 13
+<7>[  473.449453,1] msm_vidc: 1: Failed to move inst: d350e000 to release res done
+<7>[  473.449470,1] msm_vidc: 2: Failed to release dec output buffers: -22
+<7>[  473.449489,1] msm_vidc: 1: State not recognized
+<7>[  473.449503,1] msm_vidc: 1: Failed to move from state: 2 to 15
+<7>[  473.449534,1] msm_vidc: 1: Failed to exec decoder cmd 1
+<7>[  473.449712,1] msm_vidc: 1: State not recognized
+<7>[  473.449728,1] msm_vidc: 1: Failed to move from state: 2 to 13
+<7>[  473.449744,1] msm_vidc: 1: Failed to move inst: d350e000 to release res done
+<7>[  473.449762,1] msm_vidc: 2: Failed in msm_v4l2_close for release output buffers
+<7>[  473.449843,1] msm_vidc: 1: State not recognized
+<7>[  473.449858,1] msm_vidc: 1: Failed to move from state: 2 to 16
+<7>[  473.449873,1] msm_vidc: 1: Failed to move video instance to uninit state
+<6>[  473.449912,1] msm_vidc: 4: Closed video instance: d350e000
+<6>[  473.450901,1] msm_vidc: 4: Opening video instance: e10f3000, 1
+<7>[  473.451579,1] msm_vidc: 1: State not recognized
+<7>[  473.451595,1] msm_vidc: 1: Failed to move from state: 2 to 13
+<7>[  473.451618,1] msm_vidc: 1: Failed to move inst: e10f3000 to release res done
+<7>[  473.451651,1] msm_vidc: 2: Failed to release dec output buffers: -22
+<7>[  473.451674,1] msm_vidc: 1: State not recognized
+<7>[  473.451688,1] msm_vidc: 1: Failed to move from state: 2 to 15
+<7>[  473.451705,1] msm_vidc: 1: Failed to exec decoder cmd 1
+<7>[  473.451949,0] msm_vidc: 1: State not recognized
+<7>[  473.451965,0] msm_vidc: 1: Failed to move from state: 2 to 13
+<7>[  473.451982,0] msm_vidc: 1: Failed to move inst: e10f3000 to release res done
+<7>[  473.451999,0] msm_vidc: 2: Failed in msm_v4l2_close for release output buffers
+<7>[  473.452078,0] msm_vidc: 1: State not recognized
+<7>[  473.452093,0] msm_vidc: 1: Failed to move from state: 2 to 16
+<7>[  473.452108,0] msm_vidc: 1: Failed to move video instance to uninit state
+<6>[  473.452144,0] msm_vidc: 4: Closed video instance: e10f3000
+<6>[  473.453036,0] msm_vidc: 4: Opening video instance: e2aed000, 1
+<7>[  473.453618,0] msm_vidc: 1: State not recognized
+<7>[  473.453635,0] msm_vidc: 1: Failed to move from state: 2 to 13
+<7>[  473.453652,0] msm_vidc: 1: Failed to move inst: e2aed000 to release res done
+<7>[  473.453677,0] msm_vidc: 2: Failed to release dec output buffers: -22
+<7>[  473.453700,0] msm_vidc: 1: State not recognized
+<7>[  473.453714,0] msm_vidc: 1: Failed to move from state: 2 to 15
+<7>[  473.453732,0] msm_vidc: 1: Failed to exec decoder cmd 1
+<7>[  473.454199,0] msm_vidc: 1: State not recognized
+<7>[  473.454215,0] msm_vidc: 1: Failed to move from state: 2 to 13
+<7>[  473.454231,0] msm_vidc: 1: Failed to move inst: e2aed000 to release res done
+<7>[  473.454249,0] msm_vidc: 2: Failed in msm_v4l2_close for release output buffers
+<7>[  473.454311,0] msm_vidc: 1: State not recognized
+<7>[  473.454326,0] msm_vidc: 1: Failed to move from state: 2 to 16
+<7>[  473.454341,0] msm_vidc: 1: Failed to move video instance to uninit state
+<6>[  473.454375,0] msm_vidc: 4: Closed video instance: e2aed000
+<6>[  473.455249,0] msm_vidc: 4: Opening video instance: e2aec000, 1
+<6>[  473.467881,1] msm_vidc: 4: Closed video instance: e2aec000
+<6>[  474.117855,0] Core dump to |/system/bin/coredump NuPlayerRendere 4479 1424723257 pipe failed
+<6>[  474.121781,1] binder: release 4479:4479 transaction 76925 in, still active
+<6>[  474.121978,1] binder: release 4479:4502 transaction 76939 in, still active
+<4>[  474.589582,1] IRQ40 no longer affine to CPU1
+<4>[  475.433083,1] IRQ40 no longer affine to CPU1
+<6>[  477.271862,0] msm_vidc: 4: Opening video instance: e2aeb000, 0
+<6>[  477.288438,1] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  477.371408,1] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<7>[  477.390322,1] msm_vidc: 1: No more formats found
+<7>[  477.390344,1] msm_vidc: 1: No more formats found
+<6>[  477.399819,1] msm_vidc: 4: Closed video instance: e2aeb000
+<6>[  477.401497,1] msm_vidc: 4: Opening video instance: e10f2000, 0
+<6>[  477.406625,1] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  477.474471,1] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<7>[  477.491676,1] msm_vidc: 1: No more formats found
+<7>[  477.491695,1] msm_vidc: 1: No more formats found
+<6>[  477.501966,1] msm_vidc: 4: Closed video instance: e10f2000
+<6>[  477.503155,1] msm_vidc: 4: Opening video instance: e10f6000, 0
+<6>[  477.508048,1] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  477.580697,1] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<7>[  477.598106,1] msm_vidc: 1: No more formats found
+<7>[  477.598126,1] msm_vidc: 1: No more formats found
+<6>[  477.609052,1] msm_vidc: 4: Closed video instance: e10f6000
+<6>[  477.614637,0] audio_open:wmadec success mode[1]session[1]
+<6>[  477.622110,0] audio_open:wmapro decoder open success, session_id = 1
+<6>[  477.629230,0] audio_open:wmapro decoder open success, session_id = 1
+<6>[  477.651111,1] msm_vidc: 4: Opening video instance: e2db9000, 1
+<6>[  477.658080,1] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  477.744546,1] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<6>[  477.789423,0] msm_vidc: 4: Closed video instance: e2db9000
+<6>[  477.790762,0] msm_vidc: 4: Opening video instance: e2aea000, 1
+<6>[  477.797397,0] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  477.888981,0] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<6>[  477.926383,0] msm_vidc: 4: Closed video instance: e2aea000
+<6>[  477.927698,0] msm_vidc: 4: Opening video instance: e2aed000, 1
+<6>[  477.934565,0] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  478.021892,1] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<7>[  478.049144,1] msm_vidc: 1: Failed setting 99201f
+<7>[  478.049168,1] msm_vidc: 1: Failed to set hal property for framesize
+<6>[  478.062770,1] msm_vidc: 4: Closed video instance: e2aed000
+<6>[  478.064629,1] msm_vidc: 4: Opening video instance: e10f3000, 1
+<6>[  478.071552,1] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  478.167117,0] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<6>[  478.207743,1] msm_vidc: 4: Closed video instance: e10f3000
+<6>[  478.209097,1] msm_vidc: 4: Opening video instance: e2db9000, 1
+<6>[  478.216377,1] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  478.300948,1] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<6>[  478.342600,1] msm_vidc: 4: Closed video instance: e2db9000
+<6>[  478.343770,1] msm_vidc: 4: Opening video instance: e10f1000, 1
+<6>[  478.350826,1] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  478.437215,1] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<7>[  478.464978,1] msm_vidc: 1: Failed setting 99201f
+<7>[  478.464995,1] msm_vidc: 1: Failed to set hal property for framesize
+<6>[  478.477519,1] msm_vidc: 4: Closed video instance: e10f1000
+<6>[  478.478681,1] msm_vidc: 4: Opening video instance: e2dbc000, 1
+<6>[  478.485492,1] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  478.570869,0] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<7>[  478.592745,0] msm_vidc: 1: State not recognized
+<7>[  478.592763,0] msm_vidc: 1: Failed to move from state: 2 to 13
+<7>[  478.592779,0] msm_vidc: 1: Failed to move inst: e2dbc000 to release res done
+<7>[  478.592797,0] msm_vidc: 2: Failed to release dec output buffers: -22
+<7>[  478.592816,0] msm_vidc: 1: State not recognized
+<7>[  478.592830,0] msm_vidc: 1: Failed to move from state: 2 to 15
+<7>[  478.592862,0] msm_vidc: 1: Failed to exec decoder cmd 1
+<7>[  478.593057,0] msm_vidc: 1: State not recognized
+<7>[  478.593074,0] msm_vidc: 1: Failed to move from state: 2 to 13
+<7>[  478.593095,0] msm_vidc: 1: Failed to move inst: e2dbc000 to release res done
+<7>[  478.593113,0] msm_vidc: 2: Failed in msm_v4l2_close for release output buffers
+<7>[  478.593201,0] msm_vidc: 1: State not recognized
+<7>[  478.593216,0] msm_vidc: 1: Failed to move from state: 2 to 16
+<7>[  478.593231,0] msm_vidc: 1: Failed to move video instance to uninit state
+<6>[  478.593270,0] msm_vidc: 4: Closed video instance: e2dbc000
+<6>[  478.594324,0] msm_vidc: 4: Opening video instance: e2aef000, 1
+<7>[  478.594914,0] msm_vidc: 1: State not recognized
+<7>[  478.594930,0] msm_vidc: 1: Failed to move from state: 2 to 13
+<7>[  478.594946,0] msm_vidc: 1: Failed to move inst: e2aef000 to release res done
+<7>[  478.594967,0] msm_vidc: 2: Failed to release dec output buffers: -22
+<7>[  478.594997,0] msm_vidc: 1: State not recognized
+<7>[  478.595023,0] msm_vidc: 1: Failed to move from state: 2 to 15
+<7>[  478.595042,0] msm_vidc: 1: Failed to exec decoder cmd 1
+<7>[  478.595319,1] msm_vidc: 1: State not recognized
+<7>[  478.595335,1] msm_vidc: 1: Failed to move from state: 2 to 13
+<7>[  478.595351,1] msm_vidc: 1: Failed to move inst: e2aef000 to release res done
+<7>[  478.595368,1] msm_vidc: 2: Failed in msm_v4l2_close for release output buffers
+<7>[  478.595446,1] msm_vidc: 1: State not recognized
+<7>[  478.595460,1] msm_vidc: 1: Failed to move from state: 2 to 16
+<7>[  478.595475,1] msm_vidc: 1: Failed to move video instance to uninit state
+<6>[  478.595511,1] msm_vidc: 4: Closed video instance: e2aef000
+<6>[  478.596520,1] msm_vidc: 4: Opening video instance: e10f3000, 1
+<7>[  478.596972,1] msm_vidc: 1: State not recognized
+<7>[  478.596987,1] msm_vidc: 1: Failed to move from state: 2 to 13
+<7>[  478.597004,1] msm_vidc: 1: Failed to move inst: e10f3000 to release res done
+<7>[  478.597036,1] msm_vidc: 2: Failed to release dec output buffers: -22
+<7>[  478.597073,1] msm_vidc: 1: State not recognized
+<7>[  478.597099,1] msm_vidc: 1: Failed to move from state: 2 to 15
+<7>[  478.597117,1] msm_vidc: 1: Failed to exec decoder cmd 1
+<7>[  478.597568,1] msm_vidc: 1: State not recognized
+<7>[  478.597584,1] msm_vidc: 1: Failed to move from state: 2 to 13
+<7>[  478.597600,1] msm_vidc: 1: Failed to move inst: e10f3000 to release res done
+<7>[  478.597617,1] msm_vidc: 2: Failed in msm_v4l2_close for release output buffers
+<7>[  478.597692,1] msm_vidc: 1: State not recognized
+<7>[  478.597707,1] msm_vidc: 1: Failed to move from state: 2 to 16
+<7>[  478.597721,1] msm_vidc: 1: Failed to move video instance to uninit state
+<6>[  478.597757,1] msm_vidc: 4: Closed video instance: e10f3000
+<6>[  478.598751,1] msm_vidc: 4: Opening video instance: e10f6000, 1
+<7>[  478.606162,1] msm_vidc: 1: venus_hfi_iface_msgq_read - fw not in init state
+<7>[  478.606182,1] msm_vidc: 1: venus_hfi_iface_dbgq_read - fw not in init state
+<6>[  478.611882,1] msm_vidc: 4: Closed video instance: e10f6000
+<6>[  479.250474,1] Core dump to |/system/bin/coredump NuPlayerRendere 4703 1424723262 pipe failed
+<3>[  482.150436,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<6>[  482.275187,0] healthd: battery l=51 v=3825 t=27.7 h=2 st=3 c=261 chg=
+<6>[  482.323649,0] healthd: battery l=51 v=3815 t=27.7 h=2 st=3 c=310 chg=
+<6>[  482.456455,0] msm_vidc: 4: Opening video instance: e2ae8000, 0
+<6>[  482.461459,1] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  482.538710,2] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<7>[  482.556259,2] msm_vidc: 1: No more formats found
+<7>[  482.556318,2] msm_vidc: 1: No more formats found
+<6>[  482.568574,2] msm_vidc: 4: Closed video instance: e2ae8000
+<6>[  482.569624,2] msm_vidc: 4: Opening video instance: e12f1000, 0
+<6>[  482.576681,2] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  482.665334,1] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<7>[  482.683367,1] msm_vidc: 1: No more formats found
+<7>[  482.683434,1] msm_vidc: 1: No more formats found
+<6>[  482.696349,1] msm_vidc: 4: Closed video instance: e12f1000
+<6>[  482.698389,1] msm_vidc: 4: Opening video instance: d3464000, 0
+<6>[  482.705301,1] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<4>[  482.778730,2] IRQ40 no longer affine to CPU2
+<6>[  482.794581,1] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<7>[  482.812471,1] msm_vidc: 1: No more formats found
+<7>[  482.812515,1] msm_vidc: 1: No more formats found
+<6>[  482.825380,1] msm_vidc: 4: Closed video instance: d3464000
+<6>[  482.830654,0] audio_open:wmadec success mode[1]session[1]
+<6>[  482.837648,0] audio_open:wmapro decoder open success, session_id = 1
+<6>[  482.844528,0] audio_open:wmapro decoder open success, session_id = 1
+<6>[  482.864095,1] msm_vidc: 4: Opening video instance: e162b000, 1
+<6>[  482.871445,1] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  482.956322,1] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<6>[  482.999834,1] msm_vidc: 4: Closed video instance: e162b000
+<6>[  483.001039,1] msm_vidc: 4: Opening video instance: e162d000, 1
+<6>[  483.009771,1] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  483.095107,1] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<6>[  483.139357,1] msm_vidc: 4: Closed video instance: e162d000
+<6>[  483.141393,1] msm_vidc: 4: Opening video instance: e162f000, 1
+<6>[  483.148368,1] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  483.234618,1] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<7>[  483.271027,0] msm_vidc: 1: Failed setting 99201f
+<7>[  483.276975,0] msm_vidc: 1: Failed to set hal property for framesize
+<6>[  483.288185,0] msm_vidc: 4: Closed video instance: e162f000
+<6>[  483.289286,0] msm_vidc: 4: Opening video instance: e2aec000, 1
+<6>[  483.296343,0] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  483.385892,1] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<6>[  483.427612,1] msm_vidc: 4: Closed video instance: e2aec000
+<6>[  483.428805,1] msm_vidc: 4: Opening video instance: e162a000, 1
+<6>[  483.435395,1] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  483.521658,1] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<6>[  483.556866,1] msm_vidc: 4: Closed video instance: e162a000
+<6>[  483.558119,1] msm_vidc: 4: Opening video instance: e1628000, 1
+<6>[  483.565196,1] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  483.653321,1] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<7>[  483.680216,1] msm_vidc: 1: Failed setting 99201f
+<7>[  483.680233,1] msm_vidc: 1: Failed to set hal property for framesize
+<6>[  483.693229,0] msm_vidc: 4: Closed video instance: e1628000
+<6>[  483.694207,0] msm_vidc: 4: Opening video instance: e2aed000, 1
+<6>[  483.700709,0] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  483.796460,1] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<7>[  483.815592,1] msm_vidc: 1: State not recognized
+<7>[  483.815610,1] msm_vidc: 1: Failed to move from state: 2 to 13
+<7>[  483.815626,1] msm_vidc: 1: Failed to move inst: e2aed000 to release res done
+<7>[  483.815643,1] msm_vidc: 2: Failed to release dec output buffers: -22
+<7>[  483.815662,1] msm_vidc: 1: State not recognized
+<7>[  483.815677,1] msm_vidc: 1: Failed to move from state: 2 to 15
+<7>[  483.815706,1] msm_vidc: 1: Failed to exec decoder cmd 1
+<7>[  483.816030,0] msm_vidc: 1: State not recognized
+<7>[  483.816047,0] msm_vidc: 1: Failed to move from state: 2 to 13
+<7>[  483.816063,0] msm_vidc: 1: Failed to move inst: e2aed000 to release res done
+<7>[  483.816083,0] msm_vidc: 2: Failed in msm_v4l2_close for release output buffers
+<7>[  483.816177,0] msm_vidc: 1: State not recognized
+<7>[  483.816193,0] msm_vidc: 1: Failed to move from state: 2 to 16
+<7>[  483.816208,0] msm_vidc: 1: Failed to move video instance to uninit state
+<6>[  483.816246,0] msm_vidc: 4: Closed video instance: e2aed000
+<6>[  483.817317,0] msm_vidc: 4: Opening video instance: e2aef000, 1
+<7>[  483.817833,0] msm_vidc: 1: State not recognized
+<7>[  483.817849,0] msm_vidc: 1: Failed to move from state: 2 to 13
+<7>[  483.817865,0] msm_vidc: 1: Failed to move inst: e2aef000 to release res done
+<7>[  483.817911,0] msm_vidc: 2: Failed to release dec output buffers: -22
+<7>[  483.817939,0] msm_vidc: 1: State not recognized
+<7>[  483.817953,0] msm_vidc: 1: Failed to move from state: 2 to 15
+<7>[  483.817971,0] msm_vidc: 1: Failed to exec decoder cmd 1
+<7>[  483.818701,0] msm_vidc: 1: State not recognized
+<7>[  483.818717,0] msm_vidc: 1: Failed to move from state: 2 to 13
+<7>[  483.818734,0] msm_vidc: 1: Failed to move inst: e2aef000 to release res done
+<7>[  483.818751,0] msm_vidc: 2: Failed in msm_v4l2_close for release output buffers
+<7>[  483.818821,0] msm_vidc: 1: State not recognized
+<7>[  483.818836,0] msm_vidc: 1: Failed to move from state: 2 to 16
+<7>[  483.818851,0] msm_vidc: 1: Failed to move video instance to uninit state
+<6>[  483.818887,0] msm_vidc: 4: Closed video instance: e2aef000
+<6>[  483.819772,0] msm_vidc: 4: Opening video instance: e2aed000, 1
+<7>[  483.820497,0] msm_vidc: 1: State not recognized
+<7>[  483.820513,0] msm_vidc: 1: Failed to move from state: 2 to 13
+<7>[  483.820529,0] msm_vidc: 1: Failed to move inst: e2aed000 to release res done
+<7>[  483.820574,0] msm_vidc: 2: Failed to release dec output buffers: -22
+<7>[  483.820601,0] msm_vidc: 1: State not recognized
+<7>[  483.820615,0] msm_vidc: 1: Failed to move from state: 2 to 15
+<7>[  483.820633,0] msm_vidc: 1: Failed to exec decoder cmd 1
+<7>[  483.820877,1] msm_vidc: 1: State not recognized
+<7>[  483.820893,1] msm_vidc: 1: Failed to move from state: 2 to 13
+<7>[  483.820909,1] msm_vidc: 1: Failed to move inst: e2aed000 to release res done
+<7>[  483.820927,1] msm_vidc: 2: Failed in msm_v4l2_close for release output buffers
+<7>[  483.821001,1] msm_vidc: 1: State not recognized
+<7>[  483.821016,1] msm_vidc: 1: Failed to move from state: 2 to 16
+<7>[  483.821031,1] msm_vidc: 1: Failed to move video instance to uninit state
+<6>[  483.821066,1] msm_vidc: 4: Closed video instance: e2aed000
+<6>[  483.822019,1] msm_vidc: 4: Opening video instance: e162b000, 1
+<6>[  483.835986,1] msm_vidc: 4: Closed video instance: e162b000
+<6>[  484.446462,1] Core dump to |/system/bin/coredump NuPlayerRendere 4904 1424723268 pipe failed
+<6>[  484.450181,1] binder: release 4904:4904 transaction 78355 in, still active
+<6>[  487.619992,0] msm_vidc: 4: Opening video instance: e2aef000, 0
+<6>[  487.636727,2] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  487.703673,2] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<7>[  487.724090,2] msm_vidc: 1: No more formats found
+<7>[  487.724109,2] msm_vidc: 1: No more formats found
+<6>[  487.737252,2] msm_vidc: 4: Closed video instance: e2aef000
+<6>[  487.738861,2] msm_vidc: 4: Opening video instance: e12f7000, 0
+<6>[  487.745643,2] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  487.831951,2] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<7>[  487.852916,0] msm_vidc: 1: No more formats found
+<7>[  487.852959,0] msm_vidc: 1: No more formats found
+<6>[  487.866869,0] msm_vidc: 4: Closed video instance: e12f7000
+<6>[  487.868265,0] msm_vidc: 4: Opening video instance: e2aea000, 0
+<6>[  487.874918,0] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  487.966186,0] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<7>[  487.987917,0] msm_vidc: 1: No more formats found
+<7>[  487.987985,0] msm_vidc: 1: No more formats found
+<6>[  488.001724,2] msm_vidc: 4: Closed video instance: e2aea000
+<6>[  488.007551,0] audio_open:wmadec success mode[1]session[1]
+<6>[  488.015255,0] audio_open:wmapro decoder open success, session_id = 1
+<6>[  488.023054,0] audio_open:wmapro decoder open success, session_id = 1
+<6>[  488.046182,2] msm_vidc: 4: Opening video instance: e12f0000, 1
+<6>[  488.053219,2] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  488.144525,0] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<6>[  488.189592,0] msm_vidc: 4: Closed video instance: e12f0000
+<6>[  488.191360,0] msm_vidc: 4: Opening video instance: e2aec000, 1
+<6>[  488.198079,0] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  488.286939,0] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<6>[  488.328245,1] msm_vidc: 4: Closed video instance: e2aec000
+<6>[  488.329785,1] msm_vidc: 4: Opening video instance: d3466000, 1
+<6>[  488.336427,1] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  488.424212,1] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<7>[  488.461344,1] msm_vidc: 1: Failed setting 99201f
+<7>[  488.461363,1] msm_vidc: 1: Failed to set hal property for framesize
+<6>[  488.480529,0] msm_vidc: 4: Closed video instance: d3466000
+<6>[  488.482102,0] msm_vidc: 4: Opening video instance: e2aeb000, 1
+<6>[  488.488746,0] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  488.577245,1] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<6>[  488.615349,1] msm_vidc: 4: Closed video instance: e2aeb000
+<6>[  488.616594,1] msm_vidc: 4: Opening video instance: e113d000, 1
+<6>[  488.622873,0] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  488.707631,0] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<6>[  488.745150,1] msm_vidc: 4: Closed video instance: e113d000
+<6>[  488.746385,1] msm_vidc: 4: Opening video instance: d3464000, 1
+<6>[  488.753325,0] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  488.838717,0] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<7>[  488.868305,1] msm_vidc: 1: Failed setting 99201f
+<7>[  488.868323,1] msm_vidc: 1: Failed to set hal property for framesize
+<6>[  488.879365,1] msm_vidc: 4: Closed video instance: d3464000
+<6>[  488.880698,1] msm_vidc: 4: Opening video instance: d3812000, 1
+<6>[  488.887196,1] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  488.973015,1] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<7>[  488.994646,1] msm_vidc: 1: State not recognized
+<7>[  488.994665,1] msm_vidc: 1: Failed to move from state: 2 to 13
+<7>[  488.994681,1] msm_vidc: 1: Failed to move inst: d3812000 to release res done
+<7>[  488.994699,1] msm_vidc: 2: Failed to release dec output buffers: -22
+<7>[  488.994718,1] msm_vidc: 1: State not recognized
+<7>[  488.994732,1] msm_vidc: 1: Failed to move from state: 2 to 15
+<7>[  488.994761,1] msm_vidc: 1: Failed to exec decoder cmd 1
+<7>[  488.994973,0] msm_vidc: 1: State not recognized
+<7>[  488.994990,0] msm_vidc: 1: Failed to move from state: 2 to 13
+<7>[  488.995006,0] msm_vidc: 1: Failed to move inst: d3812000 to release res done
+<7>[  488.995023,0] msm_vidc: 2: Failed in msm_v4l2_close for release output buffers
+<7>[  488.995107,0] msm_vidc: 1: State not recognized
+<7>[  488.995122,0] msm_vidc: 1: Failed to move from state: 2 to 16
+<7>[  488.995137,0] msm_vidc: 1: Failed to move video instance to uninit state
+<6>[  488.995176,0] msm_vidc: 4: Closed video instance: d3812000
+<6>[  488.996436,0] msm_vidc: 4: Opening video instance: e2aed000, 1
+<7>[  488.996967,0] msm_vidc: 1: State not recognized
+<7>[  488.996983,0] msm_vidc: 1: Failed to move from state: 2 to 13
+<7>[  488.997001,0] msm_vidc: 1: Failed to move inst: e2aed000 to release res done
+<7>[  488.997027,0] msm_vidc: 2: Failed to release dec output buffers: -22
+<7>[  488.997052,0] msm_vidc: 1: State not recognized
+<7>[  488.997066,0] msm_vidc: 1: Failed to move from state: 2 to 15
+<7>[  488.997084,0] msm_vidc: 1: Failed to exec decoder cmd 1
+<7>[  488.997672,0] msm_vidc: 1: State not recognized
+<7>[  488.997689,0] msm_vidc: 1: Failed to move from state: 2 to 13
+<7>[  488.997705,0] msm_vidc: 1: Failed to move inst: e2aed000 to release res done
+<7>[  488.997722,0] msm_vidc: 2: Failed in msm_v4l2_close for release output buffers
+<7>[  488.997800,0] msm_vidc: 1: State not recognized
+<7>[  488.997815,0] msm_vidc: 1: Failed to move from state: 2 to 16
+<7>[  488.997830,0] msm_vidc: 1: Failed to move video instance to uninit state
+<6>[  488.997866,0] msm_vidc: 4: Closed video instance: e2aed000
+<6>[  488.998854,0] msm_vidc: 4: Opening video instance: e2aec000, 1
+<7>[  488.999397,0] msm_vidc: 1: State not recognized
+<7>[  488.999414,0] msm_vidc: 1: Failed to move from state: 2 to 13
+<7>[  488.999430,0] msm_vidc: 1: Failed to move inst: e2aec000 to release res done
+<7>[  488.999459,0] msm_vidc: 2: Failed to release dec output buffers: -22
+<7>[  488.999481,0] msm_vidc: 1: State not recognized
+<7>[  488.999495,0] msm_vidc: 1: Failed to move from state: 2 to 15
+<7>[  488.999513,0] msm_vidc: 1: Failed to exec decoder cmd 1
+<7>[  488.999748,0] msm_vidc: 1: State not recognized
+<7>[  488.999764,0] msm_vidc: 1: Failed to move from state: 2 to 13
+<7>[  488.999780,0] msm_vidc: 1: Failed to move inst: e2aec000 to release res done
+<7>[  488.999797,0] msm_vidc: 2: Failed in msm_v4l2_close for release output buffers
+<7>[  488.999862,0] msm_vidc: 1: State not recognized
+<7>[  488.999877,0] msm_vidc: 1: Failed to move from state: 2 to 16
+<7>[  488.999891,0] msm_vidc: 1: Failed to move video instance to uninit state
+<6>[  488.999925,0] msm_vidc: 4: Closed video instance: e2aec000
+<6>[  489.000983,0] msm_vidc: 4: Opening video instance: e2aed000, 1
+<6>[  489.016876,0] msm_vidc: 4: Closed video instance: e2aed000
+<6>[  489.671299,0] Core dump to |/system/bin/coredump NuPlayerRendere 5090 1424723273 pipe failed
+<6>[  489.674683,1] binder: release 5090:5090 transaction 79205 in, still active
+<4>[  492.713923,2] IRQ40 no longer affine to CPU2
+<6>[  492.886202,1] msm_vidc: 4: Opening video instance: d350f000, 0
+<6>[  492.892035,1] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  492.964649,1] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<7>[  492.985050,1] msm_vidc: 1: No more formats found
+<7>[  492.985068,1] msm_vidc: 1: No more formats found
+<6>[  492.996155,1] msm_vidc: 4: Closed video instance: d350f000
+<6>[  492.997646,1] msm_vidc: 4: Opening video instance: e10f3000, 0
+<6>[  493.002981,1] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  493.076125,1] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<7>[  493.093827,1] msm_vidc: 1: No more formats found
+<7>[  493.093849,1] msm_vidc: 1: No more formats found
+<6>[  493.107476,1] msm_vidc: 4: Closed video instance: e10f3000
+<6>[  493.108574,2] msm_vidc: 4: Opening video instance: d350f000, 0
+<6>[  493.115818,0] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  493.196529,2] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<7>[  493.215965,2] msm_vidc: 1: No more formats found
+<7>[  493.216000,2] msm_vidc: 1: No more formats found
+<6>[  493.229305,0] msm_vidc: 4: Closed video instance: d350f000
+<6>[  493.234960,0] audio_open:wmadec success mode[1]session[1]
+<6>[  493.246271,2] audio_open:wmapro decoder open success, session_id = 1
+<6>[  493.254317,1] audio_open:wmapro decoder open success, session_id = 1
+<6>[  493.279704,1] msm_vidc: 4: Opening video instance: e10f6000, 1
+<6>[  493.286471,1] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  493.366152,1] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<6>[  493.401560,1] msm_vidc: 4: Closed video instance: e10f6000
+<6>[  493.402621,1] msm_vidc: 4: Opening video instance: e10f2000, 1
+<6>[  493.408910,1] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  493.498975,1] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<6>[  493.537541,1] msm_vidc: 4: Closed video instance: e10f2000
+<6>[  493.538916,1] msm_vidc: 4: Opening video instance: e10f4000, 1
+<6>[  493.546703,1] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  493.635968,1] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<7>[  493.663376,1] msm_vidc: 1: Failed setting 99201f
+<7>[  493.663393,1] msm_vidc: 1: Failed to set hal property for framesize
+<6>[  493.676757,1] msm_vidc: 4: Closed video instance: e10f4000
+<6>[  493.678321,1] msm_vidc: 4: Opening video instance: e10f2000, 1
+<6>[  493.701063,1] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  493.783436,0] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<6>[  493.818021,0] msm_vidc: 4: Closed video instance: e10f2000
+<6>[  493.819151,0] msm_vidc: 4: Opening video instance: e2aeb000, 1
+<6>[  493.826972,2] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  493.894724,2] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<6>[  493.931204,2] msm_vidc: 4: Closed video instance: e2aeb000
+<6>[  493.932672,2] msm_vidc: 4: Opening video instance: d3814000, 1
+<6>[  493.939706,2] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  494.034495,0] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<7>[  494.064977,0] msm_vidc: 1: Failed setting 99201f
+<7>[  494.064993,0] msm_vidc: 1: Failed to set hal property for framesize
+<6>[  494.080511,0] msm_vidc: 4: Closed video instance: d3814000
+<6>[  494.082000,0] msm_vidc: 4: Opening video instance: e2aef000, 1
+<6>[  494.088446,0] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  494.174518,1] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<7>[  494.196433,0] msm_vidc: 1: State not recognized
+<7>[  494.196451,0] msm_vidc: 1: Failed to move from state: 2 to 13
+<7>[  494.196468,0] msm_vidc: 1: Failed to move inst: e2aef000 to release res done
+<7>[  494.196485,0] msm_vidc: 2: Failed to release dec output buffers: -22
+<7>[  494.196505,0] msm_vidc: 1: State not recognized
+<7>[  494.196519,0] msm_vidc: 1: Failed to move from state: 2 to 15
+<7>[  494.196548,0] msm_vidc: 1: Failed to exec decoder cmd 1
+<7>[  494.196878,1] msm_vidc: 1: State not recognized
+<7>[  494.196897,1] msm_vidc: 1: Failed to move from state: 2 to 13
+<7>[  494.196916,1] msm_vidc: 1: Failed to move inst: e2aef000 to release res done
+<7>[  494.196934,1] msm_vidc: 2: Failed in msm_v4l2_close for release output buffers
+<7>[  494.197019,1] msm_vidc: 1: State not recognized
+<7>[  494.197034,1] msm_vidc: 1: Failed to move from state: 2 to 16
+<7>[  494.197049,1] msm_vidc: 1: Failed to move video instance to uninit state
+<6>[  494.197088,1] msm_vidc: 4: Closed video instance: e2aef000
+<6>[  494.198035,1] msm_vidc: 4: Opening video instance: e10f0000, 1
+<7>[  494.198818,1] msm_vidc: 1: State not recognized
+<7>[  494.198834,1] msm_vidc: 1: Failed to move from state: 2 to 13
+<7>[  494.198850,1] msm_vidc: 1: Failed to move inst: e10f0000 to release res done
+<7>[  494.198867,1] msm_vidc: 2: Failed to release dec output buffers: -22
+<7>[  494.198884,1] msm_vidc: 1: State not recognized
+<7>[  494.198898,1] msm_vidc: 1: Failed to move from state: 2 to 15
+<7>[  494.198915,1] msm_vidc: 1: Failed to exec decoder cmd 1
+<7>[  494.199249,1] msm_vidc: 1: State not recognized
+<7>[  494.199266,1] msm_vidc: 1: Failed to move from state: 2 to 13
+<7>[  494.199282,1] msm_vidc: 1: Failed to move inst: e10f0000 to release res done
+<7>[  494.199300,1] msm_vidc: 2: Failed in msm_v4l2_close for release output buffers
+<7>[  494.199374,1] msm_vidc: 1: State not recognized
+<7>[  494.199388,1] msm_vidc: 1: Failed to move from state: 2 to 16
+<7>[  494.199403,1] msm_vidc: 1: Failed to move video instance to uninit state
+<6>[  494.199439,1] msm_vidc: 4: Closed video instance: e10f0000
+<6>[  494.200424,1] msm_vidc: 4: Opening video instance: e10f1000, 1
+<7>[  494.201072,1] msm_vidc: 1: State not recognized
+<7>[  494.201088,1] msm_vidc: 1: Failed to move from state: 2 to 13
+<7>[  494.201104,1] msm_vidc: 1: Failed to move inst: e10f1000 to release res done
+<7>[  494.201121,1] msm_vidc: 2: Failed to release dec output buffers: -22
+<7>[  494.201139,1] msm_vidc: 1: State not recognized
+<7>[  494.201153,1] msm_vidc: 1: Failed to move from state: 2 to 15
+<7>[  494.201170,1] msm_vidc: 1: Failed to exec decoder cmd 1
+<7>[  494.201452,1] msm_vidc: 1: State not recognized
+<7>[  494.201468,1] msm_vidc: 1: Failed to move from state: 2 to 13
+<7>[  494.201484,1] msm_vidc: 1: Failed to move inst: e10f1000 to release res done
+<7>[  494.201501,1] msm_vidc: 2: Failed in msm_v4l2_close for release output buffers
+<7>[  494.201576,1] msm_vidc: 1: State not recognized
+<7>[  494.201591,1] msm_vidc: 1: Failed to move from state: 2 to 16
+<7>[  494.201605,1] msm_vidc: 1: Failed to move video instance to uninit state
+<6>[  494.201642,1] msm_vidc: 4: Closed video instance: e10f1000
+<6>[  494.202703,1] msm_vidc: 4: Opening video instance: e10f0000, 1
+<6>[  494.223017,0] msm_vidc: 4: Closed video instance: e10f0000
+<6>[  494.885814,1] Core dump to |/system/bin/coredump NuPlayerRendere 5300 1424723278 pipe failed
+<4>[  495.675815,1] IRQ40 no longer affine to CPU1
+<4>[  497.775214,1] IRQ40 no longer affine to CPU1
+<6>[  498.067149,0] msm_vidc: 4: Opening video instance: e2aeb000, 0
+<6>[  498.073023,3] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  498.142718,1] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<7>[  498.160014,1] msm_vidc: 1: No more formats found
+<7>[  498.160037,1] msm_vidc: 1: No more formats found
+<6>[  498.171335,1] msm_vidc: 4: Closed video instance: e2aeb000
+<6>[  498.172376,1] msm_vidc: 4: Opening video instance: e10ff000, 0
+<6>[  498.177242,1] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  498.264409,1] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<7>[  498.282322,1] msm_vidc: 1: No more formats found
+<7>[  498.282396,1] msm_vidc: 1: No more formats found
+<6>[  498.295774,1] msm_vidc: 4: Closed video instance: e10ff000
+<6>[  498.297248,1] msm_vidc: 4: Opening video instance: e10fe000, 0
+<6>[  498.304536,1] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<4>[  498.394633,2] IRQ40 no longer affine to CPU2
+<6>[  498.397280,1] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<7>[  498.419843,1] msm_vidc: 1: No more formats found
+<7>[  498.419875,1] msm_vidc: 1: No more formats found
+<6>[  498.433006,1] msm_vidc: 4: Closed video instance: e10fe000
+<6>[  498.438174,0] audio_open:wmadec success mode[1]session[1]
+<6>[  498.445153,0] audio_open:wmapro decoder open success, session_id = 1
+<6>[  498.452462,0] audio_open:wmapro decoder open success, session_id = 1
+<6>[  498.471757,1] msm_vidc: 4: Opening video instance: d3464000, 1
+<6>[  498.478942,1] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  498.566173,1] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<6>[  498.614710,0] msm_vidc: 4: Closed video instance: d3464000
+<6>[  498.618378,1] msm_vidc: 4: Opening video instance: e10ff000, 1
+<6>[  498.625660,1] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  498.723371,1] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<6>[  498.760699,0] msm_vidc: 4: Closed video instance: e10ff000
+<6>[  498.761974,0] msm_vidc: 4: Opening video instance: e2ae8000, 1
+<6>[  498.769264,0] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  498.859631,1] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<7>[  498.887864,1] msm_vidc: 1: Failed setting 99201f
+<7>[  498.887882,1] msm_vidc: 1: Failed to set hal property for framesize
+<6>[  498.911307,0] msm_vidc: 4: Closed video instance: e2ae8000
+<6>[  498.914187,1] msm_vidc: 4: Opening video instance: e10ff000, 1
+<6>[  498.924309,1] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  499.020553,2] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<6>[  499.054185,0] msm_vidc: 4: Closed video instance: e10ff000
+<6>[  499.055221,0] msm_vidc: 4: Opening video instance: e2aec000, 1
+<6>[  499.060178,0] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  499.132843,1] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<6>[  499.169000,1] msm_vidc: 4: Closed video instance: e2aec000
+<6>[  499.170368,1] msm_vidc: 4: Opening video instance: d3464000, 1
+<6>[  499.177837,1] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  499.253907,2] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<7>[  499.283453,2] msm_vidc: 1: Failed setting 99201f
+<7>[  499.283467,2] msm_vidc: 1: Failed to set hal property for framesize
+<6>[  499.296056,2] msm_vidc: 4: Closed video instance: d3464000
+<6>[  499.297638,2] msm_vidc: 4: Opening video instance: e2dbc000, 1
+<6>[  499.304699,2] pil_venus fdce0000.qcom,venus: venus: loading from 0x0f000000 to 0x0f500000
+<6>[  499.383288,0] pil_venus fdce0000.qcom,venus: venus: Brought out of reset
+<7>[  499.402745,0] msm_vidc: 1: State not recognized
+<7>[  499.402759,0] msm_vidc: 1: Failed to move from state: 2 to 13
+<7>[  499.402772,0] msm_vidc: 1: Failed to move inst: e2dbc000 to release res done
+<7>[  499.402786,0] msm_vidc: 2: Failed to release dec output buffers: -22
+<7>[  499.402802,0] msm_vidc: 1: State not recognized
+<7>[  499.402813,0] msm_vidc: 1: Failed to move from state: 2 to 15
+<7>[  499.402837,0] msm_vidc: 1: Failed to exec decoder cmd 1
+<7>[  499.403038,1] msm_vidc: 1: State not recognized
+<7>[  499.403053,1] msm_vidc: 1: Failed to move from state: 2 to 13
+<7>[  499.403066,1] msm_vidc: 1: Failed to move inst: e2dbc000 to release res done
+<7>[  499.403080,1] msm_vidc: 2: Failed in msm_v4l2_close for release output buffers
+<7>[  499.403149,1] msm_vidc: 1: State not recognized
+<7>[  499.403161,1] msm_vidc: 1: Failed to move from state: 2 to 16
+<7>[  499.403172,1] msm_vidc: 1: Failed to move video instance to uninit state
+<6>[  499.403205,1] msm_vidc: 4: Closed video instance: e2dbc000
+<6>[  499.404061,1] msm_vidc: 4: Opening video instance: e10fd000, 1
+<7>[  499.404540,1] msm_vidc: 1: State not recognized
+<7>[  499.404553,1] msm_vidc: 1: Failed to move from state: 2 to 13
+<7>[  499.404566,1] msm_vidc: 1: Failed to move inst: e10fd000 to release res done
+<7>[  499.404582,1] msm_vidc: 2: Failed to release dec output buffers: -22
+<7>[  499.404625,1] msm_vidc: 1: State not recognized
+<7>[  499.404643,1] msm_vidc: 1: Failed to move from state: 2 to 15
+<7>[  499.404659,1] msm_vidc: 1: Failed to exec decoder cmd 1
+<7>[  499.405020,1] msm_vidc: 1: State not recognized
+<7>[  499.405033,1] msm_vidc: 1: Failed to move from state: 2 to 13
+<7>[  499.405046,1] msm_vidc: 1: Failed to move inst: e10fd000 to release res done
+<7>[  499.405059,1] msm_vidc: 2: Failed in msm_v4l2_close for release output buffers
+<7>[  499.405130,1] msm_vidc: 1: State not recognized
+<7>[  499.405143,1] msm_vidc: 1: Failed to move from state: 2 to 16
+<7>[  499.405154,1] msm_vidc: 1: Failed to move video instance to uninit state
+<6>[  499.405184,1] msm_vidc: 4: Closed video instance: e10fd000
+<6>[  499.405958,1] msm_vidc: 4: Opening video instance: e10ff000, 1
+<7>[  499.406400,1] msm_vidc: 1: State not recognized
+<7>[  499.406413,1] msm_vidc: 1: Failed to move from state: 2 to 13
+<7>[  499.406426,1] msm_vidc: 1: Failed to move inst: e10ff000 to release res done
+<7>[  499.406442,1] msm_vidc: 2: Failed to release dec output buffers: -22
+<7>[  499.406484,1] msm_vidc: 1: State not recognized
+<7>[  499.406495,1] msm_vidc: 1: Failed to move from state: 2 to 15
+<7>[  499.406510,1] msm_vidc: 1: Failed to exec decoder cmd 1
+<7>[  499.406849,1] msm_vidc: 1: State not recognized
+<7>[  499.406862,1] msm_vidc: 1: Failed to move from state: 2 to 13
+<7>[  499.406875,1] msm_vidc: 1: Failed to move inst: e10ff000 to release res done
+<7>[  499.406888,1] msm_vidc: 2: Failed in msm_v4l2_close for release output buffers
+<7>[  499.406950,1] msm_vidc: 1: State not recognized
+<7>[  499.406961,1] msm_vidc: 1: Failed to move from state: 2 to 16
+<7>[  499.406973,1] msm_vidc: 1: Failed to move video instance to uninit state
+<6>[  499.407001,1] msm_vidc: 4: Closed video instance: e10ff000
+<6>[  499.407753,1] msm_vidc: 4: Opening video instance: e10fd000, 1
+<6>[  499.422594,1] msm_vidc: 4: Closed video instance: e10fd000
+<6>[  500.045565,0] Core dump to |/system/bin/coredump NuPlayerRendere 5520 1424723283 pipe failed
+<3>[  501.668089,0] 
+<3>[  501.668099,0] SMSM: Modem SMSM state changed to SMSM_RESET.
+<3>[  501.668430,0] Fatal error on the modem.
+<3>[  501.668785,0] modem subsystem failure reason: dog.c:1495:Watchdog detects stalled initialization.
+<6>[  501.668911,0] subsys-restart: subsystem_restart_dev(): Restart sequence requested for modem, restart_level = RELATED.
+<3>[  501.669203,0] Notify: start reset
+<6>[  501.670593,0] subsys-restart: subsystem_shutdown(): [e401e400]: Shutting down modem
+<4>[  501.771026,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[  501.871308,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948280 halt timeout
+<3>[  501.872907,0] Ramdump(ramdump_smem): No consumers. Aborting..
+<3>[  501.873137,0] restart_notifier_cb: unable to dump smem -32
+<3>[  501.875235,0] modem_notifier_cb: sysmon_send_event error -38
+<3>[  501.875468,0] M-Notify: General: 4
+<6>[  501.881018,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[  501.962129,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<3>[  501.962426,0] Ramdump(ramdump_modem): No consumers. Aborting..
+<3>[  501.962590,0] Unable to dump modem fw memory (rc = -32).
+<4>[  502.062880,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[  502.063063,0] subsys-restart: subsystem_ramdump(): modem[e401e400]: Ramdump failed.
+<6>[  502.064428,0] subsys-restart: subsystem_powerup(): [e401e400]: Powering up modem
+<6>[  502.069417,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[  502.155704,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<6>[  502.160228,0] pil-q6v5-mss fc880000.qcom,mss: modem: loading from 0x08400000 to 0x0c300000
+<6>[  502.614906,0] pil-q6v5-mss fc880000.qcom,mss: modem: Brought out of reset
+<3>[  502.650272,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<3>[  502.674921,0] Notify: smsm init
+<6>[  502.722318,0] pil-q6v5-mss fc880000.qcom,mss: mba: Power/Clock ready interrupt received
+<6>[  502.722593,0] pil-q6v5-mss fc880000.qcom,mss: Subsystem error monitoring/handling services are up
+<6>[  502.723568,0] subsys-restart: subsystem_restart_wq_func(): [e401e400]: Restart sequence for modem completed.
+<4>[  502.725270,1] IRQ40 no longer affine to CPU1
+<4>[  505.244621,3] IRQ40 no longer affine to CPU3
+<4>[  505.449585,2] IRQ40 no longer affine to CPU2
+<6>[  506.069798,1] binder: release 4362:4362 transaction 86405 out, still active
+<4>[  509.169730,2] IRQ40 no longer affine to CPU2
+<4>[  509.376851,1] IRQ40 no longer affine to CPU1
+<4>[  510.637903,1] IRQ40 no longer affine to CPU1
+<3>[  523.230203,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<4>[  542.171912,0] type=1400 audit(1424723325.811:46): avc: denied { search } for pid=363 comm="rild" name="usb" dev="sysfs" ino=14088 scontext=u:r:rild:s0 tcontext=u:object_r:sysfs_usb_supply:s0 tclass=dir
+<4>[  542.172489,0] type=1400 audit(1424723325.811:47): avc: denied { read } for pid=363 comm="rild" name="online" dev="sysfs" ino=14095 scontext=u:r:rild:s0 tcontext=u:object_r:sysfs_usb_supply:s0 tclass=file
+<4>[  542.172919,0] type=1400 audit(1424723325.811:48): avc: denied { open } for pid=363 comm="rild" name="online" dev="sysfs" ino=14095 scontext=u:r:rild:s0 tcontext=u:object_r:sysfs_usb_supply:s0 tclass=file
+<6>[  542.270358,0] healthd: battery l=51 v=3819 t=27.8 h=2 st=3 c=188 chg=
+<6>[  542.319010,0] healthd: battery l=51 v=3818 t=27.8 h=2 st=3 c=214 chg=
+<3>[  542.755685,0] 
+<3>[  542.755694,0] SMSM: Modem SMSM state changed to SMSM_RESET.
+<3>[  542.756112,0] Fatal error on the modem.
+<3>[  542.756358,0] modem subsystem failure reason: dog.c:1495:Watchdog detects stalled initialization.
+<6>[  542.756588,0] subsys-restart: subsystem_restart_dev(): Restart sequence requested for modem, restart_level = RELATED.
+<3>[  542.756897,0] Notify: start reset
+<6>[  542.758576,0] subsys-restart: subsystem_shutdown(): [e401e400]: Shutting down modem
+<4>[  542.858855,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[  542.959056,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948280 halt timeout
+<3>[  542.962707,0] Ramdump(ramdump_smem): No consumers. Aborting..
+<3>[  542.962855,0] restart_notifier_cb: unable to dump smem -32
+<3>[  542.964737,0] modem_notifier_cb: sysmon_send_event error -38
+<3>[  542.964889,0] M-Notify: General: 4
+<6>[  542.969440,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[  543.056565,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<3>[  543.056853,0] Ramdump(ramdump_modem): No consumers. Aborting..
+<3>[  543.057014,0] Unable to dump modem fw memory (rc = -32).
+<4>[  543.157276,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[  543.157576,0] subsys-restart: subsystem_ramdump(): modem[e401e400]: Ramdump failed.
+<6>[  543.159864,0] subsys-restart: subsystem_powerup(): [e401e400]: Powering up modem
+<6>[  543.164352,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[  543.252190,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<6>[  543.256290,0] pil-q6v5-mss fc880000.qcom,mss: modem: loading from 0x08400000 to 0x0c300000
+<6>[  543.740331,0] pil-q6v5-mss fc880000.qcom,mss: modem: Brought out of reset
+<3>[  543.750314,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<3>[  543.800331,0] Notify: smsm init
+<6>[  543.848200,0] pil-q6v5-mss fc880000.qcom,mss: mba: Power/Clock ready interrupt received
+<6>[  543.848465,0] pil-q6v5-mss fc880000.qcom,mss: Subsystem error monitoring/handling services are up
+<6>[  543.854843,0] subsys-restart: subsystem_restart_wq_func(): [e401e400]: Restart sequence for modem completed.
+<3>[  564.361807,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<4>[  569.391950,0] type=1400 audit(1424723353.031:49): avc: denied { ioctl } for pid=650 comm="system_server" path="/dev/lis3dh" dev="tmpfs" ino=2480 scontext=u:r:system_server:s0 tcontext=u:object_r:device:s0 tclass=chr_file
+<3>[  569.537897,0] wlan: [3821:E :SME] sme_QosPmcDeviceStateUpdateInd: 7443: nothing to process in PMC state BMPS (6)
+<3>[  569.538085,0] wlan: [3821:E :TL ]  ----> CRegion 0, hRSSI -54, Alpha 5
+<4>[  569.798666,2] IRQ40 no longer affine to CPU2
+<6>[  569.925575,0] mdss_dsi_panel_off+: ctrl=e40da010 ndx=0
+<6>[  569.926111,0] synaptics_dsx_sensor_state: state change ACTIVE -> SUSPEND
+<6>[  570.167898,0] mdss_dsi_panel_off-:
+<6>[  570.167921,0] mdss_dsi_off+: ctrl=e40da010 ndx=0
+<6>[  570.191353,0] mdss_dsi_off-:
+<6>[  570.192876,0] pmdbg_display_notify(): action = 9, data = 4
+<4>[  574.752208,1] IRQ40 no longer affine to CPU1
+<6>[  582.251984,0] healthd: battery l=51 v=3852 t=27.7 h=2 st=3 c=39 chg=
+<6>[  582.307841,0] healthd: battery l=51 v=3853 t=27.7 h=2 st=3 c=39 chg=
+<3>[  583.881615,0] 
+<3>[  583.881624,0] SMSM: Modem SMSM state changed to SMSM_RESET.
+<3>[  583.882033,0] Fatal error on the modem.
+<3>[  583.882275,0] modem subsystem failure reason: dog.c:1495:Watchdog detects stalled initialization.
+<6>[  583.882503,0] subsys-restart: subsystem_restart_dev(): Restart sequence requested for modem, restart_level = RELATED.
+<3>[  583.882809,0] Notify: start reset
+<6>[  583.884472,0] subsys-restart: subsystem_shutdown(): [e401e400]: Shutting down modem
+<4>[  583.984808,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[  584.084974,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948280 halt timeout
+<3>[  584.088526,0] Ramdump(ramdump_smem): No consumers. Aborting..
+<3>[  584.088672,0] restart_notifier_cb: unable to dump smem -32
+<3>[  584.089966,0] modem_notifier_cb: sysmon_send_event error -38
+<3>[  584.090166,0] M-Notify: General: 4
+<6>[  584.094444,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[  584.174966,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<3>[  584.175251,0] Ramdump(ramdump_modem): No consumers. Aborting..
+<3>[  584.175413,0] Unable to dump modem fw memory (rc = -32).
+<4>[  584.275689,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[  584.275993,0] subsys-restart: subsystem_ramdump(): modem[e401e400]: Ramdump failed.
+<6>[  584.278320,0] subsys-restart: subsystem_powerup(): [e401e400]: Powering up modem
+<6>[  584.291189,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[  584.371905,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<6>[  584.376133,0] pil-q6v5-mss fc880000.qcom,mss: modem: loading from 0x08400000 to 0x0c300000
+<3>[  584.870189,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<6>[  584.898269,0] pil-q6v5-mss fc880000.qcom,mss: modem: Brought out of reset
+<3>[  584.958196,0] Notify: smsm init
+<6>[  585.059410,0] pil-q6v5-mss fc880000.qcom,mss: Subsystem error monitoring/handling services are up
+<6>[  585.059750,0] pil-q6v5-mss fc880000.qcom,mss: mba: Power/Clock ready interrupt received
+<6>[  585.061612,0] subsys-restart: subsystem_restart_wq_func(): [e401e400]: Restart sequence for modem completed.
+<3>[  605.561545,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<3>[  625.092275,0] 
+<3>[  625.092283,0] SMSM: Modem SMSM state changed to SMSM_RESET.
+<3>[  625.092696,0] Fatal error on the modem.
+<3>[  625.092936,0] modem subsystem failure reason: dog.c:1495:Watchdog detects stalled initialization.
+<6>[  625.093163,0] subsys-restart: subsystem_restart_dev(): Restart sequence requested for modem, restart_level = RELATED.
+<3>[  625.093466,0] Notify: start reset
+<6>[  625.095127,0] subsys-restart: subsystem_shutdown(): [e401e400]: Shutting down modem
+<4>[  625.195451,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[  625.295736,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948280 halt timeout
+<3>[  625.299146,0] Ramdump(ramdump_smem): No consumers. Aborting..
+<3>[  625.299387,0] restart_notifier_cb: unable to dump smem -32
+<3>[  625.301497,0] modem_notifier_cb: sysmon_send_event error -38
+<3>[  625.301744,0] M-Notify: General: 4
+<6>[  625.306114,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[  625.385910,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<3>[  625.386100,0] Ramdump(ramdump_modem): No consumers. Aborting..
+<3>[  625.386357,0] Unable to dump modem fw memory (rc = -32).
+<4>[  625.486525,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[  625.486932,0] subsys-restart: subsystem_ramdump(): modem[e401e400]: Ramdump failed.
+<6>[  625.489256,0] subsys-restart: subsystem_powerup(): [e401e400]: Powering up modem
+<6>[  625.500511,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[  625.581235,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<6>[  625.585484,0] pil-q6v5-mss fc880000.qcom,mss: modem: loading from 0x08400000 to 0x0c300000
+<3>[  626.070104,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<6>[  626.106763,0] pil-q6v5-mss fc880000.qcom,mss: modem: Brought out of reset
+<3>[  626.166683,0] Notify: smsm init
+<6>[  626.237696,0] pil-q6v5-mss fc880000.qcom,mss: Subsystem error monitoring/handling services are up
+<6>[  626.237951,0] pil-q6v5-mss fc880000.qcom,mss: mba: Power/Clock ready interrupt received
+<6>[  626.238384,0] subsys-restart: subsystem_restart_wq_func(): [e401e400]: Restart sequence for modem completed.
+<6>[  636.039301,0] Report pwrkey press event
+<4>[  636.050197,0] type=1400 audit(1424723419.681:50): avc: denied { read } for pid=678 comm="PowerManagerSer" name="lis3dh" dev="tmpfs" ino=2480 scontext=u:r:system_server:s0 tcontext=u:object_r:device:s0 tclass=chr_file
+<4>[  636.053773,0] type=1400 audit(1424723419.691:51): avc: denied { open } for pid=678 comm="PowerManagerSer" name="lis3dh" dev="tmpfs" ino=2480 scontext=u:r:system_server:s0 tcontext=u:object_r:device:s0 tclass=chr_file
+<6>[  636.068636,0] mdss_dsi_on+: ctrl=e40da010 ndx=0
+<6>[  636.096532,0] mdss_dsi_on-:
+<6>[  636.096545,0] mdss_dsi_panel_on+: ctrl=e40da010 ndx=0
+<3>[  636.107785,0] wlan: [3821:E :SME] sme_QosPmcDeviceStateUpdateInd: 7443: nothing to process in PMC state BMPS (6)
+<3>[  636.107810,0] wlan: [3821:E :TL ]  ----> CRegion 0, hRSSI -55, Alpha 5
+<6>[  636.149380,0] Report pwrkey release event
+<6>[  636.294099,0] synaptics_dsx_sensor_state: state change SUSPEND -> ACTIVE
+<6>[  636.294329,0] mdss_dsi_panel_on-. Pwr_mode(0x0A) = 0x9c
+<6>[  636.294598,0] pmdbg_display_notify(): action = 9, data = 0
+<6>[  636.322587,0] qcom,leds-qpnp leds-qpnp-e4a39a00: backlight on
+<4>[  637.173669,3] IRQ40 no longer affine to CPU3
+<4>[  637.684118,1] IRQ40 no longer affine to CPU1
+<4>[  638.757025,1] IRQ40 no longer affine to CPU1
+<4>[  639.566370,2] IRQ40 no longer affine to CPU2
+<3>[  645.549061,0] wlan: [3826:E :SME] sme_FTUpdateKey: Unhandled state=0
+<3>[  646.741432,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<4>[  661.382304,1] IRQ40 no longer affine to CPU1
+<4>[  662.555674,2] IRQ40 no longer affine to CPU2
+<4>[  665.024042,3] IRQ40 no longer affine to CPU3
+<4>[  665.436172,1] IRQ40 no longer affine to CPU1
+<3>[  666.270628,0] 
+<3>[  666.270637,0] SMSM: Modem SMSM state changed to SMSM_RESET.
+<3>[  666.271052,0] Fatal error on the modem.
+<3>[  666.271297,0] modem subsystem failure reason: dog.c:1495:Watchdog detects stalled initialization.
+<6>[  666.271527,0] subsys-restart: subsystem_restart_dev(): Restart sequence requested for modem, restart_level = RELATED.
+<3>[  666.271898,0] Notify: start reset
+<6>[  666.273408,0] subsys-restart: subsystem_shutdown(): [e3884b00]: Shutting down modem
+<4>[  666.373714,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[  666.473938,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948280 halt timeout
+<3>[  666.477615,0] Ramdump(ramdump_smem): No consumers. Aborting..
+<3>[  666.477762,0] restart_notifier_cb: unable to dump smem -32
+<3>[  666.479323,0] modem_notifier_cb: sysmon_send_event error -38
+<3>[  666.479459,0] M-Notify: General: 4
+<6>[  666.483801,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[  666.571235,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<3>[  666.571526,0] Ramdump(ramdump_modem): No consumers. Aborting..
+<3>[  666.571787,0] Unable to dump modem fw memory (rc = -32).
+<4>[  666.671994,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[  666.672393,0] subsys-restart: subsystem_ramdump(): modem[e3884b00]: Ramdump failed.
+<6>[  666.675118,0] subsys-restart: subsystem_powerup(): [e3884b00]: Powering up modem
+<6>[  666.679544,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[  666.768035,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<6>[  666.772415,0] pil-q6v5-mss fc880000.qcom,mss: modem: loading from 0x08400000 to 0x0c300000
+<3>[  667.240117,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<6>[  667.246223,0] pil-q6v5-mss fc880000.qcom,mss: modem: Brought out of reset
+<3>[  667.306250,0] Notify: smsm init
+<6>[  667.356973,0] pil-q6v5-mss fc880000.qcom,mss: Subsystem error monitoring/handling services are up
+<6>[  667.357177,0] pil-q6v5-mss fc880000.qcom,mss: mba: Power/Clock ready interrupt received
+<6>[  667.358170,0] subsys-restart: subsystem_restart_wq_func(): [e3884b00]: Restart sequence for modem completed.
+<6>[  673.783909,0] qpnp_chg_usb_usbin_valid_irq_handler: Start Chrg OCV calculation
+<6>[  673.784190,0] msm_otg f9a55000.usb: Vbus state = 1
+<6>[  673.788615,0] msm_otg f9a55000.usb: USB exited from low power mode
+<4>[  673.868495,0] type=1400 audit(1424723457.501:52): avc: denied { search } for pid=363 comm="rild" name="usb" dev="sysfs" ino=14088 scontext=u:r:rild:s0 tcontext=u:object_r:sysfs_usb_supply:s0 tclass=dir
+<4>[  673.868980,0] type=1400 audit(1424723457.501:53): avc: denied { read } for pid=363 comm="rild" name="online" dev="sysfs" ino=14095 scontext=u:r:rild:s0 tcontext=u:object_r:sysfs_usb_supply:s0 tclass=file
+<4>[  673.869509,0] type=1400 audit(1424723457.501:54): avc: denied { open } for pid=363 comm="rild" name="online" dev="sysfs" ino=14095 scontext=u:r:rild:s0 tcontext=u:object_r:sysfs_usb_supply:s0 tclass=file
+<6>[  673.960591,0] msm_otg f9a55000.usb: chg_type = USB_CDP_CHARGER
+<6>[  673.960956,0] msm_otg f9a55000.usb: Avail curr from USB = 1500
+<6>[  673.963974,0] msm_hsusb msm_hsusb: CI13XXX_CONTROLLER_RESET_EVENT received
+<6>[  673.964219,0] msm_hsusb msm_hsusb: CI13XXX_CONTROLLER_CONNECT_EVENT received
+<6>[  674.068194,0] android_work: android_work: did not send uevent (0 0   (null))
+<6>[  674.234914,0] android_work: android_work: sent uevent USB_STATE=CONNECTED
+<6>[  674.240524,0] android_work: android_work: sent uevent USB_STATE=DISCONNECTED
+<6>[  674.300274,0] healthd: battery l=51 v=3858 t=27.4 h=2 st=2 c=28 chg=a
+<6>[  674.418652,0] android_work: android_work: sent uevent USB_STATE=CONNECTED
+<6>[  674.421309,0] android_usb gadget: full-speed config #1: fe8050c8.android_usb
+<6>[  674.425849,1] healthd: battery l=51 v=3858 t=27.4 h=2 st=2 c=9 chg=a
+<6>[  674.480276,0] android_work: android_work: sent uevent USB_STATE=CONFIGURED
+<6>[  674.485514,1] healthd: battery l=51 v=3858 t=27.4 h=2 st=2 c=9 chg=a
+<6>[  674.502980,0] mtp_open
+<6>[  674.547738,1] healthd: battery l=51 v=3859 t=27.4 h=2 st=2 c=9 chg=a
+<6>[  674.610348,2] healthd: battery l=51 v=3858 t=27.4 h=2 st=2 c=9 chg=a
+<3>[  687.860116,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<6>[  703.427345,0] healthd: battery l=51 v=3865 t=27.2 h=2 st=2 c=23 chg=a
+<6>[  703.506959,0] healthd: battery l=51 v=3864 t=27.2 h=2 st=2 c=-8 chg=a
+<3>[  707.389041,0] 
+<3>[  707.389048,0] SMSM: Modem SMSM state changed to SMSM_RESET.
+<3>[  707.389443,0] Fatal error on the modem.
+<3>[  707.389687,0] modem subsystem failure reason: dog.c:1495:Watchdog detects stalled initialization.
+<6>[  707.389917,0] subsys-restart: subsystem_restart_dev(): Restart sequence requested for modem, restart_level = RELATED.
+<3>[  707.390198,0] Notify: start reset
+<6>[  707.391377,0] subsys-restart: subsystem_shutdown(): [e13e5000]: Shutting down modem
+<4>[  707.491635,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[  707.591849,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948280 halt timeout
+<3>[  707.595025,0] Ramdump(ramdump_smem): No consumers. Aborting..
+<3>[  707.595237,0] restart_notifier_cb: unable to dump smem -32
+<3>[  707.596466,0] modem_notifier_cb: sysmon_send_event error -38
+<3>[  707.596600,0] M-Notify: General: 4
+<6>[  707.601232,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[  707.687486,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<3>[  707.687784,0] Ramdump(ramdump_modem): No consumers. Aborting..
+<3>[  707.688044,0] Unable to dump modem fw memory (rc = -32).
+<4>[  707.788230,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[  707.788596,0] subsys-restart: subsystem_ramdump(): modem[e13e5000]: Ramdump failed.
+<6>[  707.789933,0] subsys-restart: subsystem_powerup(): [e13e5000]: Powering up modem
+<6>[  707.794381,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[  707.881248,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<6>[  707.885434,0] pil-q6v5-mss fc880000.qcom,mss: modem: loading from 0x08400000 to 0x0c300000
+<6>[  708.348095,0] pil-q6v5-mss fc880000.qcom,mss: modem: Brought out of reset
+<3>[  708.360147,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<3>[  708.407863,0] Notify: smsm init
+<6>[  708.454814,0] pil-q6v5-mss fc880000.qcom,mss: mba: Power/Clock ready interrupt received
+<6>[  708.454976,0] pil-q6v5-mss fc880000.qcom,mss: Subsystem error monitoring/handling services are up
+<6>[  708.455579,0] subsys-restart: subsystem_restart_wq_func(): [e13e5000]: Restart sequence for modem completed.
+<3>[  728.950134,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<3>[  734.515194,0] wlan: [3821:E :SME] sme_QosPmcDeviceStateUpdateInd: 7443: nothing to process in PMC state BMPS (6)
+<3>[  734.515312,0] wlan: [3821:E :TL ]  ----> CRegion 0, hRSSI -53, Alpha 5
+<6>[  734.946258,0] mdss_dsi_panel_off+: ctrl=e40da010 ndx=0
+<6>[  734.946669,0] synaptics_dsx_sensor_state: state change ACTIVE -> SUSPEND
+<6>[  735.184949,0] mdss_dsi_panel_off-:
+<6>[  735.184963,0] mdss_dsi_off+: ctrl=e40da010 ndx=0
+<6>[  735.212087,0] mdss_dsi_off-:
+<6>[  735.212842,0] pmdbg_display_notify(): action = 9, data = 4
+<6>[  736.764997,0] Report pwrkey press event
+<4>[  736.769704,0] type=1400 audit(1424723520.412:55): avc: denied { read } for pid=678 comm="PowerManagerSer" name="lis3dh" dev="tmpfs" ino=2480 scontext=u:r:system_server:s0 tcontext=u:object_r:device:s0 tclass=chr_file
+<4>[  736.777284,0] type=1400 audit(1424723520.412:56): avc: denied { open } for pid=678 comm="PowerManagerSer" name="lis3dh" dev="tmpfs" ino=2480 scontext=u:r:system_server:s0 tcontext=u:object_r:device:s0 tclass=chr_file
+<4>[  736.778898,0] type=1400 audit(1424723520.412:57): avc: denied { ioctl } for pid=678 comm="PowerManagerSer" path="/dev/lis3dh" dev="tmpfs" ino=2480 scontext=u:r:system_server:s0 tcontext=u:object_r:device:s0 tclass=chr_file
+<6>[  736.794656,0] mdss_dsi_on+: ctrl=e40da010 ndx=0
+<6>[  736.817873,0] mdss_dsi_on-:
+<6>[  736.817888,0] mdss_dsi_panel_on+: ctrl=e40da010 ndx=0
+<3>[  736.889540,0] wlan: [3821:E :SME] sme_QosPmcDeviceStateUpdateInd: 7443: nothing to process in PMC state BMPS (6)
+<3>[  736.889564,0] wlan: [3821:E :TL ]  ----> CRegion 0, hRSSI -53, Alpha 5
+<6>[  736.906065,0] Report pwrkey release event
+<3>[  737.018429,0] qup_i2c f9927000.i2c: QUP: I2C status flags :0xc1300c8, irq:131
+<3>[  737.018471,0] qup_i2c f9927000.i2c: I2C slave addr:0x20 not connected
+<3>[  737.018495,0] synaptics_dsx_i2c 5-0020: synaptics_rmi4_i2c_write: I2C retry 1
+<6>[  737.040731,0] synaptics_dsx_sensor_state: state change SUSPEND -> ACTIVE
+<6>[  737.040931,0] mdss_dsi_panel_on-. Pwr_mode(0x0A) = 0x9c
+<6>[  737.041013,0] pmdbg_display_notify(): action = 9, data = 0
+<6>[  737.044077,2] qcom,leds-qpnp leds-qpnp-e4a39a00: backlight on
+<6>[  738.830735,0] Report pwrkey press event
+<6>[  738.989577,0] Report pwrkey release event
+<3>[  739.074182,0] wlan: [3821:E :SME] sme_QosPmcDeviceStateUpdateInd: 7443: nothing to process in PMC state BMPS (6)
+<3>[  739.074304,0] wlan: [3821:E :TL ]  ----> CRegion 0, hRSSI -53, Alpha 5
+<6>[  739.546176,0] mdss_dsi_panel_off+: ctrl=e40da010 ndx=0
+<6>[  739.546560,0] synaptics_dsx_sensor_state: state change ACTIVE -> SUSPEND
+<6>[  739.785505,0] mdss_dsi_panel_off-:
+<6>[  739.785525,0] mdss_dsi_off+: ctrl=e40da010 ndx=0
+<6>[  739.812122,0] mdss_dsi_off-:
+<6>[  739.814067,0] pmdbg_display_notify(): action = 9, data = 4
+<6>[  744.404199,0] healthd: battery l=50 v=3865 t=27.2 h=2 st=2 c=11 chg=a
+<6>[  744.472649,0] healthd: battery l=50 v=3865 t=27.2 h=2 st=2 c=11 chg=a
+<3>[  748.486933,0] 
+<3>[  748.486940,0] SMSM: Modem SMSM state changed to SMSM_RESET.
+<3>[  748.487247,0] Fatal error on the modem.
+<3>[  748.487590,0] modem subsystem failure reason: dog.c:1495:Watchdog detects stalled initialization.
+<6>[  748.487721,0] subsys-restart: subsystem_restart_dev(): Restart sequence requested for modem, restart_level = RELATED.
+<3>[  748.488006,0] Notify: start reset
+<6>[  748.489317,0] subsys-restart: subsystem_shutdown(): [e4928f00]: Shutting down modem
+<4>[  748.589488,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[  748.689808,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948280 halt timeout
+<3>[  748.693228,0] Ramdump(ramdump_smem): No consumers. Aborting..
+<3>[  748.693369,0] restart_notifier_cb: unable to dump smem -32
+<3>[  748.694650,0] modem_notifier_cb: sysmon_send_event error -38
+<3>[  748.694784,0] M-Notify: General: 4
+<6>[  748.698961,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[  748.784893,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<3>[  748.785183,0] Ramdump(ramdump_modem): No consumers. Aborting..
+<3>[  748.785346,0] Unable to dump modem fw memory (rc = -32).
+<4>[  748.885656,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[  748.885933,0] subsys-restart: subsystem_ramdump(): modem[e4928f00]: Ramdump failed.
+<6>[  748.887362,0] subsys-restart: subsystem_powerup(): [e4928f00]: Powering up modem
+<6>[  748.891512,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[  748.977189,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<6>[  748.981428,0] pil-q6v5-mss fc880000.qcom,mss: modem: loading from 0x08400000 to 0x0c300000
+<3>[  749.450257,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<6>[  749.529608,0] pil-q6v5-mss fc880000.qcom,mss: modem: Brought out of reset
+<3>[  749.589371,0] Notify: smsm init
+<6>[  749.636967,0] pil-q6v5-mss fc880000.qcom,mss: mba: Power/Clock ready interrupt received
+<6>[  749.637233,0] pil-q6v5-mss fc880000.qcom,mss: Subsystem error monitoring/handling services are up
+<6>[  749.637999,0] subsys-restart: subsystem_restart_wq_func(): [e4928f00]: Restart sequence for modem completed.
+<3>[  770.130171,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<6>[  784.270333,0] healthd: battery l=50 v=3866 t=27.0 h=2 st=2 c=-1 chg=a
+<6>[  784.513713,0] healthd: battery l=50 v=3866 t=27.0 h=2 st=2 c=28 chg=a
+<3>[  789.668962,0] 
+<3>[  789.668970,0] SMSM: Modem SMSM state changed to SMSM_RESET.
+<3>[  789.669385,0] Fatal error on the modem.
+<3>[  789.669631,0] modem subsystem failure reason: dog.c:1495:Watchdog detects stalled initialization.
+<6>[  789.669863,0] subsys-restart: subsystem_restart_dev(): Restart sequence requested for modem, restart_level = RELATED.
+<3>[  789.670150,0] Notify: start reset
+<6>[  789.671485,0] subsys-restart: subsystem_shutdown(): [e401e400]: Shutting down modem
+<4>[  789.771760,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[  789.872065,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948280 halt timeout
+<3>[  789.875059,0] Ramdump(ramdump_smem): No consumers. Aborting..
+<3>[  789.875298,0] restart_notifier_cb: unable to dump smem -32
+<3>[  789.876531,0] modem_notifier_cb: sysmon_send_event error -38
+<3>[  789.876764,0] M-Notify: General: 4
+<6>[  789.881311,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[  789.967290,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<3>[  789.967489,0] Ramdump(ramdump_modem): No consumers. Aborting..
+<3>[  789.967750,0] Unable to dump modem fw memory (rc = -32).
+<4>[  790.067932,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[  790.068310,0] subsys-restart: subsystem_ramdump(): modem[e401e400]: Ramdump failed.
+<6>[  790.069658,0] subsys-restart: subsystem_powerup(): [e401e400]: Powering up modem
+<6>[  790.073892,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[  790.159884,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<6>[  790.173803,0] pil-q6v5-mss fc880000.qcom,mss: modem: loading from 0x08400000 to 0x0c300000
+<3>[  790.640543,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<6>[  790.705685,0] pil-q6v5-mss fc880000.qcom,mss: modem: Brought out of reset
+<3>[  790.765358,0] Notify: smsm init
+<6>[  790.812494,0] pil-q6v5-mss fc880000.qcom,mss: mba: Power/Clock ready interrupt received
+<6>[  790.812612,0] pil-q6v5-mss fc880000.qcom,mss: Subsystem error monitoring/handling services are up
+<6>[  790.816611,0] subsys-restart: subsystem_restart_wq_func(): [e401e400]: Restart sequence for modem completed.
+<3>[  811.310164,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<3>[  830.844636,0] 
+<3>[  830.844645,0] SMSM: Modem SMSM state changed to SMSM_RESET.
+<3>[  830.844956,0] Fatal error on the modem.
+<3>[  830.845300,0] modem subsystem failure reason: dog.c:1495:Watchdog detects stalled initialization.
+<6>[  830.845432,0] subsys-restart: subsystem_restart_dev(): Restart sequence requested for modem, restart_level = RELATED.
+<3>[  830.845715,0] Notify: start reset
+<6>[  830.847030,0] subsys-restart: subsystem_shutdown(): [e401e400]: Shutting down modem
+<4>[  830.947253,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[  831.047559,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948280 halt timeout
+<3>[  831.050765,0] Ramdump(ramdump_smem): No consumers. Aborting..
+<3>[  831.050906,0] restart_notifier_cb: unable to dump smem -32
+<3>[  831.052140,0] modem_notifier_cb: sysmon_send_event error -38
+<3>[  831.052275,0] M-Notify: General: 4
+<6>[  831.056562,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[  831.142612,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<3>[  831.142912,0] Ramdump(ramdump_modem): No consumers. Aborting..
+<3>[  831.143073,0] Unable to dump modem fw memory (rc = -32).
+<4>[  831.243357,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[  831.243661,0] subsys-restart: subsystem_ramdump(): modem[e401e400]: Ramdump failed.
+<6>[  831.245196,0] subsys-restart: subsystem_powerup(): [e401e400]: Powering up modem
+<6>[  831.249620,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[  831.335467,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<6>[  831.339768,0] pil-q6v5-mss fc880000.qcom,mss: modem: loading from 0x08400000 to 0x0c300000
+<3>[  831.820172,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<6>[  831.875643,0] pil-q6v5-mss fc880000.qcom,mss: modem: Brought out of reset
+<3>[  831.935423,0] Notify: smsm init
+<6>[  831.983027,0] pil-q6v5-mss fc880000.qcom,mss: mba: Power/Clock ready interrupt received
+<6>[  831.983290,0] pil-q6v5-mss fc880000.qcom,mss: Subsystem error monitoring/handling services are up
+<6>[  831.987428,0] subsys-restart: subsystem_restart_wq_func(): [e401e400]: Restart sequence for modem completed.
+<3>[  852.480177,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<3>[  872.015143,0] 
+<3>[  872.015151,0] SMSM: Modem SMSM state changed to SMSM_RESET.
+<3>[  872.015555,0] Fatal error on the modem.
+<3>[  872.015800,0] modem subsystem failure reason: dog.c:1495:Watchdog detects stalled initialization.
+<6>[  872.016030,0] subsys-restart: subsystem_restart_dev(): Restart sequence requested for modem, restart_level = RELATED.
+<3>[  872.016316,0] Notify: start reset
+<6>[  872.017529,0] subsys-restart: subsystem_shutdown(): [e401e400]: Shutting down modem
+<4>[  872.117872,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[  872.218084,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948280 halt timeout
+<3>[  872.221259,0] Ramdump(ramdump_smem): No consumers. Aborting..
+<3>[  872.221399,0] restart_notifier_cb: unable to dump smem -32
+<3>[  872.222652,0] modem_notifier_cb: sysmon_send_event error -38
+<3>[  872.222787,0] M-Notify: General: 4
+<6>[  872.227153,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[  872.313079,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<3>[  872.313376,0] Ramdump(ramdump_modem): No consumers. Aborting..
+<3>[  872.313635,0] Unable to dump modem fw memory (rc = -32).
+<4>[  872.413818,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[  872.414192,0] subsys-restart: subsystem_ramdump(): modem[e401e400]: Ramdump failed.
+<6>[  872.415537,0] subsys-restart: subsystem_powerup(): [e401e400]: Powering up modem
+<6>[  872.419756,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[  872.505565,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<6>[  872.509769,0] pil-q6v5-mss fc880000.qcom,mss: modem: loading from 0x08400000 to 0x0c300000
+<3>[  872.980193,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<6>[  873.053725,0] pil-q6v5-mss fc880000.qcom,mss: modem: Brought out of reset
+<3>[  873.113475,0] Notify: smsm init
+<6>[  873.160787,0] pil-q6v5-mss fc880000.qcom,mss: mba: Power/Clock ready interrupt received
+<6>[  873.160963,0] pil-q6v5-mss fc880000.qcom,mss: Subsystem error monitoring/handling services are up
+<6>[  873.161698,0] subsys-restart: subsystem_restart_wq_func(): [e401e400]: Restart sequence for modem completed.
+<3>[  893.660149,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<6>[  895.111387,0] Report pwrkey press event
+<6>[  895.136649,0] mdss_dsi_on+: ctrl=e40da010 ndx=0
+<6>[  895.160825,0] mdss_dsi_on-:
+<6>[  895.160838,0] mdss_dsi_panel_on+: ctrl=e40da010 ndx=0
+<3>[  895.212035,0] wlan: [3821:E :SME] sme_QosPmcDeviceStateUpdateInd: 7443: nothing to process in PMC state BMPS (6)
+<3>[  895.212057,0] wlan: [3821:E :TL ]  ----> CRegion 0, hRSSI -53, Alpha 5
+<6>[  895.273031,0] Report pwrkey release event
+<3>[  895.352738,0] qup_i2c f9927000.i2c: QUP: I2C status flags :0x81343c8, irq:131
+<3>[  895.353492,0] qup_i2c f9927000.i2c: I2C slave addr:0x20 not connected
+<3>[  895.353518,0] synaptics_dsx_i2c 5-0020: synaptics_rmi4_i2c_write: I2C retry 1
+<6>[  895.380780,0] synaptics_dsx_sensor_state: state change SUSPEND -> ACTIVE
+<6>[  895.381003,0] mdss_dsi_panel_on-. Pwr_mode(0x0A) = 0x9c
+<6>[  895.381183,0] pmdbg_display_notify(): action = 9, data = 0
+<6>[  895.398031,2] qcom,leds-qpnp leds-qpnp-e4a39a00: backlight on
+<3>[  905.200866,0] wlan: [3821:E :SME] sme_QosPmcDeviceStateUpdateInd: 7443: nothing to process in PMC state BMPS (6)
+<3>[  905.201200,0] wlan: [3821:E :TL ]  ----> CRegion 0, hRSSI -49, Alpha 5
+<6>[  905.749689,0] mdss_dsi_panel_off+: ctrl=e40da010 ndx=0
+<6>[  905.750132,0] synaptics_dsx_sensor_state: state change ACTIVE -> SUSPEND
+<6>[  905.997445,0] mdss_dsi_panel_off-:
+<6>[  905.997466,0] mdss_dsi_off+: ctrl=e40da010 ndx=0
+<6>[  906.015785,0] mdss_dsi_off-:
+<6>[  906.018191,0] pmdbg_display_notify(): action = 9, data = 4
+<3>[  913.192909,0] 
+<3>[  913.192916,0] SMSM: Modem SMSM state changed to SMSM_RESET.
+<3>[  913.193224,0] Fatal error on the modem.
+<3>[  913.193566,0] modem subsystem failure reason: dog.c:1495:Watchdog detects stalled initialization.
+<6>[  913.193698,0] subsys-restart: subsystem_restart_dev(): Restart sequence requested for modem, restart_level = RELATED.
+<3>[  913.193986,0] Notify: start reset
+<6>[  913.195272,0] subsys-restart: subsystem_shutdown(): [e401e400]: Shutting down modem
+<4>[  913.295447,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[  913.395693,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948280 halt timeout
+<3>[  913.398833,0] Ramdump(ramdump_smem): No consumers. Aborting..
+<3>[  913.398973,0] restart_notifier_cb: unable to dump smem -32
+<3>[  913.400357,0] modem_notifier_cb: sysmon_send_event error -38
+<3>[  913.400496,0] M-Notify: General: 4
+<6>[  913.404727,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[  913.490647,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<3>[  913.490939,0] Ramdump(ramdump_modem): No consumers. Aborting..
+<3>[  913.491101,0] Unable to dump modem fw memory (rc = -32).
+<4>[  913.591370,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[  913.591645,0] subsys-restart: subsystem_ramdump(): modem[e401e400]: Ramdump failed.
+<6>[  913.593067,0] subsys-restart: subsystem_powerup(): [e401e400]: Powering up modem
+<6>[  913.597243,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[  913.685162,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<6>[  913.689622,0] pil-q6v5-mss fc880000.qcom,mss: modem: loading from 0x08400000 to 0x0c300000
+<6>[  913.744742,0] qpnp_chrg_ocv_work: chrg_ocv_bv_mv = 3870
+<6>[  913.744924,0] qpnp_chrg_ocv_work: CHRG_OCV_OCV_WAIT - NO CHRG
+<6>[  913.891135,0] healthd: battery l=50 v=3963 t=26.0 h=2 st=2 c=27 chg=a
+<6>[  913.956508,0] healthd: battery l=50 v=3958 t=26.0 h=2 st=2 c=27 chg=a
+<6>[  914.049899,1] healthd: battery l=50 v=3959 t=26.0 h=2 st=2 c=27 chg=a
+<3>[  914.160193,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<6>[  914.312525,0] pil-q6v5-mss fc880000.qcom,mss: modem: Brought out of reset
+<3>[  914.372322,0] Notify: smsm init
+<6>[  914.419849,0] pil-q6v5-mss fc880000.qcom,mss: mba: Power/Clock ready interrupt received
+<6>[  914.420024,0] pil-q6v5-mss fc880000.qcom,mss: Subsystem error monitoring/handling services are up
+<6>[  914.422260,0] subsys-restart: subsystem_restart_wq_func(): [e401e400]: Restart sequence for modem completed.
+<6>[  925.209616,0] healthd: battery l=51 v=3984 t=26.4 h=2 st=2 c=-683 chg=a
+<6>[  925.271042,0] healthd: battery l=51 v=3984 t=26.4 h=2 st=2 c=-679 chg=a
+<3>[  934.930105,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<6>[  945.229553,0] healthd: battery l=51 v=3992 t=26.6 h=2 st=2 c=-680 chg=a
+<6>[  945.283374,0] healthd: battery l=51 v=3992 t=26.6 h=2 st=2 c=-687 chg=a
+<3>[  954.451955,0] 
+<3>[  954.451963,0] SMSM: Modem SMSM state changed to SMSM_RESET.
+<3>[  954.452377,0] Fatal error on the modem.
+<3>[  954.452622,0] modem subsystem failure reason: dog.c:1495:Watchdog detects stalled initialization.
+<6>[  954.452854,0] subsys-restart: subsystem_restart_dev(): Restart sequence requested for modem, restart_level = RELATED.
+<3>[  954.453144,0] Notify: start reset
+<6>[  954.454331,0] subsys-restart: subsystem_shutdown(): [e401e400]: Shutting down modem
+<4>[  954.554647,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[  954.654860,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948280 halt timeout
+<3>[  954.657939,0] Ramdump(ramdump_smem): No consumers. Aborting..
+<3>[  954.658081,0] restart_notifier_cb: unable to dump smem -32
+<3>[  954.659392,0] modem_notifier_cb: sysmon_send_event error -38
+<3>[  954.659528,0] M-Notify: General: 4
+<6>[  954.669270,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[  954.755125,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<3>[  954.755318,0] Ramdump(ramdump_modem): No consumers. Aborting..
+<3>[  954.755579,0] Unable to dump modem fw memory (rc = -32).
+<4>[  954.855724,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[  954.856096,0] subsys-restart: subsystem_ramdump(): modem[e401e400]: Ramdump failed.
+<6>[  954.857443,0] subsys-restart: subsystem_powerup(): [e401e400]: Powering up modem
+<6>[  954.861682,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[  954.947467,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<6>[  954.951606,0] pil-q6v5-mss fc880000.qcom,mss: modem: loading from 0x08400000 to 0x0c300000
+<3>[  955.430595,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<6>[  955.498063,0] pil-q6v5-mss fc880000.qcom,mss: modem: Brought out of reset
+<3>[  955.557807,0] Notify: smsm init
+<6>[  955.605931,0] pil-q6v5-mss fc880000.qcom,mss: mba: Power/Clock ready interrupt received
+<6>[  955.606093,0] pil-q6v5-mss fc880000.qcom,mss: Subsystem error monitoring/handling services are up
+<6>[  955.606829,0] subsys-restart: subsystem_restart_wq_func(): [e401e400]: Restart sequence for modem completed.
+<6>[  958.465599,0] adb_release
+<6>[  958.466747,0] mtp_release
+<3>[  958.468679,0] init: untracked pid 6479 killed by signal 1
+<6>[  958.475068,0] adb_open
+<6>[  958.475214,0] mtp_bind_config
+<6>[  958.475471,0] msm_hsusb msm_hsusb: CI13XXX_CONTROLLER_CONNECT_EVENT received
+<6>[  958.478746,0] msm_hsusb msm_hsusb: CI13XXX_CONTROLLER_SUSPEND_EVENT received
+<6>[  958.479040,0] android_work: android_work: did not send uevent (1 1   (null))
+<6>[  958.628130,0] msm_hsusb msm_hsusb: CI13XXX_CONTROLLER_RESUME_EVENT received
+<6>[  958.628549,0] android_work: android_work: sent uevent USB_STATE=DISCONNECTED
+<6>[  958.796267,0] android_work: android_work: sent uevent USB_STATE=CONNECTED
+<6>[  958.797791,0] android_work: android_work: sent uevent USB_STATE=DISCONNECTED
+<6>[  958.984032,0] android_work: android_work: sent uevent USB_STATE=CONNECTED
+<6>[  958.986609,0] android_usb gadget: full-speed config #1: fe8050c8.android_usb
+<6>[  959.040256,0] android_work: android_work: sent uevent USB_STATE=CONFIGURED
+<6>[  959.085837,1] mtp_open
+<3>[  976.100120,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<3>[  995.638048,0] 
+<3>[  995.638056,0] SMSM: Modem SMSM state changed to SMSM_RESET.
+<3>[  995.638462,0] Fatal error on the modem.
+<3>[  995.638708,0] modem subsystem failure reason: dog.c:1495:Watchdog detects stalled initialization.
+<6>[  995.638939,0] subsys-restart: subsystem_restart_dev(): Restart sequence requested for modem, restart_level = RELATED.
+<3>[  995.639226,0] Notify: start reset
+<6>[  995.640979,0] subsys-restart: subsystem_shutdown(): [e401e400]: Shutting down modem
+<4>[  995.741371,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[  995.841622,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948280 halt timeout
+<3>[  995.844690,0] Ramdump(ramdump_smem): No consumers. Aborting..
+<3>[  995.844927,0] restart_notifier_cb: unable to dump smem -32
+<3>[  995.846065,0] modem_notifier_cb: sysmon_send_event error -38
+<3>[  995.846299,0] M-Notify: General: 4
+<6>[  995.851684,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[  995.937742,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<3>[  995.937939,0] Ramdump(ramdump_modem): No consumers. Aborting..
+<3>[  995.938198,0] Unable to dump modem fw memory (rc = -32).
+<4>[  996.038377,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[  996.038756,0] subsys-restart: subsystem_ramdump(): modem[e401e400]: Ramdump failed.
+<6>[  996.040512,0] subsys-restart: subsystem_powerup(): [e401e400]: Powering up modem
+<6>[  996.044918,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[  996.131532,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<6>[  996.135874,0] pil-q6v5-mss fc880000.qcom,mss: modem: loading from 0x08400000 to 0x0c300000
+<3>[  996.600190,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<6>[  996.684353,0] pil-q6v5-mss fc880000.qcom,mss: modem: Brought out of reset
+<3>[  996.744008,0] Notify: smsm init
+<6>[  996.791958,0] pil-q6v5-mss fc880000.qcom,mss: mba: Power/Clock ready interrupt received
+<6>[  996.792077,0] pil-q6v5-mss fc880000.qcom,mss: Subsystem error monitoring/handling services are up
+<6>[  996.792925,0] subsys-restart: subsystem_restart_wq_func(): [e401e400]: Restart sequence for modem completed.
+<3>[ 1017.290108,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<3>[ 1036.824099,0] 
+<3>[ 1036.824108,0] SMSM: Modem SMSM state changed to SMSM_RESET.
+<3>[ 1036.824418,0] Fatal error on the modem.
+<3>[ 1036.824760,0] modem subsystem failure reason: dog.c:1495:Watchdog detects stalled initialization.
+<6>[ 1036.824990,0] subsys-restart: subsystem_restart_dev(): Restart sequence requested for modem, restart_level = RELATED.
+<3>[ 1036.825178,0] Notify: start reset
+<6>[ 1036.826462,0] subsys-restart: subsystem_shutdown(): [e401e400]: Shutting down modem
+<4>[ 1036.926679,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[ 1037.026984,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948280 halt timeout
+<3>[ 1037.030867,0] Ramdump(ramdump_smem): No consumers. Aborting..
+<3>[ 1037.031237,0] restart_notifier_cb: unable to dump smem -32
+<3>[ 1037.032576,0] modem_notifier_cb: sysmon_send_event error -38
+<3>[ 1037.032711,0] M-Notify: General: 4
+<6>[ 1037.037001,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[ 1037.123800,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<3>[ 1037.124097,0] Ramdump(ramdump_modem): No consumers. Aborting..
+<3>[ 1037.124259,0] Unable to dump modem fw memory (rc = -32).
+<4>[ 1037.224546,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[ 1037.224828,0] subsys-restart: subsystem_ramdump(): modem[e401e400]: Ramdump failed.
+<6>[ 1037.226249,0] subsys-restart: subsystem_powerup(): [e401e400]: Powering up modem
+<6>[ 1037.231269,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[ 1037.317081,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<6>[ 1037.322118,0] pil-q6v5-mss fc880000.qcom,mss: modem: loading from 0x08400000 to 0x0c300000
+<3>[ 1037.790300,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<6>[ 1037.868443,0] pil-q6v5-mss fc880000.qcom,mss: modem: Brought out of reset
+<3>[ 1037.928060,0] Notify: smsm init
+<6>[ 1037.975185,0] pil-q6v5-mss fc880000.qcom,mss: mba: Power/Clock ready interrupt received
+<6>[ 1037.975376,0] pil-q6v5-mss fc880000.qcom,mss: Subsystem error monitoring/handling services are up
+<6>[ 1037.979204,0] subsys-restart: subsystem_restart_wq_func(): [e401e400]: Restart sequence for modem completed.
+<6>[ 1045.274901,0] healthd: battery l=52 v=4011 t=26.7 h=2 st=2 c=-678 chg=a
+<6>[ 1045.365404,0] healthd: battery l=52 v=4013 t=26.7 h=2 st=2 c=-678 chg=a
+<6>[ 1045.406387,0] healthd: battery l=52 v=4011 t=26.7 h=2 st=2 c=-679 chg=a
+<6>[ 1045.447527,0] healthd: battery l=52 v=4013 t=26.7 h=2 st=2 c=-673 chg=a
+<3>[ 1058.480165,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<3>[ 1078.007332,0] 
+<3>[ 1078.007340,0] SMSM: Modem SMSM state changed to SMSM_RESET.
+<3>[ 1078.007652,0] Fatal error on the modem.
+<3>[ 1078.007993,0] modem subsystem failure reason: dog.c:1495:Watchdog detects stalled initialization.
+<6>[ 1078.008127,0] subsys-restart: subsystem_restart_dev(): Restart sequence requested for modem, restart_level = RELATED.
+<3>[ 1078.008416,0] Notify: start reset
+<6>[ 1078.009700,0] subsys-restart: subsystem_shutdown(): [e4928f00]: Shutting down modem
+<4>[ 1078.109863,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[ 1078.210583,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948280 halt timeout
+<3>[ 1078.213619,0] Ramdump(ramdump_smem): No consumers. Aborting..
+<3>[ 1078.213858,0] restart_notifier_cb: unable to dump smem -32
+<3>[ 1078.215050,0] modem_notifier_cb: sysmon_send_event error -38
+<3>[ 1078.215283,0] M-Notify: General: 4
+<6>[ 1078.219605,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[ 1078.306615,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<3>[ 1078.306911,0] Ramdump(ramdump_modem): No consumers. Aborting..
+<3>[ 1078.307073,0] Unable to dump modem fw memory (rc = -32).
+<4>[ 1078.407288,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[ 1078.407569,0] subsys-restart: subsystem_ramdump(): modem[e4928f00]: Ramdump failed.
+<6>[ 1078.408985,0] subsys-restart: subsystem_powerup(): [e4928f00]: Powering up modem
+<6>[ 1078.414392,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[ 1078.500894,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<6>[ 1078.505239,0] pil-q6v5-mss fc880000.qcom,mss: modem: loading from 0x08400000 to 0x0c300000
+<3>[ 1079.000118,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<6>[ 1079.060517,0] pil-q6v5-mss fc880000.qcom,mss: modem: Brought out of reset
+<3>[ 1079.120179,0] Notify: smsm init
+<6>[ 1079.167255,0] pil-q6v5-mss fc880000.qcom,mss: mba: Power/Clock ready interrupt received
+<6>[ 1079.167445,0] pil-q6v5-mss fc880000.qcom,mss: Subsystem error monitoring/handling services are up
+<6>[ 1079.171202,0] subsys-restart: subsystem_restart_wq_func(): [e4928f00]: Restart sequence for modem completed.
+<3>[ 1099.670143,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<3>[ 1119.199410,0] 
+<3>[ 1119.199418,0] SMSM: Modem SMSM state changed to SMSM_RESET.
+<3>[ 1119.199828,0] Fatal error on the modem.
+<3>[ 1119.200073,0] modem subsystem failure reason: dog.c:1495:Watchdog detects stalled initialization.
+<6>[ 1119.200303,0] subsys-restart: subsystem_restart_dev(): Restart sequence requested for modem, restart_level = RELATED.
+<3>[ 1119.200589,0] Notify: start reset
+<6>[ 1119.201763,0] subsys-restart: subsystem_shutdown(): [e4928f00]: Shutting down modem
+<4>[ 1119.302032,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[ 1119.402225,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948280 halt timeout
+<3>[ 1119.405381,0] Ramdump(ramdump_smem): No consumers. Aborting..
+<3>[ 1119.405521,0] restart_notifier_cb: unable to dump smem -32
+<3>[ 1119.406764,0] modem_notifier_cb: sysmon_send_event error -38
+<3>[ 1119.406898,0] M-Notify: General: 4
+<6>[ 1119.412079,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[ 1119.498027,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<3>[ 1119.498326,0] Ramdump(ramdump_modem): No consumers. Aborting..
+<3>[ 1119.498488,0] Unable to dump modem fw memory (rc = -32).
+<4>[ 1119.598756,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[ 1119.599134,0] subsys-restart: subsystem_ramdump(): modem[e4928f00]: Ramdump failed.
+<6>[ 1119.600749,0] subsys-restart: subsystem_powerup(): [e4928f00]: Powering up modem
+<6>[ 1119.605289,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[ 1119.691907,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<6>[ 1119.696170,0] pil-q6v5-mss fc880000.qcom,mss: modem: loading from 0x08400000 to 0x0c300000
+<3>[ 1120.170132,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<6>[ 1120.273908,0] pil-q6v5-mss fc880000.qcom,mss: modem: Brought out of reset
+<3>[ 1120.333508,0] Notify: smsm init
+<6>[ 1120.380609,0] pil-q6v5-mss fc880000.qcom,mss: mba: Power/Clock ready interrupt received
+<6>[ 1120.380794,0] pil-q6v5-mss fc880000.qcom,mss: Subsystem error monitoring/handling services are up
+<6>[ 1120.384634,0] subsys-restart: subsystem_restart_wq_func(): [e4928f00]: Restart sequence for modem completed.
+<3>[ 1140.880154,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<6>[ 1145.257123,0] healthd: battery l=52 v=4024 t=26.8 h=2 st=2 c=-670 chg=a
+<6>[ 1145.370026,0] healthd: battery l=53 v=4025 t=26.8 h=2 st=2 c=-678 chg=a
+<6>[ 1145.415391,0] healthd: battery l=53 v=4026 t=26.8 h=2 st=2 c=-669 chg=a
+<6>[ 1145.455019,0] healthd: battery l=53 v=4023 t=26.8 h=2 st=2 c=-671 chg=a
+<6>[ 1153.041872,0] Report pwrkey press event
+<6>[ 1153.051684,0] mdss_dsi_on+: ctrl=e40da010 ndx=0
+<6>[ 1153.075540,0] mdss_dsi_on-:
+<6>[ 1153.075555,0] mdss_dsi_panel_on+: ctrl=e40da010 ndx=0
+<3>[ 1153.136288,0] wlan: [3821:E :SME] sme_QosPmcDeviceStateUpdateInd: 7443: nothing to process in PMC state BMPS (6)
+<3>[ 1153.136310,0] wlan: [3821:E :TL ]  ----> CRegion 0, hRSSI -49, Alpha 5
+<6>[ 1153.171399,0] Report pwrkey release event
+<3>[ 1153.266679,0] qup_i2c f9927000.i2c: QUP: I2C status flags :0xc1300c8, irq:131
+<3>[ 1153.266721,0] qup_i2c f9927000.i2c: I2C slave addr:0x20 not connected
+<3>[ 1153.266745,0] synaptics_dsx_i2c 5-0020: synaptics_rmi4_i2c_write: I2C retry 1
+<6>[ 1153.290912,0] synaptics_dsx_sensor_state: state change SUSPEND -> ACTIVE
+<6>[ 1153.291113,0] mdss_dsi_panel_on-. Pwr_mode(0x0A) = 0x9c
+<6>[ 1153.291357,0] pmdbg_display_notify(): action = 9, data = 0
+<6>[ 1153.324629,0] qcom,leds-qpnp leds-qpnp-e4a39a00: backlight ontype=1400 audit(1424723941.341:58): avc: denied { unlink } for pid=274 comm="mm-qcamera-daem" name="cam_socket1" dev="mmcblk0p36" ino=318829 scontext=u:r:mm-qcamerad:s0 tcontext=u:object_r:system_data_file:s0 tclass=sock_file
+<4>[ 1157.710014,0] type=1400 audit(1424723941.341:59): avc: denied { create } for pid=274 comm="mm-qcamera-daem" name="cam_socket1" scontext=u:r:mm-qcamerad:s0 tcontext=u:object_r:system_data_file:s0 tclass=sock_file
+<4>[ 1157.870431,0] ar0543_set_lsc: Setting module LSC!
+<3>[ 1157.877715,0] msm_sensor_config:1717 sensor state 1
+<3>[ 1157.988906,0] MSM-CPP msm_cpp_poll:451 Poll failed: expect: 0x1
+<3>[ 1158.034340,0] MSM-CPP msm_cpp_poll:451 Poll failed: expect: 0x1
+<3>[ 1158.075759,0] MSM-CPP msm_cpp_poll:451 Poll failed: expect: 0xabcdefaa
+<6>[ 1158.076005,0] MSM-CPP cpp_load_fw:844 MC Bootloader Version: 0x3e646d63
+<6>[ 1158.090296,0] MSM-CPP cpp_load_fw:856 CPP FW Version: 0x1002000a
+<4>[ 1158.097083,0] type=1400 audit(1424723941.731:60): avc: denied { write } for pid=5766 comm="Binder_1" name="cam_socket1" dev="mmcblk0p36" ino=319009 scontext=u:r:mediaserver:s0 tcontext=u:object_r:system_data_file:s0 tclass=sock_file
+<3>[ 1158.258216,0] msm_sensor_config:1745 sensor state 0
+<3>[ 1158.261371,0] MSM-CPP cpp_close_node:930 cpp_close_node: irq_status: 0x23e
+<3>[ 1158.261540,0] MSM-CPP cpp_close_node:932 cpp_close_node: DEBUG_SP: 0x0
+<3>[ 1158.261631,0] MSM-CPP cpp_close_node:934 cpp_close_node: DEBUG_T: 0x0
+<3>[ 1158.261788,0] MSM-CPP cpp_close_node:936 cpp_close_node: DEBUG_N: 0x0
+<3>[ 1158.261946,0] MSM-CPP cpp_close_node:938 cpp_close_node: DEBUG_R: 0x0
+<3>[ 1158.262036,0] MSM-CPP cpp_close_node:940 cpp_close_node: DEBUG_OPPC: 0x0
+<3>[ 1158.262195,0] MSM-CPP cpp_close_node:942 cpp_close_node: DEBUG_MO: 0x0
+<3>[ 1158.262285,0] MSM-CPP cpp_close_node:944 cpp_close_node: DEBUG_TIMER0: 0x0
+<3>[ 1158.262443,0] MSM-CPP cpp_close_node:946 cpp_close_node: DEBUG_TIMER1: 0x0
+<3>[ 1158.262602,0] MSM-CPP cpp_close_node:948 cpp_close_node: DEBUG_GPI: 0x0
+<3>[ 1158.262692,0] MSM-CPP cpp_close_node:950 cpp_close_node: DEBUG_GPO: 0x0
+<3>[ 1158.262853,0] MSM-CPP cpp_close_node:952 cpp_close_node: DEBUG_T0: 0x0
+<3>[ 1158.262942,0] MSM-CPP cpp_close_node:954 cpp_close_node: DEBUG_R0: 0x0
+<3>[ 1158.263100,0] MSM-CPP cpp_close_node:956 cpp_close_node: DEBUG_T1: 0x0
+<3>[ 1158.263190,0] MSM-CPP cpp_close_node:958 cpp_close_node: DEBUG_R1: 0x0
+<4>[ 1158.430896,0] ar0543_set_lsc: Setting module LSC!
+<3>[ 1158.438061,0] msm_sensor_config:1717 sensor state 1
+<3>[ 1158.556823,0] MSM-CPP msm_cpp_poll:451 Poll failed: expect: 0x1
+<3>[ 1158.598420,0] MSM-CPP msm_cpp_poll:451 Poll failed: expect: 0x1
+<3>[ 1158.641022,0] MSM-CPP msm_cpp_poll:451 Poll failed: expect: 0xabcdefaa
+<6>[ 1158.641161,0] MSM-CPP cpp_load_fw:844 MC Bootloader Version: 0x3e646d63
+<6>[ 1158.655581,0] MSM-CPP cpp_load_fw:856 CPP FW Version: 0x1002000a
+<3>[ 1160.412710,0] 
+<3>[ 1160.412717,0] SMSM: Modem SMSM state changed to SMSM_RESET.
+<3>[ 1160.413011,0] Fatal error on the modem.
+<3>[ 1160.413348,0] modem subsystem failure reason: dog.c:1495:Watchdog detects stalled initialization.
+<6>[ 1160.413480,0] subsys-restart: subsystem_restart_dev(): Restart sequence requested for modem, restart_level = RELATED.
+<3>[ 1160.413758,0] Notify: start reset
+<6>[ 1160.415024,0] subsys-restart: subsystem_shutdown(): [e4928f00]: Shutting down modem
+<4>[ 1160.515187,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[ 1160.615483,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948280 halt timeout
+<3>[ 1160.618629,0] Ramdump(ramdump_smem): No consumers. Aborting..
+<3>[ 1160.618867,0] restart_notifier_cb: unable to dump smem -32
+<3>[ 1160.619990,0] modem_notifier_cb: sysmon_send_event error -38
+<3>[ 1160.620949,0] M-Notify: General: 4
+<6>[ 1160.625749,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[ 1160.705224,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<3>[ 1160.705515,0] Ramdump(ramdump_modem): No consumers. Aborting..
+<3>[ 1160.705676,0] Unable to dump modem fw memory (rc = -32).
+<4>[ 1160.805986,0] pil-q6v5-mss fc880000.qcom,mss: Port e6948200 halt timeout
+<4>[ 1160.806263,0] subsys-restart: subsystem_ramdump(): modem[e4928f00]: Ramdump failed.
+<6>[ 1160.807585,0] subsys-restart: subsystem_powerup(): [e4928f00]: Powering up modem
+<6>[ 1160.812548,0] pil-q6v5-mss fc880000.qcom,mss: mba: loading from 0x0c300000 to 0x0c33a000
+<6>[ 1160.891733,0] pil-q6v5-mss fc880000.qcom,mss: mba: Brought out of reset
+<6>[ 1160.896104,0] pil-q6v5-mss fc880000.qcom,mss: modem: loading from 0x08400000 to 0x0c300000
+<6>[ 1161.342089,0] pil-q6v5-mss fc880000.qcom,mss: modem: Brought out of reset
+<3>[ 1161.397924,0] smd_pkt_open: wait on smd_pkt_dev id:0 allocation failed rc:-110
+<3>[ 1161.401782,1] Notify: smsm init
+<6>[ 1161.449229,0] pil-q6v5-mss fc880000.qcom,mss: mba: Power/Clock ready interrupt received
+<6>[ 1161.449495,0] pil-q6v5-mss fc880000.qcom,mss: Subsystem error monitoring/handling services are up
+<6>[ 1161.450593,0] subsys-restart: subsystem_restart_wq_func(): [e4928f00]: Restart sequence for modem completed.
+<3>[ 1163.838301,0] msm_sensor_config:1745 sensor state 0
+<3>[ 1163.841804,0] MSM-CPP cpp_close_node:930 cpp_close_node: irq_status: 0x23e
+<3>[ 1163.841941,0] MSM-CPP cpp_close_node:932 cpp_close_node: DEBUG_SP: 0x0
+<3>[ 1163.842165,0] MSM-CPP cpp_close_node:934 cpp_close_node: DEBUG_T: 0x0
+<3>[ 1163.842389,0] MSM-CPP cpp_close_node:936 cpp_close_node: DEBUG_N: 0x0
+<3>[ 1163.842517,0] MSM-CPP cpp_close_node:938 cpp_close_node: DEBUG_R: 0x0
+<3>[ 1163.842740,0] MSM-CPP cpp_close_node:940 cpp_close_node: DEBUG_OPPC: 0x0
+<3>[ 1163.842868,0] MSM-CPP cpp_close_node:942 cpp_close_node: DEBUG_MO: 0x0
+<3>[ 1163.843093,0] MSM-CPP cpp_close_node:944 cpp_close_node: DEBUG_TIMER0: 0x0
+<3>[ 1163.843223,0] MSM-CPP cpp_close_node:946 cpp_close_node: DEBUG_TIMER1: 0x0
+<3>[ 1163.843450,0] MSM-CPP cpp_close_node:948 cpp_close_node: DEBUG_GPI: 0x0
+<3>[ 1163.843675,0] MSM-CPP cpp_close_node:950 cpp_close_node: DEBUG_GPO: 0x0
+<3>[ 1163.843802,0] MSM-CPP cpp_close_node:952 cpp_close_node: DEBUG_T0: 0x0
+<3>[ 1163.844026,0] MSM-CPP cpp_close_node:954 cpp_close_node: DEBUG_R0: 0x0
+<3>[ 1163.844154,0] MSM-CPP cpp_close_node:956 cpp_close_node: DEBUG_T1: 0x0
+<3>[ 1163.844378,0] MSM-CPP cpp_close_node:958 cpp_close_node: DEBUG_R1: 0x0
+<3>[ 1164.059614,0] msm_camera_cci_i2c_write_conf_tbl: Unsupport data type: 95668240
+<3>[ 1164.059757,0] i2c_burst_write_conf_tbl: unable to write data (-14)
+<3>[ 1164.184697,0] MSM-CPP msm_cpp_poll:451 Poll failed: expect: 0x1
+<3>[ 1164.228333,0] MSM-CPP msm_cpp_poll:451 Poll failed: expect: 0x1
+<3>[ 1164.270149,0] MSM-CPP msm_cpp_poll:451 Poll failed: expect: 0xabcdefaa
+<6>[ 1164.270296,0] MSM-CPP cpp_load_fw:844 MC Bootloader Version: 0x3e646d63
+<6>[ 1164.284285,0] MSM-CPP cpp_load_fw:856 CPP FW Version: 0x1002000a
+<3>[ 1164.355687,0] MSM-CPP cpp_close_node:930 cpp_close_node: irq_status: 0x23e
+<3>[ 1164.355836,0] MSM-CPP cpp_close_node:932 cpp_close_node: DEBUG_SP: 0x0
+<3>[ 1164.356061,0] MSM-CPP cpp_close_node:934 cpp_close_node: DEBUG_T: 0x0
+<3>[ 1164.356189,0] MSM-CPP cpp_close_node:936 cpp_close_node: DEBUG_N: 0x0
+<3>[ 1164.356413,0] MSM-CPP cpp_close_node:938 cpp_close_node: DEBUG_R: 0x0
+<3>[ 1164.356540,0] MSM-CPP cpp_close_node:940 cpp_close_node: DEBUG_OPPC: 0x0
+<3>[ 1164.356767,0] MSM-CPP cpp_close_node:942 cpp_close_node: DEBUG_MO: 0x0
+<3>[ 1164.356994,0] MSM-CPP cpp_close_node:944 cpp_close_node: DEBUG_TIMER0: 0x0
+<3>[ 1164.357122,0] MSM-CPP cpp_close_node:946 cpp_close_node: DEBUG_TIMER1: 0x0
+<3>[ 1164.357348,0] MSM-CPP cpp_close_node:948 cpp_close_node: DEBUG_GPI: 0x0
+<3>[ 1164.357476,0] MSM-CPP cpp_close_node:950 cpp_close_node: DEBUG_GPO: 0x0
+<3>[ 1164.357699,0] MSM-CPP cpp_close_node:952 cpp_close_node: DEBUG_T0: 0x0
+<3>[ 1164.357922,0] MSM-CPP cpp_close_node:954 cpp_close_node: DEBUG_R0: 0x0
+<3>[ 1164.358049,0] MSM-CPP cpp_close_node:956 cpp_close_node: DEBUG_T1: 0x0
+<3>[ 1164.358274,0] MSM-CPP cpp_close_node:958 cpp_close_node: DEBUG_R1: 0x0
+<3>[ 1164.639516,0] msm_camera_cci_i2c_write_conf_tbl: Unsupport data type: 95668240
+<3>[ 1164.639759,0] i2c_burst_write_conf_tbl: unable to write data (-14)
+<3>[ 1164.749193,0] MSM-CPP msm_cpp_poll:451 Poll failed: expect: 0x1
+<3>[ 1164.792065,0] MSM-CPP msm_cpp_poll:451 Poll failed: expect: 0x1
+<3>[ 1164.834200,0] MSM-CPP msm_cpp_poll:451 Poll failed: expect: 0xabcdefaa
+<6>[ 1164.834341,0] MSM-CPP cpp_load_fw:844 MC Bootloader Version: 0x3e646d63
+<6>[ 1164.848348,0] MSM-CPP cpp_load_fw:856 CPP FW Version: 0x1002000a
+<3>[ 1169.945719,0] MSM-CPP cpp_close_node:930 cpp_close_node: irq_status: 0x23e
+<3>[ 1169.945965,0] MSM-CPP cpp_close_node:932 cpp_close_node: DEBUG_SP: 0x0
+<3>[ 1169.946094,0] MSM-CPP cpp_close_node:934 cpp_close_node: DEBUG_T: 0x0
+<3>[ 1169.946321,0] MSM-CPP cpp_close_node:936 cpp_close_node: DEBUG_N: 0x0
+<3>[ 1169.946545,0] MSM-CPP cpp_close_node:938 cpp_close_node: DEBUG_R: 0x0
+<3>[ 1169.946672,0] MSM-CPP cpp_close_node:940 cpp_close_node: DEBUG_OPPC: 0x0
+<3>[ 1169.946895,0] MSM-CPP cpp_close_node:942 cpp_close_node: DEBUG_MO: 0x0
+<3>[ 1169.947024,0] MSM-CPP cpp_close_node:944 cpp_close_node: DEBUG_TIMER0: 0x0
+<3>[ 1169.947249,0] MSM-CPP cpp_close_node:946 cpp_close_node: DEBUG_TIMER1: 0x0
+<3>[ 1169.947378,0] MSM-CPP cpp_close_node:948 cpp_close_node: DEBUG_GPI: 0x0
+<3>[ 1169.947505,0] MSM-CPP cpp_close_node:950 cpp_close_node: DEBUG_GPO: 0x0
+<3>[ 1169.947729,0] MSM-CPP cpp_close_node:952 cpp_close_node: DEBUG_T0: 0x0
+<3>[ 1169.947856,0] MSM-CPP cpp_close_node:954 cpp_close_node: DEBUG_R0: 0x0
+<3>[ 1169.948081,0] MSM-CPP cpp_close_node:956 cpp_close_node: DEBUG_T1: 0x0
+<3>[ 1169.948210,0] MSM-CPP cpp_close_node:958 cpp_close_node: DEBUG_R1: 0x0
