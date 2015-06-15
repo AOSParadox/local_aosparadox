@@ -17,5 +17,13 @@ To build AOSParadox for Motorola Moto G (2013) USE :
 
 Then to sync up:
 
-    repo sync 
+    repo sync -c -j5
+
+When everything is synced do
+    
+    . build/envsetup.sh && lunch full_yourdevice-userdebug
+
+Setup CCACHE and build using
+    
+    make -j8 otapackage
 
