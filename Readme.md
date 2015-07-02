@@ -11,6 +11,10 @@ To build AOSParadox for Motorola Moto G (2013) USE :
 
     repo init -u git://github.com/AOSParadox/local_aosparadox.git -b lollipop_falcon
 
+To build AOSParadox for Motorola Moto G (2014) USE :
+
+    repo init -u git://github.com/AOSParadox/local_aosparadox.git -b lollipop_titan
+
 Then to sync up:
 
     repo sync -c -j5
