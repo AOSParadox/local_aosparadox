@@ -15,6 +15,10 @@ To build AOSParadox for Motorola Moto G (2014) USE :
 
     repo init -u git://github.com/AOSParadox/local_aosparadox.git -b lollipop_titan
 
+To build AOSParadox for OnePlus One USE :
+
+    repo init -u git://github.com/AOSParadox/local_aosparadox.git -b lollipop_bacon
+
 To port a MSM8226 device USE :
 
     repo init -u git://github.com/AOSParadox/local_aosparadox.git -b lollipop_msm8226
