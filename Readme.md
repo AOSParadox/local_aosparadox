@@ -14,6 +14,10 @@ To build AOSParadox for Motorola Moto G (2013) USE :
 To build AOSParadox for Motorola Moto G (2014) USE :
 
     repo init -u git://github.com/AOSParadox/local_aosparadox.git -b marshmallow_titan
+    
+To build AOSParadox for the Motorola Moto X Play USE :
+
+    repo init -u git://github.com/AOSParadox/local_aosparadox.git -b marshmallow_lux
 
 To build AOSParadox for OnePlus One USE :
 
