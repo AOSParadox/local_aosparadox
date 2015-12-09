@@ -42,9 +42,7 @@ How to sync ?
 - 4- How to build ?
 	- A - ". build/envsetup.sh"
 	- B - "lunch full_DEVICE-user"
-	- C - Kernel chooser
-		1 - For tomato/lettuce --> "mv kernel_yu_msm8916_64/ kernel/"
-		2 - For jalebi --> "mv kernel_yu_msm8916_32/ kernel/"
+	- C - Kernel chooser (For tomato/lettuce --> "mv kernel_yu_msm8916_64/ kernel/") **OR** (For jalebi --> "mv kernel_yu_msm8916_32/ kernel/")
 	- D - "make -j8 otapackage"
 - 5- Here you're done
 
