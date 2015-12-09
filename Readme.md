@@ -36,14 +36,19 @@ I took the liberty to add some features to make users lifes easier:
 
 How to sync ?
 =============
-1- Repo init the  LA.BR.1.2.6-00410-8x16.0 CAF Tag
-2- Add the linked yu_caf.xml to .repo/local_manifests
-3- Sync
-4- How to build ?
-	A - ". build/envsetup.sh"
-	B - "lunch full_DEVICE-user"
-	C - Kernel chooser
+- 1- Repo init the  LA.BR.1.2.6-00410-8x16.0 CAF Tag
+- 2- Add the linked yu_caf.xml to .repo/local_manifests
+- 3- Sync
+- 4- How to build ?
+	- A - ". build/envsetup.sh"
+	- B - "lunch full_DEVICE-user"
+	- C - Kernel chooser
 		1 - For tomato/lettuce --> "mv kernel_yu_msm8916_64/ kernel/"
 		2 - For jalebi --> "mv kernel_yu_msm8916_32/ kernel/"
-	D - "make -j8 otapackage"
-5- Here you're done
+	- D - "make -j8 otapackage"
+- 5- Here you're done
+
+Why is it closed sourced ?
+==========================
+
+Because I'll only release my code after the deadline
