@@ -1,0 +1,121 @@
+build
+a8bdef8f799ec8bc0cc04ac5e2b13fb219540398 - Add suffix .so to use directly libart.so - randy.jeong [randy.jeong@samsung.com]
+5e2aafb47de5c7583d4cf21683951ddb7b20c9a5 - aosp_arm64: Yu devices aren't emulators - Louis Popi [theh2o64@gmail.com]
+581955ebf3028c29198b5d68d7fdad9115ce4d1c - Do not use the default APN. Device should provide it's own apns-conf.xml - Legrand Benjamin [android@legrand.ws]
+7b16b61c2aa445a582f9b9446bb478cb14e2b3c2 - Makefile: Update package name to AOSParadox YU - Louis Popi [theh2o64@gmail.com]
+6f41764aed92ace673da6b6188bf5ca0c3c23216 - Fix the extra dt.img compilation issue. - AUDITYA BHATTARAM [audityab@codeaurora.org]
+d383068a6128f8995f03d3262a6c06390b0eceea - Fix case where boot/recovery.img were being built with wrong params. - Ameya Thakur [ameyat@codeaurora.org]
+665ad4eb80ef881a7fa14e36af240d121404f626 - Build: add DT image variable to Makefile - Sreedhar [slakkara@codeaurora.org]
+a4913e194b1f0419a950b01972bcb38fec1e8a60 - build: Add support for device tree in boot.img - David Ng [dave@codeaurora.org]
+a9e7fa06160a7f0bd9ff4ced6784aee876b64c4f - Build M audio package & use default M ringtone/notification sound - zephiK [zephik@gmail.com]
+7782039a3dfe970acd2ef47f59fcf4ba0bbcdf80 - Makefile:  Fix classical CAF error - TheQuiche [yordi.derijcke@live.be]
+38fbd54afdfcf4811398b275e624cb1d142dcb96 - Remove nulls from the edify generator. - Ricardo Cerqueira [ricardo@cyngn.com]
+a296a147a278f082c42e82d5458bff0bfd09b60b - Build: Use 0 compression ratio for jar files - arter97 [qkrwngud825@gmail.com]
+80794dd9269a7c03a520c8f73c1669f0d8b03991 - build: Unset JAVA_TOOL_OPTIONS to read java version - Matt Mower [mowerm@gmail.com]
+49bb7119c837e5783076ceab397dffde21325d45 - Don't stop if JDK version doesn't match - SferaDev [sferadev@gmail.com]
+70f55660a26b5721b2b289e115669e84cedcca26 - add support for overriding build.prop settings. - Koushik Dutta [koushd@gmail.com]
+e60917272aa64b06ab2e67baa6be6dc22423b4de - build: Stop installing the sample APN list - Steve Kondik [shade@chemlab.org]
+
+device/qcom/sepolicy
+1d9ab9b46e6a6b5edd996be7e22e837fe89d1961 - Do not include common SE policies automatically - Ricardo Cerqueira [ricardo@cyngn.com]
+
+external/boringssl
+842d8fb314dd89585aaafac38387bbbc3b3ec553 - boringssl: Build decrepit source into libcrypto. - Adnan Begovic [adnan@cyngn.com]
+ccc127b76f3b2b2b7b702deccfbb4534e47c5bd2 - Restore |BIO_f_base64| from OpenSSL at b4f0d1a, modulo style fixes. - Matt Braithwaite [mab@google.com]
+15b3fa0c83440ae18401c0687921e48bc76e6f44 - boringSSL: restore EVP symbols needed for Qualcomm camera blobs - Jake Weinstein [xboxlover360@gmail.com]
+8dd1cab5032a524ad8b939a4ab4e1e94200ee4b5 - boringssl: Restore rsa_pss from OpenSSL - Rashed Abdel-Tawab [rashed@linux.com]
+
+external/sepolicy
+367b89c8b6b447935286f78a59b3b1f3a059f1c2 - Sepolicy: allow logcat apps to work with supersu - beanstown106 [nbenis106@gmail.com]
+a0fcd506685c556484b462dca6afda0b401dffb9 - Add policy to SELinux to allow ViPER4Android in enforcing mode - Dark Eyes [dark_eyes_@hotmail.com]
+afcdfa50ed26cec998644b7819ab1b4a66fec65a - Cleanup never-allow rules *allow writing to the rootfs *give system_server access to /data/dalvik-cache *give system_server access to dex2oat - beanstown106 [nbenis106@gmail.com]
+4734998ae95f47082fc8ef952e8505eb72b967b4 - Patch to allow SuperSU to run in SELinux enforcing a special thanks to @Chainfire for pointing me to the right places and @imoseyon for helping with the selinux rules - beanstown106 [nbenis106@gmail.com]
+
+external/tinycompress
+6598d1c682a9902dc40bd360a24b50a1d35a61ba - tinycompress: Fix compilation on old targets - Steve Kondik [steve@cyngn.com]
+
+frameworks/base
+f4e6993eedb7cceacfcdd8e5dfecf71e4c396d8d - base: correct sensor handling - AndDiSa [anddisa@googlemail.com]
+2f891cd5c2cd4b2957bc1b7fc34fbc47d7f3d830 - Add support for new window orientation sensor. - Michael Wright [michaelwr@google.com]
+356a91bf23ed1fab81033737450226271d6963ba - Window rotation: fix up sensor logic - Roman Birg [roman@cyngn.com]
+d13202058eaccaa6736cc93e341a4ef2e5ba95a1 - net: Don't spam logs when ConnectivityExt isn't available - Steve Kondik [steve@cyngn.com]
+2edc10e68d032bbc8689e05fbc236583b48ee2ea - Hardware key custom rebinding (1/2) - Phil Tunstall [ptunstall@gmail.com]
+25c1a2b778dda0c6d8ee138d29257937e18d7561 - Fix now on tap SystemUI crash - Adrian [adrianspann33@gmail.com]
+6dd2ae0c16b920eee3b5324bdffa53028f54fecf - System crash fixed when turn off MagnificationGesture - Masaaki Iwaguchi [masaaki.x.iwaguchi@sonymobile.com]
+9e5f459d2f07a92832bfd7e6694a625fb52ac1d0 - Fix resumeHomeStackTask can't resume home if activity is finishing. - Mark Lu [Mark_Lu@htc.com]
+4702bb78810b2303c83f0573cf5cbdca7225c435 - Improve Recents-View - BadDaemon [baddaemon87@gmail.com]
+1b9f8b268c10bce39f89629c34a0a4158752ab6a - SystemUI: fix MediaProjection cast crash - Pawit Pornkitprasan [p.pawit@gmail.com]
+429378b8f1c458c22c795ccf5e9bc736f70a8df9 - Add handling SQLiteDatabaseCorruptException. - muzbit.kim [muzbit.kim@lge.com]
+8037545aaf892096bb1f89cdedf4b7f64fed42a8 - MultiSelectListPreference.java should deal with onRestoreInstanceState method - longping.zou [longping.zou@ck-telecom.com]
+acf8567a03e0541cbcfe81ac05a2aa943f2922dd - Reset the setOnKeyListener callback when view is destroyed - Mykola Kondratenko [mykola.kondratenko@sonymobile.com]
+7fcc1405863ebfc6361ea338bda55d302aa10059 - To call TypedArray.recycle() when we are done with the array. - ferro_chang [ferro_chang@htc.com]
+6729870516157d243c1b7acfde377cb703106c54 - Gapps Permissions: more google apps *play store *setup wizard *google framework *google backup *google contacts sync *google connectivity services - Alex Naidis [alex.naidis@linux.com]
+14d5cf02f782d2e2d0c60f239937d6a8102902dc - Gapps permissions: gmscore, velvet, account manager Change-Id: I4c4676ddf686ebb8710e5d266099f2fb913a569c - mydongistiny [jaysonedson@gmail.com]
+a98bde251de8fb93db02a47c89f00ee1d2084445 - Rotation related corrections - There are some conditions deleted while placing rotation angles code, I added them. - eray orçunus [erayorcunus@gmail.com]
+6b27b8361f27b1faaebafc3db6cd8181e81f6df2 - Configurable 0, 90, 180 and 270 degree rotation Contributor: jonasl - Add system setting - Ricardo Cerqueira [cyanogenmod@cerqueira.org]
+58164f461c823161f627135776f0f8084206e25d - Core: Fix setupwizard FC - snak3ater [saeedyasir91@gmail.com]
+6ed02d4b885bb7a3ac18e55b1d9084ac9df878ed - Fix memory corruption in SpotShadow - Keith Mok [kmok@cyngn.com]
+3ffbaa7e6a651bdafabe9360551ce1021b60da5a - IndexOutOfBoundsException on addPreference in PreferenceGroup - Daniel 2 Olofsson [daniel2.olofsson@sonymobile.com]
+792b8af30cda27c42da30d4e9501099b757778e1 - Fix system watchdog timeout when reading too many usage events. - Mark Lu [Mark_Lu@htc.com]
+2aabf28bca27b359e80af5335093fded772ee4aa - Fix system_server crash issue. - Dou,lilix [lilix.dou@intel.com]
+8e6c110e4e876a02e1f42b400b9e3788436debeb - Ensure the occlude state of keyguard is correct - tiger_huang [tiger_huang@htc.com]
+301480c0e4a0c51592da8342739abad5125b00ef - Make accessing mInputMethodTarget thread-safe - tiger_huang [tiger_huang@htc.com]
+b14169f180beb6c87e42980e069fa324d4552e85 - Initialize mGlobalSystemUiVisibility - kenzyun_chen [kenzyun_chen@htc.com]
+1766ebeb19605ec01410e010f06ad2257cc5dd4c - [ActivityManager] Fix NullPointerException in startNextMatchingActivity. - joanne_chung [joanne_chung@htc.com]
+b356706c0a957fb6fcbb072e706b976e25085297 - [ActivityManager] Fix IndexOutOfBoundsException - louis_chang [louis_chang@htc.com]
+1364bb6ef3b9a201e37efb330c9676983de4b6fe - optimize wallpaper load,avoid show black wallpaper. - longyu.huang [longyu.huang2014@gmail.com]
+11ddc143a09a6d981acb1de9acb5ddb3dbd60397 - Remove memory leak in PersistentDataBlockService jni - Henrik Baard [henrik.baard@sonymobile.com]
+e55517d41a56dc26afc4506c4a88da8d48ea5837 - SystemUI: Fix NPE - BadDaemon [baddaemon87@gmail.com]
+fc0e2bbc148f4b9b37d0b2befb89dd91ba673310 - zygote: fix memory leak when fork process - Mykola Kondratenko [mykola.kondratenko@sonymobile.com]
+80e2cb98ecf745f1882970343ffe7056d3c1135f - services: AssetAtlasService: prevent IndexOutOfBoundsException - Evisceration [eviscerationls@gmail.com]
+9b0ceb314e2b3d26d9d990e885ebc1ec18d509d7 - Fix issue in PhoneNumberUtils.compareLoosely - Jeevaka Badrappan [jeevaka.badrappan@intel.com]
+c914f5b01ab0a03c516e7fcec73ee9ff0009e4ef -  MTU should be 1358 as per 3GPP standards, especially for LTE radio interfaces. - Stacy Devino [swylie@oceusnetworks.com]
+db11de06336b7f1db4d010ba2b5027860baab4ec - Handle NPE in TelephonyManager - Preeti Ahuja [preetia@codeaurora.org]
+f5fe042e85d2e0aa15930fd831b5487da3cca023 - SystemUI: Fix no LED indication for missed call when screen off - kaiyiz [kaiyiz@codeaurora.org]
+66af31337c93d20c42d4c608d4c2ac2e08f1de0a - Fix memory leak in Connectivity Service when phone app crashes - Maunik Shah [mshah@codeaurora.org]
+a36846ccd1f1e4608ddddcd162868436c50f1cba - SystemUI: Fix battery padding - LuK1337 [priv.luk@gmail.com]
+c723e9f58f239097dbb9686811e64ba05041a76e - SystemUpdateService: enable service but lock its receivers [1/2] - Gianmarco Reverberi [gianmarco.reverberi@gmail.com]
+c0d10531fcb672426320e8629d5f148ac5100cf2 - PackageManager: allow build-time disabling of components - Pawit Pornkitprasan [p.pawit@gmail.com]
+
+frameworks/opt/telephony
+18487220f70970bd1488116a97ff313a285c7727 - MSIM: Don't return -1 for getDefaultDataSub() if there's SIM in - LuK1337 [priv.luk@gmail.com]
+9e477fb71bd0666c9d80bca5637128d46abec5df - Activate default UICC application if not done automatically. - Danny Baumann [dannybaumann@web.de]
+071b35f655fa3df3e2f46272d970d45db5c9ccfe - RIL: squashed support for old RIL - Pawit Pornkitprasan [p.pawit@gmail.com]
+3edc2a30f0e2717a41dee33e5050dbaf5f561c38 - Squashed support for RIL subclass - Arne Coucheron [arco68@gmail.com]
+
+hardware/qcom/audio
+dbbfc271fcd07ab1b7426f25080b6cf4d480a4c6 - hal: Always include kernel headers - Sultanxda [sultanxda@gmail.com]
+cfba239dcf6cfa19d322fd0230d1ccba4783ec46 - fm: Fix ifdef - Ricardo Cerqueira [ricardo@cyngn.com]
+
+hardware/qcom/bt
+174dc7e609af44146ce9290b868a7db9bf076080 - libbt-qcom: Allow building without proprietary bits - Steve Kondik [shade@chemlab.org]
+
+hardware/qcom/display
+16fbc7bbce77f1e772666f94b46f828bac8754ab - Don't build lights module if vendor supplies it - Steve Kondik [shade@chemlab.org]
+
+hardware/qcom/wlan
+824663afe4af19bdd7fe6ce3b1a3da825cc54e23 - wcnss_service: Deal with mdm-detect too - Steve Kondik [steve@cyngn.com]
+cd73d227f49a6204f062d5b87bcb72f6ed9c491b - wcnss_qmi: Allow targets to provide custom libwcnss_qmi - Ethan Chen [intervigil@gmail.com]
+ebcad8531f30db44e2e98a7e345bd4adc10bb972 - wcnss: Build and dlopen wcnss_qmi_client as a shared library - Ethan Chen [intervigil@gmail.com]
+e198b7451ad38e4a794a3535145edcb40e212568 - wcnss-service: Additional guard on QMI support - Steve Kondik [shade@chemlab.org]
+
+packages/apps/Settings
+c9e6e2996771e832099da877982574f17a2dec7c - Settings : Hardware key rebinding (2/2) - Adnan [adnan@cyngn.com]
+0adc5123f35d72d761ceee099f77afc8ce2fa793 - Break MSIM dependency on qci-telephony-framework - Ricardo Cerqueira [ricardo@cyngn.com]
+b58e920a9e891678c1898c50168c642034c29b45 - location: Enable 3dot menu - George G [kreach3r@users.noreply.github.com]
+d2efb48d5d9f8828cce5da42dae0accf549f67da - Settings: Forward port Display Rotation settings Originaly authored by Robert Burns (burnsra) - DvTonder [david.vantonder@gmail.com]
+
+packages/services/Telephony
+18143e88c5559de918515e261f6125bf04b37d73 - Break MSIM dependency on qci-telephony-framework - Ricardo Cerqueira [ricardo@cyngn.com]
+
+system/core
+5c5e1b8abe9a0879268ca9cefc3e52c9b005fdcb - mkbootimg: Fix bootimg structure after adding --dt parameter - rbox [androidrbox@gmail.com]
+1ee763e982901370534355e63e0de602abeafa0a - mkbootimg: Support 32K 64K and 128K pagesizes - ChampionSwimmer [android@championswimmer.tk]
+b10e93603b2328ee7953546168e1374b2037f61f - mkbootimg: fixing the typecast issue - Shruthi Krishna [skrish@codeaurora.org]
+ac340a3e5d1f0a1cfd4f85b0e1cfa826578dd2e9 - mkbootimg: Add --dt parameter to specify DT image - David Ng [dave@codeaurora.org]
+a3531172f587001545954c8bf114ee1c8ed12a92 - init: Add vendor-specific initialization hooks. - David Ng [dave@codeaurora.org]
+4070d9b289353337ed85d21491624d95b9185124 - init : Disable flash recovery - h2o64 [theh2o64@gmail.com]
+
+vendor/qcom/opensource/fm
+db2e4d50fadd7f6486f5df179cfd46859a14a8af - libfm_jni: Skip loading FM firmware if requested - Ricardo Cerqueira [ricardo@cyngn.com]
+

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+
+  <remote  name="github"
+            fetch="git://github.com/"/>
+
+  <remote name="gitlab"
+            fetch="https://gitlab.com/YU_CAF/" />
+
+  <!-- CAF to replace -->
+  <remove-project name="device/qcom/common"/>
+  <remove-project name="device/qcom/sepolicy"/>
+  <remove-project name="kernel/msm-3.10"/>
+  <remove-project name="platform/build"/>
+  <remove-project name="platform/external/boringssl"/>
+  <remove-project name="platform/external/sepolicy"/>
+  <remove-project name="platform/external/tinycompress"/>
+  <remove-project name="platform/frameworks/base"/>
+  <remove-project name="platform/frameworks/opt/telephony"/>
+  <remove-project name="platform/hardware/qcom/audio"/>
+  <remove-project name="platform/hardware/qcom/bt"/>
+  <remove-project name="platform/hardware/qcom/camera"/>
+  <remove-project name="platform/hardware/qcom/display"/>
+  <remove-project name="platform/hardware/qcom/gps"/>
+  <remove-project name="platform/hardware/qcom/sensors"/>
+  <remove-project name="platform/hardware/qcom/wlan"/>
+  <remove-project name="platform/packages/apps/Settings"/>
+  <remove-project name="platform/packages/apps/Launcher3"/>
+  <remove-project name="platform/packages/services/Telephony"/>
+  <remove-project name="platform/system/core"/>
+  <remove-project name="platform/vendor/qcom/msm8916_32"/>
+  <remove-project name="platform/vendor/qcom/msm8916_64"/>
+  <remove-project name="platform/vendor/qcom-opensource/fm"/>
+
+  <!-- YU Devices -->
+  <project path="device/yu/tomato" name="android_device_yu_tomato" remote="gitlab" revision="yu-caf-6.0-tomato" />
+  <project path="device/yu/lettuce" name="android_device_yu_lettuce" remote="gitlab" revision="yu-caf-6.0-lettuce" />
+  <project path="device/yu/jalebi" name="android_device_yu_jalebi" remote="gitlab" revision="yu-caf-6.0-jalebi" />
+
+  <!-- Custom CAF Trees -->
+  <project name="android_device_qcom_common" path="device/qcom/common" remote="gitlab" revision="yu-caf-6.0">
+    <copyfile dest="build.sh" src="build.sh"/>
+    <copyfile dest="vendor/qcom/build/tasks/generate_extra_images.mk" src="generate_extra_images.mk"/>
+  </project>
+  <project name="android_device_qcom_msm8916_32" path="device/qcom/msm8916_32" remote="gitlab" revision="yu-caf-6.0" />
+  <project name="android_device_qcom_msm8916_64" path="device/qcom/msm8916_64" remote="gitlab" revision="yu-caf-6.0" />
+  <project name="android_device_qcom_sepolicy" path="device/qcom/sepolicy" remote="gitlab" revision="yu-caf-6.0" />
+
+
+  <!-- Custom YU CAF repos -->
+  <project groups="pdk" name="android_build" path="build" remote="gitlab" revision="yu-caf-6.0">
+    <copyfile dest="Makefile" src="core/root.mk"/>
+  </project>
+  <project name="android_external_boringssl" path="external/boringssl" remote="gitlab" revision="yu-caf-6.0" />
+  <project name="android_external_sepolicy" path="external/sepolicy" remote="gitlab" revision="yu-caf-6.0" />
+  <project name="android_external_tinycompress" path="external/tinycompress" remote="gitlab" revision="yu-caf-6.0" />
+  <project name="android_frameworks_base" path="frameworks/base" remote="gitlab" revision="yu-caf-6.0" />
+  <project name="android_frameworks_opt_telephony" path="frameworks/opt/telephony" remote="gitlab" revision="yu-caf-6.0" />
+  <project name="android_hardware_qcom_audio" path="hardware/qcom/audio" remote="gitlab" revision="yu-caf-6.0" />
+  <project name="android_hardware_qcom_bt" path="hardware/qcom/bt" remote="gitlab" revision="yu-caf-6.0" />
+  <project name="android_hardware_qcom_display" path="hardware/qcom/display" remote="gitlab" revision="yu-caf-6.0" />
+  <project name="android_hardware_qcom_wlan" path="hardware/qcom/wlan" remote="gitlab" revision="yu-caf-6.0" />
+  <project name="android_packages_apps_Settings" path="packages/apps/Settings" remote="gitlab" revision="yu-caf-6.0" />
+  <project name="android_packages_services_Telephony" path="packages/services/Telephony" remote="gitlab" revision="yu-caf-6.0" />
+  <project name="android_system_core" path="system/core" remote="gitlab" revision="yu-caf-6.0" />
+  <project name="android_vendor_qcom_opensource_fm" path="vendor/qcom/opensource/fm" remote="gitlab" revision="yu-caf-6.0" />
+
+  <!-- TODO: Add MultiVariant kernel possibility -->
+  <!-- Kernels -->
+  <project path="kernel_yu_msm8916_64" name="h2o64/android_kernel_cyanogen_msm8916" remote="github" revision="yu-caf-6.0-amss-1.0.2" />
+  <project path="kernel_yu_msm8916_32" name="h2o64/android_kernel_cyanogen_msm8916" remote="github" revision="yu-caf-6.0-jalebi" />
+
+  <!-- Vendor -->
+  <project path="vendor/yu/" name="h2o64/proprietary_vendor_yu" remote="github" revision="yu-caf-6.0" />
+
+  <!-- Needed LP repos -->
+  <project path="external/stlport" name="CyanogenMod/android_external_stlport" remote="github" revision="cm-13.0" />
+  <project path="external/connectivity" name="CyanogenMod/android_external_connectivity" remote="github" revision="cm-13.0" />
+
+</manifest>
+
