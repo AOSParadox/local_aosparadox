@@ -6,7 +6,7 @@ Introduction:
 =============
 
 This rom has been made for the the YU Android-M AOSP Bring-up Challenge.
-It's mean to be pure CAF with the least amount of commits added on top of it.
+However, this ROM isn't using the Google Nexus AOSP (https://android.googlesource.com/) but the Qualcomm AOSP Project (aka. CAF Android for MSM) (sources: https://www.codeaurora.org/cgit/quic/la/) on the LA.BR.1.2.6-00410-8x16.0 tag. I added the least amount of commits possible to provide an AOSP-like experience.
 The detailled amount of all our commits added can be found here : http://pastebin.com/R7DLGxBA
 (The majority of those commits are on frameworks/base whereas they aren't a must have I working ROM, I took the decision to add them to improve the ROM stability.)
 Our trees are made by me from scratch but the commit history and misc authorship has been given propertly.
@@ -31,22 +31,20 @@ I took the liberty to add some features to make users lifes easier:
 - 1080p recording from camera
 - "Reboot" and "Plane Mode" in Power Menu
 - Marshamllow Wallpaper
-- Non-default bootanimation (needs improvements but I didn't want to do more about it)
+- Marshamllow Bootanimation
 - Renaming the OTA package
 
 How to sync ?
 =============
-- 1- Repo init the  LA.BR.1.2.6-00410-8x16.0 CAF Tag
+- 1- Repo init the LA.BR.1.2.6-00410-8x16.0 CAF Tag
+	- To do so, use this command "repo init -u git://codeaurora.org/platform/manifest.git -b release -m default_LA.BR.1.2.6-00410-8x16.0.xml"
+	- List of the CAF Tags here : https://www.codeaurora.org/xwiki/bin/QAEP/release
 - 2- Add the linked yu_caf.xml to .repo/local_manifests
 - 3- Sync
 - 4- How to build ?
 	- A - ". build/envsetup.sh"
 	- B - "lunch full_DEVICE-user"
 	- C - Kernel chooser (For tomato/lettuce --> "mv kernel_yu_msm8916_64/ kernel/") **OR** (For jalebi --> "mv kernel_yu_msm8916_32/ kernel/")
-	- D - "make -j8 otapackage"
+	- D - "rm -rf hardware/libhardware/modules/sensors"
+	- E - "make -j8 otapackage"
 - 5- Here you're done
-
-Why is it closed sourced ?
-==========================
-
-Because I'll only release my code after the deadline
