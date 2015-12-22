@@ -34,6 +34,7 @@
   <remove-project name="platform/packages/apps/Launcher3"/>
   <remove-project name="platform/packages/services/Telephony"/>
   <remove-project name="platform/system/core"/>
+  <remove-project name="platform/system/media"/>
   <remove-project name="platform/vendor/qcom/msm8916_32"/>
   <remove-project name="platform/vendor/qcom/msm8916_64"/>
   <remove-project name="platform/vendor/qcom-opensource/fm"/>
@@ -69,6 +70,7 @@
   <project name="android_packages_apps_Settings" path="packages/apps/Settings" remote="par" revision="yu-caf-6.0" />
   <project name="android_packages_services_Telephony" path="packages/services/Telephony" remote="par" revision="yu-caf-6.0" />
   <project name="android_system_core" path="system/core" remote="par" revision="yu-caf-6.0" />
+  <project name="android_system_media" path="system/media" remote="par" revision="yu-caf-6.0" />
   <project name="android_vendor_qcom_opensource_fm" path="vendor/qcom/opensource/fm" remote="par" revision="yu-caf-6.0" />
 
   <!-- TODO: Add MultiVariant kernel possibility -->
