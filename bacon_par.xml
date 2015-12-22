@@ -51,10 +51,11 @@
     <copyfile dest="Makefile" src="core/root.mk"/>
   </project>
   <project name="android_external_boringssl" path="external/boringssl" remote="par" revision="8974-par-6.0"/>
-  <project name="android_external_sepolicy" path="external/sepolicy" remote="par" revision="bacon-par-6.0"/>
+  <project name="android_external_sepolicy" path="external/sepolicy" remote="par" revision="8974-par-6.0"/>
+  <project name="android_external_libnfc-nci" path="external/libnfc-nci" remote="par" revision="bacon-par-6.0" />
   <project name="android_frameworks_av" path="frameworks/av" remote="par" revision="bacon-par-6.0"/>
   <project name="android_frameworks_base" path="frameworks/base" remote="par" revision="bacon-par-6.0" groups="pdk-cw-fs" />
-  <project name="android_hardware_qcom_audio" path="hardware/qcom/audio" remote="par" revision="bacon-par-6.0"/>
+  <project name="android_hardware_qcom_audio" path="hardware/qcom/audio" remote="par" revision="8974-par-6.0"/>
   <project name="android_hardware_qcom_bt" path="hardware/qcom/bt" remote="par" revision="8974-par-6.0"/>
   <project name="android_hardware_qcom_display" path="hardware/qcom/display" remote="par" revision="8974-par-6.0"/>
   <project name="android_hardware_qcom_wlan" path="hardware/qcom/wlan" remote="par" revision="bacon-par-6.0"/>
@@ -71,8 +72,6 @@
   <project path="external/connectivity" name="CyanogenMod/android_external_connectivity" remote="github" revision="cm-13.0" />
 
   <!-- Needed CM Repos -->
-  <project path="external/busybox" name="CyanogenMod/android_external_busybox" remote="github" revision="cm-13.0" />
-  <project path="external/libnfc-nci" name="CyanogenMod/android_external_libnfc-nci" remote="github" revision="cm-13.0" />
+  <project path="external/busybox" name="CyanogenMod/android_external_busybox" remote="github" revision="cm-13.0" />  <project path="external/ant-wireless/antradio-library" name="CyanogenMod/android_external_ant-wireless_antradio-library" remote="github" revision="cm-13.0" />
 
 </manifest>
-
