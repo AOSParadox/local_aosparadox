@@ -33,7 +33,7 @@
   <remove-project name="platform/vendor/qcom-opensource/fm"/>
 
   <!-- Motorola MSM8226 Devices -->
-  <project path="device/motorola/falcon" name="h2o64/android_device_motorola_falcon" remote="github" revision="cm-13.0-falcon"/>
+  <project path="device/motorola/falcon" name="h2o64/android_device_motorola_falcon" remote="github" revision="falcon-par-6.0"/>
   <project path="device/motorola/titan" name="android_device_motorola_titan" remote="par" revision="titan-par-6.0"/>
   <project path="vendor/motorola/falcon" name="proprietary_vendor_motorola" remote="par" revision="falcon-par-6.0"/>
   <project path="vendor/motorola/titan" name="proprietary_vendor_motorola" remote="par" revision="titan-par-6.0"/>
@@ -72,8 +72,5 @@
   <!-- Needed LP repos -->
   <project path="external/stlport" name="CyanogenMod/android_external_stlport" remote="github" revision="cm-13.0" />
   <project path="external/connectivity" name="CyanogenMod/android_external_connectivity" remote="github" revision="cm-13.0" />
-
-  <!-- Needed CM Repos -->
-  <project path="external/busybox" name="CyanogenMod/android_external_busybox" remote="github" revision="cm-13.0" />
 
 </manifest>
