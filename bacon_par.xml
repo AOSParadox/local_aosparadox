@@ -26,7 +26,6 @@
   <remove-project name="platform/hardware/qcom/display"/>
   <remove-project name="platform/hardware/qcom/gps"/>
   <remove-project name="platform/hardware/qcom/wlan"/>
-  <remove-project name="platform/hardware/ril"/>
   <remove-project name="platform/packages/apps/Launcher3"/>
   <remove-project name="platform/packages/apps/Settings"/>
   <remove-project name="platform/system/core"/>
