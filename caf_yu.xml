@@ -20,6 +20,7 @@
   <remove-project name="platform/build"/>
   <remove-project name="platform/external/boringssl"/>
   <remove-project name="platform/external/sepolicy"/>
+  <remove-project name="platform/external/tinyalsa"/>
   <remove-project name="platform/external/tinycompress"/>
   <remove-project name="platform/frameworks/base"/>
   <remove-project name="platform/frameworks/opt/telephony"/>
@@ -30,14 +31,17 @@
   <remove-project name="platform/hardware/qcom/gps"/>
   <remove-project name="platform/hardware/qcom/sensors"/>
   <remove-project name="platform/hardware/qcom/wlan"/>
+  <remove-project name="platform/packages/apps/Gallery"/>
+  <remove-project name="platform/packages/apps/Gallery2"/>
+  <remove-project name="platform/packages/apps/Music"/>
+  <remove-project name="platform/packages/apps/MusicFX"/>
   <remove-project name="platform/packages/apps/Settings"/>
-  <remove-project name="platform/packages/apps/Launcher3"/>
   <remove-project name="platform/packages/services/Telephony"/>
   <remove-project name="platform/system/core"/>
   <remove-project name="platform/system/media"/>
+  <remove-project name="platform/vendor/qcom-opensource/fm"/>
   <remove-project name="platform/vendor/qcom/msm8916_32"/>
   <remove-project name="platform/vendor/qcom/msm8916_64"/>
-  <remove-project name="platform/vendor/qcom-opensource/fm"/>
 
   <!-- YU Devices -->
   <project path="device/yu/tomato" name="android_device_yu_tomato" remote="par" revision="yu-caf-6.0-tomato" />
@@ -61,6 +65,7 @@
   <project name="android_external_boringssl" path="external/boringssl" remote="par" revision="yu-caf-6.0" />
   <project name="android_external_sepolicy" path="external/sepolicy" remote="par" revision="yu-caf-6.0" />
   <project name="android_external_tinycompress" path="external/tinycompress" remote="par" revision="yu-caf-6.0" />
+  <project name="android_external_tinyalsa" path="external/tinyalsa" remote="par" revision="yu-caf-6.0" />
   <project name="android_frameworks_base" path="frameworks/base" remote="par" revision="yu-caf-6.0" />
   <project name="android_frameworks_opt_telephony" path="frameworks/opt/telephony" remote="par" revision="yu-caf-6.0" />
   <project name="android_hardware_qcom_audio" path="hardware/qcom/audio" remote="par" revision="yu-caf-6.0" />
@@ -72,6 +77,12 @@
   <project name="android_system_core" path="system/core" remote="par" revision="yu-caf-6.0" />
   <project name="android_system_media" path="system/media" remote="par" revision="yu-caf-6.0" />
   <project name="android_vendor_qcom_opensource_fm" path="vendor/qcom/opensource/fm" remote="par" revision="yu-caf-6.0" />
+
+  <!-- CAF Repos from 8976 Branch -->
+  <project name="platform/packages/apps/Music" path="packages/apps/Music" revision="LA.BR.1.3.3_1"/>
+  <project name="platform/packages/apps/MusicFX" path="packages/apps/MusicFX" revision="LA.BR.1.3.3_1"/>
+  <project name="platform/packages/apps/Gallery" path="packages/apps/Gallery" revision="LA.BR.1.3.3_1"/>
+  <project name="platform/packages/apps/Gallery2" path="packages/apps/Gallery2" revision="LA.BR.1.3.3_1"/>
 
   <!-- TODO: Add MultiVariant kernel possibility -->
   <!-- Kernels -->
