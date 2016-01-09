@@ -6,7 +6,7 @@ Introduction:
 =============
 
 This rom has been made for the the YU Android-M AOSP Bring-up Challenge.
-However, this ROM isn't using the Google Nexus AOSP (https://android.googlesource.com/) but the Qualcomm AOSP Project (aka. CAF Android for MSM) (sources: https://www.codeaurora.org/cgit/quic/la/) on the LA.BR.1.2.6-00410-8x16.0 tag. I added the least amount of commits possible to provide an AOSP-like experience.
+However, this ROM isn't using the Google Nexus AOSP (https://android.googlesource.com/) but the Qualcomm AOSP Project (aka. CAF Android for MSM) (sources: https://www.codeaurora.org/cgit/quic/la/) on the LA.BR.1.2.6-01010-8x16.0 tag. I added the least amount of commits possible to provide an AOSP-like experience.
 The detailled amount of all our commits added can be found here : http://pastebin.com/R7DLGxBA
 (The majority of those commits are on frameworks/base whereas they aren't a must have I working ROM, I took the decision to add them to improve the ROM stability.)
 Our trees are made by me from scratch but the commit history and misc authorship has been given propertly.
@@ -36,8 +36,8 @@ I took the liberty to add some features to make users lifes easier:
 
 How to sync ?
 =============
-- 1- Repo init the LA.BR.1.2.6-00410-8x16.0 CAF Tag
-	- To do so, use this command "repo init -u git://codeaurora.org/platform/manifest.git -b release -m default_LA.BR.1.2.6-00410-8x16.0.xml"
+- 1- Repo init the LA.BR.1.2.6-01010-8x16.0 CAF Tag
+	- To do so, use this command "repo init -u git://codeaurora.org/platform/manifest.git -b release -m default_LA.BR.1.2.6-01010-8x16.0.xml"
 	- List of the CAF Tags here : https://www.codeaurora.org/xwiki/bin/QAEP/release
 - 2- Add the linked yu_caf.xml to .repo/local_manifests
 - 3- Sync
