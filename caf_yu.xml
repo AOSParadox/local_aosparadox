@@ -79,10 +79,10 @@
   <project name="android_vendor_qcom_opensource_fm" path="vendor/qcom/opensource/fm" remote="par" revision="yu-caf-6.0" />
 
   <!-- CAF Repos from 8976 Branch -->
-  <project name="platform/packages/apps/Music" path="packages/apps/Music" revision="LA.BR.1.3.3_rb2.7"/>
-  <project name="platform/packages/apps/MusicFX" path="packages/apps/MusicFX" revision="LA.BR.1.3.3_rb2.7"/>
-  <project name="platform/packages/apps/Gallery" path="packages/apps/Gallery" revision="LA.BR.1.3.3_rb2.7"/>
-  <project name="platform/packages/apps/Gallery2" path="packages/apps/Gallery2" revision="LA.BR.1.3.3_rb2.7"/>
+  <project name="platform/packages/apps/Music" path="packages/apps/Music" revision="LA.BR.1.3.2_rb3.16"/>
+  <project name="platform/packages/apps/MusicFX" path="packages/apps/MusicFX" revision="LA.BR.1.3.2_rb3.16"/>
+  <project name="platform/packages/apps/Gallery" path="packages/apps/Gallery" revision="LA.BR.1.3.2_rb3.16"/>
+  <project name="platform/packages/apps/Gallery2" path="packages/apps/Gallery2" revision="LA.BR.1.3.2_rb3.16"/>
 
   <!-- TODO: Add MultiVariant kernel possibility -->
   <!-- Kernels -->
