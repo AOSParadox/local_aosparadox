@@ -18,7 +18,6 @@
   <remove-project name="platform/external/boringssl"/>
   <remove-project name="platform/external/libnfc-nci"/>
   <remove-project name="platform/external/sepolicy"/>
-  <remove-project name="platform/frameworks/av"/>
   <remove-project name="platform/frameworks/base"/>
   <remove-project name="platform/hardware/qcom/audio"/>
   <remove-project name="platform/hardware/qcom/bt"/>
@@ -26,7 +25,6 @@
   <remove-project name="platform/hardware/qcom/display"/>
   <remove-project name="platform/hardware/qcom/gps"/>
   <remove-project name="platform/hardware/qcom/wlan"/>
-  <remove-project name="platform/packages/apps/Launcher3"/>
   <remove-project name="platform/packages/apps/Settings"/>
   <remove-project name="platform/system/core"/>
   <remove-project name="platform/vendor/qcom/copper"/>
@@ -52,7 +50,6 @@
   <project name="android_external_boringssl" path="external/boringssl" remote="par" revision="8974-par-6.0"/>
   <project name="android_external_sepolicy" path="external/sepolicy" remote="par" revision="8974-par-6.0"/>
   <project name="android_external_libnfc-nci" path="external/libnfc-nci" remote="par" revision="bacon-par-6.0" />
-  <project name="android_frameworks_av" path="frameworks/av" remote="par" revision="bacon-par-6.0"/>
   <project name="android_frameworks_base" path="frameworks/base" remote="par" revision="bacon-par-6.0" groups="pdk-cw-fs" />
   <project name="android_hardware_qcom_audio" path="hardware/qcom/audio" remote="par" revision="8974-par-6.0"/>
   <project name="android_hardware_qcom_bt" path="hardware/qcom/bt" remote="par" revision="8974-par-6.0"/>
