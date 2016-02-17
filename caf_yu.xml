@@ -90,6 +90,7 @@
   <project path="kernel_yu_msm8916_32" name="h2o64/android_kernel_cyanogen_msm8916" remote="github" revision="yu-caf-6.0-jalebi" />
 
   <!-- Vendor -->
+  <project path="vendor/aosparadox" name="android_vendor_aosparadox" remote="par" revision="marshmallow"/>
   <project path="vendor/yu/" name="h2o64/proprietary_vendor_yu" remote="github" revision="yu-caf-6.0" />
 
   <!-- Needed LP repos -->
