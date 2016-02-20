@@ -8,7 +8,7 @@ function extract() {
         if [ -z $DEST ]; then
             DEST=$FILE
         fi
-	cd /home/louis/WORK/AOSPARADOX_FALCON/
+	cd /home/louis/WORK/YU_CAF/
 	cd $FILE
 	echo >> /home/louis/WORK/AOSPARADOX_FALCON/upgrade/scripts/COMMITS/CHANGELOG-yu-par-6.0
 	echo "cd /home/louis/WORK/AOSPARADOX_FALCON/ && cd $FILE # Go to PATH" >> /home/louis/WORK/AOSPARADOX_FALCON/upgrade/scripts/COMMITS/CHANGELOG-yu-par-6.0
@@ -18,7 +18,7 @@ function extract() {
 	cat /home/louis/WORK/AOSPARADOX_FALCON/upgrade/scripts/COMMITS/CHANGELOG-yu-par-6.0_REPO_NEW >> /home/louis/WORK/AOSPARADOX_FALCON/upgrade/scripts/COMMITS/CHANGELOG-yu-par-6.0
 	rm /home/louis/WORK/AOSPARADOX_FALCON/upgrade/scripts/COMMITS/CHANGELOG-yu-par-6.0_REPO /home/louis/WORK/AOSPARADOX_FALCON/upgrade/scripts/COMMITS/CHANGELOG-yu-par-6.0_REPO_NEW
 	echo "git push aosparadox yu-par-6.0 -f" >> /home/louis/WORK/AOSPARADOX_FALCON/upgrade/scripts/COMMITS/CHANGELOG-yu-par-6.0
-	cd /home/louis/WORK/AOSPARADOX_FALCON/
+	cd /home/louis/WORK/YU_CAF/
     done
 }
 

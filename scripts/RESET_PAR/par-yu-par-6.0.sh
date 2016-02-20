@@ -8,16 +8,16 @@ function extract() {
         if [ -z $DEST ]; then
             DEST=$FILE
         fi
-	cd /home/louis/WORK/AOSPARADOX_FALCON/
+	cd /home/louis/WORK/YU_CAF/
 	cd $FILE
-	git fetch caf LA.BF.1.1.3_rb1.10
+	git fetch caf LA.BR.1.2.6_rb1.9
 	git fetch aosparadox yu-par-6.0
 	git reset --hard aosparadox/yu-par-6.0
 	git checkout -b tmp
 	git branch -D yu-par-6.0
 	git checkout -b yu-par-6.0
 	git branch -D tmp
-	cd /home/louis/WORK/AOSPARADOX_FALCON/
+	cd /home/louis/WORK/YU_CAF/
     done
 }
 

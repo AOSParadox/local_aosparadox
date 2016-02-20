@@ -8,17 +8,17 @@ function extract() {
         if [ -z $DEST ]; then
             DEST=$FILE
         fi
-	cd /home/louis/WORK/AOSPARADOX_FALCON/
+	cd /home/louis/WORK/YU_CAF/
 	cd $FILE
-	echo >> /home/louis/WORK/AOSPARADOX_FALCON/upgrade/scripts/COMMITS/CHANGELOG-msim-8916-par-6.0
-	echo "cd /home/louis/WORK/AOSPARADOX_FALCON/ && cd $FILE # Go to PATH" >> /home/louis/WORK/AOSPARADOX_FALCON/upgrade/scripts/COMMITS/CHANGELOG-msim-8916-par-6.0
+	echo >> /home/louis/WORK/YU_CAF/upgrade/scripts/COMMITS/CHANGELOG-msim-8916-par-6.0
+	echo "cd /home/louis/WORK/YU_CAF/ && cd $FILE # Go to PATH" >> /home/louis/WORK/YU_CAF/upgrade/scripts/COMMITS/CHANGELOG-msim-8916-par-6.0
 	# Uncomment for TAG Merging
-	git log -n 50 --pretty="git cherry-pick -s %H # %s - %ae" >> /home/louis/WORK/AOSPARADOX_FALCON/upgrade/scripts/COMMITS/CHANGELOG-msim-8916-par-6.0_REPO
-	tac /home/louis/WORK/AOSPARADOX_FALCON/upgrade/scripts/COMMITS/CHANGELOG-msim-8916-par-6.0_REPO >> /home/louis/WORK/AOSPARADOX_FALCON/upgrade/scripts/COMMITS/CHANGELOG-msim-8916-par-6.0_REPO_NEW
-	cat /home/louis/WORK/AOSPARADOX_FALCON/upgrade/scripts/COMMITS/CHANGELOG-msim-8916-par-6.0_REPO_NEW >> /home/louis/WORK/AOSPARADOX_FALCON/upgrade/scripts/COMMITS/CHANGELOG-msim-8916-par-6.0
-	rm /home/louis/WORK/AOSPARADOX_FALCON/upgrade/scripts/COMMITS/CHANGELOG-msim-8916-par-6.0_REPO /home/louis/WORK/AOSPARADOX_FALCON/upgrade/scripts/COMMITS/CHANGELOG-msim-8916-par-6.0_REPO_NEW
-	echo "git push aosparadox msim-8916-par-6.0 -f" >> /home/louis/WORK/AOSPARADOX_FALCON/upgrade/scripts/COMMITS/CHANGELOG-msim-8916-par-6.0
-	cd /home/louis/WORK/AOSPARADOX_FALCON/
+	git log -n 50 --pretty="git cherry-pick -s %H # %s - %ae" >> /home/louis/WORK/YU_CAF/upgrade/scripts/COMMITS/CHANGELOG-msim-8916-par-6.0_REPO
+	tac /home/louis/WORK/YU_CAF/upgrade/scripts/COMMITS/CHANGELOG-msim-8916-par-6.0_REPO >> /home/louis/WORK/YU_CAF/upgrade/scripts/COMMITS/CHANGELOG-msim-8916-par-6.0_REPO_NEW
+	cat /home/louis/WORK/YU_CAF/upgrade/scripts/COMMITS/CHANGELOG-msim-8916-par-6.0_REPO_NEW >> /home/louis/WORK/YU_CAF/upgrade/scripts/COMMITS/CHANGELOG-msim-8916-par-6.0
+	rm /home/louis/WORK/YU_CAF/upgrade/scripts/COMMITS/CHANGELOG-msim-8916-par-6.0_REPO /home/louis/WORK/YU_CAF/upgrade/scripts/COMMITS/CHANGELOG-msim-8916-par-6.0_REPO_NEW
+	echo "git push aosparadox msim-8916-par-6.0 -f" >> /home/louis/WORK/YU_CAF/upgrade/scripts/COMMITS/CHANGELOG-msim-8916-par-6.0
+	cd /home/louis/WORK/YU_CAF/
     done
 }
 

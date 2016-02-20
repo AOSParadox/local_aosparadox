@@ -8,18 +8,18 @@ function extract() {
         if [ -z $DEST ]; then
             DEST=$FILE
         fi
-	cd /home/louis/WORK/AOSPARADOX_FALCON/
+	cd /home/louis/WORK/YU_CAF/
 	cd $FILE
-	git fetch caf LA.BF.1.1.3_rb1.10
+	git fetch caf LA.BR.1.2.6_rb1.9
 	git fetch aosparadox msim-8916-par-6.0
 	git reset --hard aosparadox/msim-8916-par-6.0
 	git checkout -b backup/20022016/msim-8916-par-6.0
 	git push aosparadox backup/20022016/msim-8916-par-6.0
-	git reset --hard caf/LA.BF.1.1.3_rb1.10
+	git reset --hard caf/LA.BR.1.2.6_rb1.9
 	git branch -D msim-8916-par-6.0
 	git checkout -b msim-8916-par-6.0
 	git branch -D backup/20022016/msim-8916-par-6.0
-	cd /home/louis/WORK/AOSPARADOX_FALCON/
+	cd /home/louis/WORK/YU_CAF/
     done
 }
 
