@@ -1,0 +1,10 @@
+build
+device/qcom/sepolicy
+external/boringssl
+external/sepolicy
+frameworks/base
+hardware/qcom/audio
+hardware/qcom/bt
+hardware/qcom/display
+packages/services/Telephony
+system/core

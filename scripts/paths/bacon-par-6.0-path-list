@@ -1,0 +1,7 @@
+device/qcom/common
+device/qcom/msm8974
+external/libnfc-nci
+frameworks/base
+hardware/qcom/wlan
+hardware/ril
+packages/apps/Settings

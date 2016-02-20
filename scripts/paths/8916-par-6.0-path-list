@@ -1,0 +1,13 @@
+device/qcom/common
+device/qcom/sepolicy
+build
+external/boringssl
+external/sepolicy
+external/tinycompress
+external/tinyalsa
+hardware/qcom/bt
+hardware/qcom/display
+system/core
+frameworks/opt/telephony
+packages/apps/Settings
+packages/services/Telephony

@@ -1,0 +1,5 @@
+device/qcom/common
+device/qcom/msm8226
+device/qcom/sepolicy
+hardware/qcom/keymaster
+vendor/qcom/opensource/fm

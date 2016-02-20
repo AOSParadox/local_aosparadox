@@ -1,7 +1,10 @@
-#export tmp_branch=8974-par-6.0 && ./upgrade/scripts/RESET_PAR/par-$tmp_branch.sh && ./upgrade/scripts/PAR_GET/par-$tmp_branch.sh
-export tmp_branch=bacon-par-6.0 && ./upgrade/scripts/RESET_PAR/par-$tmp_branch.sh && ./upgrade/scripts/PAR_GET/par-$tmp_branch.sh
-export tmp_branch=falcon-par-6.0 && ./upgrade/scripts/RESET_PAR/par-$tmp_branch.sh && ./upgrade/scripts/PAR_GET/par-$tmp_branch.sh
-export tmp_branch=msim-8974-par-6.0 && ./upgrade/scripts/RESET_PAR/par-$tmp_branch.sh && ./upgrade/scripts/PAR_GET/par-$tmp_branch.sh
-export tmp_branch=msim-bacon-par-6.0 && ./upgrade/scripts/RESET_PAR/par-$tmp_branch.sh && ./upgrade/scripts/PAR_GET/par-$tmp_branch.sh
-export tmp_branch=onyx-par-6.0 && ./upgrade/scripts/RESET_PAR/par-$tmp_branch.sh && ./upgrade/scripts/PAR_GET/par-$tmp_branch.sh
-export tmp_branch=unified-8974-par-6.0 && ./upgrade/scripts/RESET_PAR/par-$tmp_branch.sh && ./upgrade/scripts/PAR_GET/par-$tmp_branch.sh
+8916-par-6.0
+8974-par-6.0
+bacon-par-6.0
+falcon-par-6.0
+msim-8916-par-6.0
+msim-8974-par-6.0
+msim-bacon-par-6.0
+onyx-par-6.0
+unified-8974-par-6.0
+yu-par-6.0
