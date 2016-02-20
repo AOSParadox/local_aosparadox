@@ -8,6 +8,3 @@ external/tinyalsa
 hardware/qcom/bt
 hardware/qcom/display
 system/core
-frameworks/opt/telephony
-packages/apps/Settings
-packages/services/Telephony
