@@ -13,10 +13,10 @@ Our trees are made by me from scratch but the commit history and misc authorship
 Branches
 ========
 
-Moto G 2013/2014 - https://github.com/AOSParadox/local_aosparadox/tree/falcon-par-6.0/
-OnePlus One - https://github.com/AOSParadox/local_aosparadox/tree/bacon-par-6.0/
-OnePlus X - https://github.com/AOSParadox/local_aosparadox/tree/onyx-par-6.0/
-YU Devices - https://github.com/AOSParadox/local_aosparadox/tree/yu-caf-6.0/
+* Moto G 2013/2014 - https://github.com/AOSParadox/local_aosparadox/tree/falcon-par-6.0
+* OnePlus One - https://github.com/AOSParadox/local_aosparadox/tree/bacon-par-6.0
+* OnePlus X - https://github.com/AOSParadox/local_aosparadox/tree/onyx-par-6.0
+* YU Devices - https://github.com/AOSParadox/local_aosparadox/tree/yu-caf-6.0
 
 How to sync ?
 =============
