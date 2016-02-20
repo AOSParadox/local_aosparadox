@@ -26,18 +26,17 @@
   <remove-project name="platform/hardware/qcom/gps"/>
   <remove-project name="platform/hardware/qcom/keymaster"/>
   <remove-project name="platform/packages/apps/Settings"/>
-  <remove-project name="platform/packages/apps/Launcher3"/>
   <remove-project name="platform/packages/services/Telephony"/>
   <remove-project name="platform/system/core"/>
-  <remove-project name="platform/vendor/qcom/msm8226"/>
   <remove-project name="platform/vendor/qcom-opensource/fm"/>
+  <remove-project name="platform/vendor/qcom/msm8226"/>
 
   <!-- Motorola MSM8226 Devices -->
   <project path="device/motorola/falcon" name="h2o64/android_device_motorola_falcon" remote="github" revision="falcon-par-6.0"/>
   <project path="device/motorola/titan" name="android_device_motorola_titan" remote="par" revision="titan-par-6.0"/>
+  <project path="kernel" name="h2o64/kernel_msm" remote="github" revision="falcon-par-6.0"/>
   <project path="vendor/motorola/falcon" name="proprietary_vendor_motorola" remote="par" revision="falcon-par-6.0"/>
   <project path="vendor/motorola/titan" name="proprietary_vendor_motorola" remote="par" revision="titan-par-6.0"/>
-  <project path="kernel" name="h2o64/kernel_msm" remote="github" revision="falcon-par-6.0"/>
 
   <!-- Custom CAF Trees -->
   <project name="android_device_qcom_common" path="device/qcom/common" remote="par" revision="falcon-par-6.0">
@@ -49,32 +48,27 @@
 
 
   <!-- Custom YU CAF repos -->
-  <project groups="pdk" name="android_build" path="build" remote="par" revision="falcon-par-6.0">
+  <project groups="pdk" name="android_build" path="build" remote="par" revision="unified-8974-par-6.0">
     <copyfile dest="Makefile" src="core/root.mk"/>
   </project>
   <project name="android_external_boringssl" path="external/boringssl" remote="par" revision="8974-par-6.0" />
   <project name="android_external_sepolicy" path="external/sepolicy" remote="par" revision="8974-par-6.0" />
   <project name="android_frameworks_base" path="frameworks/base" remote="par" revision="8974-par-6.0" />
-  <project name="android_frameworks_opt_telephony" path="frameworks/opt/telephony" remote="par" revision="falcon-par-6.0" />
   <project name="android_hardware_qcom_audio" path="hardware/qcom/audio" remote="par" revision="8974-par-6.0" />
   <project name="android_hardware_qcom_bt" path="hardware/qcom/bt" remote="par" revision="8974-par-6.0" />
   <project name="android_hardware_qcom_display" path="hardware/qcom/display" remote="par" revision="8974-par-6.0" />
   <project name="android_hardware_qcom_keymaster" path="hardware/qcom/keymaster" remote="par" revision="falcon-par-6.0"/>
-  <project name="android_packages_apps_Settings" path="packages/apps/Settings" remote="par" revision="8974-par-6.0" />
-  <project name="android_packages_services_Telephony" path="packages/services/Telephony" remote="par" revision="falcon-par-6.0" />
   <project name="android_system_core" path="system/core" remote="par" revision="8974-par-6.0" />
   <project name="android_vendor_qcom_opensource_fm" path="vendor/qcom/opensource/fm" remote="par" revision="falcon-par-6.0" />
+
+  <!-- MSIM Patches -->
+  <project name="android_frameworks_opt_telephony" path="frameworks/opt/telephony" remote="par" revision="msim-8974-par-6.0" />
+  <project name="android_packages_apps_Settings" path="packages/apps/Settings" remote="par" revision="msim-8974-par-6.0" />
+  <project name="android_packages_services_Telephony" path="packages/services/Telephony" remote="par" revision="msim-8974-par-6.0" />
 
   <!-- Vendor -->
   <project path="vendor/aosparadox" name="android_vendor_aosparadox" remote="par" revision="marshmallow"/>
   <project path="manifest" name="local_aosparadox" remote="par" revision="falcon-par-6.0"/>
-
-  <!-- Needed LP repos -->
-  <project path="external/stlport" name="CyanogenMod/android_external_stlport" remote="github" revision="cm-13.0" />
-  <project path="external/connectivity" name="CyanogenMod/android_external_connectivity" remote="github" revision="cm-13.0" />
-
-  <!-- Needed CM Repos -->
-  <project path="external/busybox" name="CyanogenMod/android_external_busybox" remote="github" revision="cm-13.0" />
 
   <!-- Uneeded CAF repos -->
   <remove-project name="device/lge/hammerhead"/>
