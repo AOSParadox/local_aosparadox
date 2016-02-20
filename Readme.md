@@ -2,11 +2,6 @@
 AOSParadox 2.1 for OnePlus ONE
 ==============================
 
-Introduction:
-=============
-
-ADD ME
-
 Branches:
 =========
 They are 2 differents branches :
@@ -15,15 +10,10 @@ They are 2 differents branches :
 The branches for the devices trees/vendor are :
 - bacon-par-6.0
 
-Features:
-=========
-
-ADD ME
-
 How to sync ?
 =============
-- 1- Repo init the LA.BF.1.1.3-00810-8x74.0 CAF Tag
-	- To do so, use this command "repo init -u git://codeaurora.org/platform/manifest.git -b release -m default_LA.BF.1.1.3-00810-8x74.0.xml"
+- 1- Repo init the LA.BF.1.1.3-01010-8x74.0 CAF Tag
+	- To do so, use this command "repo init -u git://codeaurora.org/platform/manifest.git -b release -m default_LA.BF.1.1.3-01010-8x74.0.xml"
 	- List of the CAF Tags here : https://www.codeaurora.org/xwiki/bin/QAEP/release
 - 2- Add the linked bacon_par.xml to .repo/local_manifests
 - 3- Sync

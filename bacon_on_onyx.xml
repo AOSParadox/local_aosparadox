@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+
+  <!-- CAF to replace -->
+  <remove-project name="platform/external/libnfc-nci"/>
+  <remove-project name="platform/hardware/ril"/>
+ 
+  <!-- OnePlus One -->
+  <project path="device/oneplus/bacon/" name="h2o64/android_device_oneplus_bacon" remote="github" revision="bacon-par-6.0"/>
+  <project path="kernel_oneplus_bacon/" name="android_kernel_oneplus_msm8974" remote="par" revision="bacon-par-6.0"/>
+  <project path="vendor/oneplus/bacon/" name="proprietary_vendor_oneplus" remote="par" revision="bacon-par-6.0"/>
+
+  <project name="android_external_libnfc-nci" path="external/libnfc-nci" remote="par" revision="bacon-par-6.0" />
+  <project name="android_hardware_ril" path="hardware/ril" remote="par" revision="bacon-par-6.0"/>
+
+</manifest>
