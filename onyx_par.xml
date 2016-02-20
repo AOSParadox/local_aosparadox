@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+
+  <remote  name="github"
+            fetch="git://github.com/"/>
+
+  <remote  name="par"
+            fetch="git://github.com/aosparadox/"/>
+
+  <remote name="aosparadox"
+            fetch="ssh://git@github.com/aosparadox/"/>
+
+  <!-- CAF to replace -->
+  <remove-project name="device/qcom/common"/>
+  <remove-project name="device/qcom/sepolicy"/>
+  <remove-project name="kernel/msm"/>
+  <remove-project name="platform/build"/>
+  <remove-project name="platform/external/boringssl"/>
+  <remove-project name="platform/external/sepolicy"/>
+  <remove-project name="platform/frameworks/base"/>
+  <remove-project name="platform/frameworks/av"/>
+  <remove-project name="platform/frameworks/opt/telephony"/>
+  <remove-project name="platform/hardware/qcom/audio"/>
+  <remove-project name="platform/hardware/qcom/bt"/>
+  <remove-project name="platform/hardware/qcom/camera"/>
+  <remove-project name="platform/hardware/qcom/display"/>
+  <remove-project name="platform/hardware/qcom/gps"/>
+  <remove-project name="platform/hardware/qcom/wlan"/>
+  <remove-project name="platform/packages/apps/Settings"/>
+  <remove-project name="platform/packages/services/Telephony"/>
+  <remove-project name="platform/system/core"/>
+  <remove-project name="platform/vendor/qcom/copper"/>
+
+  <!-- OnePlus X -->
+  <project path="device/oneplus/onyx" name="h2o64/android_device_oneplus_onyx" remote="github" revision="onyx-par-6.0"/>
+  <project path="kernel/" name="android_kernel_oneplus_onyx" remote="par" revision="onyx-par-6.0"/>
+  <project path="vendor/oneplus/onyx" name="proprietary_vendor_oneplus" remote="par" revision="onyx-par-6.0"/>
+
+  <!-- Custom CAF Trees -->
+  <project name="android_device_qcom_common" path="device/qcom/common" remote="par" revision="bacon-par-6.0">
+    <copyfile dest="build.sh" src="build.sh"/>
+    <copyfile dest="vendor/qcom/build/tasks/generate_extra_images.mk" src="generate_extra_images.mk"/>
+  </project>
+  <project name="android_device_qcom_msm8974" path="device/qcom/msm8974" remote="par" revision="bacon-par-6.0"/>
+  <project name="android_device_qcom_sepolicy" path="device/qcom/sepolicy" remote="par" revision="onyx-par-6.0" />
+
+
+  <!-- Custom YU CAF repos -->
+  <project name="android_build" path="build" remote="par" revision="unified-8974-par-6.0">
+    <copyfile dest="Makefile" src="core/root.mk"/>
+  </project>
+  <project name="android_external_boringssl" path="external/boringssl" remote="par" revision="8974-par-6.0"/>
+  <project name="android_external_sepolicy" path="external/sepolicy" remote="par" revision="8974-par-6.0"/>
+  <project name="android_frameworks_base" path="frameworks/base" remote="par" revision="bacon-par-6.0" groups="pdk-cw-fs" />
+  <project name="android_frameworks_av" path="frameworks/av" remote="par" revision="onyx-par-6.0" groups="pdk-cw-fs" />
+  <project name="android_hardware_qcom_audio" path="hardware/qcom/audio" remote="par" revision="8974-par-6.0"/>
+  <project name="android_hardware_qcom_bt" path="hardware/qcom/bt" remote="par" revision="8974-par-6.0"/>
+  <project name="android_hardware_qcom_display" path="hardware/qcom/display" remote="par" revision="8974-par-6.0"/>
+  <project name="android_hardware_qcom_wlan" path="hardware/qcom/wlan" remote="par" revision="bacon-par-6.0"/>
+  <project name="android_system_core" path="system/core" remote="par" revision="8974-par-6.0" />
+
+  <!-- MSIM Patches -->
+  <project name="android_frameworks_opt_telephony" path="frameworks/opt/telephony" remote="par" revision="msim-8974-par-6.0" />
+  <project name="android_packages_apps_Settings" path="packages/apps/Settings" remote="par" revision="msim-bacon-par-6.0" />
+  <project name="android_packages_services_Telephony" path="packages/services/Telephony" remote="par" revision="msim-8974-par-6.0" />
+
+  <!-- Vendor -->
+  <project path="vendor/aosparadox" name="android_vendor_aosparadox" remote="par" revision="marshmallow"/>
+  <project path="manifest" name="local_aosparadox" remote="par" revision="onyx-par-6.0"/>
+
+  <!-- Needed CM Repos -->
+  <project path="external/ant-wireless/antradio-library" name="CyanogenMod/android_external_ant-wireless_antradio-library" remote="github" revision="cm-13.0" />
+
+  <!-- Uneeded CAF repos -->
+  <remove-project name="device/lge/hammerhead"/>
+  <remove-project name="device/lge/hammerhead-kernel"/>
+  <remove-project name="platform/prebuilts/clang/darwin-x86/host/3.6" />
+  <remove-project name="platform/prebuilts/gcc/darwin-x86/aarch64/aarch64-linux-android-4.9" />
+  <remove-project name="platform/prebuilts/gcc/darwin-x86/arm/arm-eabi-4.8" />
+  <remove-project name="platform/prebuilts/gcc/darwin-x86/arm/arm-linux-androideabi-4.9" />
+  <remove-project name="platform/prebuilts/gcc/darwin-x86/host/headers" />
+  <remove-project name="platform/prebuilts/gcc/darwin-x86/host/i686-apple-darwin-4.2.1" />
+  <remove-project name="platform/prebuilts/gcc/darwin-x86/mips/mips64el-linux-android-4.9" />
+  <remove-project name="platform/prebuilts/gcc/darwin-x86/x86/x86_64-linux-android-4.9" />
+  <remove-project name="platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9" />
+  <remove-project name="platform/prebuilts/gcc/linux-x86/mips/mips64el-linux-android-4.9" />
+  <remove-project name="platform/prebuilts/python/darwin-x86/2.7.5" />
+ 
+</manifest>
