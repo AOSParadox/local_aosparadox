@@ -32,7 +32,7 @@
   <remove-project name="platform/vendor/qcom/copper"/>
 
   <!-- OnePlus One -->
-  <project path="device/oneplus/bacon" name="h2o64/android_device_oneplus_bacon" remote="github" revision="bacon-par-6.0"/>
+  <project path="device/oneplus/bacon" name="android_device_oneplus_bacon" remote="par" revision="bacon-par-6.0"/>
   <project path="kernel/" name="android_kernel_oneplus_msm8974" remote="par" revision="bacon-par-6.0"/>
   <project path="vendor/oneplus/bacon" name="proprietary_vendor_oneplus" remote="par" revision="bacon-par-6.0"/>
 
