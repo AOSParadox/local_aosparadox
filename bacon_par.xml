@@ -53,6 +53,7 @@
   <project name="android_external_libnfc-nci" path="external/libnfc-nci" remote="par" revision="bacon-par-6.0" />
   <project name="android_external_sepolicy" path="external/sepolicy" remote="par" revision="8974-par-6.0"/>
   <project name="android_frameworks_base" path="frameworks/base" remote="par" revision="bacon-par-6.0" groups="pdk-cw-fs" />
+  <project name="android_frameworks_opt_telephony" path="frameworks/opt/telephony" remote="par" revision="bacon-par-6.0" />
   <project name="android_hardware_qcom_audio" path="hardware/qcom/audio" remote="par" revision="8974-par-6.0"/>
   <project name="android_hardware_qcom_bt" path="hardware/qcom/bt" remote="par" revision="8974-par-6.0"/>
   <project name="android_hardware_qcom_display" path="hardware/qcom/display" remote="par" revision="8974-par-6.0"/>
