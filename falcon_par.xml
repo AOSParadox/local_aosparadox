@@ -57,7 +57,6 @@
   <project name="android_hardware_qcom_audio" path="hardware/qcom/audio" remote="par" revision="8974-par-6.0" />
   <project name="android_hardware_qcom_bt" path="hardware/qcom/bt" remote="par" revision="8974-par-6.0" />
   <project name="android_hardware_qcom_display" path="hardware/qcom/display" remote="par" revision="8974-par-6.0" />
-  <project name="android_hardware_qcom_keymaster" path="hardware/qcom/keymaster" remote="par" revision="falcon-par-6.0"/>
   <project name="android_system_core" path="system/core" remote="par" revision="8974-par-6.0" />
   <project name="android_vendor_qcom_opensource_fm" path="vendor/qcom/opensource/fm" remote="par" revision="falcon-par-6.0" />
 
