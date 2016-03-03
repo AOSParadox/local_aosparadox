@@ -85,6 +85,9 @@
   <project path="vendor/aosparadox" name="android_vendor_aosparadox" remote="par" revision="marshmallow"/>
   <project path="vendor/yu/" name="proprietary_vendor_yu" remote="par" revision="yu-par-6.0" />
 
+  <!-- Needed LP repos -->
+  <project path="external/connectivity" name="CyanogenMod/android_external_connectivity" remote="github" revision="cm-13.0" />
+
   <!-- Uneeded CAF repos -->
   <remove-project name="device/lge/hammerhead"/>
   <remove-project name="device/lge/hammerhead-kernel"/>
