@@ -50,10 +50,10 @@
     <copyfile dest="Makefile" src="core/root.mk"/>
   </project>
   <project name="android_external_boringssl" path="external/boringssl" remote="par" revision="8974-par-6.0"/>
-  <project name="android_external_sepolicy" path="external/sepolicy" remote="par" revision="8974-par-6.0"/>
+  <project name="android_external_sepolicy" path="external/sepolicy" remote="par" revision="onyx-par-6.0"/>
   <project name="android_frameworks_base" path="frameworks/base" remote="par" revision="bacon-par-6.0" groups="pdk-cw-fs" />
   <project name="android_frameworks_av" path="frameworks/av" remote="par" revision="bacon-par-6.0" groups="pdk-cw-fs" />
-  <project name="android_hardware_qcom_audio" path="hardware/qcom/audio" remote="par" revision="8974-par-6.0"/>
+  <project name="android_hardware_qcom_audio" path="hardware/qcom/audio" remote="par" revision="onyx-par-6.0"/>
   <project name="android_hardware_qcom_bt" path="hardware/qcom/bt" remote="par" revision="8974-par-6.0"/>
   <project name="android_hardware_qcom_display" path="hardware/qcom/display" remote="par" revision="8974-par-6.0"/>
   <project name="android_hardware_qcom_wlan" path="hardware/qcom/wlan" remote="par" revision="bacon-par-6.0"/>
