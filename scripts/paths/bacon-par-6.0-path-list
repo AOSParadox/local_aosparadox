@@ -2,6 +2,7 @@ device/qcom/common
 device/qcom/msm8974
 external/libnfc-nci
 frameworks/base
+frameworks/av
 hardware/qcom/wlan
 hardware/ril
 packages/apps/Settings
