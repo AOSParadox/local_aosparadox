@@ -49,6 +49,9 @@ cd /home/louis/WORK/AOSPARADOX_FALCON/
 cd packages/services/Telephony
 git remote add caf git://codeaurora.org/quic/la/platform/packages/services/Telephony
 cd /home/louis/WORK/AOSPARADOX_FALCON/
+cd packages/apps/InCallUI
+git remote add caf git://codeaurora.org/quic/la/platform/packages/apps/InCallUI
+cd /home/louis/WORK/AOSPARADOX_FALCON/
 cd system/core
 git remote add caf git://codeaurora.org/quic/la/platform/system/core
 cd /home/louis/WORK/AOSPARADOX_FALCON/

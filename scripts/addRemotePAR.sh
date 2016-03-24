@@ -102,3 +102,6 @@ cd device/qcom/msm8974
 git remote remove aosparadox
 git remote add aosparadox git@github.com:AOSParadox/android_device_qcom_msm8974.git
 cd /home/louis/WORK/AOSPARADOX_FALCON/
+cd packages/apps/InCallUI
+git remote add aosparadox git@github.com:AOSParadox/android_packages_apps_InCallUI.git
+cd /home/louis/WORK/AOSPARADOX_FALCON/
