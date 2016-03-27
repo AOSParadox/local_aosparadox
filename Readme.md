@@ -20,5 +20,6 @@ How to sync ?
 - 4- How to build ?
 	- A - ". build/envsetup.sh"
 	- B - "lunch full_DEVICE-user"
-	- C - "make -j8 otapackage"
+	- C - "cp -R vendor/qcom/opensource/wlan/prima/ kernel/drivers/staging/"
+	- D - "make -j8 otapackage"
 - 5- Here you're done
