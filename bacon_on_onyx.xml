@@ -8,6 +8,7 @@
   <!-- OnePlus One -->
   <project path="device/oneplus/bacon/" name="android_device_oneplus_bacon" remote="par" revision="bacon-par-6.0"/>
   <project path="kernel_oneplus_bacon/" name="android_kernel_oneplus_msm8974" remote="par" revision="bacon-par-6.0"/>
+  <project name="platform/vendor/qcom-opensource/wlan/prima" path="kernel_oneplus_bacon/staging/prima"/>
   <project path="vendor/oneplus/bacon/" name="proprietary_vendor_oneplus" remote="par" revision="bacon-par-6.0"/>
 
   <project name="android_external_libnfc-nci" path="external/libnfc-nci" remote="par" revision="bacon-par-6.0" />

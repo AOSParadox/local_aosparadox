@@ -66,6 +66,9 @@
   <project name="android_packages_services_Telephony" path="packages/services/Telephony" remote="par" revision="8974-par-6.0" />
   <project name="android_system_core" path="system/core" remote="par" revision="8974-par-6.0" />
 
+  <!-- Prima -->
+  <project name="platform/vendor/qcom-opensource/wlan/prima" path="kernel/staging/prima"/>
+
   <!-- Vendor -->
   <project path="vendor/aosparadox" name="android_vendor_aosparadox" remote="par" revision="marshmallow"/>
   <project path="manifest" name="local_aosparadox" remote="par" revision="bacon-par-6.0"/>
