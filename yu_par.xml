@@ -50,7 +50,7 @@
     <copyfile dest="build.sh" src="build.sh"/>
     <copyfile dest="vendor/qcom/build/tasks/generate_extra_images.mk" src="generate_extra_images.mk"/>
   </project>
-  <project name="android_device_qcom_msm8916_32" path="device/qcom/msm8916_32" remote="par" revision="yu-par-6.0" />
+  <project name="android_device_qcom_msm8916_32" path="device/qcom/msm8916_32" remote="par" revision="8916-par-6.0" />
   <project name="android_device_qcom_msm8916_64" path="device/qcom/msm8916_64" remote="par" revision="yu-par-6.0" />
   <project name="android_device_qcom_sepolicy" path="device/qcom/sepolicy" remote="par" revision="8916-par-6.0" />
 
