@@ -10,15 +10,15 @@ function extract() {
         fi
 	cd /home/louis/WORK/YU_CAF/
 	cd $FILE
-	git fetch caf LA.BR.1.2.6_rb1.9
+	git fetch caf LA.BR.1.2.6_rb1.12
 	git fetch aosparadox 8916-par-6.0
 	git reset --hard aosparadox/8916-par-6.0
-	git checkout -b backup/20022016/8916-par-6.0
-	git push aosparadox backup/20022016/8916-par-6.0
-	git reset --hard caf/LA.BR.1.2.6_rb1.9
+	git checkout -b backup/09042016/8916-par-6.0
+	git push aosparadox backup/09042016/8916-par-6.0
+	git reset --hard caf/LA.BR.1.2.6_rb1.12
 	git branch -D 8916-par-6.0
 	git checkout -b 8916-par-6.0
-	git branch -D backup/20022016/8916-par-6.0
+	git branch -D backup/09042016/8916-par-6.0
 	cd /home/louis/WORK/YU_CAF/
     done
 }

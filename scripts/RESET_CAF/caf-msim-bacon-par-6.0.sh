@@ -10,15 +10,15 @@ function extract() {
         fi
 	cd /home/louis/WORK/AOSPARADOX_FALCON/
 	cd $FILE
-	git fetch caf LA.BF.1.1.3_rb1.10
+	git fetch caf LA.BF.1.1.3_rb1.12
 	git fetch aosparadox msim-bacon-par-6.0
 	git reset --hard aosparadox/msim-bacon-par-6.0
-	git checkout -b backup/20022016/msim-bacon-par-6.0
-	git push aosparadox backup/20022016/msim-bacon-par-6.0
-	git reset --hard caf/LA.BF.1.1.3_rb1.10
+	git checkout -b backup/09042016/msim-bacon-par-6.0
+	git push aosparadox backup/09042016/msim-bacon-par-6.0
+	git reset --hard caf/LA.BF.1.1.3_rb1.12
 	git branch -D msim-bacon-par-6.0
 	git checkout -b msim-bacon-par-6.0
-	git branch -D backup/20022016/msim-bacon-par-6.0
+	git branch -D backup/09042016/msim-bacon-par-6.0
 	cd /home/louis/WORK/AOSPARADOX_FALCON/
     done
 }
