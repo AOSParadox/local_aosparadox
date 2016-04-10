@@ -68,6 +68,7 @@
 
   <!-- Vendor -->
   <project path="vendor/aosparadox" name="android_vendor_aosparadox" remote="par" revision="marshmallow"/>
+  <project name="keyhandler" path="packages/apps/Keyhandler" remote="par" revision="master" />
   <project path="manifest" name="local_aosparadox" remote="par" revision="bacon-par-6.0"/>
 
   <!-- Needed CM Repos -->
