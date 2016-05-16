@@ -13,6 +13,9 @@
   <remote name="aosparadox"
             fetch="ssh://git@github.com/aosparadox/"/>
 
+  <remote  name="qcom"
+            fetch="git://codeaurora.org/quic/la/platform/packages/apps/"/>
+
   <!-- CAF to replace -->
   <remove-project name="device/qcom/common"/>
   <remove-project name="device/qcom/sepolicy"/>
@@ -39,6 +42,14 @@
   <remove-project name="platform/vendor/qcom-opensource/fm"/>
   <remove-project name="platform/vendor/qcom/msm8916_32"/>
   <remove-project name="platform/vendor/qcom/msm8916_64"/>
+  <remove-project name="platform/packages/apps/Gallery2"/>
+  <remove-project name="platform/packages/apps/Launcher3"/>
+  <remove-project name="platform/packages/apps/Music"/>
+
+  <!-- Snapdragon Apps -->
+  <project path="packages/apps/SnapdragonGallery" name="SnapdragonGallery" remote="qcom" revision="caf/android_ui.lnx.2.0.1-rel-base"/>
+  <project path="packages/apps/SnapdragonLauncher" name="SnapdragonLauncher" remote="qcom" revision="caf/android_ui.lnx.2.0.1-rel-base"/>
+  <project path="packages/apps/SnapdragonMusic" name="SnapdragonMusic" remote="qcom" revision="caf/android_ui.lnx.2.0.1-rel-base"/>
 
   <!-- YU Devices -->
   <project path="device/yu/tomato" name="android_device_yu_tomato" remote="par" revision="tomato-par-6.0" />
@@ -103,4 +114,3 @@
   <remove-project name="platform/prebuilts/gcc/darwin-x86/x86/x86_64-linux-android-4.9" />
   <remove-project name="platform/prebuilts/python/darwin-x86/2.7.5" />
 </manifest>
-
