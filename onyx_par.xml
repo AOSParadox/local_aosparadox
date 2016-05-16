@@ -9,6 +9,9 @@
 
   <remote name="aosparadox"
             fetch="ssh://git@github.com/aosparadox/"/>
+            
+  <remote  name="qcom"
+            fetch="git://codeaurora.org/quic/la/platform/packages/apps/"/>
 
   <!-- CAF to replace -->
   <remove-project name="device/qcom/common"/>
@@ -30,6 +33,14 @@
   <remove-project name="platform/packages/services/Telephony"/>
   <remove-project name="platform/system/core"/>
   <remove-project name="platform/vendor/qcom/copper"/>
+  <remove-project name="platform/packages/apps/Gallery2"/>
+  <remove-project name="platform/packages/apps/Launcher3"/>
+  <remove-project name="platform/packages/apps/Music"/>
+  
+  <!-- Snapdragon Apps -->
+  <project path="packages/apps/SnapdragonGallery" name="SnapdragonGallery" remote="qcom" revision="caf/android_ui.lnx.2.0.1-rel-base"/>
+  <project path="packages/apps/SnapdragonLauncher" name="SnapdragonLauncher" remote="qcom" revision="caf/android_ui.lnx.2.0.1-rel-base"/>
+  <project path="packages/apps/SnapdragonMusic" name="SnapdragonMusic" remote="qcom" revision="caf/android_ui.lnx.2.0.1-rel-base"/>
 
   <!-- OnePlus X -->
   <project path="device/oneplus/onyx" name="android_device_oneplus_onyx" remote="par" revision="onyx-par-6.0"/>
