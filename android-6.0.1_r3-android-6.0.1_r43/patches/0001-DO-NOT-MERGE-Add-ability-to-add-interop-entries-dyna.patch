@@ -1,0 +1,42 @@
+From 6c80055f7c0cede1efac98ba7ba1bb1535a16aa7 Mon Sep 17 00:00:00 2001
+From: Andre Eisenbach <eisenbach@google.com>
+Date: Thu, 14 Jan 2016 02:03:36 -0800
+Subject: [PATCH] DO NOT MERGE Add ability to add interop entries dynamically
+ (1/2)
+
+Add ability and interface for adding dynamic entries to the interop
+workaround database.
+
+Bug: 26548845
+Change-Id: I17f8cbdf1e63c316aa52903be7ec526c9b1376bb
+(cherry picked from commit 9cacd60df4d3a6cfe5af687177b478bc9855130f)
+---
+ include/hardware/bluetooth.h | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/include/hardware/bluetooth.h b/include/hardware/bluetooth.h
+index 2cba754..230444e 100644
+--- a/include/hardware/bluetooth.h
++++ b/include/hardware/bluetooth.h
+@@ -564,6 +564,18 @@ typedef struct {
+ 
+     /** BT stack Test interface */
+     const void* (*get_testapp_interface)(int test_app_profile);
++
++    /**
++     * Clear (reset) the dynamic portion of the device interoperability database.
++     */
++    void (*interop_database_clear)(void);
++
++    /**
++     * Add a new device interoperability workaround for a remote device whose
++     * first |len| bytes of the its device address match |addr|.
++     * NOTE: |feature| has to match an item defined in interop_feature_t (interop.h).
++     */
++    void (*interop_database_add)(uint16_t feature, const bt_bdaddr_t *addr, size_t len);
+ } bt_interface_t;
+ 
+ /** TODO: Need to add APIs for Service Discovery, Service authorization and
+-- 
+2.8.2
+

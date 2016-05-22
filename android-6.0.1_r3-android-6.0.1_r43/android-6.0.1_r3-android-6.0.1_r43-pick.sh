@@ -8,37 +8,37 @@ git cherry-pick 7d4457c28e2fccfdd46c787f959248ee3e678ad0 # Fix integer overflows
 
 cd /home/louis/WORK/YU_CAF/
 cd build/
-git cherry-pick 27fdf2c8e5ddf07d97448c7a8c9adcf9083c55bb # MMB29N
-git cherry-pick 06581f3f89ab131eb3f3dd2da4a7f0709b9e1e6f # Change version back to 6.0
-git cherry-pick a625957dc9e7a63100abc7a6e0bee6c81f9106c9 # Revert "Change version back to 6.0"
-git cherry-pick cfcece834c21490b17f8110dd33ce58d0d1ab0b0 # Update Security String to 2016-01-01 to mnc-dev
-git cherry-pick e8856b3e2a0221d0ea7658b5ad680295682e74c3 # "MMB29O"
-git cherry-pick 4f09dc325dc13ec9f82631004f77a3a0633ae813 # MMN29P
-git cherry-pick 7692803bd2342c12f4604a5321ccf40ff796869c # Update Security String to 2016-02-01
-git cherry-pick 1bd25272af230b56244fb57233c3abc14ff1109e # "MMB29Q"
-git cherry-pick 214120c6a3387b8cf684c6afd747b47868a20f1c # "MMB29R"
-git cherry-pick 577db958f02ad84ac4e1bc16c8fdd8b687619b7b # "MMB76"
-git cherry-pick 277aef032a0bd98434a73a90fb4749727cc1ae7f # "MMB29S"
-git cherry-pick a492780e9f68070da65e9b3f6cbff7bc37415f27 # "MMB29T"
-git cherry-pick b42bdba5ad9ca27344b27abfd546c032f47c7754 # "MMB29U"
-git cherry-pick ee03c8cce270916a33d4ee1d794cdd1bc2cfb3c7 # Updating security patch string to 2016-03-01
-git cherry-pick 71a40f99584794672cc7e20d454821ec14537d31 # "MMB29V"
-git cherry-pick 49537b071fde734f5ec01b3736942d058e1bd928 # "MOB29W"
-git cherry-pick c322528db32e50d7605cfaeae22e74a1c6a29a37 # "MOB29X"
-git cherry-pick 5994b1142aede11502a55d553d687d9635a886a0 # MOB29Y
-git cherry-pick f103e81bba74436aa4e1d8beb6e224928f02f796 # Updating security string patch to 2016-04-01
-git cherry-pick 0a9c18bf6371aee147dd7e519e972c67c93960d3 # "MOB29Z"
-git cherry-pick 5250d69c46f459ed00787d70fa08eb903c2d9530 # MOB30B
-git cherry-pick 13678cf2674202ad27216098a6a529a735038965 # MOB30C
-git cherry-pick 42d5725319ba9e30d9f938d2c3b230ad33e04151 # Update Security String to 2016-04-02 in preparation for April 2016 Security OTA v2 - kernel updates with patches for CVE-2015-1805
-git cherry-pick 25b7ce3eaa4a9703e5dffdda848c18b82079d87c # MOB30D
-git cherry-pick c8641b4f7847c38f0e6622a420a06c590f498d1d # Update Security String to 2016-05-01 in preparation for May 2016 Security OTA
-git cherry-pick 85ff546a9e70a8da43fe0a207cac87bf37def2f2 # "MOB30E"
-git cherry-pick 7feafe7ab6c07cfd18a0a16c4e8783da7af19cfa # "MOB30F"
-git cherry-pick 46d1699b45e53e023a78ef95282002cdf7695017 # "MOB30G"
-git cherry-pick 571de13b115482fd6cfb4e298813f21873b2edaa # "MOB30H"
-git cherry-pick de6dc955103591ae11ea746c3fc82764ef073d5e # "MOB30I"
-git cherry-pick f30ec8b29170894c4afda1fc4c20f267833865bc # "MOB30J"
+git cherry-pick  --strategy-option theirs 27fdf2c8e5ddf07d97448c7a8c9adcf9083c55bb # MMB29N
+git cherry-pick  --strategy-option theirs 06581f3f89ab131eb3f3dd2da4a7f0709b9e1e6f # Change version back to 6.0
+git cherry-pick  --strategy-option theirs a625957dc9e7a63100abc7a6e0bee6c81f9106c9 # Revert "Change version back to 6.0"
+git cherry-pick  --strategy-option theirs cfcece834c21490b17f8110dd33ce58d0d1ab0b0 # Update Security String to 2016-01-01 to mnc-dev
+git cherry-pick  --strategy-option theirs e8856b3e2a0221d0ea7658b5ad680295682e74c3 # "MMB29O"
+git cherry-pick  --strategy-option theirs 4f09dc325dc13ec9f82631004f77a3a0633ae813 # MMN29P
+git cherry-pick  --strategy-option theirs 7692803bd2342c12f4604a5321ccf40ff796869c # Update Security String to 2016-02-01
+git cherry-pick  --strategy-option theirs 1bd25272af230b56244fb57233c3abc14ff1109e # "MMB29Q"
+git cherry-pick  --strategy-option theirs 214120c6a3387b8cf684c6afd747b47868a20f1c # "MMB29R"
+git cherry-pick  --strategy-option theirs 577db958f02ad84ac4e1bc16c8fdd8b687619b7b # "MMB76"
+git cherry-pick  --strategy-option theirs 277aef032a0bd98434a73a90fb4749727cc1ae7f # "MMB29S"
+git cherry-pick  --strategy-option theirs a492780e9f68070da65e9b3f6cbff7bc37415f27 # "MMB29T"
+git cherry-pick  --strategy-option theirs b42bdba5ad9ca27344b27abfd546c032f47c7754 # "MMB29U"
+git cherry-pick  --strategy-option theirs ee03c8cce270916a33d4ee1d794cdd1bc2cfb3c7 # Updating security patch string to 2016-03-01
+git cherry-pick  --strategy-option theirs 71a40f99584794672cc7e20d454821ec14537d31 # "MMB29V"
+git cherry-pick  --strategy-option theirs 49537b071fde734f5ec01b3736942d058e1bd928 # "MOB29W"
+git cherry-pick  --strategy-option theirs c322528db32e50d7605cfaeae22e74a1c6a29a37 # "MOB29X"
+git cherry-pick  --strategy-option theirs 5994b1142aede11502a55d553d687d9635a886a0 # MOB29Y
+git cherry-pick  --strategy-option theirs f103e81bba74436aa4e1d8beb6e224928f02f796 # Updating security string patch to 2016-04-01
+git cherry-pick  --strategy-option theirs 0a9c18bf6371aee147dd7e519e972c67c93960d3 # "MOB29Z"
+git cherry-pick  --strategy-option theirs 5250d69c46f459ed00787d70fa08eb903c2d9530 # MOB30B
+git cherry-pick  --strategy-option theirs 13678cf2674202ad27216098a6a529a735038965 # MOB30C
+git cherry-pick  --strategy-option theirs 42d5725319ba9e30d9f938d2c3b230ad33e04151 # Update Security String to 2016-04-02 in preparation for April 2016 Security OTA v2 - kernel updates with patches for CVE-2015-1805
+git cherry-pick  --strategy-option theirs 25b7ce3eaa4a9703e5dffdda848c18b82079d87c # MOB30D
+git cherry-pick  --strategy-option theirs c8641b4f7847c38f0e6622a420a06c590f498d1d # Update Security String to 2016-05-01 in preparation for May 2016 Security OTA
+git cherry-pick  --strategy-option theirs 85ff546a9e70a8da43fe0a207cac87bf37def2f2 # "MOB30E"
+git cherry-pick  --strategy-option theirs 7feafe7ab6c07cfd18a0a16c4e8783da7af19cfa # "MOB30F"
+git cherry-pick  --strategy-option theirs 46d1699b45e53e023a78ef95282002cdf7695017 # "MOB30G"
+git cherry-pick  --strategy-option theirs 571de13b115482fd6cfb4e298813f21873b2edaa # "MOB30H"
+git cherry-pick  --strategy-option theirs de6dc955103591ae11ea746c3fc82764ef073d5e # "MOB30I"
+git cherry-pick  --strategy-option theirs f30ec8b29170894c4afda1fc4c20f267833865bc # "MOB30J"
 
 cd /home/louis/WORK/YU_CAF/
 cd external/aac/
@@ -147,7 +147,6 @@ git cherry-pick b04aee833c5cfb6b31b8558350feb14bb1a0f353 # Camera3Device: Valida
 git cherry-pick a2d1d85726aa2a3126e9c331a8e00a8c319c9e2b # NuPlayerStreamListener: NULL and bounds check before memcpy
 git cherry-pick 7fd96ebfc4c9da496c59d7c45e1f62be178e626d # codecs: check OMX buffer size before use in VP8 encoder.
 git cherry-pick 44749eb4f273f0eb681d0fa013e3beef754fa687 # SoftAMR: check output buffer size to avoid overflow.
-git cherry-pick 65756b4082cd79a2d99b2ccb5b392291fd53703f # SoftAMR: check input buffer size to avoid overflow.
 git cherry-pick daa85dac2055b22dabbb3b4e537597e6ab73a866 # Fix AMR decoder
 
 cd /home/louis/WORK/YU_CAF/
@@ -164,7 +163,7 @@ git cherry-pick 040c3dbf982f60cd8431ccab1ba9fcb4cff39ac3 # DO NOT MERGE ANYWHERE
 git cherry-pick c583d03388638d0670a0e7e8c749d543a16e19ab # DO NOT MERGE ANYWHERE: UsageStats: Use new settings key idle_duration2 for app idle
 git cherry-pick c29b37cd4182b7dbe50574ecdb6d8d5224e9ef83 # DO NOT MERGE Check apps idle states on time changes
 git cherry-pick 2dbd40c007eaef20edd92856cf8c1652b926c77e # DO NOT MERGE Fix for syncs being dropped when appIdle is on
-git cherry-pick a94ceffd7bfeaae23cf2474e9a05a17a20e25607 # DO NOT MERGE ANYWHERE: Don't change screen on time on time changes
+git am -3  /home/louis/WORK/YU_CAF/patches/0001-DO-NOT-MERGE-ANYWHERE-Don-t-change-screen-on-time-on.patch # DO NOT MERGE ANYWHERE: Don't change screen on time on time changes
 git cherry-pick 3a8f0cf7612b5ebd0710a424a437f5540a72b279 # DO NOT MERGE ANYWHERE: Hack to get devices booting again.
 git cherry-pick d60d0078d8a8a54ef898d936413321a085abff0d # DO NOT MERGE Bluetooth: Restrict gain for Absolute volume case
 git cherry-pick 4de51e4130c76562e5d4a13b56bd204b9d92f4e7 # DO NOT MERGE Read Bluetooth interop database entries from settings (1/2)
@@ -198,38 +197,14 @@ cd frameworks/opt/telephony/
 git cherry-pick c078223146c667cea03b090444efee76ce1a8ec0 # Check permissions on getDeviceId.
 
 cd /home/louis/WORK/YU_CAF/
-cd hardware/broadcom/wlan/
-git cherry-pick 2c5a4fac8bc8198f6a2635ede776f8de40a0c3e1 # Fix use-after-free in wifi_cleanup()
-git cherry-pick 9b127e70669e6447e3b4cc7a83a5e13b9248bbf5 # net: wireless: bcmdhd: update bcm4339 FW 6.37.32.RC23.34.42 [DO NOT MERGE]
-git cherry-pick a9d9aa3404d385f05e83da6654b524af64d7701c # net: wireless: bcmdhd: Update bcm4354/56 FW(7.35.101.1) [DO NOT MERGE]
-git cherry-pick 73086a09c8ef57b1e4a1a202c9fb38b022319a9d # net: wireless: bcmdhd: update bcm4358 FW (7.112.200.5) [DO NOT MERGE]
-
-cd /home/louis/WORK/YU_CAF/
-cd hardware/intel/img/hwcomposer/
-git cherry-pick 781a2f1a32fd6d68ec4a53afb007066655a85a78 # Use default csc mode and video range setting for HDMI. Update VideoPayloadBuffer to align with palyload in video driver
-git cherry-pick 6fd39da3507005fb5f733fddfd516f5e5b6f0149 # Use default csc mode and video range setting for HDMI. Update VideoPayloadBuffer to align with palyload in video driver
-
-cd /home/louis/WORK/YU_CAF/
 cd hardware/libhardware/
-git cherry-pick 2a5e3d2ea98049b7c96f39f434f40ba1a690df7c # DO NOT MERGE Add ability to add interop entries dynamically (1/2)
-
-cd /home/louis/WORK/YU_CAF/
-cd hardware/qcom/audio/
-git cherry-pick a18111d2db2a5e43a5ba318073986c12f9c86720 # post proc : volume listener : fix effect release crash
+git am -3 < /home/louis/WORK/YU_CAF/patches/0001-DO-NOT-MERGE-Add-ability-to-add-interop-entries-dyna.patch # DO NOT MERGE Add ability to add interop entries dynamically (1/2)
 
 cd /home/louis/WORK/YU_CAF/
 cd libcore/
 git cherry-pick 4e6f59996fae4f9a2de077b113be46cd461e4b4d # GCMParameters: check that the default tag size is secure (16 bits)
 git cherry-pick 156bf0a0237c98bfca6826ac9030b1444c391a50 # CipherTest: test instance reuse with updateAAD
 git cherry-pick e565176fedcadcb6d1256a106bdb93d206d62043 # CipherTest: add test for multiple updateAAD calls
-
-cd /home/louis/WORK/YU_CAF/
-cd packages/apps/Bluetooth/
-git cherry-pick fb02583acdfb7047795005bb5d27f0db1dfd4c5e # DO NOT MERGE Fix SMS delivered successfully but stuck SENDING issue
-git cherry-pick b026d70378fa286249223924f3e144a6a3ab4b7c # [DO NOT MERGE ANYWHERE] Null terminate MAP instance information
-git cherry-pick eb6e43c6a32f167d656d6b7fa4f3c61df4b239db # Fix memory leak in Bluetooth AVRCP JNI
-git cherry-pick a71eb120c7390a82474bf8bdb94d08e723582f9f # DO NOT MERGE Read Bluetooth interop database entries from settings (2/2)
-git cherry-pick 674c089aca0f38382ab7e2eb84d85292a2790125 # DO NOT MERGE Enhance AVRCP Absolute Volume control implementation
 
 cd /home/louis/WORK/YU_CAF/
 cd packages/apps/CertInstaller/
@@ -279,17 +254,7 @@ cd packages/services/Telephony/
 git cherry-pick d2e1ace47ad3bd32b73922b0a60927d3b329e055 # Fixes creation of incorrect SIP PhoneAccountHandle
 
 cd /home/louis/WORK/YU_CAF/
-cd system/bt/
-git cherry-pick ed1563bbd6c634841aa1e27d13aaf0e0f3580ec9 # Fix crashes with lots of discovered LE devices
-git cherry-pick a3478935fe3fe3a1958813e531249f93628b9aa1 # DO NOT MERGE Add ability to add interop entries dynamically (2/2)
-git cherry-pick 11b7a84bd390192852c0b137284184846e5f281b # DO NOT MERGE Remove Porsche car-kit pairing workaround
-git cherry-pick 3f448e48af795e3017f9fc792c411c33e8b2c9c1 # DO NOT MERGE Blacklist devices for absolute volume control
-git cherry-pick 3ddadd2c27e6a22e2d2b205e9ff73d13e0c35cc5 # DO NOT SUBMIT Revert "DO NOT MERGE Blacklist devices for absolute volume control"
-git cherry-pick 9b534de2aca5d790c2a1c4d76b545f16137d95dd # DO NOT MERGE Check size of pin before replying
-
-cd /home/louis/WORK/YU_CAF/
 cd system/core/
-git cherry-pick 5b73585385cfb1389e060a147743b380857e8a17 # Add macro to call event logger for errors.
 git cherry-pick d167d5eabc794ba4ddef1a2900eb729720da84a2 # Fix incorrect check of descsz value.
 git cherry-pick e2965141716530898964afcc0cc03d72be190b21 # Re-derive permissions after package changes.
 git cherry-pick e1d784619a3c5de9073465645eb98ea6595a4507 # Don't create tombstone directory.
