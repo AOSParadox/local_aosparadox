@@ -1,0 +1,117 @@
+From d98693ebcef3eb106b024cdd8a8f259ea96deebd Mon Sep 17 00:00:00 2001
+From: Robert Greenwalt <rgreenwalt@google.com>
+Date: Fri, 4 Dec 2015 11:54:57 -0800
+Subject: [PATCH] Check permissions on getDeviceId.
+
+bug:25778215
+Change-Id: Id0f166ae61f6228a639188112d30c0c66820ee02
+---
+ .../internal/telephony/PhoneSubInfoController.java | 60 +++++++++++++++++++---
+ .../internal/telephony/PhoneSubInfoProxy.java      |  2 +-
+ 2 files changed, 54 insertions(+), 8 deletions(-)
+
+diff --git a/src/java/com/android/internal/telephony/PhoneSubInfoController.java b/src/java/com/android/internal/telephony/PhoneSubInfoController.java
+index f5c8965..6fecfeb 100644
+--- a/src/java/com/android/internal/telephony/PhoneSubInfoController.java
++++ b/src/java/com/android/internal/telephony/PhoneSubInfoController.java
+@@ -18,6 +18,9 @@
+ 
+ package com.android.internal.telephony;
+ 
++import android.app.AppOpsManager;
++import android.content.Context;
++import android.os.Binder;
+ import android.os.RemoteException;
+ import android.os.ServiceManager;
+ import android.telephony.SubscriptionManager;
+@@ -28,24 +31,67 @@ import java.lang.NullPointerException;
+ 
+ public class PhoneSubInfoController extends IPhoneSubInfo.Stub {
+     private static final String TAG = "PhoneSubInfoController";
+-    private Phone[] mPhone;
+     private static final int PHONE_ID_1 = 0;
+-
+-    public PhoneSubInfoController(Phone[] phone) {
+-        mPhone = phone;
++    private final Phone[] mPhone;
++    private final Context mContext;
++    private final AppOpsManager mAppOps;
++
++    public PhoneSubInfoController(Phone[] phones) {
++        mPhone = phones;
++        Context context = null;
++        AppOpsManager appOpsManager = null;
++        for (Phone phone : mPhone) {
++            if (phone != null) {
++                context = phone.getContext();
++                appOpsManager = context.getSystemService(AppOpsManager.class);
++                break;
++            }
++        }
++        mContext = context;
++        mAppOps = appOpsManager;
+         if (ServiceManager.getService("iphonesubinfo") == null) {
+             ServiceManager.addService("iphonesubinfo", this);
+         }
+     }
+ 
++    // try-state
++    // either have permission (true), don't (exception), or explicitly turned off (false)
++    private boolean canReadPhoneState(String callingPackage, String message) {
++        if (mContext == null) return false;
++        try {
++            mContext.enforceCallingOrSelfPermission(
++                    android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE, message);
++
++            // SKIP checking for run-time permission since caller or self has PRIVILEDGED permission
++            return true;
++        } catch (SecurityException e) {
++            mContext.enforceCallingOrSelfPermission(android.Manifest.permission.READ_PHONE_STATE,
++                    message);
++        }
++
++
++
++        if (mAppOps.noteOp(AppOpsManager.OP_READ_PHONE_STATE, Binder.getCallingUid(),
++                callingPackage) != AppOpsManager.MODE_ALLOWED) {
++            return false;
++        }
++
++        return true;
++    }
++
+     // The device id should be constant for non-msim applications
+     // so always return device id from first phone.
+     public String getDeviceId(String callingPackage) {
+-        return getDeviceIdForPhone(PHONE_ID_1);
++        return getDeviceIdForPhone(PHONE_ID_1,
++                callingPackage);
+     }
+ 
+-    public String getDeviceIdForPhone(int phoneId) {
+-        Phone phone = getPhone(phoneId);
++    public String getDeviceIdForPhone(int phoneId, String callingPackage) {
++        if (!canReadPhoneState(callingPackage, "getDeviceId")) {
++            return null;
++        }
++
++        final Phone phone = getPhone(phoneId);
+         if (phone != null) {
+             return phone.getDeviceId();
+         } else {
+diff --git a/src/java/com/android/internal/telephony/PhoneSubInfoProxy.java b/src/java/com/android/internal/telephony/PhoneSubInfoProxy.java
+index 82376d1..92a1ab0 100755
+--- a/src/java/com/android/internal/telephony/PhoneSubInfoProxy.java
++++ b/src/java/com/android/internal/telephony/PhoneSubInfoProxy.java
+@@ -152,7 +152,7 @@ public class PhoneSubInfoProxy extends IPhoneSubInfo.Stub {
+     }
+ 
+     @Override
+-    public String getDeviceIdForPhone(int phoneId) throws RemoteException {
++    public String getDeviceIdForPhone(int phoneId, String callingPackage) throws RemoteException {
+         // FIXME: getDeviceIdForPhone
+         return null;
+     }
+-- 
+2.8.2
+

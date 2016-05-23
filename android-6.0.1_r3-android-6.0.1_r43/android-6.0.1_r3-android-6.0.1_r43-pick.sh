@@ -194,7 +194,7 @@ git cherry-pick 7a0e978a5ba16f237c7ef8aac9cb6154d2d183bd # DO NOT MERGE Update n
 
 cd /home/louis/WORK/YU_CAF/
 cd frameworks/opt/telephony/
-git cherry-pick c078223146c667cea03b090444efee76ce1a8ec0 # Check permissions on getDeviceId.
+git am -3 < /home/louis/WORK/YU_CAF/patches/0001-Check-permissions-on-getDeviceId.patch # Check permissions on getDeviceId.
 
 cd /home/louis/WORK/YU_CAF/
 cd hardware/libhardware/
