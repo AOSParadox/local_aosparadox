@@ -5,4 +5,3 @@ hardware/qcom/audio
 hardware/qcom/wlan
 system/media
 vendor/qcom/opensource/fm
-packages/apps/InCallUI
