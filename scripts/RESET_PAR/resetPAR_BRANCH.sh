@@ -1,8 +1,10 @@
 #!/bin/bash
 
 # Variables
-# $1 is branch
-# $2 is folder
+# $BRANCH the par branch
+# $FOLDER the target folder
+# $CAF_BRANCH the CAF branch
+date=$(date +"%Y%m%d" )
 
 function extract() {
     for FILE in `egrep -v '(^#|^$)' $1`; do
@@ -12,16 +14,16 @@ function extract() {
         if [ -z $DEST ]; then
             DEST=$FILE
         fi
-	cd /home/louis/WORK/$2/
+	cd /home/louis/WORK/YU_CAF/
 	cd $FILE
-	git fetch aosparadox $1
-	git reset --hard aosparadox/$1
+	git fetch aosparadox $BRANCH
+	git reset --hard aosparadox/$BRANCH
 	git checkout -b tmp
-	git branch -D $1
-	git checkout -b $1
+	git branch -D $BRANCH
+	git checkout -b $BRANCH
 	git branch -D tmp
-	cd /home/louis/WORK/$2/
+	cd /home/louis/WORK/YU_CAF/
     done
 }
 
-extract $1-path-list
+extract $BRANCH-path-list

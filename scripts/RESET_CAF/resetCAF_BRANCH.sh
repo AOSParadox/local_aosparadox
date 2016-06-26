@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # Variables
-# $1 is branch
-# $2 is folder
-# $3 is caf branch
+# $BRANCH the par branch
+# $FOLDER the target folder
+# $CAF_BRANCH the CAF branch
 date=$(date +"%Y%m%d" )
 
 function extract() {
@@ -14,19 +14,19 @@ function extract() {
         if [ -z $DEST ]; then
             DEST=$FILE
         fi
-	cd /home/louis/WORK/$2/
+	cd /home/louis/WORK/YU_CAF/
 	cd $FILE
-	git fetch caf $3
-	git fetch aosparadox $1
-	git reset --hard aosparadox/$1
-	git checkout -b backup/$date/$1
-	git push aosparadox backup/$date/$1
-	git reset --hard caf/$3
-	git branch -D $1
-	git checkout -b $1
-	git branch -D backup/$date/$1
-	cd /home/louis/WORK/$2/
+	git fetch caf $CAF_BRANCH
+	git fetch aosparadox $BRANCH
+	git reset --hard aosparadox/$BRANCH
+	git checkout -b backup/$date/$BRANCH
+	git push aosparadox backup/$date/$BRANCH
+	git reset --hard caf/$CAF_BRANCH
+	git branch -D $BRANCH
+	git checkout -b $BRANCH
+	git branch -D backup/$date/$BRANCH
+	cd /home/louis/WORK/YU_CAF/
     done
 }
 
-extract $1-path-list
+extract $BRANCH-path-list
