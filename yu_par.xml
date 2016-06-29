@@ -44,7 +44,6 @@
   <remove-project name="platform/packages/apps/Gallery2"/>
   <remove-project name="platform/packages/apps/Launcher3"/>
   <remove-project name="platform/packages/apps/Music"/>
-  <remove-project name="platform/packages/inputmethods/LatinIME"/> <!-- :'( -->
 
   <!-- Snapdragon Apps -->
   <project path="packages/apps/SnapdragonGallery" name="SnapdragonGallery" remote="qcom" revision="caf/android_ui.lnx.2.0.1-rel-base"/>
