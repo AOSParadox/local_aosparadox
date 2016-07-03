@@ -21,12 +21,14 @@
   <remove-project name="device/qcom/sepolicy"/>
   <remove-project name="kernel/msm-3.10"/>
   <remove-project name="platform/build"/>
+  <remove-project name="platform/bionic"/>
   <remove-project name="platform/external/boringssl"/>
   <remove-project name="platform/external/sepolicy"/>
   <remove-project name="platform/external/tinyalsa"/>
   <remove-project name="platform/external/tinycompress"/>
   <remove-project name="platform/frameworks/base"/>
   <remove-project name="platform/frameworks/opt/telephony"/>
+  <remove-project name="platform/hardware/libhardware"/>
   <remove-project name="platform/hardware/qcom/audio"/>
   <remove-project name="platform/hardware/qcom/bt"/>
   <remove-project name="platform/hardware/qcom/camera"/>
@@ -66,6 +68,7 @@
 
 
   <!-- Custom YU CAF repos -->
+  <project name="android_bionic" path="bionic" remote="par" revision="yu-par-6.0" />
   <project groups="pdk" name="android_build" path="build" remote="par" revision="8916-par-6.0">
     <copyfile dest="Makefile" src="core/root.mk"/>
   </project>
@@ -74,6 +77,7 @@
   <project name="android_external_tinycompress" path="external/tinycompress" remote="par" revision="8916-par-6.0" />
   <project name="android_external_tinyalsa" path="external/tinyalsa" remote="par" revision="8916-par-6.0" />
   <project name="android_frameworks_base" path="frameworks/base" remote="par" revision="yu-par-6.0" />
+  <project name="android_hardware_libhardware" path="hardware/libhardware" remote="par" revision="yu-par-6.0" />
   <project name="android_hardware_qcom_audio" path="hardware/qcom/audio" remote="par" revision="yu-par-6.0" />
   <project name="android_hardware_qcom_bt" path="hardware/qcom/bt" remote="par" revision="8916-par-6.0" />
   <project name="android_hardware_qcom_display" path="hardware/qcom/display" remote="par" revision="8916-par-6.0" />
@@ -91,6 +95,7 @@
   <!-- Kernels -->
   <project path="kernel_yu_msm8916_64" name="android_kernel_cyanogen_msm8916" remote="par" revision="yu-par-6.0-amss-1.0.2" />
   <project path="kernel_yu_msm8916_32" name="android_kernel_cyanogen_msm8916" remote="par" revision="yu-par-6.0-jalebi" />
+  <project path="kernel_caf" name="yu-aosp-staging/android_kernel_yu_msm8916" remote="github" revision="new-rebase" />
 
   <!-- Vendor -->
   <project path="vendor/aosparadox" name="android_vendor_aosparadox" remote="par" revision="marshmallow"/>
