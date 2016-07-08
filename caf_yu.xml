@@ -91,7 +91,7 @@
 
   <!-- Vendor -->
   <project path="vendor/aosparadox" name="android_vendor_aosparadox" remote="par" revision="marshmallow"/>
-  <project path="vendor/yu/" name="h2o64/proprietary_vendor_yu" remote="github" revision="yu-caf-6.0" />
+  <project path="vendor/yu/" name="AOSParadox/proprietary_vendor_yu" remote="github" revision="yu-caf-6.0" />
 
   <!-- Needed LP repos -->
   <project path="external/stlport" name="CyanogenMod/android_external_stlport" remote="github" revision="cm-13.0" />
