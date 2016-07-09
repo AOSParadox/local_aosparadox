@@ -34,6 +34,7 @@
   <remove-project name="platform/packages/services/Telephony"/>
   <remove-project name="platform/system/core"/>
   <remove-project name="platform/vendor/qcom/copper"/>
+  <remove-project name="platform/vendor/qcom/msm8226"/>
   <remove-project name="platform/packages/apps/Gallery2"/>
   <remove-project name="platform/packages/apps/Launcher3"/>
   <remove-project name="platform/packages/apps/Music"/>
@@ -48,12 +49,25 @@
   <project path="kernel/" name="android_kernel_oneplus_msm8974" remote="par" revision="bacon-par-6.0"/>
   <project path="vendor/oneplus/bacon" name="proprietary_vendor_oneplus" remote="par" revision="bacon-par-6.0"/>
 
+  <!-- OnePlus X -->
+  <project path="device/oneplus/onyx" name="android_device_oneplus_onyx" remote="par" revision="onyx-par-6.0"/>
+  <project path="kernel/" name="android_kernel_oneplus_onyx" remote="par" revision="onyx-par-6.0"/>
+  <project path="vendor/oneplus/onyx" name="proprietary_vendor_oneplus" remote="par" revision="onyx-par-6.0"/>
+
+  <!-- Motorola MSM8226 Devices -->
+  <project path="device/motorola/falcon" name="android_device_motorola_falcon" remote="par" revision="falcon-par-6.0"/>
+  <project path="device/motorola/titan" name="android_device_motorola_titan" remote="par" revision="titan-par-6.0"/>
+  <project path="kernel" name="android_kernel_motorola_msm8226" remote="github" revision="falcon-par-6.0"/>
+  <project path="vendor/motorola/falcon" name="proprietary_vendor_motorola" remote="par" revision="falcon-par-6.0"/>
+  <project path="vendor/motorola/titan" name="proprietary_vendor_motorola" remote="par" revision="titan-par-6.0"/>
+
   <!-- Custom CAF Trees -->
   <project name="android_device_qcom_common" path="device/qcom/common" remote="par" revision="8974-par-6.0">
     <copyfile dest="build.sh" src="build.sh"/>
     <copyfile dest="vendor/qcom/build/tasks/generate_extra_images.mk" src="generate_extra_images.mk"/>
   </project>
   <project name="android_device_qcom_msm8974" path="device/qcom/msm8974" remote="par" revision="bacon-par-6.0"/>
+  <project name="android_device_qcom_msm8974" path="device/qcom/msm8226" remote="par" revision="falcon-par-6.0"/>
   <project name="android_device_qcom_sepolicy" path="device/qcom/sepolicy" remote="par" revision="8974-par-6.0" />
 
 
