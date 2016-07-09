@@ -14,7 +14,7 @@ The branches for the devices trees/vendor are :
 How to sync ?
 =============
 - 1- Repo init the LA.BF.1.1.3-01610-8x74.0 CAF Tag
-	- To do so, use this command "repo init -u git://codeaurora.org/platform/manifest.git -b release -m default_LA.BF.1.1.3-01610-8x74.0 .xml"
+	- To do so, use this command "repo init -u git://codeaurora.org/platform/manifest.git -b release -m default_LA.BF.1.1.3-01610-8x74.0.xml"
 	- List of the CAF Tags here : https://www.codeaurora.org/xwiki/bin/QAEP/release
 - 2- Add the linked bacon_par.xml to .repo/local_manifests
 - 3- Sync

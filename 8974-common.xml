@@ -30,6 +30,7 @@
   <remove-project name="platform/hardware/qcom/gps"/>
   <remove-project name="platform/hardware/qcom/wlan"/>
   <remove-project name="platform/hardware/ril"/>
+  <remove-project name="platform/hardware/libhardware"/>
   <remove-project name="platform/packages/apps/Settings"/>
   <remove-project name="platform/packages/services/Telephony"/>
   <remove-project name="platform/system/core"/>
@@ -46,18 +47,18 @@
 
   <!-- OnePlus One -->
   <project path="device/oneplus/bacon" name="android_device_oneplus_bacon" remote="par" revision="bacon-par-6.0"/>
-  <project path="kernel/" name="android_kernel_oneplus_msm8974" remote="par" revision="bacon-par-6.0"/>
+  <project path="kernel_oneplus_bacon" name="android_kernel_oneplus_msm8974" remote="par" revision="bacon-par-6.0"/>
   <project path="vendor/oneplus/bacon" name="proprietary_vendor_oneplus" remote="par" revision="bacon-par-6.0"/>
 
   <!-- OnePlus X -->
   <project path="device/oneplus/onyx" name="android_device_oneplus_onyx" remote="par" revision="onyx-par-6.0"/>
-  <project path="kernel/" name="android_kernel_oneplus_onyx" remote="par" revision="onyx-par-6.0"/>
+  <project path="kernel_oneplus_onyx" name="android_kernel_oneplus_onyx" remote="par" revision="onyx-par-6.0"/>
   <project path="vendor/oneplus/onyx" name="proprietary_vendor_oneplus" remote="par" revision="onyx-par-6.0"/>
 
   <!-- Motorola MSM8226 Devices -->
   <project path="device/motorola/falcon" name="android_device_motorola_falcon" remote="par" revision="falcon-par-6.0"/>
   <project path="device/motorola/titan" name="android_device_motorola_titan" remote="par" revision="titan-par-6.0"/>
-  <project path="kernel" name="android_kernel_motorola_msm8226" remote="github" revision="falcon-par-6.0"/>
+  <project path="kernel_motorola_msm8226" name="android_kernel_motorola_msm8226" remote="par" revision="falcon-par-6.0"/>
   <project path="vendor/motorola/falcon" name="proprietary_vendor_motorola" remote="par" revision="falcon-par-6.0"/>
   <project path="vendor/motorola/titan" name="proprietary_vendor_motorola" remote="par" revision="titan-par-6.0"/>
 
@@ -67,7 +68,7 @@
     <copyfile dest="vendor/qcom/build/tasks/generate_extra_images.mk" src="generate_extra_images.mk"/>
   </project>
   <project name="android_device_qcom_msm8974" path="device/qcom/msm8974" remote="par" revision="bacon-par-6.0"/>
-  <project name="android_device_qcom_msm8974" path="device/qcom/msm8226" remote="par" revision="falcon-par-6.0"/>
+  <project name="android_device_qcom_msm8226" path="device/qcom/msm8226" remote="par" revision="falcon-par-6.0"/>
   <project name="android_device_qcom_sepolicy" path="device/qcom/sepolicy" remote="par" revision="8974-par-6.0" />
 
 
@@ -83,7 +84,8 @@
   <project name="android_hardware_qcom_bt" path="hardware/qcom/bt" remote="par" revision="8974-par-6.0"/>
   <project name="android_hardware_qcom_display" path="hardware/qcom/display" remote="par" revision="8974-par-6.0"/>
   <project name="android_hardware_qcom_wlan" path="hardware/qcom/wlan" remote="par" revision="bacon-par-6.0"/>
-  <project name="android_hardware_qcom_ril" path="hardware/ril" remote="par" revision="bacon-par-6.0"/>
+  <project name="android_hardware_ril" path="hardware/ril" remote="par" revision="bacon-par-6.0"/>
+  <project name="android_hardware_libhardware" path="hardware/libhardware" remote="par" revision="8974-par-6.0"/>
   <project name="android_system_core" path="system/core" remote="par" revision="8974-par-6.0" />
 
   <!-- MSIM Patches -->
