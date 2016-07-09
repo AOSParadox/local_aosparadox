@@ -1,6 +1,8 @@
+bionic/
 device/qcom/msm8916_32
 device/qcom/msm8916_64
 frameworks/base
+hardware/libhardware
 hardware/qcom/audio
 hardware/qcom/wlan
 system/media
