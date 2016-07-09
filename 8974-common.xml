@@ -20,6 +20,7 @@
   <remove-project name="platform/build"/>
   <remove-project name="platform/external/boringssl"/>
   <remove-project name="platform/external/sepolicy"/>
+  <remove-project name="platform/frameworks/av"/>
   <remove-project name="platform/frameworks/base"/>
   <remove-project name="platform/frameworks/opt/telephony"/>
   <remove-project name="platform/hardware/qcom/audio"/>
@@ -27,9 +28,12 @@
   <remove-project name="platform/hardware/qcom/camera"/>
   <remove-project name="platform/hardware/qcom/display"/>
   <remove-project name="platform/hardware/qcom/gps"/>
+  <remove-project name="platform/hardware/qcom/wlan"/>
+  <remove-project name="platform/hardware/ril"/>
   <remove-project name="platform/packages/apps/Settings"/>
   <remove-project name="platform/packages/services/Telephony"/>
   <remove-project name="platform/system/core"/>
+  <remove-project name="platform/vendor/qcom/copper"/>
   <remove-project name="platform/vendor/qcom/msm8226"/>
   <remove-project name="platform/packages/apps/Gallery2"/>
   <remove-project name="platform/packages/apps/Launcher3"/>
@@ -39,6 +43,16 @@
   <project path="packages/apps/SnapdragonGallery" name="SnapdragonGallery" remote="qcom" revision="caf/android_ui.lnx.2.0.1-rel-base"/>
   <project path="packages/apps/SnapdragonLauncher" name="SnapdragonLauncher" remote="qcom" revision="caf/android_ui.lnx.2.0.1-rel-base"/>
   <project path="packages/apps/SnapdragonMusic" name="SnapdragonMusic" remote="qcom" revision="caf/android_ui.lnx.2.0.1-rel-base"/>
+
+  <!-- OnePlus One -->
+  <project path="device/oneplus/bacon" name="android_device_oneplus_bacon" remote="par" revision="bacon-par-6.0"/>
+  <project path="kernel/" name="android_kernel_oneplus_msm8974" remote="par" revision="bacon-par-6.0"/>
+  <project path="vendor/oneplus/bacon" name="proprietary_vendor_oneplus" remote="par" revision="bacon-par-6.0"/>
+
+  <!-- OnePlus X -->
+  <project path="device/oneplus/onyx" name="android_device_oneplus_onyx" remote="par" revision="onyx-par-6.0"/>
+  <project path="kernel/" name="android_kernel_oneplus_onyx" remote="par" revision="onyx-par-6.0"/>
+  <project path="vendor/oneplus/onyx" name="proprietary_vendor_oneplus" remote="par" revision="onyx-par-6.0"/>
 
   <!-- Motorola MSM8226 Devices -->
   <project path="device/motorola/falcon" name="android_device_motorola_falcon" remote="par" revision="falcon-par-6.0"/>
@@ -52,6 +66,7 @@
     <copyfile dest="build.sh" src="build.sh"/>
     <copyfile dest="vendor/qcom/build/tasks/generate_extra_images.mk" src="generate_extra_images.mk"/>
   </project>
+  <project name="android_device_qcom_msm8974" path="device/qcom/msm8974" remote="par" revision="bacon-par-6.0"/>
   <project name="android_device_qcom_msm8974" path="device/qcom/msm8226" remote="par" revision="falcon-par-6.0"/>
   <project name="android_device_qcom_sepolicy" path="device/qcom/sepolicy" remote="par" revision="8974-par-6.0" />
 
@@ -63,9 +78,12 @@
   <project name="android_external_boringssl" path="external/boringssl" remote="par" revision="8974-par-6.0"/>
   <project name="android_external_sepolicy" path="external/sepolicy" remote="par" revision="8974-par-6.0"/>
   <project name="android_frameworks_base" path="frameworks/base" remote="par" revision="8974-par-6.0" groups="pdk-cw-fs" />
+  <project name="android_frameworks_av" path="frameworks/av" remote="par" revision="bacon-par-6.0" groups="pdk-cw-fs" />
   <project name="android_hardware_qcom_audio" path="hardware/qcom/audio" remote="par" revision="8974-par-6.0"/>
   <project name="android_hardware_qcom_bt" path="hardware/qcom/bt" remote="par" revision="8974-par-6.0"/>
   <project name="android_hardware_qcom_display" path="hardware/qcom/display" remote="par" revision="8974-par-6.0"/>
+  <project name="android_hardware_qcom_wlan" path="hardware/qcom/wlan" remote="par" revision="bacon-par-6.0"/>
+  <project name="android_hardware_qcom_ril" path="hardware/ril" remote="par" revision="bacon-par-6.0"/>
   <project name="android_system_core" path="system/core" remote="par" revision="8974-par-6.0" />
 
   <!-- MSIM Patches -->
@@ -75,7 +93,10 @@
 
   <!-- Vendor -->
   <project path="vendor/aosparadox" name="android_vendor_aosparadox" remote="par" revision="marshmallow"/>
-  <project path="manifest" name="local_aosparadox" remote="par" revision="falcon-par-6.0"/>
+  <project path="manifest" name="local_aosparadox" remote="par" revision="bacon-par-6.0"/>
+
+  <!-- Needed CM Repos -->
+  <project path="external/ant-wireless/antradio-library" name="CyanogenMod/android_external_ant-wireless_antradio-library" remote="github" revision="cm-13.0" />
 
   <!-- Needed LP repos -->
   <project path="external/connectivity" name="CyanogenMod/android_external_connectivity" remote="github" revision="cm-13.0" />
@@ -94,5 +115,5 @@
   <remove-project name="platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9" />
   <remove-project name="platform/prebuilts/gcc/linux-x86/mips/mips64el-linux-android-4.9" />
   <remove-project name="platform/prebuilts/python/darwin-x86/2.7.5" />
-
- </manifest>
+ 
+</manifest>
