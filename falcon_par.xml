@@ -57,7 +57,7 @@
 
 
   <!-- Custom YU CAF repos -->
-  <project name="android_build" path="build" remote="par" revision="unified-8974-par-6.0">
+  <project name="android_build" path="build" remote="par" revision="8974-par-6.0">
     <copyfile dest="Makefile" src="core/root.mk"/>
   </project>
   <project name="android_external_boringssl" path="external/boringssl" remote="par" revision="8974-par-6.0"/>
