@@ -39,8 +39,8 @@
   <remove-project name="platform/packages/apps/Music"/>
   
   <!-- Snapdragon Apps -->
-  <project path="packages/apps/SnapdragonGallery" name="SnapdragonGallery" remote="qcom" revision="caf/android_ui.lnx.2.0.1-rel-base"/>
-  <project path="packages/apps/SnapdragonLauncher" name="SnapdragonLauncher" remote="qcom" revision="caf/android_ui.lnx.2.0.1-rel-base"/>
+  <project path="packages/apps/SnapdragonGallery" name="SnapdragonGallery" remote="par" revision="common-par-6.0"/>
+  <project path="packages/apps/SnapdragonLauncher" name="SnapdragonLauncher" remote="par" revision="common-par-6.0"/>
   <project path="packages/apps/SnapdragonMusic" name="SnapdragonMusic" remote="qcom" revision="caf/android_ui.lnx.2.0.1-rel-base"/>
 
   <!-- OnePlus X -->
