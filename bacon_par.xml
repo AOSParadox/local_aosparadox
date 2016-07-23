@@ -18,6 +18,7 @@
   <remove-project name="device/qcom/sepolicy"/>
   <remove-project name="kernel/msm"/>
   <remove-project name="platform/build"/>
+  <remove-project name="platform/bionic"/>
   <remove-project name="platform/external/boringssl"/>
   <remove-project name="platform/external/sepolicy"/>
   <remove-project name="platform/frameworks/av"/>
@@ -28,8 +29,6 @@
   <remove-project name="platform/hardware/qcom/camera"/>
   <remove-project name="platform/hardware/qcom/display"/>
   <remove-project name="platform/hardware/qcom/gps"/>
-  <remove-project name="platform/hardware/qcom/wlan"/>
-  <remove-project name="platform/hardware/ril"/>
   <remove-project name="platform/hardware/libhardware"/>
   <remove-project name="platform/packages/apps/Settings"/>
   <remove-project name="platform/packages/services/Telephony"/>
@@ -46,7 +45,7 @@
 
   <!-- OnePlus One -->
   <project path="device/oneplus/bacon" name="android_device_oneplus_bacon" remote="par" revision="bacon-par-6.0"/>
-  <project path="kernel/" name="android_kernel_oneplus_msm8974" remote="par" revision="bacon-par-6.0"/>
+  <project path="kernel_oneplus_baconx" name="android_kernel_oneplus_msm8974" remote="par" revision="baconx-par-6.0"/>
   <project path="vendor/oneplus/bacon" name="proprietary_vendor_oneplus" remote="par" revision="bacon-par-6.0"/>
 
   <!-- Custom CAF Trees -->
@@ -59,6 +58,7 @@
 
 
   <!-- Custom YU CAF repos -->
+  <project path="bionic" name="android_bionic" remote="par" revision="8974-par-6.0" revision="bacon-par-6.0"/>
   <project name="android_build" path="build" remote="par" revision="8974-par-6.0">
     <copyfile dest="Makefile" src="core/root.mk"/>
   </project>
@@ -69,8 +69,6 @@
   <project name="android_hardware_qcom_audio" path="hardware/qcom/audio" remote="par" revision="8974-par-6.0"/>
   <project name="android_hardware_qcom_bt" path="hardware/qcom/bt" remote="par" revision="8974-par-6.0"/>
   <project name="android_hardware_qcom_display" path="hardware/qcom/display" remote="par" revision="8974-par-6.0"/>
-  <project name="android_hardware_qcom_wlan" path="hardware/qcom/wlan" remote="par" revision="bacon-par-6.0"/>
-  <project name="android_hardware_qcom_ril" path="hardware/ril" remote="par" revision="bacon-par-6.0"/>
   <project name="android_hardware_libhardware" path="hardware/libhardware" remote="par" revision="8974-par-6.0"/>
   <project name="android_system_core" path="system/core" remote="par" revision="8974-par-6.0" />
 
