@@ -27,6 +27,7 @@
   <remove-project name="platform/external/tinyalsa"/>
   <remove-project name="platform/external/tinycompress"/>
   <remove-project name="platform/frameworks/base"/>
+  <remove-project name="platform/frameworks/native"/>
   <remove-project name="platform/frameworks/opt/telephony"/>
   <remove-project name="platform/hardware/libhardware"/>
   <remove-project name="platform/hardware/qcom/audio"/>
@@ -77,6 +78,7 @@
   <project name="android_external_tinycompress" path="external/tinycompress" remote="par" revision="8916-par-6.0" />
   <project name="android_external_tinyalsa" path="external/tinyalsa" remote="par" revision="8916-par-6.0" />
   <project name="android_frameworks_base" path="frameworks/base" remote="par" revision="yu-par-6.0" />
+  <project name="android_frameworks_native" path="frameworks/native" remote="par" revision="8916-par-6.0" />
   <project name="android_hardware_libhardware" path="hardware/libhardware" remote="par" revision="yu-par-6.0" />
   <project name="android_hardware_qcom_audio" path="hardware/qcom/audio" remote="par" revision="yu-par-6.0" />
   <project name="android_hardware_qcom_bt" path="hardware/qcom/bt" remote="par" revision="8916-par-6.0" />
