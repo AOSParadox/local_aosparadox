@@ -23,6 +23,7 @@
   <remove-project name="platform/build"/>
   <remove-project name="platform/bionic"/>
   <remove-project name="platform/external/boringssl"/>
+  <remove-project name="platform/external/f2fs-tools"/>
   <remove-project name="platform/external/sepolicy"/>
   <remove-project name="platform/external/tinyalsa"/>
   <remove-project name="platform/external/tinycompress"/>
