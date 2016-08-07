@@ -71,8 +71,8 @@
   <project name="android_device_qcom_sepolicy" path="device/qcom/sepolicy" remote="par" revision="8974-par-6.0" />
 
 
-  <!-- Custom YU CAF repos -->
-  <project path="bionic" name="android_bionic" remote="par" revision="8974-par-6.0" revision="bacon-par-6.0"/>
+  <!-- Custom CAF repos -->
+  <project path="bionic" name="android_bionic" remote="par" revision="bacon-par-6.0"/>
   <project name="android_build" path="build" remote="par" revision="8974-par-6.0">
     <copyfile dest="Makefile" src="core/root.mk"/>
   </project>
@@ -96,6 +96,9 @@
 
   <!-- Needed CM Repos -->
   <project path="external/ant-wireless/antradio-library" name="CyanogenMod/android_external_ant-wireless_antradio-library" remote="github" revision="cm-13.0" />
+  <project path="external/libnfc-nci" name="CyanogenMod/android_external_libnfc-nci" remote="github" revision="cm-13.0" />
+  <project path="external/libnfc-nxp" name="CyanogenMod/android_external_libnfc-nxp" remote="github" revision="cm-13.0" />
+  <project path="packages/apps/Nfc" name="CyanogenMod/android_packages_apps_Nfc" remote="github" revision="cm-13.0" />
 
   <!-- Needed LP repos -->
   <project path="external/connectivity" name="CyanogenMod/android_external_connectivity" remote="github" revision="cm-13.0" />
