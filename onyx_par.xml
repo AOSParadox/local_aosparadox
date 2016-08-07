@@ -58,7 +58,7 @@
 
 
   <!-- Custom YU CAF repos -->
-  <project path="bionic" name="android_bionic" remote="par" revision="8974-par-6.0" revision="bacon-par-6.0"/>
+  <project path="bionic" name="android_bionic" remote="par" revision="bacon-par-6.0"/>
   <project name="android_build" path="build" remote="par" revision="8974-par-6.0">
     <copyfile dest="Makefile" src="core/root.mk"/>
   </project>
