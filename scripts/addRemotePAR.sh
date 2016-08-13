@@ -105,3 +105,18 @@ cd /home/louis/WORK/AOSPARADOX_FALCON/
 cd packages/apps/InCallUI
 git remote add aosparadox git@github.com:AOSParadox/android_packages_apps_InCallUI.git
 cd /home/louis/WORK/AOSPARADOX_FALCON/
+cd bionic/
+git remote add aosparadox git@github.com:AOSParadox/android_bionic.git
+cd /home/louis/WORK/AOSPARADOX_FALCON/
+cd frameworks/native
+git remote add aosparadox git@github.com:AOSParadox/android_frameworks_native.git
+cd /home/louis/WORK/AOSPARADOX_FALCON/
+cd system/extras
+git remote add aosparadox git@github.com:AOSParadox/android_system_extras.git
+cd /home/louis/WORK/AOSPARADOX_FALCON/
+cd packages/apps/SnapdragonGallery
+git remote add aosparadox git@github.com:AOSParadox/android_packages_apps_SnapdragonGallery.git
+cd /home/louis/WORK/AOSPARADOX_FALCON/
+cd packages/apps/SnapdragonLauncher
+git remote add aosparadox git@github.com:AOSParadox/android_packages_apps_SnapdragonLauncher.git
+cd /home/louis/WORK/AOSPARADOX_FALCON/
