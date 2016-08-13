@@ -8,17 +8,17 @@ function extract() {
         if [ -z $DEST ]; then
             DEST=$FILE
         fi
-	cd /home/louis/WORK/AOSPARADOX_FALCON/
+	cd ~/WORK/AOSPARADOX_FALCON/
 	cd $FILE
-	echo >> /home/louis/WORK/AOSPARADOX_FALCON/upgrade/scripts/COMMITS/CHANGELOG-8974-par-6.0
-	echo "cd /home/louis/WORK/AOSPARADOX_FALCON/ && cd $FILE # Go to PATH" >> /home/louis/WORK/AOSPARADOX_FALCON/upgrade/scripts/COMMITS/CHANGELOG-8974-par-6.0
+	echo >> ~/WORK/AOSPARADOX_FALCON/upgrade/scripts/COMMITS/CHANGELOG-8974-par-6.0
+	echo "cd ~/WORK/AOSPARADOX_FALCON/ && cd $FILE # Go to PATH" >> ~/WORK/AOSPARADOX_FALCON/upgrade/scripts/COMMITS/CHANGELOG-8974-par-6.0
 	# Uncomment for TAG Merging
-	git log -n 50 --pretty="git cherry-pick -s %H # %s - %ae" >> /home/louis/WORK/AOSPARADOX_FALCON/upgrade/scripts/COMMITS/CHANGELOG-8974-par-6.0_REPO
-	tac /home/louis/WORK/AOSPARADOX_FALCON/upgrade/scripts/COMMITS/CHANGELOG-8974-par-6.0_REPO >> /home/louis/WORK/AOSPARADOX_FALCON/upgrade/scripts/COMMITS/CHANGELOG-8974-par-6.0_REPO_NEW
-	cat /home/louis/WORK/AOSPARADOX_FALCON/upgrade/scripts/COMMITS/CHANGELOG-8974-par-6.0_REPO_NEW >> /home/louis/WORK/AOSPARADOX_FALCON/upgrade/scripts/COMMITS/CHANGELOG-8974-par-6.0
-	rm /home/louis/WORK/AOSPARADOX_FALCON/upgrade/scripts/COMMITS/CHANGELOG-8974-par-6.0_REPO /home/louis/WORK/AOSPARADOX_FALCON/upgrade/scripts/COMMITS/CHANGELOG-8974-par-6.0_REPO_NEW
-	echo "git push aosparadox 8974-par-6.0 -f" >> /home/louis/WORK/AOSPARADOX_FALCON/upgrade/scripts/COMMITS/CHANGELOG-8974-par-6.0
-	cd /home/louis/WORK/AOSPARADOX_FALCON/
+	git log -n 50 --pretty="git cherry-pick -s %H # %s - %ae" >> ~/WORK/AOSPARADOX_FALCON/upgrade/scripts/COMMITS/CHANGELOG-8974-par-6.0_REPO
+	tac ~/WORK/AOSPARADOX_FALCON/upgrade/scripts/COMMITS/CHANGELOG-8974-par-6.0_REPO >> ~/WORK/AOSPARADOX_FALCON/upgrade/scripts/COMMITS/CHANGELOG-8974-par-6.0_REPO_NEW
+	cat ~/WORK/AOSPARADOX_FALCON/upgrade/scripts/COMMITS/CHANGELOG-8974-par-6.0_REPO_NEW >> ~/WORK/AOSPARADOX_FALCON/upgrade/scripts/COMMITS/CHANGELOG-8974-par-6.0
+	rm ~/WORK/AOSPARADOX_FALCON/upgrade/scripts/COMMITS/CHANGELOG-8974-par-6.0_REPO ~/WORK/AOSPARADOX_FALCON/upgrade/scripts/COMMITS/CHANGELOG-8974-par-6.0_REPO_NEW
+	echo "git push aosparadox 8974-par-6.0 -f" >> ~/WORK/AOSPARADOX_FALCON/upgrade/scripts/COMMITS/CHANGELOG-8974-par-6.0
+	cd ~/WORK/AOSPARADOX_FALCON/
     done
 }
 

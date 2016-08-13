@@ -14,17 +14,14 @@ function extract() {
         if [ -z $DEST ]; then
             DEST=$FILE
         fi
-	cd /home/louis/WORK/YU_CAF/
+	cd ~/WORK/YU_CAF/
 	cd $FILE
-	echo >> /home/louis/WORK/YU_CAF/upgrade/scripts/COMMITS/CHANGELOG-$BRANCH
-	echo "cd /home/louis/WORK/YU_CAF/ && cd $FILE # Go to PATH" >> /home/louis/WORK/YU_CAF/upgrade/scripts/COMMITS/CHANGELOG-$BRANCH
+	echo >> ~/WORK/YU_CAF/upgrade/scripts/COMMITS/CHANGELOG-$BRANCH
+	echo "cd ~/WORK/YU_CAF/ && cd $FILE # Go to PATH" >> ~/WORK/YU_CAF/upgrade/scripts/COMMITS/CHANGELOG-$BRANCH
 	# Uncomment for TAG Merging
-	git log -n 50 --pretty="git cherry-pick -s %H # %s - %ae" >> /home/louis/WORK/YU_CAF/upgrade/scripts/COMMITS/CHANGELOG-$BRANCH-REPO
-	tac /home/louis/WORK/YU_CAF/upgrade/scripts/COMMITS/CHANGELOG-$BRANCH-REPO >> /home/louis/WORK/YU_CAF/upgrade/scripts/COMMITS/CHANGELOG-$BRANCH-REPO_NEW
-	cat /home/louis/WORK/YU_CAF/upgrade/scripts/COMMITS/CHANGELOG-$BRANCH-REPO_NEW >> /home/louis/WORK/YU_CAF/upgrade/scripts/COMMITS/CHANGELOG-$BRANCH
-	rm /home/louis/WORK/YU_CAF/upgrade/scripts/COMMITS/CHANGELOG-$BRANCH-REPO /home/louis/WORK/YU_CAF/upgrade/scripts/COMMITS/CHANGELOG-$BRANCH-REPO_NEW
-	echo "git push aosparadox $BRANCH -f" >> /home/louis/WORK/YU_CAF/upgrade/scripts/COMMITS/CHANGELOG-$BRANCH
-	cd /home/louis/WORK/YU_CAF/
+	git log -n 80 --reverse --pretty="git cherry-pick -s %H # %s - %ae" >> ~/WORK/YU_CAF/upgrade/scripts/COMMITS/CHANGELOG-$BRANCH
+	echo "git push aosparadox $BRANCH -f" >> ~/WORK/YU_CAF/upgrade/scripts/COMMITS/CHANGELOG-$BRANCH
+	cd ~/WORK/YU_CAF/
     done
 }
 

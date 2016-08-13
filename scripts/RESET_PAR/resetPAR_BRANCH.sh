@@ -14,7 +14,7 @@ function extract() {
         if [ -z $DEST ]; then
             DEST=$FILE
         fi
-	cd /home/louis/WORK/YU_CAF/
+	cd ~/WORK/YU_CAF/
 	cd $FILE
 	git fetch aosparadox $BRANCH
 	git reset --hard aosparadox/$BRANCH
@@ -22,7 +22,7 @@ function extract() {
 	git branch -D $BRANCH
 	git checkout -b $BRANCH
 	git branch -D tmp
-	cd /home/louis/WORK/YU_CAF/
+	cd ~/WORK/YU_CAF/
     done
 }
 
