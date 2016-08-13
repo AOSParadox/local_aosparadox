@@ -5,6 +5,8 @@ external/boringssl
 external/sepolicy
 external/tinycompress
 external/tinyalsa
+frameworks/native
 hardware/qcom/bt
 hardware/qcom/display
 system/core
+system/extras
