@@ -44,7 +44,7 @@
   <!-- Motorola MSM8226 Devices -->
   <project path="device/motorola/falcon" name="android_device_motorola_falcon" remote="par" revision="falcon-par-6.0"/>
   <project path="device/motorola/titan" name="android_device_motorola_titan" remote="par" revision="titan-par-6.0"/>
-  <project path="kernel" name="android_kernel_motorola_msm8226" remote="github" revision="falcon-par-6.0"/>
+  <project path="kernel" name="android_kernel_motorola_msm8226" remote="par" revision="falcon-par-6.0"/>
   <project path="vendor/motorola/falcon" name="proprietary_vendor_motorola" remote="par" revision="falcon-par-6.0"/>
   <project path="vendor/motorola/titan" name="proprietary_vendor_motorola" remote="par" revision="titan-par-6.0"/>
 
