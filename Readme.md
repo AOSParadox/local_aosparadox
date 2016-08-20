@@ -21,5 +21,6 @@ How to sync ?
 - 4- How to build ?
 	- A - ". build/envsetup.sh"
 	- B - "lunch full_DEVICE-user"
-	- C - "make -j8 otapackage"
+	- C - Kernel chooser "mv kernel_oneplus_baconx/ kernel/"
+	- D - "make -j8 otapackage"
 - 5- Here you're done
