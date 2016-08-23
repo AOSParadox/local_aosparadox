@@ -46,6 +46,7 @@
   <remove-project name="platform/system/core"/>
   <remove-project name="platform/system/extras"/>
   <remove-project name="platform/system/media"/>
+  <remove-project name="platform/system/vold"/>
   <remove-project name="platform/vendor/qcom-opensource/fm"/>
   <remove-project name="platform/vendor/qcom-opensource/wlan/prima"/>
   <remove-project name="platform/vendor/qcom/msm8916_32"/>
@@ -92,6 +93,7 @@
   <project name="android_system_core" path="system/core" remote="par" revision="8916-par-6.0" />
   <project name="android_system_extras" path="system/extras" remote="par" revision="8916-par-6.0" />
   <project name="android_system_media" path="system/media" remote="par" revision="yu-par-6.0" />
+  <project name="android_system_vold" path="system/vold" remote="par" revision="8916-par-6.0" />
   <project name="android_vendor_qcom_opensource_fm" path="vendor/qcom/opensource/fm" remote="par" revision="yu-par-6.0" />
   <project name="android_vendor_qcom_opensource_wlan_prima" path="vendor/qcom/opensource/wlan/prima" remote="par" revision="8916-par-6.0" />
   
