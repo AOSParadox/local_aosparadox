@@ -33,6 +33,7 @@
   <remove-project name="platform/frameworks/base"/>
   <remove-project name="platform/frameworks/native"/>
   <remove-project name="platform/frameworks/opt/telephony"/>
+  <remove-project name="platform/frameworks/opt/net/ims"/>
   <remove-project name="platform/hardware/libhardware"/>
   <remove-project name="platform/hardware/qcom/audio"/>
   <remove-project name="platform/hardware/qcom/bt"/>
@@ -99,6 +100,7 @@
   
   <!-- MSIM -->
   <project name="android_frameworks_opt_telephony" path="frameworks/opt/telephony" remote="par" revision="msim-8916-par-6.0" />
+  <project name="android_frameworks_opt_net_ims" path="frameworks/opt/net/ims" remote="par" revision="8916-par-6.0" />
   <project name="android_packages_apps_Settings" path="packages/apps/Settings" remote="par" revision="msim-8916-par-6.0" />
   <project name="android_packages_services_Telephony" path="packages/services/Telephony" remote="par" revision="msim-8916-par-6.0" />
 
