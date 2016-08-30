@@ -1,5 +1,5 @@
 =============================
-AOSParadox 2.1 for YU Devices
+AOSParadox 3.0 for YU Devices
 =============================
 
 Branches:
@@ -21,8 +21,7 @@ How to sync ?
 - 3- Sync
 - 4- How to build ?
 	- A - ". build/envsetup.sh"
-	- B - "lunch full_DEVICE-user"
-	- C - Kernel chooser (For tomato/lettuce --> "mv kernel_yu_msm8916_64/ kernel/") **OR** (For jalebi --> "mv kernel_yu_msm8916_32/ kernel/")
-	- D - "rm -rf hardware/libhardware/modules/sensors"
-	- E - "make -j8 otapackage"
+	- B - "lunch full_DEVICE-user" (eg:- lunch full_tomato-user)
+	- C - "rm -rf hardware/libhardware/modules/sensors"
+	- D - "make -j8 otapackage"
 - 5- Here you're done
