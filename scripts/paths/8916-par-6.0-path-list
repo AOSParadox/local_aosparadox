@@ -6,7 +6,10 @@ external/sepolicy
 external/tinycompress
 external/tinyalsa
 frameworks/native
+frameworks/opt/net/ims
 hardware/qcom/bt
 hardware/qcom/display
 system/core
 system/extras
+system/vold
+vendor/qcom/opensource/wlan/prima
