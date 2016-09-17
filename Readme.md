@@ -1,5 +1,5 @@
 =============================
-AOSParadox 3.0 for YU Devices
+AOSParadox 4.0 for YU Devices
 =============================
 
 Branches:
