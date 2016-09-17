@@ -62,47 +62,47 @@
   <project path="packages/apps/SnapdragonMusic" name="SnapdragonMusic" remote="qcom" revision="caf/android_ui.lnx.2.0.1-rel-base"/>
 
   <!-- YU Devices -->
-  <project path="device/yu/tomato" name="android_device_yu_tomato" remote="par" revision="tomato-par-6.0" />
-  <project path="device/yu/lettuce" name="android_device_yu_lettuce" remote="par" revision="lettuce-par-6.0" />
-  <project path="device/yu/jalebi" name="android_device_yu_jalebi" remote="par" revision="jalebi-par-6.0" />
+  <project path="device/yu/tomato" name="android_device_yu_tomato" remote="par" revision="tomato-par-BETA-6.0" />
+  <project path="device/yu/lettuce" name="android_device_yu_lettuce" remote="par" revision="lettuce-par-BETA-6.0" />
+  <project path="device/yu/jalebi" name="android_device_yu_jalebi" remote="par" revision="jalebi-par-BETA-6.0" />
 
   <!-- Custom CAF Trees -->
-  <project name="android_device_qcom_common" path="device/qcom/common" remote="par" revision="8916-par-6.0">
+  <project name="android_device_qcom_common" path="device/qcom/common" remote="par" revision="8916-par-BETA-6.0">
     <copyfile dest="build.sh" src="build.sh"/>
     <copyfile dest="vendor/qcom/build/tasks/generate_extra_images.mk" src="generate_extra_images.mk"/>
   </project>
-  <project name="android_device_qcom_msm8916_32" path="device/qcom/msm8916_32" remote="par" revision="yu-par-6.0" />
-  <project name="android_device_qcom_msm8916_64" path="device/qcom/msm8916_64" remote="par" revision="yu-par-6.0" />
-  <project name="android_device_qcom_sepolicy" path="device/qcom/sepolicy" remote="par" revision="8916-par-6.0" />
+  <project name="android_device_qcom_msm8916_32" path="device/qcom/msm8916_32" remote="par" revision="yu-par-BETA-6.0" />
+  <project name="android_device_qcom_msm8916_64" path="device/qcom/msm8916_64" remote="par" revision="yu-par-BETA-6.0" />
+  <project name="android_device_qcom_sepolicy" path="device/qcom/sepolicy" remote="par" revision="8916-par-BETA-6.0" />
 
   <!-- Custom YU CAF repos -->
-  <project name="android_bionic" path="bionic" remote="par" revision="yu-par-6.0" />
-  <project groups="pdk" name="android_build" path="build" remote="par" revision="8916-par-6.0">
+  <project name="android_bionic" path="bionic" remote="par" revision="yu-par-BETA-6.0" />
+  <project groups="pdk" name="android_build" path="build" remote="par" revision="8916-par-BETA-6.0">
     <copyfile dest="Makefile" src="core/root.mk"/>
   </project>
-  <project name="android_external_boringssl" path="external/boringssl" remote="par" revision="8916-par-6.0" />
-  <project name="android_external_sepolicy" path="external/sepolicy" remote="par" revision="8916-par-6.0" />
-  <project name="android_external_tinycompress" path="external/tinycompress" remote="par" revision="8916-par-6.0" />
-  <project name="android_external_tinyalsa" path="external/tinyalsa" remote="par" revision="8916-par-6.0" />
-  <project name="android_frameworks_base" path="frameworks/base" remote="par" revision="yu-par-6.0" />
-  <project name="android_frameworks_native" path="frameworks/native" remote="par" revision="8916-par-6.0" />
-  <project name="android_hardware_libhardware" path="hardware/libhardware" remote="par" revision="yu-par-6.0" />
-  <project name="android_hardware_qcom_audio" path="hardware/qcom/audio" remote="par" revision="yu-par-6.0" />
-  <project name="android_hardware_qcom_bt" path="hardware/qcom/bt" remote="par" revision="8916-par-6.0" />
-  <project name="android_hardware_qcom_display" path="hardware/qcom/display" remote="par" revision="8916-par-6.0" />
-  <project name="android_hardware_qcom_wlan" path="hardware/qcom/wlan" remote="par" revision="yu-par-6.0" />
-  <project name="android_system_core" path="system/core" remote="par" revision="8916-par-6.0" />
-  <project name="android_system_extras" path="system/extras" remote="par" revision="8916-par-6.0" />
-  <project name="android_system_media" path="system/media" remote="par" revision="yu-par-6.0" />
-  <project name="android_system_vold" path="system/vold" remote="par" revision="8916-par-6.0" />
-  <project name="android_vendor_qcom_opensource_fm" path="vendor/qcom/opensource/fm" remote="par" revision="yu-par-6.0" />
-  <project name="android_vendor_qcom_opensource_wlan_prima" path="vendor/qcom/opensource/wlan/prima" remote="par" revision="8916-par-6.0" />
+  <project name="android_external_boringssl" path="external/boringssl" remote="par" revision="8916-par-BETA-6.0" />
+  <project name="android_external_sepolicy" path="external/sepolicy" remote="par" revision="8916-par-BETA-6.0" />
+  <project name="android_external_tinycompress" path="external/tinycompress" remote="par" revision="8916-par-BETA-6.0" />
+  <project name="android_external_tinyalsa" path="external/tinyalsa" remote="par" revision="8916-par-BETA-6.0" />
+  <project name="android_frameworks_base" path="frameworks/base" remote="par" revision="yu-par-BETA-6.0" />
+  <project name="android_frameworks_native" path="frameworks/native" remote="par" revision="8916-par-BETA-6.0" />
+  <project name="android_hardware_libhardware" path="hardware/libhardware" remote="par" revision="yu-par-BETA-6.0" />
+  <project name="android_hardware_qcom_audio" path="hardware/qcom/audio" remote="par" revision="yu-par-BETA-6.0" />
+  <project name="android_hardware_qcom_bt" path="hardware/qcom/bt" remote="par" revision="8916-par-BETA-6.0" />
+  <project name="android_hardware_qcom_display" path="hardware/qcom/display" remote="par" revision="8916-par-BETA-6.0" />
+  <project name="android_hardware_qcom_wlan" path="hardware/qcom/wlan" remote="par" revision="yu-par-BETA-6.0" />
+  <project name="android_system_core" path="system/core" remote="par" revision="8916-par-BETA-6.0" />
+  <project name="android_system_extras" path="system/extras" remote="par" revision="8916-par-BETA-6.0" />
+  <project name="android_system_media" path="system/media" remote="par" revision="yu-par-BETA-6.0" />
+  <project name="android_system_vold" path="system/vold" remote="par" revision="8916-par-BETA-6.0" />
+  <project name="android_vendor_qcom_opensource_fm" path="vendor/qcom/opensource/fm" remote="par" revision="yu-par-BETA-6.0" />
+  <project name="android_vendor_qcom_opensource_wlan_prima" path="vendor/qcom/opensource/wlan/prima" remote="par" revision="8916-par-BETA-6.0" />
   
   <!-- MSIM -->
-  <project name="android_frameworks_opt_telephony" path="frameworks/opt/telephony" remote="par" revision="msim-8916-par-6.0" />
-  <project name="android_frameworks_opt_net_ims" path="frameworks/opt/net/ims" remote="par" revision="8916-par-6.0" />
-  <project name="android_packages_apps_Settings" path="packages/apps/Settings" remote="par" revision="msim-8916-par-6.0" />
-  <project name="android_packages_services_Telephony" path="packages/services/Telephony" remote="par" revision="msim-8916-par-6.0" />
+  <project name="android_frameworks_opt_telephony" path="frameworks/opt/telephony" remote="par" revision="msim-8916-par-BETA-6.0" />
+  <project name="android_frameworks_opt_net_ims" path="frameworks/opt/net/ims" remote="par" revision="8916-par-BETA-6.0" />
+  <project name="android_packages_apps_Settings" path="packages/apps/Settings" remote="par" revision="msim-8916-par-BETA-6.0" />
+  <project name="android_packages_services_Telephony" path="packages/services/Telephony" remote="par" revision="msim-8916-par-BETA-6.0" />
 
   <!-- Kernels -->
   <project path="kernel" name="yu-aosp-staging/android_kernel_yu_msm8916" remote="github" revision="new-rebase" />
@@ -110,7 +110,7 @@
   <!-- Vendor -->
   <project path="packages/apps/PARWallpapers" name="android_packages_apps_PARWallpapers" remote="par" revision="common-par-6.0"/>
   <project path="vendor/aosparadox" name="android_vendor_aosparadox" remote="par" revision="marshmallow"/>
-  <project path="vendor/yu/" name="proprietary_vendor_yu" remote="par" revision="yu-par-6.0" />
+  <project path="vendor/yu/" name="proprietary_vendor_yu" remote="par" revision="yu-par-BETA-6.0" />
 
   <!-- Substratum -->
   <project path="packages/apps/masquerade" name="masquerade" remote="TeamSubstratum" revision="master"/>

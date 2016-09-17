@@ -5,17 +5,17 @@ AOSParadox 3.0 for YU Devices
 Branches:
 =========
 They are 4 differents branches :
-- 8916-par-6.0 is a common branch that you'll find on all the non-devicetree repositories
+- 8916-par-BETA-6.0 is a common branch that you'll find on all the non-devicetree repositories
 The branches for the devices trees are :
-- yu-par-6.0
-- lettuce-par-6.0
-- tomato-par-6.0
-- jalebi-par-6.0
+- yu-par-BETA-6.0
+- lettuce-par-BETA-6.0
+- tomato-par-BETA-6.0
+- jalebi-par-BETA-6.0
 
 How to sync ?
 =============
-- 1- Repo init the LA.BR.1.2.7.c1-05400-8x16.0  CAF Tag
-	- To do so, use this command "repo init -u git://codeaurora.org/platform/manifest.git -b release -m default_LA.BR.1.2.7.c1-05400-8x16.0.xml"
+- 1- Repo init the LA.BR.1.2.6-02610-8x16.0  CAF Tag
+	- To do so, use this command "repo init -u git://codeaurora.org/platform/manifest.git -b release -m default_LA.BR.1.2.6-02610-8x16.0.xml"
 	- List of the CAF Tags here : https://www.codeaurora.org/xwiki/bin/QAEP/release
 - 2- Add the linked yu_par.xml to .repo/local_manifests
 - 3- "repo sync" to sync everything
