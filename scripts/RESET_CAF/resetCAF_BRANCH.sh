@@ -14,7 +14,7 @@ function extract() {
         if [ -z $DEST ]; then
             DEST=$FILE
         fi
-	cd ~/WORK/YU_CAF/
+	cd $MY_NICE_FOLDER/
 	cd $FILE
 	git fetch caf $CAF_BRANCH
 	git fetch aosparadox $BRANCH
@@ -25,7 +25,7 @@ function extract() {
 	git branch -D $BRANCH
 	git checkout -b $BRANCH
 	git branch -D backup/$date/$BRANCH
-	cd ~/WORK/YU_CAF/
+	cd $MY_NICE_FOLDER/
     done
 }
 

@@ -14,14 +14,14 @@ function extract() {
         if [ -z $DEST ]; then
             DEST=$FILE
         fi
-	cd ~/WORK/YU_CAF/
+	cd $MY_NICE_FOLDER/
 	cd $FILE
-	echo >> ~/WORK/YU_CAF/upgrade/scripts/COMMITS/CHANGELOG-$BRANCH
-	echo "cd ~/WORK/YU_CAF/ && cd $FILE # Go to PATH" >> ~/WORK/YU_CAF/upgrade/scripts/COMMITS/CHANGELOG-$BRANCH
+	echo >> $MY_NICE_FOLDER/upgrade/scripts/COMMITS/CHANGELOG-$BRANCH
+	echo "cd $MY_NICE_FOLDER/ && cd $FILE # Go to PATH" >> $MY_NICE_FOLDER/upgrade/scripts/COMMITS/CHANGELOG-$BRANCH
 	# Uncomment for TAG Merging
-	git log -n 80 --reverse --pretty="git cherry-pick -s %H # %s - %ae" >> ~/WORK/YU_CAF/upgrade/scripts/COMMITS/CHANGELOG-$BRANCH
-	echo "git push aosparadox $BRANCH -f" >> ~/WORK/YU_CAF/upgrade/scripts/COMMITS/CHANGELOG-$BRANCH
-	cd ~/WORK/YU_CAF/
+	git log -n 150 --reverse --pretty="git cherry-pick -s %H # %s - %ae" >> $MY_NICE_FOLDER/upgrade/scripts/COMMITS/CHANGELOG-$BRANCH
+	echo "git push aosparadox $BRANCH -f" >> $MY_NICE_FOLDER/upgrade/scripts/COMMITS/CHANGELOG-$BRANCH
+	cd $MY_NICE_FOLDER/
     done
 }
 
