@@ -97,7 +97,7 @@
   <project name="android_system_extras" path="system/extras" remote="par" revision="8916-par-BETA-6.0" />
   <project name="android_system_media" path="system/media" remote="par" revision="yu-par-BETA-6.0" />
   <project name="android_system_vold" path="system/vold" remote="par" revision="8916-par-BETA-6.0" />
-  <project name="android_vendor_qcom_opensource_fm" path="vendor/qcom/opensource/fm" remote="par" revision="yu-par-BETA-6.0" />
+  <project name="android_vendor_qcom_opensource_fm" path="vendor/qcom/opensource/fm" remote="par" revision="8916-par-BETA-6.0" />
   <project name="android_vendor_qcom_opensource_wlan_prima" path="vendor/qcom/opensource/wlan/prima" remote="par" revision="8916-par-BETA-6.0" />
   
   <!-- MSIM -->
