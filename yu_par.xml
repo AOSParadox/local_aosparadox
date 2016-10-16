@@ -23,6 +23,7 @@
   <remove-project name="device/qcom/common"/>
   <remove-project name="device/qcom/sepolicy"/>
   <remove-project name="kernel/msm-3.10"/>
+  <remove-project name="plaform/bootable/recovery"/>
   <remove-project name="platform/build"/>
   <remove-project name="platform/bionic"/>
   <remove-project name="platform/external/boringssl"/>
@@ -118,6 +119,9 @@
 
   <!-- Substratum -->
   <project path="packages/apps/masquerade" name="masquerade" remote="TeamSubstratum" revision="master"/>
+
+  <!-- TWRP -->
+  <project path="bootable/recovery" name="omnirom/android_bootable_recovery" remote="github" revision="android-6.0" />
 
   <!-- Needed CyanogenMod repos -->
   <project path="external/connectivity" name="CyanogenMod/android_external_connectivity" remote="github" revision="cm-13.0" />
