@@ -23,7 +23,7 @@
   <remove-project name="device/qcom/common"/>
   <remove-project name="device/qcom/sepolicy"/>
   <remove-project name="kernel/msm-3.10"/>
-  <remove-project name="plaform/bootable/recovery"/>
+  <remove-project name="platform/bootable/recovery"/>
   <remove-project name="platform/build"/>
   <remove-project name="platform/bionic"/>
   <remove-project name="platform/external/boringssl"/>
@@ -101,14 +101,14 @@
   <project name="android_system_vold" path="system/vold" remote="par" revision="8916-par-6.0" />
   <project name="android_vendor_qcom_opensource_fm" path="vendor/qcom/opensource/fm" remote="par" revision="8916-par-6.0" />
   <project name="android_vendor_qcom_opensource_wlan_prima" path="vendor/qcom/opensource/wlan/prima" remote="par" revision="8916-par-6.0" />
-  
+
   <!-- MSIM -->
   <project name="android_frameworks_opt_telephony" path="frameworks/opt/telephony" remote="par" revision="msim-8916-par-6.0" />
   <project name="android_frameworks_opt_net_ims" path="frameworks/opt/net/ims" remote="par" revision="8916-par-6.0" />
   <project name="android_packages_apps_Settings" path="packages/apps/Settings" remote="par" revision="msim-8916-par-6.0" />
   <project name="android_packages_services_Telephony" path="packages/services/Telephony" remote="par" revision="msim-8916-par-6.0" />
   <project name="android_packages_services_Telecomm" path="packages/services/Telecomm" remote="par" revision="msim-8916-par-6.0" />
-  
+
   <!-- Kernels -->
   <project path="kernel" name="yu-aosp-staging/android_kernel_yu_msm8916" remote="github" revision="new-rebase" />
 
@@ -121,12 +121,13 @@
   <project path="packages/apps/masquerade" name="masquerade" remote="TeamSubstratum" revision="master"/>
 
   <!-- TWRP -->
-  <project path="bootable/recovery" name="omnirom/android_bootable_recovery" remote="github" revision="android-6.0" />
+  <project path="bootable/recovery" name="sandroid_bootable_recovery" remote="par" revision="android-6.0" />
+  <project path="external/busybox" name="omnirom/android_external_busybox" remote="github" revision="android-6.0" />
 
   <!-- Needed CyanogenMod repos -->
   <project path="external/connectivity" name="CyanogenMod/android_external_connectivity" remote="github" revision="cm-13.0" />
   <project path="external/f2fs-tools" name="CyanogenMod/android_external_f2fs-tools" remote="github" revision="cm-13.0" />
-  
+
   <!-- Uneeded CAF repos -->
   <remove-project name="device/lge/hammerhead"/>
   <remove-project name="device/lge/hammerhead-kernel"/>
