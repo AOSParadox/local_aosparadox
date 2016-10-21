@@ -3,7 +3,6 @@ device/qcom/sepolicy
 build
 external/sepolicy
 external/tinycompress
-external/tinyalsa
 frameworks/native
 hardware/qcom/bt
 hardware/qcom/display
