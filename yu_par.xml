@@ -41,6 +41,7 @@
   <remove-project name="platform/hardware/qcom/gps"/>
   <remove-project name="platform/hardware/qcom/sensors"/>
   <remove-project name="platform/hardware/qcom/wlan"/>
+  <remove-project name="platform/packages/apps/FMRadio"/>
   <remove-project name="platform/packages/apps/Settings"/>
   <remove-project name="platform/packages/services/Telephony"/>
   <remove-project name="platform/system/core"/>
@@ -83,11 +84,12 @@
   <project name="android_hardware_qcom_display" path="hardware/qcom/display" remote="par" revision="8916-par-7.0" />
   <project name="android_hardware_qcom_wlan" path="hardware/qcom/wlan" remote="par" revision="yu-par-7.0" />
   <project name="android_system_core" path="system/core" remote="par" revision="8916-par-7.0" />
+  <project name="android_packages_apps_FMRadio" path="packages/apps/FMRadio" remote="par" revision="8916-par-7.0" />
   <project name="android_system_extras" path="system/extras" remote="par" revision="8916-par-7.0" />
   <project name="android_system_media" path="system/media" remote="par" revision="yu-par-7.0" />
   <project name="android_system_sepolicy" path="system/sepolicy" remote="par" revision="8916-par-7.0" />
   <project name="android_system_vold" path="system/vold" remote="par" revision="8916-par-7.0" />
-  <project name="android_vendor_qcom_opensource_fm" path="vendor/qcom/opensource/fm" remote="par" revision="yu-par-7.0" />
+  <project name="android_vendor_qcom_opensource_fm" path="vendor/qcom/opensource/fm" remote="par" revision="8916-par-7.0" />
   
   <!-- MSIM -->
   <project name="android_frameworks_opt_telephony" path="frameworks/opt/telephony" remote="par" revision="msim-8916-par-7.0" />
