@@ -32,6 +32,12 @@ function extract() {
 	elif [ "$FILE" = "device/qcom/msm8974" ]; then # msm8974
 	git remote remove caf
 	git remote add caf git://codeaurora.org/quic/la/platform/vendor/qcom/copper
+	elif [ "$FILE" = "vendor/qcom/opensource/wlan/fm" ]; then # qcom PRIMA
+	git remote remove caf
+	git remote add caf https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/fm/
+	elif [ "$FILE" = "vendor/qcom/opensource/wlan/prima" ]; then # qcom PRIMA
+	git remote remove caf
+	git remote add caf https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/prima/
 	else # For regular repos
 	git remote remove caf
 	git remote add caf git://codeaurora.org/quic/la/platform/$FILE
@@ -55,4 +61,11 @@ extract msim-bacon-par-6.0-path-list
 extract onyx-par-6.0-path-list
 extract unified-8974-par-6.0-path-list
 extract yu-par-6.0-path-list
+extract yu-par-BETA-6.0-path-list
+extract msim-8916-par-BETA-6.0-path-list
+extract 8916-par-BETA-6.0-path-list
+extract yu-par-7.0-path-list
+extract msim-8916-par-7.0-path-list
+extract 8916-par-7.0-path-list
+
 

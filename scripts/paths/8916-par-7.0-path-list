@@ -10,3 +10,5 @@ system/core
 system/extras
 system/vold
 frameworks/opt/net/ims
+vendor/qcom/opensource/fm
+packages/apps/FMRadio
