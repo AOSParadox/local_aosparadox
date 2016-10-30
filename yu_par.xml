@@ -53,7 +53,7 @@
   <remove-project name="platform/vendor/qcom/msm8916_32"/>
   <remove-project name="platform/vendor/qcom/msm8916_64"/>
   <remove-project name="platform/packages/apps/Gallery2"/>
-  <remove-project name="platform/packages/apps/Launcher3"/>
+  <remove-project name="platform/packages/apps/Launcher2"/>
   <remove-project name="platform/packages/apps/Music"/>
 
   <!-- YU Devices -->
