@@ -53,8 +53,12 @@
   <remove-project name="platform/vendor/qcom/msm8916_32"/>
   <remove-project name="platform/vendor/qcom/msm8916_64"/>
   <remove-project name="platform/packages/apps/Gallery2"/>
+  <remove-project name="platform/packages/apps/SnapdragonGallery"/>
   <remove-project name="platform/packages/apps/Launcher2"/>
   <remove-project name="platform/packages/apps/Music"/>
+
+  <!-- Snapdragon Apps -->
+  <project path="packages/apps/SnapdragonGallery" name="android_packages_apps_SnapdragonGallery" remote="par" revision="8916-par-7.0"/>
 
   <!-- YU Devices -->
   <project path="device/yu/tomato" name="android_device_yu_tomato" remote="par" revision="tomato-par-7.0" />
