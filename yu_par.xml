@@ -29,7 +29,6 @@
   <remove-project name="platform/external/f2fs-tools"/>
   <remove-project name="platform/system/sepolicy"/>
   <remove-project name="platform/external/tinycompress"/>
-  <remove-project name="platform/external/sqlite"/>
   <remove-project name="platform/frameworks/base"/>
   <remove-project name="platform/frameworks/native"/>
   <remove-project name="platform/frameworks/opt/telephony"/>
@@ -118,5 +117,18 @@
   <!-- Needed CyanogenMod repos -->
   <project path="external/connectivity" name="CyanogenMod/android_external_connectivity" remote="github" revision="cm-14.0" />
   <project path="external/f2fs-tools" name="CyanogenMod/android_external_f2fs-tools" remote="github" revision="cm-14.0" />
+
+  <!-- AOSPA -->
+  <remove-project name="platform/external/jemalloc" />
+  <remove-project name="platform/external/libjpeg-turbo" />
+  <remove-project name="platform/external/libpng" />
+  <remove-project name="platform/external/skia" />
+  <remove-project name="platform/external/sqlite" />
+  <project path="external/jemalloc" name="AOSPA/android_external_jemalloc" remote="github" revision="nougat-caf" />
+  <project path="external/libjpeg-turbo" name="AOSPA/android_external_libjpeg-turbo" remote="github" revision="nougat-caf" />
+  <project path="external/libpng" name="AOSPA/android_external_libpng" remote="github" revision="nougat-caf" />
+  <project path="external/skia" name="AOSPA/android_external_skia" remote="github" revision="nougat-caf" />
+  <project path="external/sqlite" name="AOSPA/android_external_sqlite" remote="github" revision="nougat-caf" />
+  <project path="vendor/qcom/sdclang-3.8/linux-x86" name="ThankYouMario/proprietary_vendor_qcom_sdclang-3.8_linux-x86" remote="github" revision="nougat-caf" />
 
 </manifest>
