@@ -1,7 +1,7 @@
 device/qcom/common
 device/qcom/sepolicy
 build
-external/sepolicy
+system/sepolicy
 external/tinycompress
 frameworks/native
 hardware/qcom/bt
@@ -12,3 +12,4 @@ system/vold
 frameworks/opt/net/ims
 vendor/qcom/opensource/fm
 packages/apps/FMRadio
+packages/apps/SnapdragonGallery
