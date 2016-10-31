@@ -19,7 +19,7 @@ function extract() {
 	echo >> $MY_NICE_FOLDER/upgrade/scripts/COMMITS/CHANGELOG-$BRANCH
 	echo "cd $MY_NICE_FOLDER/ && cd $FILE # Go to PATH" >> $MY_NICE_FOLDER/upgrade/scripts/COMMITS/CHANGELOG-$BRANCH
 	# Uncomment for TAG Merging
-	git log -n 150 --reverse --pretty="git cherry-pick -s %H # %s - %ae" >> $MY_NICE_FOLDER/upgrade/scripts/COMMITS/CHANGELOG-$BRANCH
+	git log -n 200 --reverse --pretty="git cherry-pick -s %H # %s - %ae" >> $MY_NICE_FOLDER/upgrade/scripts/COMMITS/CHANGELOG-$BRANCH
 	echo "git push aosparadox $BRANCH -f" >> $MY_NICE_FOLDER/upgrade/scripts/COMMITS/CHANGELOG-$BRANCH
 	cd $MY_NICE_FOLDER/
     done
