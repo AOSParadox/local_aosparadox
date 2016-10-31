@@ -32,7 +32,7 @@ function extract() {
 	elif [ "$FILE" = "device/qcom/msm8974" ]; then # msm8974
 	git remote remove caf
 	git remote add caf git://codeaurora.org/quic/la/platform/vendor/qcom/copper
-	elif [ "$FILE" = "vendor/qcom/opensource/wlan/fm" ]; then # qcom FM
+	elif [ "$FILE" = "vendor/qcom/opensource/fm" ]; then # qcom FM
 	git remote remove caf
 	git remote add caf https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/fm/
 	elif [ "$FILE" = "vendor/qcom/opensource/wlan/prima" ]; then # qcom PRIMA
@@ -43,7 +43,7 @@ function extract() {
 	git remote add caf git://codeaurora.org/quic/la/platform/$FILE
 	fi
 	GITHUB_FILE=$(echo "$FILE.git" | sed 's/\//_/g' | sed 's/_.git/.git/')
-	elif [ "$FILE" = "vendor/qcom/opensource/wlan/fm" ]; then # qcom FM
+	if [ "$FILE" = "vendor/qcom/opensource/fm" ]; then # qcom FM
 	git remote remove aosparadox
 	git remote add aosparadox git@github.com:AOSParadox/android_vendor_qcom_opensource_fm.git
 	elif [ "$FILE" = "vendor/qcom/opensource/wlan/prima" ]; then # qcom PRIMA
@@ -52,6 +52,7 @@ function extract() {
 	else # For regular repos
 	git remote remove aosparadox
 	git remote add aosparadox git@github.com:AOSParadox/android_$GITHUB_FILE
+	fi
 	cd $MAIN_PATH
 
     done
