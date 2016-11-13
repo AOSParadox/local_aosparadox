@@ -23,7 +23,7 @@
   <remove-project name="device/qcom/common"/>
   <remove-project name="device/qcom/sepolicy"/>
   <remove-project name="kernel/msm-3.10"/>
-  <!-- <remove-project name="platform/bootable/recovery"/> -->
+  <remove-project name="platform/bootable/recovery"/>
   <remove-project name="platform/build"/>
   <remove-project name="platform/bionic"/>
   <remove-project name="platform/external/boringssl"/>
@@ -79,6 +79,7 @@
   <project name="android_device_qcom_sepolicy" path="device/qcom/sepolicy" remote="par" revision="8916-par-BETA-6.0" />
 
   <!-- Custom YU CAF repos -->
+  <project path="bootable/recovery" name="android_bootable_recovery" remote="par" revision="yu-par-BETA-6.0" />
   <project name="android_bionic" path="bionic" remote="par" revision="yu-par-BETA-6.0" />
   <project groups="pdk" name="android_build" path="build" remote="par" revision="8916-par-BETA-6.0">
     <copyfile dest="Makefile" src="core/root.mk"/>
@@ -122,8 +123,7 @@
   <project path="packages/apps/masquerade" name="masquerade" remote="TeamSubstratum" revision="master"/>
 
   <!-- TWRP -->
-  <!-- <project path="bootable/recovery" name="android_bootable_recovery" remote="par" revision="android-6.0" />
-  <project path="external/busybox" name="omnirom/android_external_busybox" remote="github" revision="android-6.0" /> -->
+  <!-- <project path="external/busybox" name="omnirom/android_external_busybox" remote="github" revision="android-6.0" /> -->
 
   <!-- Needed CyanogenMod repos for Java 8 -->
   <remove-project name="platform/external/guava"/>
