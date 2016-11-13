@@ -23,7 +23,7 @@
   <remove-project name="device/qcom/common"/>
   <remove-project name="device/qcom/sepolicy"/>
   <remove-project name="kernel/msm-3.10"/>
-  <!-- <remove-project name="platform/bootable/recovery"/> -->
+  <remove-project name="platform/bootable/recovery"/>
   <remove-project name="platform/build"/>
   <remove-project name="platform/bionic"/>
   <remove-project name="platform/external/f2fs-tools"/>
@@ -76,6 +76,7 @@
   <project name="android_device_qcom_sepolicy" path="device/qcom/sepolicy" remote="par" revision="8916-par-7.0" />
 
   <!-- Custom YU CAF repos -->
+  <project path="bootable/recovery" name="android_bootable_recovery" remote="par" revision="yu-par-7.0" />
   <project name="android_bionic" path="bionic" remote="par" revision="yu-par-7.0" />
   <project groups="pdk" name="android_build" path="build" remote="par" revision="8916-par-7.0">
     <copyfile dest="Makefile" src="core/root.mk"/>
