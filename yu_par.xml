@@ -115,7 +115,7 @@
   <project path="vendor/yu/" name="proprietary_vendor_yu" remote="par" revision="yu-par-7.0" />
 
   <!-- Substratum -->
-  <project path="packages/apps/masquerade" name="masquerade" remote="TeamSubstratum" revision="master"/>
+  <project path="packages/apps/masquerade" name="masquerade" remote="TeamSubstratum" revision="n"/>
 
   <!-- TWRP -->
   <!-- <project path="bootable/recovery" name="android_bootable_recovery" remote="par" revision="android-7.0" />
