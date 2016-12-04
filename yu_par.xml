@@ -63,7 +63,7 @@
 
   <!-- YU Devices -->
   <project path="device/yu/tomato" name="android_device_yu_tomato" remote="par" revision="tomato-par-7.0" />
-  <!-- <project path="device/yu/lettuce" name="android_device_yu_lettuce" remote="par" revision="lettuce-par-7.0" /> -->
+  <project path="device/yu/lettuce" name="android_device_yu_lettuce" remote="par" revision="lettuce-par-7.0" />
   <project path="device/yu/jalebi" name="android_device_yu_jalebi" remote="par" revision="jalebi-par-7.0" />
 
   <!-- Custom CAF Trees -->
