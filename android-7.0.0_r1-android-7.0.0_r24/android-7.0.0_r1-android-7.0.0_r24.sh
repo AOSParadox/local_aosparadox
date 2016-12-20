@@ -106,9 +106,6 @@ git cherry-pick 8705eadfe8513a2ecc245c3e5add1fe988c9c09c # Fix potential NULL de
 
 cd $MY_NICE_FOLDER
 cd frameworks/base/
-git cherry-pick 61e9103b5725965568e46657f4781dd8f2e5b623 # Check uid for notification policy access.
-git cherry-pick e206f02d46ae5e38c74d138b51f6e1637e261abe # Pre-setup restrictions
-git cherry-pick 335702d106797bce8a88044783fa1fc1d5f751d0 # Disallow shell to mutate always-on vpn when DISALLOW_CONFIG_VPN user restriction is set
 git cherry-pick 866dc26ad4a98cc835d075b627326e7d7e52ffa1 # Add bound checks to utf16_to_utf8
 git cherry-pick 91fc934bb2e5ea59929bb2f574de6db9b5100745 # Block user from setting safe boot setting via adb
 git cherry-pick 6ca6cd5a50311d58a1b7bf8fbef3f9aa29eadcd5 # Don't allow enable/disable of tuner on lockscreen
