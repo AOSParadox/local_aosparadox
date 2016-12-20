@@ -106,19 +106,9 @@ git cherry-pick 8705eadfe8513a2ecc245c3e5add1fe988c9c09c # Fix potential NULL de
 
 cd $MY_NICE_FOLDER
 cd frameworks/base/
-git cherry-pick 866dc26ad4a98cc835d075b627326e7d7e52ffa1 # Add bound checks to utf16_to_utf8
-git cherry-pick 91fc934bb2e5ea59929bb2f574de6db9b5100745 # Block user from setting safe boot setting via adb
-git cherry-pick 6ca6cd5a50311d58a1b7bf8fbef3f9aa29eadcd5 # Don't allow enable/disable of tuner on lockscreen
-git cherry-pick c372cb67ade0e6b73f00d78abafe6c800f5a9bf2 # Allow apps with CREATE_USERS permission to call UM.getProfiles.
 git cherry-pick c4d27e949190d0dda13807d445544793e58aeb6c # Added error handling to settings suggestions list
 git cherry-pick 71c5b4497e8a25df20bb2531da972f5b2371073d # Avoid potential re-entry as a result of child mutation
 git cherry-pick 904e59617c8f6f49440bc800b678723668c46710 # Try to mitigate issue #31016187: system_server crash in ArraySet.
-git cherry-pick b55f2e5b726005e456b4e7561954f3ea7d337d3e # Bind fingerprint when we start authentication
-git cherry-pick 24fa84589544f8bb8f043c3e016a197876c82a96 # DO NOT MERGE: Fix vulnerability where large GPS XTRA data can be injected. -Can potentially crash system with OOM. Bug: 29555864
-git cherry-pick c8a462e81de4047c37e314ffad5954fcd977ceaa # Process: Fix communication with zygote.
-git cherry-pick d9a7562a722232fd56aa216e95f07d51e85bfade # Limit capabilities of a11y gesture dispatch.
-git cherry-pick d244887644bbd39864ffd38c797a53db6c58a641 # DO NOT MERGE: Clean up when recycling a pid with a pending launch
-git cherry-pick 38ba9686c5351e8a7b02cf9ab36456070df026d2 # Fix vulnerability in LockSettings service
 git cherry-pick 5a5b2a49f8d3601463f608435decc27b578fe788 # DO NOT MERGE -- Correctly finish activity in non-focused stack
 git cherry-pick c662295d8267339eac31d0efe6bef57827559429 # Enforce consistent sizes for arrays in SpannableStringInternal
 git cherry-pick 7f5d46a8691843afc8d7bc5d6890220f8197b09e # Fixed a bug where the headsup would be stuck disappearing
@@ -159,16 +149,10 @@ git cherry-pick 4744ea74cdd52b691abf781b349203006ce107d8 # DO NOT MERGE Isolated
 
 cd $MY_NICE_FOLDER
 cd frameworks/native/
-git cherry-pick 1f4b49e64adf4623eefda503bca61e253597b9bf # Add bound checks to utf16_to_utf8
-git cherry-pick 363247929c35104b3e5ee9e637e9dcf579080aee # Region: Detect malicious overflow in unflatten
-git cherry-pick f369622da40651da6ac7c01bb646d6309ab35e20 # ServiceManager: Restore basic uid check
-git cherry-pick a08cb881cb7b523c7c80d71d2a37bcbe89d3ae68 # ServiceManager: Allow system services running as secondary users to add services
 git cherry-pick 1a54d9d51a0b3a5a2d0a2be9eea59d0e80ef11f9 # DO NOT MERGE ANYWHERE: BufferQueue consumers: Add discardFreeBuffer method
 
 cd $MY_NICE_FOLDER
 cd frameworks/opt/telephony/
-git cherry-pick b2c89e6f8962dc7aff88cb38aa3ee67d751edda9 # DO NOT MERGE add private function convertSafeLable
-git cherry-pick b8d1aee993dcc565e6576b2f2439a8f5a507cff6 # Do not allow premium SMS during SuW
 git cherry-pick 8590a9440bbef5c7b70a9e59ea7a37451884d17b # Remove flag from intent sent from Catservice to StkApp.
 
 cd $MY_NICE_FOLDER
@@ -183,10 +167,6 @@ git cherry-pick 3f9497ead056f004d2cebc3f54d7b041ab16de29 # Fix setPairingConfirm
 cd $MY_NICE_FOLDER
 cd packages/apps/CellBroadcastReceiver/
 git cherry-pick bc4661c1d757fe0003069dce04e80445f61e19af # Fixed that emergency messages are not enabled for Japanese carriers
-
-cd $MY_NICE_FOLDER
-cd packages/apps/Email/
-git cherry-pick 19df2a48cf356e63639bedcfec7b823f11c14020 # Limit account id and id to longs
 
 cd $MY_NICE_FOLDER
 cd packages/apps/Launcher3/
@@ -206,10 +186,6 @@ cd packages/providers/DownloadProvider/
 git cherry-pick fad292353c4f1a6cd4572644d552a53f7449fff0 # Enforce calling identity before clearing.
 
 cd $MY_NICE_FOLDER
-cd packages/providers/TelephonyProvider/
-git cherry-pick 6a3361528aef860b2f1ba276957b11f809ce1ffe # 30481342: Security Vulnerability - TOCTOU in MmsProvider allows access to files as phone (radio) uid
-
-cd $MY_NICE_FOLDER
 cd packages/services/Telephony/
 git cherry-pick 933472a45e11ca92f653e178bbc7fa0592ae2762 # Restrict SipProfiles to profiles directory
 git cherry-pick 22be15b2c23c3038cd2a9d12f7b88b862508cc92 # Unexport OmtpMessageReceiver
@@ -221,6 +197,4 @@ git am < $PATCHES/0001-audio_a2dp_hw-Always-update-frame-counter-in-out_wri.patc
 
 cd $MY_NICE_FOLDER
 cd system/media/
-git cherry-pick 8188864cf88914e222d60cdded7fbc51fd48fddc # Camera metadata: Check for inconsistent data count
-git cherry-pick a0cbcf8be808d0204ce4f42ba23452bf6134ad16 # Camera: Prevent data size overflow
 git cherry-pick 0a1cd0704b4adc398209c058c14a145e5158567a # Fix potential overflow in Visualizer effect
