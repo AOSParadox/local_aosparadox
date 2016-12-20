@@ -1,0 +1,51 @@
+From c5565862dee259ea906d19e38f9121f2c9132093 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?M=C3=A5rten=20Kongstad?= <marten.kongstad@sonymobile.com>
+Date: Mon, 25 Apr 2016 16:29:22 +0200
+Subject: [PATCH 05/32] OMS7-N: Set EXTRA_REPLACING correctly in
+ ACTION_PACKAGE_ADDED [4/11]
+
+When broadcasting ACTION_PACKAGE_ADDED the recipients of the Intent are
+split into two groups: the first group hasn't seen the new package
+before and the Intent should have EXTRA_REPLACING set to false; and vice
+versa for the second group.
+
+The package manager schedules these Intent broadcasts on a background
+thread by posting Runnable objects to a handler. Each Runnable holds
+references to objects used to construct the Intents, one of which is a
+Bundle used to create the Intent extras.
+
+If the same Bundle object is used for both recipient groups, any
+modification to the object made for one group will unintentionally
+propagate to the other. To prevent this a separate Bundle is now created
+for each group.
+
+Prior to this patch, the following scenario would fail:
+
+  1. Install a package P for user owner
+  2. Create and switch to a secondary user
+  3. Install a new version of package P (for all users)
+
+In step 3, the secondary user was expected to receive
+ACTION_PACKAGE_ADDED with EXTRA_REPLACING set to false, but instead it
+was set to true. The bug was initially introduced in commit bd0e9e49.
+
+Change-Id: Icf869013d5d652de4bf0f6df4529b7a68d35a25c
+---
+ services/core/java/com/android/server/pm/PackageManagerService.java | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/services/core/java/com/android/server/pm/PackageManagerService.java b/services/core/java/com/android/server/pm/PackageManagerService.java
+index 3ccc88a..fc0c9e9 100755
+--- a/services/core/java/com/android/server/pm/PackageManagerService.java
++++ b/services/core/java/com/android/server/pm/PackageManagerService.java
+@@ -1889,6 +1889,7 @@ public class PackageManagerService extends IPackageManager.Stub {
+ 
+                 // Send added for users that don't see the package for the first time
+                 if (update) {
++                    extras = new Bundle(extras);
+                     extras.putBoolean(Intent.EXTRA_REPLACING, true);
+                 }
+                 sendPackageBroadcast(Intent.ACTION_PACKAGE_ADDED, packageName,
+-- 
+2.9.3
+

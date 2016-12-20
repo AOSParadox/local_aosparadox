@@ -1,0 +1,37 @@
+From ad9f22d3a61b83efad974091ab9e7198f6628834 Mon Sep 17 00:00:00 2001
+From: Thyrus11 <thyrus11@gmail.com>
+Date: Sat, 21 Feb 2015 07:19:42 +0100
+Subject: [PATCH 28/32] Themes: Make resolver list fully themeable
+
+Follow-up on commit cc9e3b8fcba95b911d1cda36f7770c410058aa8b.
+
+Change-Id: I3f006a1157db9d0b151a4fe8edf50e7edc7a0b9f
+---
+ core/res/res/layout/resolver_list_with_default.xml | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/core/res/res/layout/resolver_list_with_default.xml b/core/res/res/layout/resolver_list_with_default.xml
+index 02dc2ed..61848ec 100644
+--- a/core/res/res/layout/resolver_list_with_default.xml
++++ b/core/res/res/layout/resolver_list_with_default.xml
+@@ -110,7 +110,7 @@
+             android:paddingBottom="8dp"
+             android:paddingStart="12dp"
+             android:paddingEnd="12dp"
+-            android:background="@color/white"
++            android:background="@color/resolver_list_bg"
+             android:elevation="8dp">
+ 
+             <Button
+@@ -150,7 +150,7 @@
+         android:id="@+id/resolver_list"
+         android:clipToPadding="false"
+         android:scrollbarStyle="outsideOverlay"
+-        android:background="@color/white"
++        android:background="@color/resolver_list_bg"
+         android:elevation="8dp"
+         android:nestedScrollingEnabled="true"
+         android:divider="@null" />
+-- 
+2.9.3
+

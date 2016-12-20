@@ -1,0 +1,159 @@
+From 0164fc3c4a8cbb8b159e8abdd0851533ffd9c0c2 Mon Sep 17 00:00:00 2001
+From: George G <kreach3r@users.noreply.github.com>
+Date: Mon, 4 Jul 2016 12:07:11 +0300
+Subject: [PATCH 1/6] OMS7-N: Apps: show/hide Substratum overlays [2/2]
+
+Default behavior is "hidden" substratum overlays,
+as they pollute the screen, and you can't notice the
+actual apps.
+So we follow the current trend set by Android with
+"show system" and make it "show overlays" on default.
+
+Change-Id: I1cd4d4d3acd767a87fe402c325a872a4c04e0438
+---
+ res/menu/manage_apps.xml                           |  8 +++++++
+ res/values/projekt_strings.xml                     | 23 ++++++++++++++++++
+ .../settings/applications/ManageApplications.java  | 27 +++++++++++++++++++++-
+ 3 files changed, 57 insertions(+), 1 deletion(-)
+ create mode 100644 res/values/projekt_strings.xml
+
+diff --git a/res/menu/manage_apps.xml b/res/menu/manage_apps.xml
+index 02ee2bb..67f09e5 100644
+--- a/res/menu/manage_apps.xml
++++ b/res/menu/manage_apps.xml
+@@ -30,6 +30,14 @@
+         android:title="@string/menu_hide_system"
+         android:showAsAction="never" />
+     <item
++        android:id="@+id/show_substratum"
++        android:title="@string/menu_show_substratum"
++        android:showAsAction="never" />
++    <item
++        android:id="@+id/hide_substratum"
++        android:title="@string/menu_hide_substratum"
++        android:showAsAction="never" />
++    <item
+         android:id="@+id/sort_order_alpha"
+         android:title="@string/sort_order_alpha"
+         android:showAsAction="never" />
+diff --git a/res/values/projekt_strings.xml b/res/values/projekt_strings.xml
+new file mode 100644
+index 0000000..177e78c
+--- /dev/null
++++ b/res/values/projekt_strings.xml
+@@ -0,0 +1,23 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!-- Copyright (c) 2016 Project Substratum
++
++     Licensed under the Apache License, Version 2.0 (the "License");
++     you may not use this file except in compliance with the License.
++     You may obtain a copy of the License at
++
++          http://www.apache.org/licenses/LICENSE-2.0
++
++     Unless required by applicable law or agreed to in writing, software
++     distributed under the License is distributed on an "AS IS" BASIS,
++     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++     See the License for the specific language governing permissions and
++     limitations under the License.
++-->
++<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
++
++   <!-- Manage applications: show substratum overlays -->
++   <string name="filter_substratum_apps">Substratum overlays</string>
++   <string name="menu_show_substratum">Show overlays</string>
++   <string name="menu_hide_substratum">Hide overlays</string>
++
++</resources>
+diff --git a/src/com/android/settings/applications/ManageApplications.java b/src/com/android/settings/applications/ManageApplications.java
+index d9e28fe..6b58180 100644
+--- a/src/com/android/settings/applications/ManageApplications.java
++++ b/src/com/android/settings/applications/ManageApplications.java
+@@ -108,6 +108,7 @@ public class ManageApplications extends InstrumentedFragment
+ 
+     private static final String EXTRA_SORT_ORDER = "sortOrder";
+     private static final String EXTRA_SHOW_SYSTEM = "showSystem";
++    private static final String EXTRA_SHOW_SUBSTRATUM = "showSubstratum";
+     private static final String EXTRA_HAS_ENTRIES = "hasEntries";
+     private static final String EXTRA_HAS_BRIDGE = "hasBridge";
+ 
+@@ -140,6 +141,7 @@ public class ManageApplications extends InstrumentedFragment
+     public static final int FILTER_APPS_USAGE_ACCESS = 13;
+     public static final int FILTER_APPS_WITH_OVERLAY = 14;
+     public static final int FILTER_APPS_WRITE_SETTINGS = 15;
++    public static final int FILTER_APPS_SUBSTRATUM = 16;
+ 
+     // This is the string labels for the filter modes above, the order must be kept in sync.
+     public static final int[] FILTER_LABELS = new int[]{
+@@ -189,6 +191,9 @@ public class ManageApplications extends InstrumentedFragment
+     // whether showing system apps.
+     private boolean mShowSystem;
+ 
++    // whether showing substratum overlays.
++    private boolean mShowSubstratum;
++
+     private ApplicationsState mApplicationsState;
+ 
+     public int mListType;
+@@ -281,6 +286,7 @@ public class ManageApplications extends InstrumentedFragment
+         if (savedInstanceState != null) {
+             mSortOrder = savedInstanceState.getInt(EXTRA_SORT_ORDER, mSortOrder);
+             mShowSystem = savedInstanceState.getBoolean(EXTRA_SHOW_SYSTEM, mShowSystem);
++            mShowSubstratum = savedInstanceState.getBoolean(EXTRA_SHOW_SUBSTRATUM, mShowSubstratum);
+         }
+ 
+         mInvalidSizeStr = getActivity().getText(R.string.invalid_size_value);
+@@ -449,6 +455,7 @@ public class ManageApplications extends InstrumentedFragment
+         mResetAppsHelper.onSaveInstanceState(outState);
+         outState.putInt(EXTRA_SORT_ORDER, mSortOrder);
+         outState.putBoolean(EXTRA_SHOW_SYSTEM, mShowSystem);
++        outState.putBoolean(EXTRA_SHOW_SUBSTRATUM, mShowSubstratum);
+         outState.putBoolean(EXTRA_HAS_ENTRIES, mApplications.mHasReceivedLoadEntries);
+         outState.putBoolean(EXTRA_HAS_BRIDGE, mApplications.mHasReceivedBridgeCallback);
+     }
+@@ -573,6 +580,11 @@ public class ManageApplications extends InstrumentedFragment
+                 && mListType != LIST_TYPE_HIGH_POWER);
+         mOptionsMenu.findItem(R.id.hide_system).setVisible(mShowSystem
+                 && mListType != LIST_TYPE_HIGH_POWER);
++
++        mOptionsMenu.findItem(R.id.show_substratum).setVisible(!mShowSubstratum
++                && mListType != LIST_TYPE_HIGH_POWER);
++        mOptionsMenu.findItem(R.id.hide_substratum).setVisible(mShowSubstratum
++                && mListType != LIST_TYPE_HIGH_POWER);
+     }
+ 
+     @Override
+@@ -592,6 +604,11 @@ public class ManageApplications extends InstrumentedFragment
+                 mShowSystem = !mShowSystem;
+                 mApplications.rebuild(false);
+                 break;
++            case R.id.show_substratum:
++            case R.id.hide_substratum:
++                mShowSubstratum = !mShowSubstratum;
++                mApplications.rebuild(false);
++                break;
+             case R.id.reset_app_preferences:
+                 mResetAppsHelper.buildResetDialog();
+                 return true;
+@@ -880,9 +897,17 @@ public class ManageApplications extends InstrumentedFragment
+             if (mOverrideFilter != null) {
+                 filterObj = mOverrideFilter;
+             }
+-            if (!mManageApplications.mShowSystem) {
++            if (!mManageApplications.mShowSystem && !mManageApplications.mShowSubstratum) {
+                 filterObj = new CompoundFilter(filterObj,
+                         ApplicationsState.FILTER_DOWNLOADED_AND_LAUNCHER);
++                filterObj = new CompoundFilter(filterObj,
++                        ApplicationsState.FILTER_SUBSTRATUM);
++            } else if (!mManageApplications.mShowSystem) {
++                filterObj = new CompoundFilter(filterObj,
++                        ApplicationsState.FILTER_DOWNLOADED_AND_LAUNCHER);
++            } else if (!mManageApplications.mShowSubstratum) {
++                filterObj = new CompoundFilter(filterObj,
++                        ApplicationsState.FILTER_SUBSTRATUM);
+             }
+             switch (mLastSortMode) {
+                 case R.id.sort_order_size:
+-- 
+2.9.3
+

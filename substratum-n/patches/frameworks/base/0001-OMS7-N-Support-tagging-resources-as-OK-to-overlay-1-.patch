@@ -1,0 +1,474 @@
+From c8553f43898749f3204a690ceeed15edf7029d68 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?M=C3=A5rten=20Kongstad?= <marten.kongstad@sonymobile.com>
+Date: Tue, 15 Dec 2015 16:08:31 +0100
+Subject: [PATCH 01/32] OMS7-N: Support tagging resources as OK to overlay
+ [1/11]
+
+This will allow applications to have a resource xml defining what
+resources that are safe to overlay by third party overlay packages.
+The format of the tag is <overlay type="..." name="..."/> and it will
+result in the FLAG_OVELAY being set on the resource entry.
+
+An overlay package with resources that are not tagged as OK
+to overlay by the target application, is considered to be a dangerous
+overlay.
+
+Idmaps generated for dangerous overlays will be flagged as dangerous in
+the idmap header. It is still possible to use both idmap and overlays that
+are dangerous, but it might not be advisable.
+
+The intention is to allow dangerous overlays to be used if
+they are pre-installed or if the signature of the overlay package
+matches the signature of the target package.
+
+Change-Id: I08d11de845c1679017798ea1636ef4c36f820d8e
+---
+ cmds/idmap/create.cpp             |  2 +-
+ cmds/idmap/inspect.cpp            |  6 +++
+ include/androidfw/ResourceTypes.h | 10 ++--
+ libs/androidfw/AssetManager.cpp   |  2 +-
+ libs/androidfw/ResourceTypes.cpp  | 27 ++++++++---
+ tools/aapt/ResourceTable.cpp      | 96 ++++++++++++++++++++++++++++++++++++++-
+ tools/aapt/ResourceTable.h        | 36 ++++++++++++++-
+ 7 files changed, 164 insertions(+), 15 deletions(-)
+
+diff --git a/cmds/idmap/create.cpp b/cmds/idmap/create.cpp
+index c13d318..8656b0e 100644
+--- a/cmds/idmap/create.cpp
++++ b/cmds/idmap/create.cpp
+@@ -106,7 +106,7 @@ fail:
+ 
+         uint32_t cached_target_crc, cached_overlay_crc;
+         String8 cached_target_path, cached_overlay_path;
+-        if (!ResTable::getIdmapInfo(buf, N, NULL, &cached_target_crc, &cached_overlay_crc,
++        if (!ResTable::getIdmapInfo(buf, N, NULL, NULL, &cached_target_crc, &cached_overlay_crc,
+                     &cached_target_path, &cached_overlay_path)) {
+             return true;
+         }
+diff --git a/cmds/idmap/inspect.cpp b/cmds/idmap/inspect.cpp
+index f6afc85..924090f 100644
+--- a/cmds/idmap/inspect.cpp
++++ b/cmds/idmap/inspect.cpp
+@@ -192,6 +192,12 @@ namespace {
+         if (err != NO_ERROR) {
+             return err;
+         }
++        print("", "dangerous", i, "");
++
++        err = buf.nextUint32(&i);
++        if (err != NO_ERROR) {
++            return err;
++        }
+         print("", "base crc", i, "");
+ 
+         err = buf.nextUint32(&i);
+diff --git a/include/androidfw/ResourceTypes.h b/include/androidfw/ResourceTypes.h
+index 12a6b0f..6094a57 100644
+--- a/include/androidfw/ResourceTypes.h
++++ b/include/androidfw/ResourceTypes.h
+@@ -1382,7 +1382,11 @@ struct ResTable_entry
+         // If set, this is a weak resource and may be overriden by strong
+         // resources of the same name/type. This is only useful during
+         // linking with other resource tables.
+-        FLAG_WEAK = 0x0004
++        FLAG_WEAK = 0x0004,
++        // If set, this resource has been declared OK to overlay, so overlay
++        // packages may be added to the resource table to provide alternative
++        // resource values.
++        FLAG_OVERLAY = 0x0008,
+     };
+     uint16_t flags;
+     
+@@ -1861,14 +1865,14 @@ public:
+             const char* targetPath, const char* overlayPath,
+             void** outData, size_t* outSize) const;
+ 
+-    static const size_t IDMAP_HEADER_SIZE_BYTES = 4 * sizeof(uint32_t) + 2 * 256;
++    static const size_t IDMAP_HEADER_SIZE_BYTES = 5 * sizeof(uint32_t) + 2 * 256;
+ 
+     // Retrieve idmap meta-data.
+     //
+     // This function only requires the idmap header (the first
+     // IDMAP_HEADER_SIZE_BYTES) bytes of an idmap file.
+     static bool getIdmapInfo(const void* idmap, size_t size,
+-            uint32_t* pVersion,
++            uint32_t* pVersion, uint32_t* pDangerous,
+             uint32_t* pTargetCrc, uint32_t* pOverlayCrc,
+             String8* pTargetPath, String8* pOverlayPath);
+ 
+diff --git a/libs/androidfw/AssetManager.cpp b/libs/androidfw/AssetManager.cpp
+index f50cff4..bb60e1c 100644
+--- a/libs/androidfw/AssetManager.cpp
++++ b/libs/androidfw/AssetManager.cpp
+@@ -248,7 +248,7 @@ bool AssetManager::addOverlayPath(const String8& packagePath, int32_t* cookie)
+     String8 targetPath;
+     String8 overlayPath;
+     if (!ResTable::getIdmapInfo(idmap->getBuffer(false), idmap->getLength(),
+-                NULL, NULL, NULL, &targetPath, &overlayPath)) {
++                NULL, NULL, NULL, NULL, &targetPath, &overlayPath)) {
+         ALOGW("failed to read idmap file %s\n", idmapPath.string());
+         delete idmap;
+         return false;
+diff --git a/libs/androidfw/ResourceTypes.cpp b/libs/androidfw/ResourceTypes.cpp
+index fb63b4c..9c194d5 100644
+--- a/libs/androidfw/ResourceTypes.cpp
++++ b/libs/androidfw/ResourceTypes.cpp
+@@ -59,7 +59,7 @@ namespace android {
+ #endif
+ 
+ #define IDMAP_MAGIC             0x504D4449
+-#define IDMAP_CURRENT_VERSION   0x00000001
++#define IDMAP_CURRENT_VERSION   0x00000002
+ 
+ #define APP_PACKAGE_ID      0x7f
+ #define SYS_PACKAGE_ID      0x01
+@@ -6593,6 +6593,7 @@ status_t ResTable::createIdmap(const ResTable& overlay,
+         return UNKNOWN_ERROR;
+     }
+ 
++    bool isDangerous = false;
+     KeyedVector<uint8_t, IdmapTypeMap> map;
+ 
+     // overlaid packages are assumed to contain only one package group
+@@ -6667,6 +6668,13 @@ status_t ResTable::createIdmap(const ResTable& overlay,
+                 }
+             }
+             typeMap.entryMap.add(Res_GETENTRY(overlayResID));
++
++            Entry entry;
++            if (getEntry(pg, typeIndex, entryIndex, NULL, &entry)) {
++                return UNKNOWN_ERROR;
++            }
++            isDangerous = isDangerous ||
++                ((dtohs(entry.entry->flags) & ResTable_entry::FLAG_OVERLAY) == 0);
+         }
+ 
+         if (!typeMap.entryMap.isEmpty()) {
+@@ -6689,6 +6697,7 @@ status_t ResTable::createIdmap(const ResTable& overlay,
+     uint32_t* data = (uint32_t*)*outData;
+     *data++ = htodl(IDMAP_MAGIC);
+     *data++ = htodl(IDMAP_CURRENT_VERSION);
++    *data++ = htodl(isDangerous ? 1 : 0);
+     *data++ = htodl(targetCrc);
+     *data++ = htodl(overlayCrc);
+     const char* paths[] = { targetPath, overlayPath };
+@@ -6729,7 +6738,7 @@ status_t ResTable::createIdmap(const ResTable& overlay,
+ }
+ 
+ bool ResTable::getIdmapInfo(const void* idmap, size_t sizeBytes,
+-                            uint32_t* pVersion,
++                            uint32_t* pVersion, uint32_t* pDangerous,
+                             uint32_t* pTargetCrc, uint32_t* pOverlayCrc,
+                             String8* pTargetPath, String8* pOverlayPath)
+ {
+@@ -6740,17 +6749,20 @@ bool ResTable::getIdmapInfo(const void* idmap, size_t sizeBytes,
+     if (pVersion) {
+         *pVersion = dtohl(map[1]);
+     }
++    if (pDangerous) {
++        *pDangerous = dtohl(map[2]);
++    }
+     if (pTargetCrc) {
+-        *pTargetCrc = dtohl(map[2]);
++        *pTargetCrc = dtohl(map[3]);
+     }
+     if (pOverlayCrc) {
+-        *pOverlayCrc = dtohl(map[3]);
++        *pOverlayCrc = dtohl(map[4]);
+     }
+     if (pTargetPath) {
+-        pTargetPath->setTo(reinterpret_cast<const char*>(map + 4));
++        pTargetPath->setTo(reinterpret_cast<const char*>(map + 5));
+     }
+     if (pOverlayPath) {
+-        pOverlayPath->setTo(reinterpret_cast<const char*>(map + 4 + 256 / sizeof(uint32_t)));
++        pOverlayPath->setTo(reinterpret_cast<const char*>(map + 5 + 256 / sizeof(uint32_t)));
+     }
+     return true;
+ }
+@@ -7078,6 +7090,9 @@ void ResTable::print(bool inclValues) const
+                     if ((dtohs(ent->flags)&ResTable_entry::FLAG_PUBLIC) != 0) {
+                         printf(" (PUBLIC)");
+                     }
++                    if ((dtohs(ent->flags)&ResTable_entry::FLAG_OVERLAY) != 0) {
++                        printf(" (OVERLAY)");
++                    }
+                     printf("\n");
+ 
+                     if (inclValues) {
+diff --git a/tools/aapt/ResourceTable.cpp b/tools/aapt/ResourceTable.cpp
+index 6a4b637..4af5816 100644
+--- a/tools/aapt/ResourceTable.cpp
++++ b/tools/aapt/ResourceTable.cpp
+@@ -800,6 +800,7 @@ status_t compileResourceFile(Bundle* bundle,
+     const String16 string_array16("string-array");
+     const String16 integer_array16("integer-array");
+     const String16 public16("public");
++    const String16 overlay16("overlay");
+     const String16 public_padding16("public-padding");
+     const String16 private_symbols16("private-symbols");
+     const String16 java_symbol16("java-symbol");
+@@ -1003,6 +1004,41 @@ status_t compileResourceFile(Bundle* bundle,
+                 }
+                 continue;
+ 
++            } else if (strcmp16(block.getElementName(&len), overlay16.string()) == 0) {
++                SourcePos srcPos(in->getPrintableSource(), block.getLineNumber());
++
++                String16 type;
++                const ssize_t typeIdx = block.indexOfAttribute(NULL, "type");
++                if (typeIdx < 0) {
++                    srcPos.error("A 'type' attribute is required for <overlay>\n");
++                    hasErrors = localHasErrors = true;
++                }
++                type = String16(block.getAttributeStringValue(typeIdx, &len));
++
++                String16 name;
++                const ssize_t nameIdx = block.indexOfAttribute(NULL, "name");
++                if (nameIdx < 0) {
++                    srcPos.error("A 'name' attribute is required for <overlay>\n");
++                    hasErrors = localHasErrors = true;
++                }
++                name = String16(block.getAttributeStringValue(nameIdx, &len));
++
++                if (!localHasErrors) {
++                    err = outTable->addOverlay(srcPos, myPackage, type, name);
++                    if (err < NO_ERROR) {
++                        hasErrors = localHasErrors = true;
++                    }
++                }
++
++                while ((code=block.next()) != ResXMLTree::END_DOCUMENT && code != ResXMLTree::BAD_DOCUMENT) {
++                    if (code == ResXMLTree::END_TAG) {
++                        if (strcmp16(block.getElementName(&len), overlay16.string()) == 0) {
++                            break;
++                        }
++                    }
++                }
++                continue;
++
+             } else if (strcmp16(block.getElementName(&len), public_padding16.string()) == 0) {
+                 SourcePos srcPos(in->getPrintableSource(), block.getLineNumber());
+             
+@@ -1844,6 +1880,29 @@ status_t ResourceTable::addPublic(const SourcePos& sourcePos,
+     return t->addPublic(sourcePos, name, ident);
+ }
+ 
++status_t ResourceTable::addOverlay(const SourcePos& sourcePos,
++                                  const String16& package,
++                                  const String16& type,
++                                  const String16& name)
++{
++    uint32_t rid = mAssets->getIncludedResources()
++        .identifierForName(name.string(), name.size(),
++                           type.string(), type.size(),
++                           package.string(), package.size());
++    if (rid != 0) {
++        sourcePos.error("Error declaring overlay resource %s/%s for included package %s\n",
++                String8(type).string(), String8(name).string(),
++                String8(package).string());
++        return UNKNOWN_ERROR;
++    }
++
++    sp<Type> t = getType(package, type, sourcePos);
++    if (t == NULL) {
++        return UNKNOWN_ERROR;
++    }
++    return t->addOverlay(sourcePos, name);
++}
++
+ status_t ResourceTable::addEntry(const SourcePos& sourcePos,
+                                  const String16& package,
+                                  const String16& type,
+@@ -2636,6 +2695,11 @@ status_t ResourceTable::assignResourceIds()
+                 firstError = err;
+             }
+ 
++            err = t->applyOverlay();
++            if (err != NO_ERROR && firstError == NO_ERROR) {
++                firstError = err;
++            }
++
+             const size_t N = t->getOrderedConfigs().size();
+             t->setIndex(ti + 1 + typeIdOffset);
+ 
+@@ -3224,7 +3288,7 @@ status_t ResourceTable::flatten(Bundle* bundle, const sp<const ResourceFilter>&
+                         index[ei] = htodl(data->getSize()-typeStart-typeSize);
+ 
+                         // Create the entry.
+-                        ssize_t amt = e->flatten(bundle, data, cl->getPublic());
++                        ssize_t amt = e->flatten(bundle, data, cl->getPublic(), cl->getOverlay());
+                         if (amt < 0) {
+                             return amt;
+                         }
+@@ -3729,7 +3793,8 @@ status_t ResourceTable::Entry::remapStringValue(StringPool* strings)
+     return NO_ERROR;
+ }
+ 
+-ssize_t ResourceTable::Entry::flatten(Bundle* /* bundle */, const sp<AaptFile>& data, bool isPublic)
++ssize_t ResourceTable::Entry::flatten(Bundle* /* bundle */, const sp<AaptFile>& data, bool isPublic,
++        bool isOverlay)
+ {
+     size_t amt = 0;
+     ResTable_entry header;
+@@ -3742,6 +3807,9 @@ ssize_t ResourceTable::Entry::flatten(Bundle* /* bundle */, const sp<AaptFile>&
+     if (isPublic) {
+         header.flags |= htods(header.FLAG_PUBLIC);
+     }
++    if (isOverlay) {
++        header.flags |= htods(header.FLAG_OVERLAY);
++    }
+     header.key.index = htodl(mNameIndex);
+     if (ty != TYPE_BAG) {
+         status_t err = data->writeData(&header, sizeof(header));
+@@ -3882,6 +3950,13 @@ status_t ResourceTable::Type::addPublic(const SourcePos& sourcePos,
+     return NO_ERROR;
+ }
+ 
++status_t ResourceTable::Type::addOverlay(const SourcePos& sourcePos,
++                                         const String16& name)
++{
++    mOverlay.add(name, Overlay(sourcePos, String16()));
++    return NO_ERROR;
++}
++
+ void ResourceTable::Type::canAddEntry(const String16& name)
+ {
+     mCanAddEntries.add(name);
+@@ -3984,6 +4059,7 @@ sp<ResourceTable::ConfigList> ResourceTable::Type::removeEntry(const String16& e
+     }
+ 
+     mPublic.removeItem(entry);
++    mOverlay.removeItem(entry);
+     return removed;
+ }
+ 
+@@ -4085,6 +4161,22 @@ status_t ResourceTable::Type::applyPublicEntryOrder()
+     return hasError ? STATUST(UNKNOWN_ERROR) : NO_ERROR;
+ }
+ 
++status_t ResourceTable::Type::applyOverlay() {
++    const size_t N = mOverlay.size();
++    const size_t M = mOrderedConfigs.size();
++    for (size_t i = 0; i < N; i++) {
++        const String16& name = mOverlay.keyAt(i);
++        for (size_t j = 0; j < M; j++) {
++            sp<ConfigList> e = mOrderedConfigs.itemAt(j);
++            if (e->getName() == name) {
++                e->setOverlay(true);
++                break;
++            }
++        }
++    }
++    return NO_ERROR;
++}
++
+ ResourceTable::Package::Package(const String16& name, size_t packageId)
+     : mName(name), mPackageId(packageId),
+       mTypeStringsMapping(0xffffffff),
+diff --git a/tools/aapt/ResourceTable.h b/tools/aapt/ResourceTable.h
+index cf1e992..4b9b8b6 100644
+--- a/tools/aapt/ResourceTable.h
++++ b/tools/aapt/ResourceTable.h
+@@ -138,6 +138,11 @@ public:
+                        const String16& name,
+                        const uint32_t ident);
+ 
++    status_t addOverlay(const SourcePos& pos,
++                       const String16& package,
++                       const String16& type,
++                       const String16& name);
++
+     status_t addEntry(const SourcePos& pos,
+                       const String16& package,
+                       const String16& type,
+@@ -387,7 +392,7 @@ public:
+ 
+         status_t remapStringValue(StringPool* strings);
+ 
+-        ssize_t flatten(Bundle*, const sp<AaptFile>& data, bool isPublic);
++        ssize_t flatten(Bundle*, const sp<AaptFile>& data, bool isPublic, bool isOverlay);
+ 
+         const SourcePos& getPos() const { return mPos; }
+ 
+@@ -406,7 +411,7 @@ public:
+     class ConfigList : public RefBase {
+     public:
+         ConfigList(const String16& name, const SourcePos& pos)
+-            : mName(name), mPos(pos), mPublic(false), mEntryIndex(-1) { }
++            : mName(name), mPos(pos), mPublic(false), mOverlay(false), mEntryIndex(-1) { }
+         virtual ~ConfigList() { }
+         
+         String16 getName() const { return mName; }
+@@ -426,6 +431,9 @@ public:
+         bool getPublic() const { return mPublic; }
+         void setPublicSourcePos(const SourcePos& pos) { mPublicSourcePos = pos; }
+         const SourcePos& getPublicSourcePos() { return mPublicSourcePos; }
++
++        void setOverlay(bool o) { mOverlay = o; }
++        bool getOverlay() const { return mOverlay; }
+         
+         void addEntry(const ResTable_config& config, const sp<Entry>& entry) {
+             mEntries.add(config, entry);
+@@ -439,6 +447,7 @@ public:
+         String16 mTypeComment;
+         bool mPublic;
+         SourcePos mPublicSourcePos;
++        bool mOverlay;
+         int32_t mEntryIndex;
+         DefaultKeyedVector<ConfigDescription, sp<Entry> > mEntries;
+     };
+@@ -466,6 +475,24 @@ public:
+         String16    comment;
+         uint32_t    ident;
+     };
++
++    class Overlay {
++    public:
++        Overlay() : sourcePos() { }
++        Overlay(const SourcePos& pos, const String16& _comment)
++            : sourcePos(pos), comment(_comment) { }
++        Overlay(const Overlay& o) : sourcePos(o.sourcePos), comment(o.comment) { }
++        ~Overlay() { }
++
++        Overlay& operator=(const Overlay& o) {
++            sourcePos = o.sourcePos;
++            comment = o.comment;
++            return *this;
++        }
++
++        SourcePos   sourcePos;
++        String16    comment;
++    };
+     
+     class Type : public RefBase {
+     public:
+@@ -477,6 +504,9 @@ public:
+         status_t addPublic(const SourcePos& pos,
+                            const String16& name,
+                            const uint32_t ident);
++
++        status_t addOverlay(const SourcePos& pos,
++                            const String16& name);
+                            
+         void canAddEntry(const String16& name);
+         
+@@ -504,6 +534,7 @@ public:
+         void setIndex(int32_t index) { mIndex = index; }
+ 
+         status_t applyPublicEntryOrder();
++        status_t applyOverlay();
+ 
+         const DefaultKeyedVector<String16, sp<ConfigList> >& getConfigs() const { return mConfigs; }
+         const Vector<sp<ConfigList> >& getOrderedConfigs() const { return mOrderedConfigs; }
+@@ -515,6 +546,7 @@ public:
+         String16 mName;
+         SourcePos* mFirstPublicSourcePos;
+         DefaultKeyedVector<String16, Public> mPublic;
++        DefaultKeyedVector<String16, Overlay> mOverlay;
+         DefaultKeyedVector<String16, sp<ConfigList> > mConfigs;
+         Vector<sp<ConfigList> > mOrderedConfigs;
+         SortedVector<String16> mCanAddEntries;
+-- 
+2.9.3
+

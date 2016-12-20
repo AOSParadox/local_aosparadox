@@ -1,0 +1,66 @@
+From fec8d6ab3ce6b0dd629e910ba0f5bb466c844071 Mon Sep 17 00:00:00 2001
+From: Daniel Koman <dankoman30@gmail.com>
+Date: Fri, 17 Apr 2015 11:56:28 -0600
+Subject: [PATCH 21/32] Allow prevention of doze notification color inversion
+
+Removed empty newline at the end -- KreAch3R
+Removed slims files for aosp roms -- Bgill55
+
+Change-Id: I2d361c34904f3d168894b8b1741456319fd68456
+---
+ core/res/res/values/projekt_config.xml                           | 5 +++++
+ core/res/res/values/projekt_symbols.xml                          | 3 +++
+ packages/SystemUI/src/com/android/systemui/ViewInvertHelper.java | 4 +++-
+ 3 files changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/core/res/res/values/projekt_config.xml b/core/res/res/values/projekt_config.xml
+index f6eb90a..5234959 100644
+--- a/core/res/res/values/projekt_config.xml
++++ b/core/res/res/values/projekt_config.xml
+@@ -22,4 +22,9 @@
+     <!-- True if the notifications should dynamically tint the app icon and app title -->
+     <bool name="config_allowNotificationIconTextTinting">true</bool>
+ 
++    <!-- Whether doze should invert colors for notifications. If the RRO theme causes
++    the NORMAL notification background to be dark and the text to be light, this boolean
++    needs to be set to false, to prevent the doze notifications from being light -->
++    <bool name="config_invert_colors_on_doze">true</bool>
++
+ </resources>
+diff --git a/core/res/res/values/projekt_symbols.xml b/core/res/res/values/projekt_symbols.xml
+index f597a5f..16a5728 100644
+--- a/core/res/res/values/projekt_symbols.xml
++++ b/core/res/res/values/projekt_symbols.xml
+@@ -22,4 +22,7 @@
+   <java-symbol type="color" name="notification_text_default_color" />
+   <java-symbol type="color" name="sender_text_color" />
+ 
++  <!-- Doze invert -->
++  <java-symbol type="bool" name="config_invert_colors_on_doze" />
++
+ </resources>
+diff --git a/packages/SystemUI/src/com/android/systemui/ViewInvertHelper.java b/packages/SystemUI/src/com/android/systemui/ViewInvertHelper.java
+index 2c96e31..65fd115 100644
+--- a/packages/SystemUI/src/com/android/systemui/ViewInvertHelper.java
++++ b/packages/SystemUI/src/com/android/systemui/ViewInvertHelper.java
+@@ -20,6 +20,7 @@ import android.animation.Animator;
+ import android.animation.AnimatorListenerAdapter;
+ import android.animation.ValueAnimator;
+ import android.content.Context;
++import android.content.res.Resources;
+ import android.graphics.ColorMatrix;
+ import android.graphics.ColorMatrixColorFilter;
+ import android.graphics.Paint;
+@@ -90,7 +91,8 @@ public class ViewInvertHelper {
+     }
+ 
+     public void update(boolean invert) {
+-        if (invert) {
++        if (invert && Resources.getSystem().getBoolean(
++                com.android.internal.R.bool.config_invert_colors_on_doze)) {
+             updateInvertPaint(1f);
+             for (int i = 0; i < mTargets.size(); i++) {
+                 mTargets.get(i).setLayerType(View.LAYER_TYPE_HARDWARE, mDarkPaint);
+-- 
+2.9.3
+

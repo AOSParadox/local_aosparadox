@@ -1,0 +1,65 @@
+From 2f0f0df6e4dced167b6b0b97b0ecae69289c4ae8 Mon Sep 17 00:00:00 2001
+From: George G <kreach3r@users.noreply.github.com>
+Date: Mon, 14 Nov 2016 14:44:17 +0200
+Subject: [PATCH 22/32] Ambient notification inversion compatible with OMS7
+ (2/2)
+
+OMS7 introduced this fine piece of code: https://github.com/SubstratumResources/platform_frameworks_base/blob/n-oms7/core/java/android/app/ResourcesManager.java#L897..#L904
+
+// Resources.getSystem Resources are created on request and aren't tracked by
+// mResourceReferences.
+//
+// If overlays targeting "android" are to be used, we must create the system
+// resources regardless of whether they already exist, since otherwise the
+// information on what overlays to use would be lost. This is wasteful for most
+// applications, so limit this operation to the system user only. (This means
+// Resources.getSystem() will *not* use overlays for applications.)
+
+Replaced deprecated Resources.getSystem() with compatible method.
+
+Change-Id: I80ad5d037004f0dc63d9eb746c3af05e59a8834e
+---
+ packages/SystemUI/src/com/android/systemui/ViewInvertHelper.java | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/packages/SystemUI/src/com/android/systemui/ViewInvertHelper.java b/packages/SystemUI/src/com/android/systemui/ViewInvertHelper.java
+index 65fd115..605f381 100644
+--- a/packages/SystemUI/src/com/android/systemui/ViewInvertHelper.java
++++ b/packages/SystemUI/src/com/android/systemui/ViewInvertHelper.java
+@@ -20,7 +20,6 @@ import android.animation.Animator;
+ import android.animation.AnimatorListenerAdapter;
+ import android.animation.ValueAnimator;
+ import android.content.Context;
+-import android.content.res.Resources;
+ import android.graphics.ColorMatrix;
+ import android.graphics.ColorMatrixColorFilter;
+ import android.graphics.Paint;
+@@ -37,6 +36,7 @@ public class ViewInvertHelper {
+     private final ColorMatrix mMatrix = new ColorMatrix();
+     private final ColorMatrix mGrayscaleMatrix = new ColorMatrix();
+     private final long mFadeDuration;
++    private final boolean mThemeInvert;
+     private final ArrayList<View> mTargets = new ArrayList<>();
+ 
+     public ViewInvertHelper(View v, long fadeDuration) {
+@@ -45,6 +45,7 @@ public class ViewInvertHelper {
+     }
+     public ViewInvertHelper(Context context, long fadeDuration) {
+         mFadeDuration = fadeDuration;
++        mThemeInvert = context.getResources().getBoolean(com.android.internal.R.bool.config_invert_colors_on_doze);
+     }
+ 
+     private static ArrayList<View> constructArray(View target) {
+@@ -91,8 +92,7 @@ public class ViewInvertHelper {
+     }
+ 
+     public void update(boolean invert) {
+-        if (invert && Resources.getSystem().getBoolean(
+-                com.android.internal.R.bool.config_invert_colors_on_doze)) {
++        if (invert && mThemeInvert) {
+             updateInvertPaint(1f);
+             for (int i = 0; i < mTargets.size(); i++) {
+                 mTargets.get(i).setLayerType(View.LAYER_TYPE_HARDWARE, mDarkPaint);
+-- 
+2.9.3
+

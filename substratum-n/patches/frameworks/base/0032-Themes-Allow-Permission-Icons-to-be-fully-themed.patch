@@ -1,0 +1,46 @@
+From 264960240666300addd9d12ff11168d8811465ee Mon Sep 17 00:00:00 2001
+From: Nicholas Chum <nicholaschum@gmail.com>
+Date: Mon, 23 Nov 2015 23:49:15 -0500
+Subject: [PATCH 32/32] Themes: Allow Permission Icons to be fully themed
+
+This removes the forced @android:color/black tint on the permission
+icons during app sideload through PackageInstaller.
+
+These icons are able to be changed through framework XMLs, but this line
+forces a black tint (invisible on dark themes) on the icons. Let's
+remove this.
+
+Change-Id: I31eb5021a6d297997dbba156f98cbf47f2102b6c
+---
+ core/res/res/layout/app_permission_item.xml | 2 +-
+ core/res/res/values/projekt_colors.xml      | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/core/res/res/layout/app_permission_item.xml b/core/res/res/layout/app_permission_item.xml
+index 383d771..a80d40e 100644
+--- a/core/res/res/layout/app_permission_item.xml
++++ b/core/res/res/layout/app_permission_item.xml
+@@ -32,7 +32,7 @@
+         android:layout_marginStart="16dp"
+         android:layout_marginEnd="8dp"
+         android:scaleType="fitCenter"
+-        android:tint="@android:color/black"/>
++        android:tint="@color/app_permission_icon_tint"/>
+ 
+     <ImageView
+         android:layout_width="wrap_content"
+diff --git a/core/res/res/values/projekt_colors.xml b/core/res/res/values/projekt_colors.xml
+index 56bebcf..9c2311a 100644
+--- a/core/res/res/values/projekt_colors.xml
++++ b/core/res/res/values/projekt_colors.xml
+@@ -19,6 +19,7 @@
+     <color name="notification_text_default_color">@android:color/notification_default_color</color>
+     <color name="sender_text_color">@android:color/black</color>
+     <color name="resolver_list_bg">@color/white</color>
++    <color name="app_permission_icon_tint">@android:color/black</color>
+     <color name="immersive_cling_bg_color">#ff009688</color>
+     <color name="immersive_cling_text_color">@color/primary_text_default_material_light</color>
+     <color name="immersive_cling_button_text_color">@android:color/white</color>
+-- 
+2.9.3
+

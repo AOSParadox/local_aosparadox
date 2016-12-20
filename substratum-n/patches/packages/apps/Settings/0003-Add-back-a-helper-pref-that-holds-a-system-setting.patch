@@ -1,0 +1,254 @@
+From 93cb4419d540b6f8ca9f5693456926e6278f39f4 Mon Sep 17 00:00:00 2001
+From: Danny Baumann <dannybaumann@web.de>
+Date: Tue, 11 Nov 2014 13:13:39 +0100
+Subject: [PATCH 3/6] Add back a helper pref that holds a system setting.
+
+M Changes:
+*added Secure and Global Helpers also
+*added Switch and Checkbox helpers
+
+N Changes:
+*remove checkboxes
+*use android.support.v14.preference.SwitchPreference for switches
+
+Edited By: @BeansTown106
+
+Change-Id: I629e8ff341225a9a1e43e0e67a6d14574237a3f0
+---
+ proguard.flags                                     |  1 +
+ .../preference/GlobalSettingSwitchPreference.java  | 65 ++++++++++++++++++++++
+ .../preference/SecureSettingSwitchPreference.java  | 65 ++++++++++++++++++++++
+ .../preference/SystemSettingSwitchPreference.java  | 65 ++++++++++++++++++++++
+ 4 files changed, 196 insertions(+)
+ create mode 100644 src/com/android/settings/preference/GlobalSettingSwitchPreference.java
+ create mode 100644 src/com/android/settings/preference/SecureSettingSwitchPreference.java
+ create mode 100644 src/com/android/settings/preference/SystemSettingSwitchPreference.java
+
+diff --git a/proguard.flags b/proguard.flags
+index 3c3300e..b62c371 100644
+--- a/proguard.flags
++++ b/proguard.flags
+@@ -19,6 +19,7 @@
+ -keep class com.android.settings.notification.*
+ -keep class com.android.settings.accessibility.*FragmentForSetupWizard
+ -keep class com.android.settings.display.*FragmentForSetupWizard
++-keep class com.android.settings.preference.*
+ 
+ # Keep click responders
+ -keepclassmembers class com.android.settings.inputmethod.UserDictionaryAddWordActivity {
+diff --git a/src/com/android/settings/preference/GlobalSettingSwitchPreference.java b/src/com/android/settings/preference/GlobalSettingSwitchPreference.java
+new file mode 100644
+index 0000000..cb16266
+--- /dev/null
++++ b/src/com/android/settings/preference/GlobalSettingSwitchPreference.java
+@@ -0,0 +1,65 @@
++/*
++ * Copyright (C) 2014 The CyanogenMod project
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package com.android.settings.preference;
++
++import android.content.Context;
++import android.support.v14.preference.SwitchPreference;
++import android.provider.Settings;
++import android.util.AttributeSet;
++
++public class GlobalSettingSwitchPreference extends SwitchPreference {
++    public GlobalSettingSwitchPreference(Context context, AttributeSet attrs, int defStyle) {
++        super(context, attrs, defStyle);
++    }
++
++    public GlobalSettingSwitchPreference(Context context, AttributeSet attrs) {
++        super(context, attrs);
++    }
++
++    public GlobalSettingSwitchPreference(Context context) {
++        super(context, null);
++    }
++
++    @Override
++    protected boolean persistBoolean(boolean value) {
++        if (shouldPersist()) {
++            if (value == getPersistedBoolean(!value)) {
++                // It's already there, so the same as persisting
++                return true;
++            }
++            Settings.Global.putInt(getContext().getContentResolver(), getKey(), value ? 1 : 0);
++            return true;
++        }
++        return false;
++    }
++
++    @Override
++    protected boolean getPersistedBoolean(boolean defaultReturnValue) {
++        if (!shouldPersist()) {
++            return defaultReturnValue;
++        }
++        return Settings.Global.getInt(getContext().getContentResolver(),
++                getKey(), defaultReturnValue ? 1 : 0) != 0;
++    }
++
++    @Override
++    protected boolean isPersisted() {
++        // Using getString instead of getInt so we can simply check for null
++        // instead of catching an exception. (All values are stored as strings.)
++        return Settings.Global.getString(getContext().getContentResolver(), getKey()) != null;
++    }
++}
+diff --git a/src/com/android/settings/preference/SecureSettingSwitchPreference.java b/src/com/android/settings/preference/SecureSettingSwitchPreference.java
+new file mode 100644
+index 0000000..2b54503
+--- /dev/null
++++ b/src/com/android/settings/preference/SecureSettingSwitchPreference.java
+@@ -0,0 +1,65 @@
++/*
++ * Copyright (C) 2014 The CyanogenMod project
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package com.android.settings.preference;
++
++import android.content.Context;
++import android.support.v14.preference.SwitchPreference;
++import android.provider.Settings;
++import android.util.AttributeSet;
++
++public class SecureSettingSwitchPreference extends SwitchPreference {
++    public SecureSettingSwitchPreference(Context context, AttributeSet attrs, int defStyle) {
++        super(context, attrs, defStyle);
++    }
++
++    public SecureSettingSwitchPreference(Context context, AttributeSet attrs) {
++        super(context, attrs);
++    }
++
++    public SecureSettingSwitchPreference(Context context) {
++        super(context, null);
++    }
++
++    @Override
++    protected boolean persistBoolean(boolean value) {
++        if (shouldPersist()) {
++            if (value == getPersistedBoolean(!value)) {
++                // It's already there, so the same as persisting
++                return true;
++            }
++            Settings.Secure.putInt(getContext().getContentResolver(), getKey(), value ? 1 : 0);
++            return true;
++        }
++        return false;
++    }
++
++    @Override
++    protected boolean getPersistedBoolean(boolean defaultReturnValue) {
++        if (!shouldPersist()) {
++            return defaultReturnValue;
++        }
++        return Settings.Secure.getInt(getContext().getContentResolver(),
++                getKey(), defaultReturnValue ? 1 : 0) != 0;
++    }
++
++    @Override
++    protected boolean isPersisted() {
++        // Using getString instead of getInt so we can simply check for null
++        // instead of catching an exception. (All values are stored as strings.)
++        return Settings.Secure.getString(getContext().getContentResolver(), getKey()) != null;
++    }
++}
+diff --git a/src/com/android/settings/preference/SystemSettingSwitchPreference.java b/src/com/android/settings/preference/SystemSettingSwitchPreference.java
+new file mode 100644
+index 0000000..23c8c06
+--- /dev/null
++++ b/src/com/android/settings/preference/SystemSettingSwitchPreference.java
+@@ -0,0 +1,65 @@
++/*
++ * Copyright (C) 2013 The CyanogenMod project
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package com.android.settings.preference;
++
++import android.content.Context;
++import android.support.v14.preference.SwitchPreference;
++import android.provider.Settings;
++import android.util.AttributeSet;
++
++public class SystemSettingSwitchPreference extends SwitchPreference {
++    public SystemSettingSwitchPreference(Context context, AttributeSet attrs, int defStyle) {
++        super(context, attrs, defStyle);
++    }
++
++    public SystemSettingSwitchPreference(Context context, AttributeSet attrs) {
++        super(context, attrs);
++    }
++
++    public SystemSettingSwitchPreference(Context context) {
++        super(context, null);
++    }
++
++    @Override
++    protected boolean persistBoolean(boolean value) {
++        if (shouldPersist()) {
++            if (value == getPersistedBoolean(!value)) {
++                // It's already there, so the same as persisting
++                return true;
++            }
++            Settings.System.putInt(getContext().getContentResolver(), getKey(), value ? 1 : 0);
++            return true;
++        }
++        return false;
++    }
++
++    @Override
++    protected boolean getPersistedBoolean(boolean defaultReturnValue) {
++        if (!shouldPersist()) {
++            return defaultReturnValue;
++        }
++        return Settings.System.getInt(getContext().getContentResolver(),
++                getKey(), defaultReturnValue ? 1 : 0) != 0;
++    }
++
++    @Override
++    protected boolean isPersisted() {
++        // Using getString instead of getInt so we can simply check for null
++        // instead of catching an exception. (All values are stored as strings.)
++        return Settings.System.getString(getContext().getContentResolver(), getKey()) != null;
++    }
++}
+-- 
+2.9.3
+

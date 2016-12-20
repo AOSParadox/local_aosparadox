@@ -1,0 +1,74 @@
+From 71b0fe6afde7da11c54f88d4e1732bea2c4d79fb Mon Sep 17 00:00:00 2001
+From: "Niklas Schnettler (Sh4dowSoul)" <niklas.schnettler@gmail.com>
+Date: Wed, 5 Oct 2016 18:07:43 +0200
+Subject: [PATCH 27/32] Themes: Expose various QuickSettings text colors
+
+Change-Id: Iaea71ca83afbc3d8cc6faea6afac16cabb46cfff
+---
+ packages/SystemUI/res/layout/qs_customize_panel_content.xml | 3 ++-
+ packages/SystemUI/res/layout/qs_paged_tile_layout.xml       | 2 +-
+ packages/SystemUI/res/layout/status_bar_alarm_group.xml     | 2 +-
+ packages/SystemUI/res/values/projekt_colors.xml             | 9 +++++++++
+ 4 files changed, 13 insertions(+), 3 deletions(-)
+
+diff --git a/packages/SystemUI/res/layout/qs_customize_panel_content.xml b/packages/SystemUI/res/layout/qs_customize_panel_content.xml
+index ca0248e..84fa4cc 100644
+--- a/packages/SystemUI/res/layout/qs_customize_panel_content.xml
++++ b/packages/SystemUI/res/layout/qs_customize_panel_content.xml
+@@ -23,7 +23,8 @@
+         android:layout_height="wrap_content"
+         android:layout_marginTop="28dp"
+         android:navigationContentDescription="@*android:string/action_bar_up_description"
+-        style="?android:attr/toolbarStyle" />
++        style="?android:attr/toolbarStyle"
++        android:titleTextColor="@color/qs_edit_toolbar_text_color"/>
+ 
+     <android.support.v7.widget.RecyclerView
+         android:id="@android:id/list"
+diff --git a/packages/SystemUI/res/layout/qs_paged_tile_layout.xml b/packages/SystemUI/res/layout/qs_paged_tile_layout.xml
+index ee55ec2..7c5a46b 100644
+--- a/packages/SystemUI/res/layout/qs_paged_tile_layout.xml
++++ b/packages/SystemUI/res/layout/qs_paged_tile_layout.xml
+@@ -45,7 +45,7 @@
+             android:layout_gravity="end"
+             android:minWidth="88dp"
+             android:textAppearance="@style/TextAppearance.QS.DetailButton"
+-            android:textColor="#64FFFFFF"
++            android:textColor="@color/qs_edit_button_text_color"
+             android:focusable="true"
+             android:text="@string/qs_edit"
+             android:contentDescription="@string/accessibility_quick_settings_edit"/>
+diff --git a/packages/SystemUI/res/layout/status_bar_alarm_group.xml b/packages/SystemUI/res/layout/status_bar_alarm_group.xml
+index f94b727..ec4e6a8 100644
+--- a/packages/SystemUI/res/layout/status_bar_alarm_group.xml
++++ b/packages/SystemUI/res/layout/status_bar_alarm_group.xml
+@@ -64,7 +64,7 @@
+         android:paddingTop="3dp"
+         android:drawablePadding="8dp"
+         android:drawableStart="@drawable/ic_access_alarms_small"
+-        android:textColor="#64ffffff"
++        android:textColor="@color/qs_alarm_status_text_color"
+         android:textAppearance="@style/TextAppearance.StatusBar.Expanded.Date"
+         android:gravity="top"
+         android:background="?android:attr/selectableItemBackground"
+diff --git a/packages/SystemUI/res/values/projekt_colors.xml b/packages/SystemUI/res/values/projekt_colors.xml
+index 27bdbfa..90d7c8b 100644
+--- a/packages/SystemUI/res/values/projekt_colors.xml
++++ b/packages/SystemUI/res/values/projekt_colors.xml
+@@ -27,4 +27,13 @@
+     <color name="navbar_tuner_background_color">@android:color/white</color>
+     <color name="navbar_tuner_text_color">@*android:color/material_deep_teal_500</color>
+ 
++    <!-- QS alarm status text color -->
++    <color name="qs_alarm_status_text_color">#64ffffff</color>
++
++    <!-- QS edit page toolbar text color -->
++    <color name="qs_edit_toolbar_text_color">#FFFFFF</color>
++
++    <!-- QS edit button text color -->
++    <color name="qs_edit_button_text_color">#64FFFFFF</color>
++
+ </resources>
+-- 
+2.9.3
+

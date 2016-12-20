@@ -1,0 +1,150 @@
+From ba48a0441e5a245afae58dc9e6d1a688155e1d47 Mon Sep 17 00:00:00 2001
+From: Kuba Schenk <abukcz@gmail.com>
+Date: Thu, 1 Dec 2016 22:00:31 +0100
+Subject: [PATCH 2/6] OMS7-N: Apps: show/hide Substratum icon overlays [2/2]
+
+Default behavior is "hidden" substratum icon overlays,
+as they pollute the screen, and you can't notice the
+actual apps.
+So we follow the current trend set by Android with
+"show system" and make it "show icon overlays" on default.
+
+Change-Id: Ib6dd011f821f21bee6da1979615f2eb4658c9f52
+---
+ res/menu/manage_apps.xml                           |  8 ++++++
+ res/values/projekt_strings.xml                     |  5 ++++
+ .../settings/applications/ManageApplications.java  | 33 ++++++++++++++++------
+ 3 files changed, 37 insertions(+), 9 deletions(-)
+
+diff --git a/res/menu/manage_apps.xml b/res/menu/manage_apps.xml
+index 67f09e5..267cff8 100644
+--- a/res/menu/manage_apps.xml
++++ b/res/menu/manage_apps.xml
+@@ -38,6 +38,14 @@
+         android:title="@string/menu_hide_substratum"
+         android:showAsAction="never" />
+     <item
++        android:id="@+id/show_substratum_icons"
++        android:title="@string/menu_show_substratum_icons"
++        android:showAsAction="never" />
++    <item
++        android:id="@+id/hide_substratum_icons"
++        android:title="@string/menu_hide_substratum_icons"
++        android:showAsAction="never" />
++    <item
+         android:id="@+id/sort_order_alpha"
+         android:title="@string/sort_order_alpha"
+         android:showAsAction="never" />
+diff --git a/res/values/projekt_strings.xml b/res/values/projekt_strings.xml
+index 177e78c..4c45544 100644
+--- a/res/values/projekt_strings.xml
++++ b/res/values/projekt_strings.xml
+@@ -20,4 +20,9 @@
+    <string name="menu_show_substratum">Show overlays</string>
+    <string name="menu_hide_substratum">Hide overlays</string>
+ 
++   <!-- Manage applications: show substratum icon overlays -->
++   <string name="filter_substratum_icons">Substratum icon overlays</string>
++   <string name="menu_show_substratum_icons">Show icon overlays</string>
++   <string name="menu_hide_substratum_icons">Hide icon overlays</string>
++
+ </resources>
+diff --git a/src/com/android/settings/applications/ManageApplications.java b/src/com/android/settings/applications/ManageApplications.java
+index 6b58180..aa80a68 100644
+--- a/src/com/android/settings/applications/ManageApplications.java
++++ b/src/com/android/settings/applications/ManageApplications.java
+@@ -109,6 +109,7 @@ public class ManageApplications extends InstrumentedFragment
+     private static final String EXTRA_SORT_ORDER = "sortOrder";
+     private static final String EXTRA_SHOW_SYSTEM = "showSystem";
+     private static final String EXTRA_SHOW_SUBSTRATUM = "showSubstratum";
++    private static final String EXTRA_SHOW_SUBSTRATUM_ICONS = "showSubstratumIcons";
+     private static final String EXTRA_HAS_ENTRIES = "hasEntries";
+     private static final String EXTRA_HAS_BRIDGE = "hasBridge";
+ 
+@@ -141,7 +142,8 @@ public class ManageApplications extends InstrumentedFragment
+     public static final int FILTER_APPS_USAGE_ACCESS = 13;
+     public static final int FILTER_APPS_WITH_OVERLAY = 14;
+     public static final int FILTER_APPS_WRITE_SETTINGS = 15;
+-    public static final int FILTER_APPS_SUBSTRATUM = 16;
++    public static final int FILTER_APPS_SUBSTRATUM_ICONS = 16;
++    public static final int FILTER_APPS_SUBSTRATUM = 17;
+ 
+     // This is the string labels for the filter modes above, the order must be kept in sync.
+     public static final int[] FILTER_LABELS = new int[]{
+@@ -193,6 +195,7 @@ public class ManageApplications extends InstrumentedFragment
+ 
+     // whether showing substratum overlays.
+     private boolean mShowSubstratum;
++    private boolean mShowSubstratumIcons;
+ 
+     private ApplicationsState mApplicationsState;
+ 
+@@ -287,6 +290,8 @@ public class ManageApplications extends InstrumentedFragment
+             mSortOrder = savedInstanceState.getInt(EXTRA_SORT_ORDER, mSortOrder);
+             mShowSystem = savedInstanceState.getBoolean(EXTRA_SHOW_SYSTEM, mShowSystem);
+             mShowSubstratum = savedInstanceState.getBoolean(EXTRA_SHOW_SUBSTRATUM, mShowSubstratum);
++            mShowSubstratumIcons = savedInstanceState.getBoolean(EXTRA_SHOW_SUBSTRATUM_ICONS,
++                                                                 mShowSubstratumIcons);
+         }
+ 
+         mInvalidSizeStr = getActivity().getText(R.string.invalid_size_value);
+@@ -456,6 +461,7 @@ public class ManageApplications extends InstrumentedFragment
+         outState.putInt(EXTRA_SORT_ORDER, mSortOrder);
+         outState.putBoolean(EXTRA_SHOW_SYSTEM, mShowSystem);
+         outState.putBoolean(EXTRA_SHOW_SUBSTRATUM, mShowSubstratum);
++        outState.putBoolean(EXTRA_SHOW_SUBSTRATUM_ICONS, mShowSubstratumIcons);
+         outState.putBoolean(EXTRA_HAS_ENTRIES, mApplications.mHasReceivedLoadEntries);
+         outState.putBoolean(EXTRA_HAS_BRIDGE, mApplications.mHasReceivedBridgeCallback);
+     }
+@@ -585,6 +591,10 @@ public class ManageApplications extends InstrumentedFragment
+                 && mListType != LIST_TYPE_HIGH_POWER);
+         mOptionsMenu.findItem(R.id.hide_substratum).setVisible(mShowSubstratum
+                 && mListType != LIST_TYPE_HIGH_POWER);
++        mOptionsMenu.findItem(R.id.show_substratum_icons).setVisible(!mShowSubstratumIcons
++                && mListType != LIST_TYPE_HIGH_POWER);
++        mOptionsMenu.findItem(R.id.hide_substratum_icons).setVisible(mShowSubstratumIcons
++                && mListType != LIST_TYPE_HIGH_POWER);
+     }
+ 
+     @Override
+@@ -609,6 +619,11 @@ public class ManageApplications extends InstrumentedFragment
+                 mShowSubstratum = !mShowSubstratum;
+                 mApplications.rebuild(false);
+                 break;
++            case R.id.show_substratum_icons:
++            case R.id.hide_substratum_icons:
++                mShowSubstratumIcons = !mShowSubstratumIcons;
++                mApplications.rebuild(false);
++                break;
+             case R.id.reset_app_preferences:
+                 mResetAppsHelper.buildResetDialog();
+                 return true;
+@@ -897,17 +912,17 @@ public class ManageApplications extends InstrumentedFragment
+             if (mOverrideFilter != null) {
+                 filterObj = mOverrideFilter;
+             }
+-            if (!mManageApplications.mShowSystem && !mManageApplications.mShowSubstratum) {
+-                filterObj = new CompoundFilter(filterObj,
+-                        ApplicationsState.FILTER_DOWNLOADED_AND_LAUNCHER);
++            if (!mManageApplications.mShowSystem) {
+                 filterObj = new CompoundFilter(filterObj,
+-                        ApplicationsState.FILTER_SUBSTRATUM);
+-            } else if (!mManageApplications.mShowSystem) {
++                                               ApplicationsState.FILTER_DOWNLOADED_AND_LAUNCHER);
++            }
++            if (!mManageApplications.mShowSubstratum) {
+                 filterObj = new CompoundFilter(filterObj,
+-                        ApplicationsState.FILTER_DOWNLOADED_AND_LAUNCHER);
+-            } else if (!mManageApplications.mShowSubstratum) {
++                                               ApplicationsState.FILTER_SUBSTRATUM);
++            }
++            if (!mManageApplications.mShowSubstratumIcons) {
+                 filterObj = new CompoundFilter(filterObj,
+-                        ApplicationsState.FILTER_SUBSTRATUM);
++                                               ApplicationsState.FILTER_SUBSTRATUM_ICONS);
+             }
+             switch (mLastSortMode) {
+                 case R.id.sort_order_size:
+-- 
+2.9.3
+

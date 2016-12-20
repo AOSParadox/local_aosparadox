@@ -1,0 +1,495 @@
+From 5f803e012f37c3862dff9a3fd1c8b6bab72fb97f Mon Sep 17 00:00:00 2001
+From: Louis Popi <theh2o64@gmail.com>
+Date: Tue, 20 Dec 2016 11:34:31 +0100
+Subject: [PATCH 03/32] Revert "Support AOSP service to scan carrier resources"
+
+This reverts commit 44764ccde343d64233fa8c96881af3f76c595cd7.
+---
+ core/jni/Android.mk                                |   3 +-
+ core/jni/android_util_AssetManager.cpp             |  25 +--
+ include/private/regionalization/Environment.h      |  75 --------
+ libs/regionalization/Android.mk                    |  18 --
+ libs/regionalization/Environment.cpp               | 201 ---------------------
+ .../android/server/pm/PackageManagerService.java   |  45 -----
+ 6 files changed, 6 insertions(+), 361 deletions(-)
+ delete mode 100644 include/private/regionalization/Environment.h
+ delete mode 100644 libs/regionalization/Android.mk
+ delete mode 100644 libs/regionalization/Environment.cpp
+
+diff --git a/core/jni/Android.mk b/core/jni/Android.mk
+index b3c47a7..e665ef3 100644
+--- a/core/jni/Android.mk
++++ b/core/jni/Android.mk
+@@ -264,8 +264,7 @@ LOCAL_SHARED_LIBRARIES := \
+ 
+ LOCAL_SHARED_LIBRARIES += \
+     libhwui \
+-    libdl \
+-    libregionalization
++    libdl
+ 
+ # we need to access the private Bionic header
+ # <bionic_tls.h> in com_google_android_gles_jni_GLImpl.cpp
+diff --git a/core/jni/android_util_AssetManager.cpp b/core/jni/android_util_AssetManager.cpp
+index 1a7294f..3473d9d 100644
+--- a/core/jni/android_util_AssetManager.cpp
++++ b/core/jni/android_util_AssetManager.cpp
+@@ -27,7 +27,6 @@
+ #include <sys/stat.h>
+ 
+ #include <private/android_filesystem_config.h> // for AID_SYSTEM
+-#include <private/regionalization/Environment.h>
+ 
+ #include "androidfw/Asset.h"
+ #include "androidfw/AssetManager.h"
+@@ -130,7 +129,7 @@ jint copyValue(JNIEnv* env, jobject outValue, const ResTable* table,
+ }
+ 
+ // This is called by zygote (running as user root) as part of preloadResources.
+-static void verifySystemIdmaps(const char* overlay_dir)
++static void verifySystemIdmaps()
+ {
+     pid_t pid;
+     char system_id[10];
+@@ -187,10 +186,9 @@ static void verifySystemIdmaps(const char* overlay_dir)
+ 
+                 // Directories to scan for overlays
+                 // /vendor/overlay
+-
+-               if (stat(overlay_dir, &st) == 0) {
+-                   argv[argc++] = overlay_dir;
+-                }
++                if (stat(AssetManager::OVERLAY_DIR, &st) == 0) {
++                    argv[argc++] = AssetManager::OVERLAY_DIR;
++                 }
+ 
+                 // Finally, invoke idmap (if any overlay directory exists)
+                 if (argc > 5) {
+@@ -2079,20 +2077,7 @@ static jintArray android_content_AssetManager_getStyleAttributes(JNIEnv* env, jo
+ static void android_content_AssetManager_init(JNIEnv* env, jobject clazz, jboolean isSystem)
+ {
+     if (isSystem) {
+-        // Load frameworks-res.apk's overlay through regionalization environment
+-        if (Environment::isSupported()) {
+-            Environment* environment = new Environment();
+-            if (environment != NULL) {
+-                const char* overlay_dir = environment->getOverlayDir();
+-                if (overlay_dir != NULL && strcmp(overlay_dir, "") != 0) {
+-                    ALOGD("Regionalization - getOverlayDir:%s", overlay_dir);
+-                    verifySystemIdmaps(overlay_dir);
+-                }
+-                delete environment;
+-            }
+-        }
+-
+-        verifySystemIdmaps(AssetManager::OVERLAY_DIR);
++        verifySystemIdmaps();
+     }
+     AssetManager* am = new AssetManager();
+     if (am == NULL) {
+diff --git a/include/private/regionalization/Environment.h b/include/private/regionalization/Environment.h
+deleted file mode 100644
+index d912383..0000000
+--- a/include/private/regionalization/Environment.h
++++ /dev/null
+@@ -1,75 +0,0 @@
+-/*
+- * Copyright (c) 2015-2016, The Linux Foundation. All rights reserved.
+- *
+- * Redistribution and use in source and binary forms, with or without
+- * modification, are permitted provided that the following conditions are
+- * met:
+- *     * Redistributions of source code must retain the above copyright
+- *       notice, this list of conditions and the following disclaimer.
+- *     * Redistributions in binary form must reproduce the above
+- *       copyright notice, this list of conditions and the following
+- *       disclaimer in the documentation and/or other materials provided
+- *       with the distribution.
+- *     * Neither the name of The Linux Foundation nor the names of its
+- *       contributors may be used to endorse or promote products derived
+- *       from this software without specific prior written permission.
+- *
+- * THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED
+- * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT
+- * ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS
+- * BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+- * BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+- * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+- * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+- * IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+- */
+-
+-#ifndef ANDROID_REGIONALIZATION_ENVIRONMENT_H
+-#define ANDROID_REGIONALIZATION_ENVIRONMENT_H
+-
+-namespace android {
+-
+- /**
+-  * Class used by Regionalization Carrier switching in order to get
+-  * the resource path of switched packages for Carrier.
+-  */
+-class Environment {
+-public:
+-     /** For boot and shutdown animation and music
+-      *  The value which will get different type Animation and boot
+-      *  audio file path from BOOT_SHUTDOWN_FILE Array.
+-      *  (STATUS:TYPE)
+-      *  (0:0) Boot Animation,(0:1) Boot Audio
+-      *  (1:0) Shutdown Animation,(1,1) Shutdown Audio
+-      */
+-     const static int BOOT_STATUS = 0;
+-     const static int SHUTDOWN_STATUS = 1;
+-     const static int ANIMATION_TYPE = 0;
+-     const static int MUSIC_TYPE = 1;
+-
+-     Environment(void);
+-
+-     ~Environment(void);
+-
+-     static bool isSupported(void);
+-
+-     bool loadPackagesFromSpecFile(void);
+-
+-     const char* getMediaFile(int type, int state);
+-
+-     const char* getOverlayDir(void);
+-
+-private:
+-    char* mStoragePos;
+-    int mPackagesCount;
+-    char** mPackages;
+-    char* mMediaFile;
+-    char* mOverlayDir;
+-};
+-
+-}; // namespace android
+-
+-#endif // ANDROID_REGIONALIZATION_ENVIRONMENT_H
+diff --git a/libs/regionalization/Android.mk b/libs/regionalization/Android.mk
+deleted file mode 100644
+index 4a33a3c..0000000
+--- a/libs/regionalization/Android.mk
++++ /dev/null
+@@ -1,18 +0,0 @@
+-LOCAL_PATH := $(call my-dir)
+-include $(CLEAR_VARS)
+-LOCAL_ADDITIONAL_DEPENDENCIES := $(LOCAL_PATH)/Android.mk
+-
+-LOCAL_MODULE:= libregionalization
+-LOCAL_MODULE_TAGS := optional
+-LOCAL_SRC_FILES := \
+-        Environment.cpp
+-LOCAL_C_INCLUDES := \
+-    frameworks/base/include
+-LOCAL_SHARED_LIBRARIES := \
+-    liblog \
+-    libcutils \
+-    libutils
+-
+-LOCAL_CFLAGS += -Wall -Werror -Wunused -Wunreachable-code
+-
+-include $(BUILD_SHARED_LIBRARY)
+diff --git a/libs/regionalization/Environment.cpp b/libs/regionalization/Environment.cpp
+deleted file mode 100644
+index f16fa37..0000000
+--- a/libs/regionalization/Environment.cpp
++++ /dev/null
+@@ -1,201 +0,0 @@
+-/*
+- * Copyright (c) 2015-2016, The Linux Foundation. All rights reserved.
+- *
+- * Redistribution and use in source and binary forms, with or without
+- * modification, are permitted provided that the following conditions are
+- * met:
+- *     * Redistributions of source code must retain the above copyright
+- *       notice, this list of conditions and the following disclaimer.
+- *     * Redistributions in binary form must reproduce the above
+- *       copyright notice, this list of conditions and the following
+- *       disclaimer in the documentation and/or other materials provided
+- *       with the distribution.
+- *     * Neither the name of The Linux Foundation nor the names of its
+- *       contributors may be used to endorse or promote products derived
+- *       from this software without specific prior written permission.
+- *
+- * THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED
+- * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT
+- * ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS
+- * BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+- * BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+- * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+- * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+- * IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+- */
+-
+-#include <string.h>
+-#include <stdlib.h>
+-#include <cutils/properties.h>
+-#include <utils/Log.h>
+-#include <private/regionalization/Environment.h>
+-
+-using namespace android;
+-
+-static const char* ENVIRONMENT_PROP = "ro.regionalization.support";
+-static const char* SPEC_FILE = "/persist/speccfg/spec";
+-static const char* BOOT_SHUTDOWN_FILE[2][2] = {
+-        {"/system/media/bootanimation.zip", "/system/media/shutdownanimation.zip"},
+-        {"/system/media/boot.wav", "/system/media/shutdown.wav"} };
+-static const char* OVERLAY_DIR = "/system/vendor/overlay";
+-
+-static const bool kIsDebug = true;
+-
+-Environment::Environment(void)
+-    : mStoragePos(NULL), mPackagesCount(0),
+-      mPackages(NULL), mMediaFile(NULL),
+-      mOverlayDir(NULL)
+-{
+-    mStoragePos = new char[PATH_MAX];
+-    mMediaFile  = new char[PATH_MAX];
+-    mOverlayDir = new char[PATH_MAX];
+-    if (mStoragePos == NULL || mMediaFile == NULL || mOverlayDir == NULL) {
+-        if (kIsDebug) {
+-            ALOGD("Regionalization Environment new memory error!");
+-        }
+-        return;
+-    }
+-
+-    bool success = loadPackagesFromSpecFile();
+-    if (!success) {
+-        if (kIsDebug) {
+-            ALOGD("Regionalization Environment load packages for Carrier error!");
+-        }
+-    }
+-}
+-
+-Environment::~Environment(void)
+-{
+-    if (mStoragePos != NULL) {
+-        delete[] mStoragePos;
+-    }
+-
+-    if (mPackages != NULL) {
+-        for (int i=0; i < mPackagesCount; i++) {
+-            if (mPackages[i] != NULL) {
+-                delete[] mPackages[i];
+-            }
+-        }
+-        delete[] mPackages;
+-    }
+-
+-    mPackagesCount = 0;
+-
+-    if (mMediaFile != NULL) {
+-        delete[] mMediaFile;
+-    }
+-
+-    if (mOverlayDir != NULL) {
+-        delete[] mOverlayDir;
+-    }
+-}
+-
+-bool Environment::isSupported(void)
+-{
+-    char value[PROPERTY_VALUE_MAX];
+-    memset(value, 0, PROPERTY_VALUE_MAX * sizeof(char));
+-    property_get(ENVIRONMENT_PROP, value, "false");
+-    if (!strcmp(value, "true")) {
+-        return true;
+-    }
+-
+-    return false;
+-}
+-
+-bool Environment::loadPackagesFromSpecFile(void) {
+-    FILE* fSpec = NULL;
+-    if ((fSpec = fopen(SPEC_FILE, "r")) == NULL) {
+-        return false;
+-    }
+-
+-    // Read first line to get storage position of packages
+-    int res = fscanf(fSpec, "%*[^=]=%s", mStoragePos);
+-    if (res < 1 || strcmp(mStoragePos, "") == 0) {
+-        fclose(fSpec);
+-        return false;
+-    }
+-
+-    // Read second line to get count of packages.
+-    res = fscanf(fSpec, "%*[^=]=%d", &mPackagesCount);
+-    if (res < 1 || mPackagesCount <= 0) {
+-        fclose(fSpec);
+-        return false;
+-    }
+-
+-    mPackages = new char*[mPackagesCount];
+-    if (mPackages == NULL) {
+-        fclose(fSpec);
+-        return false;
+-    }
+-    for (int i = 0; i < mPackagesCount; i++) {
+-        mPackages[i] = new char[PATH_MAX];
+-    }
+-
+-    for (int i = 0; i < mPackagesCount; i++) {
+-        res = fscanf(fSpec, "%*[^=]=%s", mPackages[i]);
+-        if (res < 1) {
+-            fclose(fSpec);
+-            return false;
+-        }
+-    }
+-
+-    fclose(fSpec);
+-    return true;
+-}
+-
+-// type: {0:Animation; 1:Audio}
+-// state: {0:boot; 1:shutdown}
+-const char* Environment::getMediaFile(int type, int state)
+-{
+-    if (mPackagesCount != 0 && mStoragePos != NULL && mPackages != NULL) {
+-        for(int i = mPackagesCount-1; i >= 0; i--) {
+-            memset(mMediaFile, 0, PATH_MAX);
+-            strlcpy(mMediaFile, mStoragePos, PATH_MAX);
+-            strlcat(mMediaFile, "/", PATH_MAX);
+-            strlcat(mMediaFile, mPackages[i], PATH_MAX);
+-            strlcat(mMediaFile, BOOT_SHUTDOWN_FILE[type][state], PATH_MAX);
+-            if(access(mMediaFile, R_OK) == 0) {
+-                if (kIsDebug) {
+-                    ALOGD("Environment::getMediaFile() = %s\n", mMediaFile);
+-                }
+-                return mMediaFile;
+-            }
+-        }
+-    }
+-
+-    return NULL;
+-}
+-
+-const char* Environment::getOverlayDir(void)
+-{
+-    if (mPackagesCount != 0 && mStoragePos != NULL && mPackages != NULL) {
+-        for (int i = mPackagesCount-1; i >= 0; i--) {
+-            memset(mMediaFile, 0, PATH_MAX);
+-            strlcpy(mOverlayDir, mStoragePos, PATH_MAX);
+-            strlcat(mOverlayDir, "/", PATH_MAX);
+-            strlcat(mOverlayDir, mPackages[i], PATH_MAX);
+-            strlcat(mOverlayDir, OVERLAY_DIR, PATH_MAX);
+-            if (kIsDebug) {
+-                ALOGD("Environment::getOverlayDir() = %s\n", mOverlayDir);
+-            }
+-            // Check if PackageFrameworksRes dir exists.
+-            char overlayFile[PATH_MAX];
+-            memset(overlayFile, 0, PATH_MAX);
+-            strlcpy(overlayFile, mOverlayDir, PATH_MAX);
+-            strlcat(overlayFile, "/", PATH_MAX);
+-            strlcat(overlayFile, mPackages[i], PATH_MAX);
+-            strlcat(overlayFile, "FrameworksRes", PATH_MAX);
+-            if (access(overlayFile, R_OK) == 0) {
+-                if (kIsDebug) {
+-                    ALOGD("Environment::getOverlayDir() - overlayFile exists!\n");
+-                }
+-                return mOverlayDir;
+-            }
+-        }
+-    }
+-
+-    return NULL;
+-}
+diff --git a/services/core/java/com/android/server/pm/PackageManagerService.java b/services/core/java/com/android/server/pm/PackageManagerService.java
+index 6b2f2c8..1d65cfd 100755
+--- a/services/core/java/com/android/server/pm/PackageManagerService.java
++++ b/services/core/java/com/android/server/pm/PackageManagerService.java
+@@ -234,7 +234,6 @@ import com.android.internal.content.PackageHelper;
+ import com.android.internal.logging.MetricsLogger;
+ import com.android.internal.os.IParcelFileDescriptorFactory;
+ import com.android.internal.os.InstallerConnection.InstallerException;
+-import com.android.internal.os.RegionalizationEnvironment;
+ import com.android.internal.os.SomeArgs;
+ import com.android.internal.os.Zygote;
+ import com.android.internal.telephony.CarrierAppUtils;
+@@ -564,9 +563,6 @@ public class PackageManagerService extends IPackageManager.Stub {
+     // apps.
+     final File mDrmAppPrivateInstallDir;
+ 
+-    // Directory containing the regionalization 3rd apps.
+-    final File mRegionalizationAppInstallDir;
+-
+     // ----------------------------------------------------------------
+ 
+     // Lock for state used when installing and doing other long running
+@@ -2339,7 +2335,6 @@ public class PackageManagerService extends IPackageManager.Stub {
+             mEphemeralInstallDir = new File(dataDir, "app-ephemeral");
+             mAsecInternalPath = new File(dataDir, "app-asec").getPath();
+             mDrmAppPrivateInstallDir = new File(dataDir, "app-private");
+-            mRegionalizationAppInstallDir = new File(dataDir, "app-regional");
+ 
+             sUserManager = new UserManagerService(context, this, mPackages);
+ 
+@@ -2513,28 +2508,6 @@ public class PackageManagerService extends IPackageManager.Stub {
+                     | PackageParser.PARSE_IS_SYSTEM
+                     | PackageParser.PARSE_IS_SYSTEM_DIR, scanFlags, 0);
+ 
+-            // Collect all Regionalization packages form Carrier's res packages.
+-            if (RegionalizationEnvironment.isSupported()) {
+-                Log.d(TAG, "Load Regionalization vendor apks");
+-                final List<File> RegionalizationDirs =
+-                        RegionalizationEnvironment.getAllPackageDirectories();
+-                for (File f : RegionalizationDirs) {
+-                    File RegionalizationSystemDir = new File(f, "system");
+-                    // Collect packages in <Package>/system/priv-app
+-                    scanDirLI(new File(RegionalizationSystemDir, "priv-app"),
+-                            PackageParser.PARSE_IS_SYSTEM | PackageParser.PARSE_IS_SYSTEM_DIR
+-                            | PackageParser.PARSE_IS_PRIVILEGED, scanFlags, 0);
+-                    // Collect packages in <Package>/system/app
+-                    scanDirLI(new File(RegionalizationSystemDir, "app"),
+-                            PackageParser.PARSE_IS_SYSTEM | PackageParser.PARSE_IS_SYSTEM_DIR,
+-                            scanFlags, 0);
+-                    // Collect overlay in <Package>/system/vendor
+-                    scanDirLI(new File(RegionalizationSystemDir, "vendor/overlay"),
+-                            PackageParser.PARSE_IS_SYSTEM | PackageParser.PARSE_IS_SYSTEM_DIR,
+-                            scanFlags | SCAN_TRUSTED_OVERLAY, 0);
+-                }
+-            }
+-
+             // Prune any system packages that no longer exist.
+             final List<String> possiblyDeletedUpdatedSystemApps = new ArrayList<String>();
+             if (!mOnlyCore) {
+@@ -2621,17 +2594,6 @@ public class PackageManagerService extends IPackageManager.Stub {
+                         | PackageParser.PARSE_IS_EPHEMERAL,
+                         scanFlags | SCAN_REQUIRE_KNOWN, 0);
+ 
+-                // Collect all Regionalization 3rd packages.
+-                if (RegionalizationEnvironment.isSupported()) {
+-                    Log.d(TAG, "Load Regionalization 3rd apks from res packages.");
+-                    final List<String> packages = RegionalizationEnvironment.getAllPackageNames();
+-                    for (String pack : packages) {
+-                        File appFolder = new File(mRegionalizationAppInstallDir, pack);
+-                        Log.d(TAG, "Load Regionalization 3rd apks of path " + appFolder.getPath());
+-                        scanDirLI(appFolder, 0, scanFlags | SCAN_REQUIRE_KNOWN, 0);
+-                    }
+-                }
+-
+                 /**
+                  * Remove disable package settings for any updated system
+                  * apps that were removed via an OTA. If they're not a
+@@ -6829,13 +6791,6 @@ public class PackageManagerService extends IPackageManager.Stub {
+                 // Ignore entries which are not packages
+                 continue;
+             }
+-           if (RegionalizationEnvironment.isSupported()) {
+-             if (RegionalizationEnvironment.isExcludedApp(file.getName())) {
+-               Slog.d(TAG, "Regionalization Excluded:" + file.getName());
+-               continue;
+-            }
+-           }
+-
+             final File ref_file = file;
+             final int ref_parseFlags = parseFlags;
+             final int ref_scanFlags = scanFlags;
+-- 
+2.9.3
+

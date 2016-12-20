@@ -1,0 +1,80 @@
+From 094025c431c7475f10ac373454eed64990b6aff3 Mon Sep 17 00:00:00 2001
+From: Nicholas Chum <nicholaschum@gmail.com>
+Date: Tue, 17 Nov 2015 18:57:11 -0500
+Subject: [PATCH 31/32] Themes: Allow Immersive cling colors to be fully themed
+
+This allows the immersive mode help tooltip to be themed completely by
+removing hardcoded framework calls. Let the themer decide what they want
+the colors to be.
+
+Change-Id: Ia0927fda5e44a3ce8ef699cb018bea9b9e7ace62
+---
+ core/res/res/layout/immersive_mode_cling.xml | 10 +++++-----
+ core/res/res/values/projekt_colors.xml       |  3 +++
+ 2 files changed, 8 insertions(+), 5 deletions(-)
+
+diff --git a/core/res/res/layout/immersive_mode_cling.xml b/core/res/res/layout/immersive_mode_cling.xml
+index 28fbea5..9f3d44d 100644
+--- a/core/res/res/layout/immersive_mode_cling.xml
++++ b/core/res/res/layout/immersive_mode_cling.xml
+@@ -16,7 +16,7 @@
+ <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+-        android:background="#ff009688"
++        android:background="@color/immersive_cling_bg_color"
+         android:gravity="center_vertical"
+         android:paddingBottom="24dp">
+ 
+@@ -47,7 +47,7 @@
+                 android:paddingTop="8dp"
+                 android:scaleType="center"
+                 android:src="@drawable/ic_expand_more_48dp"
+-                android:tint="#ff009688"/>
++                android:tint="@color/immersive_cling_bg_color"/>
+     </FrameLayout>
+ 
+     <TextView
+@@ -59,7 +59,7 @@
+             android:paddingStart="48dp"
+             android:paddingTop="40dp"
+             android:text="@string/immersive_cling_title"
+-            android:textColor="@color/primary_text_default_material_light"
++            android:textColor="@color/immersive_cling_text_color"
+             android:textSize="24sp" />
+ 
+     <TextView
+@@ -71,7 +71,7 @@
+             android:paddingStart="48dp"
+             android:paddingTop="12.6dp"
+             android:text="@string/immersive_cling_description"
+-            android:textColor="@color/primary_text_default_material_light"
++            android:textColor="@color/immersive_cling_text_color"
+             android:textSize="16sp" />
+ 
+     <Button
+@@ -86,7 +86,7 @@
+             android:paddingEnd="8dp"
+             android:paddingStart="8dp"
+             android:text="@string/immersive_cling_positive"
+-            android:textColor="@android:color/white"
++            android:textColor="@color/immersive_cling_button_text_color"
+             android:textSize="14sp" />
+ 
+ </RelativeLayout>
+\ No newline at end of file
+diff --git a/core/res/res/values/projekt_colors.xml b/core/res/res/values/projekt_colors.xml
+index 1114d0b..56bebcf 100644
+--- a/core/res/res/values/projekt_colors.xml
++++ b/core/res/res/values/projekt_colors.xml
+@@ -19,4 +19,7 @@
+     <color name="notification_text_default_color">@android:color/notification_default_color</color>
+     <color name="sender_text_color">@android:color/black</color>
+     <color name="resolver_list_bg">@color/white</color>
++    <color name="immersive_cling_bg_color">#ff009688</color>
++    <color name="immersive_cling_text_color">@color/primary_text_default_material_light</color>
++    <color name="immersive_cling_button_text_color">@android:color/white</color>
+ </resources>
+-- 
+2.9.3
+

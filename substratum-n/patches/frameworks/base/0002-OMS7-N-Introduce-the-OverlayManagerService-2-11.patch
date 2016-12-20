@@ -1,0 +1,3082 @@
+From 5fe09e6d8d2cac346fc03ce005592580c6ab42bf Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?M=C3=A5rten=20Kongstad?= <marten.kongstad@sonymobile.com>
+Date: Tue, 15 Dec 2015 16:40:23 +0100
+Subject: [PATCH 02/32] OMS7-N: Introduce the OverlayManagerService [2/11]
+
+Add a new system service to manage Runtime Resource Overlays. This will
+offload the PackageManagerService and allow administration of overlay
+packages while affected packages continue to execute.
+
+Overlays can be enabled or disabled during runtime. To the running
+application the change is invisible. Technically, the overlay is added
+or removed from the running application similarly to how multi-window
+affects resources.
+
+Before an overlay can be enabled it has to be approved. This happens
+during package installation or upgrade and if an error occurs, the
+overlay is marked as not approved.
+
+The system performs the following security checks, in
+the order listed, to determine if an overlay can be approved:
+
+  1. Is the overlay package pre-installed? If yes, OK to use.
+
+  2. Are the target and overlay packages signed with the same
+     certificate? If yes, OK to use.
+
+  3. Is the overlay dangerous? If no, OK to use.
+
+An overlay is said to be dangerous if it modifies resources not
+explicitly specified by the target as OK to overlay. (This is done by
+adding <overlay type="..." name="..."/> tags to the target's resources.)
+
+The decision to approve/not approve an overlay is not re-evaluated until
+the next time either the overlay or its target package is changed.
+
+The order in which a set of overlays is loaded may also be changed
+during runtime. The underlying mechanics are the same as for when an
+overlay is enabled or disabled.
+
+When an overlay changes state, e.g. becomes enabled, the
+OverlayManagerService will broadcast one of the new intents
+android.intent.action.OVERLAY_ADDED, *_CHANGED, *_REMOVED or
+*.OVERLAYS_REORDERED.
+
+Clients that wish to read information about overlays for users other
+than themselves are required to hold the
+android.permission.INTERACT_ACROSS_USERS_FULL permission. This mirrors
+the protection level of PackageManager.getPackageInfo.
+
+Clients that wish to change the information are required to
+hold the permission android.permission.CHANGE_CONFIGURATION.
+
+Each pair of overlay package and corresponding target package is
+respresented by a new OverlayInfo class. This class mirrors the
+existing PackageInfo class.
+
+Overlay packages are handled per Android user. The data is persisted in
+/data/system/overlays.xml.
+
+Change-Id: Icc3c7daa25345d20bc5014b865024422eab72f5b
+---
+ Android.mk                                         |   1 +
+ core/java/android/content/Context.java             |  10 +
+ core/java/android/content/Intent.java              |  34 +
+ core/java/android/content/om/IOverlayManager.aidl  | 129 +++
+ core/java/android/content/om/OverlayInfo.aidl      |  19 +
+ core/java/android/content/om/OverlayInfo.java      | 290 +++++++
+ .../android/content/pm/PackageManagerInternal.java |  24 +
+ core/res/AndroidManifest.xml                       |   4 +
+ .../java/com/android/server/om/IdmapManager.java   | 116 +++
+ .../android/server/om/OverlayManagerService.java   | 901 +++++++++++++++++++++
+ .../server/om/OverlayManagerServiceImpl.java       | 478 +++++++++++
+ .../android/server/om/OverlayManagerSettings.java  | 656 +++++++++++++++
+ .../server/om/OverlayManagerShellCommand.java      | 179 ++++
+ .../android/server/pm/PackageManagerService.java   |  41 +
+ 14 files changed, 2882 insertions(+)
+ create mode 100644 core/java/android/content/om/IOverlayManager.aidl
+ create mode 100644 core/java/android/content/om/OverlayInfo.aidl
+ create mode 100644 core/java/android/content/om/OverlayInfo.java
+ create mode 100644 services/core/java/com/android/server/om/IdmapManager.java
+ create mode 100644 services/core/java/com/android/server/om/OverlayManagerService.java
+ create mode 100644 services/core/java/com/android/server/om/OverlayManagerServiceImpl.java
+ create mode 100644 services/core/java/com/android/server/om/OverlayManagerSettings.java
+ create mode 100644 services/core/java/com/android/server/om/OverlayManagerShellCommand.java
+
+diff --git a/Android.mk b/Android.mk
+index a8b3f65..ac27a56 100644
+--- a/Android.mk
++++ b/Android.mk
+@@ -135,6 +135,7 @@ LOCAL_SRC_FILES += \
+ 	core/java/android/content/ISyncContext.aidl \
+ 	core/java/android/content/ISyncServiceAdapter.aidl \
+ 	core/java/android/content/ISyncStatusObserver.aidl \
++	core/java/android/content/om/IOverlayManager.aidl \
+ 	core/java/android/content/pm/ILauncherApps.aidl \
+ 	core/java/android/content/pm/IOnAppsChangedListener.aidl \
+ 	core/java/android/content/pm/IOtaDexopt.aidl \
+diff --git a/core/java/android/content/Context.java b/core/java/android/content/Context.java
+index bdf888f..eb814cb 100644
+--- a/core/java/android/content/Context.java
++++ b/core/java/android/content/Context.java
+@@ -3652,6 +3652,16 @@ public abstract class Context {
+     public static final String GATEKEEPER_SERVICE = "android.service.gatekeeper.IGateKeeperService";
+ 
+     /**
++     * Use with {@link #getSystemService} to retrieve a {@link
++     * android.content.om.OverlayManager} for managing overlay packages.
++     *
++     * @see #getSystemService
++     * @see android.content.om.OverlayManager
++     * @hide
++     */
++    public static final String OVERLAY_SERVICE = "overlay";
++
++    /**
+      * Determine whether the given permission is allowed for a particular
+      * process and user ID running in the system.
+      *
+diff --git a/core/java/android/content/Intent.java b/core/java/android/content/Intent.java
+index ace54ba..12c6fd2 100644
+--- a/core/java/android/content/Intent.java
++++ b/core/java/android/content/Intent.java
+@@ -3060,6 +3060,40 @@ public class Intent implements Parcelable, Cloneable {
+             "android.intent.action.MEDIA_RESOURCE_GRANTED";
+ 
+     /**
++     * Broadcast Action: An overlay package has been installed. The data
++     * contains the name of the added overlay package.
++     * @hide
++     */
++    public static final String ACTION_OVERLAY_ADDED = "android.intent.action.OVERLAY_ADDED";
++
++    /**
++     * Broadcast Action: An overlay package has changed. The data contains the
++     * name of the overlay package which has changed. This is broadcast on all
++     * changes to the OverlayInfo returned by {@link
++     * android.content.om.IOverlayManager#getOverlayInfo(String, int)}. The
++     * most common change is a state change that will change whether the
++     * overlay is enabled or not.
++     * @hide
++     */
++    public static final String ACTION_OVERLAY_CHANGED = "android.intent.action.OVERLAY_CHANGED";
++
++    /**
++     * Broadcast Action: An overlay package has been removed. The data contains
++     * the name of the overlay package which has been removed.
++     * @hide
++     */
++    public static final String ACTION_OVERLAY_REMOVED = "android.intent.action.OVERLAY_REMOVED";
++
++    /**
++     * Broadcast Action: The order of a package's list of overlay packages has
++     * changed. The data contains the package name of the overlay package that
++     * had its position in the list adjusted.
++     * @hide
++     */
++    public static final String
++            ACTION_OVERLAY_PRIORITY_CHANGED = "android.intent.action.OVERLAY_PRIORITY_CHANGED";
++
++    /**
+      * Activity Action: Allow the user to select and return one or more existing
+      * documents. When invoked, the system will display the various
+      * {@link DocumentsProvider} instances installed on the device, letting the
+diff --git a/core/java/android/content/om/IOverlayManager.aidl b/core/java/android/content/om/IOverlayManager.aidl
+new file mode 100644
+index 0000000..4f5d960
+--- /dev/null
++++ b/core/java/android/content/om/IOverlayManager.aidl
+@@ -0,0 +1,129 @@
++/*
++ * Copyright (C) 2015 The Android Open Source Project
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package android.content.om;
++
++import android.content.om.OverlayInfo;
++
++/**
++ * Api for getting information about overlay packages.
++ *
++ * {@hide}
++ */
++interface IOverlayManager {
++    /**
++     * Returns information about all installed overlay packages for the
++     * specified user. If there are no installed overlay packages for this user,
++     * an empty map is returned (i.e. null is never returned). The returned map is a
++     * mapping of target package names to lists of overlays. Each list for a
++     * given target package is sorted in priority order, with the overlay with
++     * the highest priority at the end of the list.
++     *
++     * @param userId The user to get the OverlayInfos for.
++     * @return A Map<String, List<OverlayInfo>> with target package names
++     *         mapped to lists of overlays; if no overlays exist for the
++     *         requested user, an empty map is returned.
++     */
++    Map getAllOverlays(in int userId);
++
++    /**
++     * Returns information about all overlays for the given target package for
++     * the specified user. The returned list is ordered according to the
++     * overlay priority with the highest priority at the end of the list.
++     *
++     * @param targetPackageName The name of the target package.
++     * @param userId The user to get the OverlayInfos for.
++     * @return A list of OverlayInfo objects; if no overlays exist for the
++     *         requested package, an empty list is returned.
++     */
++    List getOverlayInfosForTarget(in String targetPackageName, in int userId);
++
++    /**
++     * Returns information about the overlay with the given package name for the
++     * specified user.
++     *
++     * @param packageName The name of the overlay package.
++     * @param userId The user to get the OverlayInfo for.
++     * @return The OverlayInfo for the overlay package; or null if no such
++     *         overlay package exists.
++     */
++    OverlayInfo getOverlayInfo(in String packageName, in int userId);
++
++    /**
++     * Request that an overlay package be enabled or disabled when possible to
++     * do so.
++     *
++     * It is always possible to disable an overlay, but due to technical and
++     * security reasons it may not always be possible to enable an overlay. An
++     * example of the latter is when the related target package is not
++     * installed. If the technical obstacle is later overcome, the overlay is
++     * automatically enabled at that point in time.
++     *
++     * An enabled overlay is a part of target package's resources, i.e. it will
++     * be part of any lookups performed via {@link android.content.res.Resources}
++     * and {@link android.content.res.AssetManager}. A disabled overlay will no
++     * longer affect the resources of the target package. If the target is
++     * currently running, its outdated resources will be replaced by new ones.
++     * This happens the same way as when an application enters or exits split
++     * window mode.
++     *
++     * @param packageName The name of the overlay package.
++     * @param enable true to enable the overlay, false to disable it.
++     * @param userId The user for which to change the overlay.
++     * @return true if the system successfully registered the request, false
++     *         otherwise.
++     */
++    boolean setEnabled(in String packageName, in boolean enable, in int userId);
++
++    /**
++     * Change the priority of the given overlay to be just higher than the
++     * overlay with package name newParentPackageName. Both overlay packages
++     * must have the same target and user.
++     *
++     * @see getOverlayInfosForTarget
++     *
++     * @param packageName The name of the overlay package whose priority should
++     *        be adjusted.
++     * @param newParentPackageName The name of the overlay package the newly
++     *        adjusted overlay package should just outrank.
++     * @param userId The user for which to change the overlay.
++     */
++    boolean setPriority(in String packageName, in String newParentPackageName, in int userId);
++
++    /**
++     * Change the priority of the given overlay to the highest priority relative to
++     * the other overlays with the same target and user.
++     *
++     * @see getOverlayInfosForTarget
++     *
++     * @param packageName The name of the overlay package whose priority should
++     *        be adjusted.
++     * @param userId The user for which to change the overlay.
++     */
++    boolean setHighestPriority(in String packageName, in int userId);
++
++    /**
++     * Change the priority of the overlay to the lowest priority relative to
++     * the other overlays for the same target and user.
++     *
++     * @see getOverlayInfosForTarget
++     *
++     * @param packageName The name of the overlay package whose priority should
++     *        be adjusted.
++     * @param userId The user for which to change the overlay.
++     */
++    boolean setLowestPriority(in String packageName, in int userId);
++}
+diff --git a/core/java/android/content/om/OverlayInfo.aidl b/core/java/android/content/om/OverlayInfo.aidl
+new file mode 100644
+index 0000000..e7d413d
+--- /dev/null
++++ b/core/java/android/content/om/OverlayInfo.aidl
+@@ -0,0 +1,19 @@
++/*
++ * Copyright (C) 2015 The Android Open Source Project
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package android.content.om;
++
++parcelable OverlayInfo;
+diff --git a/core/java/android/content/om/OverlayInfo.java b/core/java/android/content/om/OverlayInfo.java
+new file mode 100644
+index 0000000..a25cf0c
+--- /dev/null
++++ b/core/java/android/content/om/OverlayInfo.java
+@@ -0,0 +1,290 @@
++/*
++ * Copyright (C) 2015 The Android Open Source Project
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package android.content.om;
++
++import android.annotation.NonNull;
++import android.os.Parcel;
++import android.os.Parcelable;
++
++/**
++ * Immutable overlay information about a package. All PackageInfos that
++ * represent an overlay package will have a corresponding OverlayInfo.
++ *
++ * @hide
++ */
++public final class OverlayInfo implements Parcelable {
++    /**
++     * An internal state used as the initial state of an overlay. OverlayInfo
++     * objects exposed outside the {@link
++     * com.android.server.om.OverlayManagerService} should never have this
++     * state.
++     */
++    public static final int STATE_NOT_APPROVED_UNKNOWN = -1;
++
++    /**
++     * The overlay package is disabled by the PackageManager.
++     */
++    public static final int STATE_NOT_APPROVED_COMPONENT_DISABLED = 0;
++
++    /**
++     * The target package of the overlay is not installed.
++     */
++    public static final int STATE_NOT_APPROVED_MISSING_TARGET = 1;
++
++    /**
++     * Creation of idmap file failed (e.g. no matching resources).
++     */
++    public static final int STATE_NOT_APPROVED_NO_IDMAP = 2;
++
++    /**
++     * The overlay package is dangerous, i.e. it touches resources not explicitly
++     * OK'd by the target package.
++     */
++    public static final int STATE_NOT_APPROVED_DANGEROUS_OVERLAY = 3;
++
++    /**
++     * The OverlayInfo is currently disabled but it is allowed to be enabled
++     * ({@link #STATE_APPROVED_ENABLED}) in the future.
++     */
++    public static final int STATE_APPROVED_DISABLED = 4;
++
++    /**
++     * The OverlayInfo is enabled but can be disabled
++     * ({@link #STATE_APPROVED_DISABLED}) in the future.
++     */
++    public static final int STATE_APPROVED_ENABLED = 5;
++
++    /**
++     * Package name of the overlay package
++     */
++    public final String packageName;
++
++    /**
++     * Package name of the target package
++     */
++    public final String targetPackageName;
++
++    /**
++     * Full path to the base APK for this overlay package
++     */
++    public final String baseCodePath;
++
++    /**
++     * The state of this OverlayInfo as defined by the STATE_* constants in this class.
++     * <p/>
++     * The state of an OverlayInfo determines if it is approved and/or enabled. An OverlayInfo with
++     * one of the STATE_NOT_APPROVED_* states cannot be enabled, and can thus never be part of the
++     * best match in the resource lookup.
++     * <p/>
++     * The only way to get an overlay package to be active and be part of the best matching in the
++     * resource lookup is if the corresponding OverlayInfo is in an STATE_*_ENABLED state.
++     *
++     * @see #STATE_NOT_APPROVED_COMPONENT_DISABLED
++     * @see #STATE_NOT_APPROVED_MISSING_TARGET
++     * @see #STATE_NOT_APPROVED_NO_IDMAP
++     * @see #STATE_NOT_APPROVED_DANGEROUS_OVERLAY
++     * @see #STATE_APPROVED_DISABLED
++     * @see #STATE_APPROVED_ENABLED
++     */
++    public final int state;
++
++    /**
++     * User handle for which this overlay applies
++     */
++    public final int userId;
++
++    /**
++     * Create a new OverlayInfo based on source with an updated state.
++     *
++     * @param source the source OverlayInfo to base the new instance on
++     * @param state the new state for the source OverlayInfo
++     */
++    public OverlayInfo(@NonNull OverlayInfo source, int state) {
++        this(source.packageName, source.targetPackageName, source.baseCodePath, state,
++                source.userId);
++    }
++
++    public OverlayInfo(@NonNull String packageName, @NonNull String targetPackageName,
++            @NonNull String baseCodePath, int state, int userId) {
++        this.packageName = packageName;
++        this.targetPackageName = targetPackageName;
++        this.baseCodePath = baseCodePath;
++        this.state = state;
++        this.userId = userId;
++        ensureValidState();
++    }
++
++    public OverlayInfo(Parcel source) {
++        packageName = source.readString();
++        targetPackageName = source.readString();
++        baseCodePath = source.readString();
++        state = source.readInt();
++        userId = source.readInt();
++        ensureValidState();
++    }
++
++    private void ensureValidState() {
++        if (packageName == null) {
++            throw new IllegalArgumentException("packageName must not be null");
++        }
++        if (targetPackageName == null) {
++            throw new IllegalArgumentException("targetPackageName must not be null");
++        }
++        if (baseCodePath == null) {
++            throw new IllegalArgumentException("baseCodePath must not be null");
++        }
++        switch (state) {
++            case STATE_NOT_APPROVED_UNKNOWN:
++            case STATE_NOT_APPROVED_COMPONENT_DISABLED:
++            case STATE_NOT_APPROVED_MISSING_TARGET:
++            case STATE_NOT_APPROVED_NO_IDMAP:
++            case STATE_NOT_APPROVED_DANGEROUS_OVERLAY:
++            case STATE_APPROVED_DISABLED:
++            case STATE_APPROVED_ENABLED:
++                break;
++            default:
++                throw new IllegalArgumentException("State " + state + " is not a valid state");
++        }
++    }
++
++    @Override
++    public int describeContents() {
++        return 0;
++    }
++
++    @Override
++    public void writeToParcel(Parcel dest, int flags) {
++        dest.writeString(packageName);
++        dest.writeString(targetPackageName);
++        dest.writeString(baseCodePath);
++        dest.writeInt(state);
++        dest.writeInt(userId);
++    }
++
++    public static final Parcelable.Creator<OverlayInfo> CREATOR = new Parcelable.Creator<OverlayInfo>() {
++        @Override
++        public OverlayInfo createFromParcel(Parcel source) {
++            return new OverlayInfo(source);
++        }
++
++        @Override
++        public OverlayInfo[] newArray(int size) {
++            return new OverlayInfo[size];
++        }
++    };
++
++    /**
++     * Returns true if this overlay is enabled, i.e. should be used to overlay
++     * the resources in the target package.
++     *
++     * Disabled overlay packages are installed but are currently not in use.
++     *
++     * @return true if the overlay is enabled, else false.
++     */
++    public boolean isEnabled() {
++        switch (state) {
++            case STATE_APPROVED_ENABLED:
++                return true;
++            default:
++                return false;
++        }
++    }
++
++    /**
++     * Returns true if this overlay is approved.
++     *
++     * @return true if this overlay is approved, else false.
++     */
++    public boolean isApproved() {
++        switch (state) {
++            case STATE_APPROVED_ENABLED:
++            case STATE_APPROVED_DISABLED:
++                return true;
++            default:
++                return false;
++        }
++    }
++
++    public static String stateToString(int state) {
++        switch (state) {
++            case STATE_NOT_APPROVED_UNKNOWN:
++                return "STATE_NOT_APPROVED_UNKNOWN";
++            case STATE_NOT_APPROVED_COMPONENT_DISABLED:
++                return "STATE_NOT_APPROVED_COMPONENT_DISABLED";
++            case STATE_NOT_APPROVED_MISSING_TARGET:
++                return "STATE_NOT_APPROVED_MISSING_TARGET";
++            case STATE_NOT_APPROVED_NO_IDMAP:
++                return "STATE_NOT_APPROVED_NO_IDMAP";
++            case STATE_NOT_APPROVED_DANGEROUS_OVERLAY:
++                return "STATE_NOT_APPROVED_DANGEROUS_OVERLAY";
++            case STATE_APPROVED_DISABLED:
++                return "STATE_APPROVED_DISABLED";
++            case STATE_APPROVED_ENABLED:
++                return "STATE_APPROVED_ENABLED";
++            default:
++                return "<unknown state>";
++        }
++    }
++
++    @Override
++    public int hashCode() {
++        final int prime = 31;
++        int result = 1;
++        result = prime * result + userId;
++        result = prime * result + state;
++        result = prime * result + ((packageName == null) ? 0 : packageName.hashCode());
++        result = prime * result + ((targetPackageName == null) ? 0 : targetPackageName.hashCode());
++        result = prime * result + ((baseCodePath == null) ? 0 : baseCodePath.hashCode());
++        return result;
++    }
++
++    @Override
++    public boolean equals(Object obj) {
++        if (this == obj) {
++            return true;
++        }
++        if (obj == null) {
++            return false;
++        }
++        if (getClass() != obj.getClass()) {
++            return false;
++        }
++        OverlayInfo other = (OverlayInfo) obj;
++        if (userId != other.userId) {
++            return false;
++        }
++        if (state != other.state) {
++            return false;
++        }
++        if (!packageName.equals(other.packageName)) {
++            return false;
++        }
++        if (!targetPackageName.equals(other.targetPackageName)) {
++            return false;
++        }
++        if (!baseCodePath.equals(other.baseCodePath)) {
++            return false;
++        }
++        return true;
++    }
++
++    @Override
++    public String toString() {
++        return "OverlayInfo { overlay=" + packageName + ", target=" + targetPackageName + ", state="
++                + state + " (" + stateToString(state) + "), userId=" + userId + " }";
++    }
++}
+diff --git a/core/java/android/content/pm/PackageManagerInternal.java b/core/java/android/content/pm/PackageManagerInternal.java
+index 14f7727..daf23b6 100644
+--- a/core/java/android/content/pm/PackageManagerInternal.java
++++ b/core/java/android/content/pm/PackageManagerInternal.java
+@@ -160,4 +160,28 @@ public abstract class PackageManagerInternal {
+      * Whether a package's data be cleared.
+      */
+     public abstract boolean canPackageBeWiped(int userId, String packageName);
++
++    /**
++     * Get all overlay packages for a user.
++     * @param userId The user for which to get the overlays.
++     * @return A list of overlay packages. An empty list is returned if the
++     *         user has no installed overlay packages.
++     */
++    public abstract List<PackageInfo> getOverlayPackages(int userId);
++
++    /**
++     * Get the names of all target packages for a user.
++     * @param userId The user for which to get the package names.
++     * @return A list of target package names. This list includes the "android" package.
++     */
++    public abstract List<String> getTargetPackageNames(int userId);
++
++    /**
++     * Set which overlay to use for a package.
++     * @param userId The user for which to update the overlays.
++     * @param packageName The package name of the package for which to update the overlays.
++     * @param resourceDirs The paths to the overlay packages to use, ordered in the order in
++     *                     which to load the paths, or null if no overlays should be used.
++     */
++    public abstract void setResourceDirs(int userId, String packageName, String[] resourceDirs);
+ }
+diff --git a/core/res/AndroidManifest.xml b/core/res/AndroidManifest.xml
+index 7947154..84189d7 100644
+--- a/core/res/AndroidManifest.xml
++++ b/core/res/AndroidManifest.xml
+@@ -81,6 +81,10 @@
+     <protected-broadcast android:name="android.intent.action.USER_SWITCHED" />
+     <protected-broadcast android:name="android.intent.action.USER_INITIALIZE" />
+     <protected-broadcast android:name="android.intent.action.INTENT_FILTER_NEEDS_VERIFICATION" />
++    <protected-broadcast android:name="android.intent.action.OVERLAY_ADDED" />
++    <protected-broadcast android:name="android.intent.action.OVERLAY_CHANGED" />
++    <protected-broadcast android:name="android.intent.action.OVERLAY_REMOVED" />
++    <protected-broadcast android:name="android.intent.action.OVERLAY_PRIORITY_CHANGED" />
+ 
+     <protected-broadcast android:name="Auth_password_wrong" />
+     <protected-broadcast android:name="android.os.action.POWER_SAVE_MODE_CHANGED" />
+diff --git a/services/core/java/com/android/server/om/IdmapManager.java b/services/core/java/com/android/server/om/IdmapManager.java
+new file mode 100644
+index 0000000..e2a3775
+--- /dev/null
++++ b/services/core/java/com/android/server/om/IdmapManager.java
+@@ -0,0 +1,116 @@
++/*
++ * Copyright (C) 2016 The Android Open Source Project
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package com.android.server.om;
++
++import static com.android.server.om.OverlayManagerService.DEBUG;
++import static com.android.server.om.OverlayManagerService.TAG;
++
++import android.annotation.NonNull;
++import android.content.om.OverlayInfo;
++import android.content.pm.PackageInfo;
++import android.os.UserHandle;
++import android.util.Slog;
++import com.android.internal.os.InstallerConnection.InstallerException;
++import com.android.server.pm.Installer;
++
++import java.io.DataInputStream;
++import java.io.File;
++import java.io.FileInputStream;
++import java.io.IOException;
++
++/**
++ * Handle the creation and deletion of idmap files.
++ *
++ * The actual work is performed by the idmap binary, launched through Installer
++ * and installd.
++ *
++ * Note: this class is subclassed in the OMS unit tests, and hence not marked as final.
++ */
++class IdmapManager {
++    private final Installer mInstaller;
++
++    IdmapManager(final Installer installer) {
++        mInstaller = installer;
++    }
++
++    boolean createIdmap(@NonNull final PackageInfo targetPackage,
++            @NonNull final PackageInfo overlayPackage, int userId) {
++        // unused userId: see comment in OverlayManagerServiceImpl.removeIdmapIfPossible
++        if (DEBUG) {
++            Slog.d(TAG, "create idmap for " + targetPackage.packageName + " and " +
++                    overlayPackage.packageName);
++        }
++        final int sharedGid = UserHandle.getSharedAppGid(targetPackage.applicationInfo.uid);
++        final String targetPath = targetPackage.applicationInfo.getBaseCodePath();
++        final String overlayPath = overlayPackage.applicationInfo.getBaseCodePath();
++        try {
++            mInstaller.idmap(targetPath, overlayPath, sharedGid);
++        } catch (InstallerException e) {
++            Slog.w(TAG, "failed to generate idmap for " + targetPath + " and " +
++                    overlayPath + ": " + e.getMessage());
++            return false;
++        }
++        return true;
++    }
++
++    boolean removeIdmap(@NonNull final OverlayInfo oi, final int userId) {
++        // unused userId: see comment in OverlayManagerServiceImpl.removeIdmapIfPossible
++        if (DEBUG) {
++            Slog.d(TAG, "remove idmap for " + oi.baseCodePath);
++        }
++        try {
++            mInstaller.removeIdmap(oi.baseCodePath);
++        } catch (InstallerException e) {
++            Slog.w(TAG, "failed to remove idmap for " + oi.baseCodePath + ": " + e.getMessage());
++            return false;
++        }
++        return true;
++    }
++
++    boolean idmapExists(@NonNull final OverlayInfo oi) {
++        // unused OverlayInfo.userId: see comment in OverlayManagerServiceImpl.removeIdmapIfPossible
++        return new File(getIdmapPath(oi.baseCodePath)).isFile();
++    }
++
++    boolean idmapExists(@NonNull final PackageInfo overlayPackage, final int userId) {
++        // unused userId: see comment in OverlayManagerServiceImpl.removeIdmapIfPossible
++        return new File(getIdmapPath(overlayPackage.applicationInfo.getBaseCodePath())).isFile();
++    }
++
++    boolean isDangerous(@NonNull final PackageInfo overlayPackage, final int userId) {
++        // unused userId: see comment in OverlayManagerServiceImpl.removeIdmapIfPossible
++        return isDangerous(getIdmapPath(overlayPackage.applicationInfo.getBaseCodePath()));
++    }
++
++    private String getIdmapPath(@NonNull final String baseCodePath) {
++        final StringBuilder sb = new StringBuilder("/data/resource-cache/");
++        sb.append(baseCodePath.substring(1).replace('/', '@'));
++        sb.append("@idmap");
++        return sb.toString();
++    }
++
++    private boolean isDangerous(@NonNull final String idmapPath) {
++        try (DataInputStream dis = new DataInputStream(new FileInputStream(idmapPath))) {
++            final int magic = dis.readInt();
++            final int version = dis.readInt();
++            final int dangerous = dis.readInt();
++            return dangerous != 0;
++        } catch (IOException e) {
++            return true;
++        }
++    }
++}
+diff --git a/services/core/java/com/android/server/om/OverlayManagerService.java b/services/core/java/com/android/server/om/OverlayManagerService.java
+new file mode 100644
+index 0000000..ec148dd
+--- /dev/null
++++ b/services/core/java/com/android/server/om/OverlayManagerService.java
+@@ -0,0 +1,901 @@
++/*
++ * Copyright (C) 2016 The Android Open Source Project
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package com.android.server.om;
++
++import static android.app.AppGlobals.getPackageManager;
++import static android.content.Intent.ACTION_PACKAGE_ADDED;
++import static android.content.Intent.ACTION_PACKAGE_CHANGED;
++import static android.content.Intent.ACTION_PACKAGE_REMOVED;
++import static android.content.Intent.ACTION_USER_REMOVED;
++import static android.content.pm.PackageManager.SIGNATURE_MATCH;
++
++import android.annotation.NonNull;
++import android.annotation.Nullable;
++import android.app.ActivityManager;
++import android.app.ActivityManagerNative;
++import android.app.IActivityManager;
++import android.content.BroadcastReceiver;
++import android.content.Context;
++import android.content.Intent;
++import android.content.IntentFilter;
++import android.content.om.IOverlayManager;
++import android.content.om.OverlayInfo;
++import android.content.pm.IPackageManager;
++import android.content.pm.PackageInfo;
++import android.content.pm.PackageManagerInternal;
++import android.content.pm.UserInfo;
++import android.net.Uri;
++import android.os.Binder;
++import android.os.Environment;
++import android.os.IBinder;
++import android.os.Process;
++import android.os.RemoteException;
++import android.os.ResultReceiver;
++import android.os.UserHandle;
++import android.util.ArrayMap;
++import android.util.AtomicFile;
++import android.util.Slog;
++import android.util.SparseArray;
++
++import com.android.server.FgThread;
++import com.android.server.IoThread;
++import com.android.server.LocalServices;
++import com.android.server.SystemService;
++import com.android.server.pm.Installer;
++import com.android.server.pm.UserManagerService;
++
++import org.xmlpull.v1.XmlPullParserException;
++
++import java.io.File;
++import java.io.FileDescriptor;
++import java.io.FileInputStream;
++import java.io.FileOutputStream;
++import java.io.IOException;
++import java.io.PrintWriter;
++import java.util.ArrayList;
++import java.util.Collection;
++import java.util.Collections;
++import java.util.HashMap;
++import java.util.Iterator;
++import java.util.List;
++import java.util.Map;
++import java.util.concurrent.atomic.AtomicBoolean;
++
++/**
++ * Service to manage asset overlays.
++ *
++ * <p>Asset overlays are additional resources that come from apks loaded
++ * alongside the system and app apks. This service, the OverlayManagerService
++ * (OMS), tracks which installed overlays to use and provides methods to change
++ * this. Changes propagate to running applications as part of the Activity
++ * lifecycle. This allows Activities to reread their resources at a well
++ * defined point.</p>
++ *
++ * <p>By itself, the OMS will not change what overlays should be active.
++ * Instead, it is only responsible for making sure that overlays *can* be used
++ * from a technical and security point of view and to activate overlays in
++ * response to external requests. The responsibility to toggle overlays on and
++ * off lies within components that implement different use-cases such as themes
++ * or dynamic customization.</p>
++ *
++ * <p>The OMS receives input from three sources:</p>
++ *
++ * <ul>
++ *     <li>Callbacks from the SystemService class, specifically when the
++ *     Android framework is booting and when the end user switches Android
++ *     users.</li>
++ *
++ *     <li>Intents from the PackageManagerService (PMS). Overlays are regular
++ *     apks, and whenever a package is installed (or removed, or has a
++ *     component enabled or disabled), the PMS broadcasts this as an intent.
++ *     When the OMS receives one of these intents, it updates its internal
++ *     representation of the available overlays and, if there was a visible
++ *     change, triggers an asset refresh in the affected apps.</li>
++ *
++ *     <li>External requests via the {@link IOverlayManager AIDL interface}.
++ *     The interface allows clients to read information about the currently
++ *     available overlays, change whether an overlay should be used or not, and
++ *     change the relative order in which overlay packages are loaded.
++ *     Read-access is granted if the request targets the same Android user as
++ *     the caller runs as, or if the caller holds the
++ *     INTERACT_ACROSS_USERS_FULL permission. Write-access is granted if the
++ *     caller is granted read-access and additionaly holds the
++ *     CHANGE_CONFIGURATION permission.</li>
++ * </ul>
++ *
++ * <p>The AIDL interface works with String package names, int user IDs, and
++ * {@link OverlayInfo} objects. OverlayInfo instances are used to track a
++ * specific pair of target and overlay packages and include information such as
++ * the current state of the overlay. OverlayInfo objects are immutable.</p>
++ *
++ * <p>Internally, OverlayInfo objects are maintained by the
++ * OverlayManagerSettings class. The OMS and its helper classes are notified of
++ * changes to the settings by the OverlayManagerSettings.ChangeListener
++ * callback interface. The file /data/system/overlays.xml is used to persist
++ * the settings.</p>
++ *
++ * <p>Creation and deletion of idmap files are handled by the IdmapManager
++ * class.</p>
++ *
++ * <p>The following is an overview of OMS and its related classes. Note how box
++ * (2) does the heavy lifting, box (1) interacts with the Android framework,
++ * and box (3) replaces box (1) during unit testing.</p>
++ *
++ * <pre>
++ *         Android framework
++ *            |         ^
++ *      . . . | . . . . | . . . .
++ *     .      |         |       .
++ *     .    AIDL,   broadcasts  .
++ *     .   intents      |       .
++ *     .      |         |       . . . . . . . . . . . .
++ *     .      v         |       .                     .
++ *     .  OverlayManagerService . OverlayManagerTests .
++ *     .                  \     .     /               .
++ *     . (1)               \    .    /            (3) .
++ *      . . . . . . . . . . \ . . . / . . . . . . . . .
++ *     .                     \     /              .
++ *     . (2)                  \   /               .
++ *     .           OverlayManagerServiceImpl      .
++ *     .                  |            |          .
++ *     .                  |            |          .
++ *     . OverlayManagerSettings     IdmapManager  .
++ *     .                                          .
++ *     . . . .  . . . . . . . . . . . . . . . . . .
++ * </pre>
++ *
++ * <p>Finally, here is a list of keywords used in the OMS context.</p>
++ *
++ * <ul>
++ *     <li><b>target [package]</b> -- A regular apk that may have its resource
++ *     pool extended  by zero or more overlay packages.</li>
++ *
++ *     <li><b>overlay [package]</b> -- An apk that provides additional
++ *     resources to another apk.</li>
++ *
++ *     <li><b>OMS</b> -- The OverlayManagerService, i.e. this class.</li>
++ *
++ *     <li><b>approved</b> -- An overlay is approved if the OMS has verified
++ *     that it can be used technically speaking (its target package is
++ *     installed, at least one resource name in both packages match, the
++ *     idmap was created, etc) and that it is secure to do so. External
++ *     clients can not change this state.</li>
++ *
++ *     <li><b>not approved</b> -- The opposite of approved.</li>
++ *
++ *     <li><b>enabled</b> -- An overlay currently in active use and thus part
++ *     of resource lookups. This requires the overlay to be approved. Only
++ *     external clients can change this state.</li>
++ *
++ *     <li><b>disabled</b> -- The opposite of enabled.</li>
++ *
++ *     <li><b>idmap</b> -- A mapping of resource IDs between target and overlay
++ *     used during resource lookup. Also the name of the binary that creates
++ *     the mapping.</li>
++ * </ul>
++ */
++public final class OverlayManagerService extends SystemService {
++
++    static final String TAG = "OverlayManager";
++
++    static final boolean DEBUG = false;
++
++    private final Object mLock = new Object();
++
++    private final AtomicFile mSettingsFile;
++
++    private final PackageManagerHelper mPackageManager;
++
++    private final UserManagerService mUserManager;
++
++    private final OverlayManagerSettings mSettings;
++
++    private final OverlayManagerServiceImpl mImpl;
++
++    private final AtomicBoolean mPersistSettingsScheduled = new AtomicBoolean(false);
++
++    public OverlayManagerService(@NonNull final Context context,
++            @NonNull final Installer installer) {
++        super(context);
++        mSettingsFile =
++            new AtomicFile(new File(Environment.getDataSystemDirectory(), "overlays.xml"));
++        mPackageManager = new PackageManagerHelper();
++        mUserManager = UserManagerService.getInstance();
++        IdmapManager im = new IdmapManager(installer);
++        mSettings = new OverlayManagerSettings();
++        mImpl = new OverlayManagerServiceImpl(mPackageManager, im, mSettings);
++
++        final IntentFilter packageFilter = new IntentFilter();
++        packageFilter.addAction(ACTION_PACKAGE_ADDED);
++        packageFilter.addAction(ACTION_PACKAGE_CHANGED);
++        packageFilter.addAction(ACTION_PACKAGE_REMOVED);
++        packageFilter.addDataScheme("package");
++        getContext().registerReceiverAsUser(new PackageReceiver(), UserHandle.ALL,
++                packageFilter, null, null);
++
++        final IntentFilter userFilter = new IntentFilter();
++        userFilter.addAction(ACTION_USER_REMOVED);
++        getContext().registerReceiverAsUser(new UserReceiver(), UserHandle.ALL,
++                userFilter, null, null);
++
++        restoreSettings();
++        onSwitchUser(UserHandle.USER_SYSTEM);
++        schedulePersistSettings();
++
++        mSettings.addChangeListener(new OverlayChangeListener());
++
++        publishBinderService(Context.OVERLAY_SERVICE, mService);
++        publishLocalService(OverlayManagerService.class, this);
++    }
++
++    @Override
++    public void onStart() {
++        // Intentionally left empty.
++    }
++
++    @Override
++    public void onSwitchUser(final int newUserId) {
++        // ensure overlays in the settings are up-to-date, and propagate
++        // any asset changes to the rest of the system
++        final List<String> targets;
++        synchronized (mLock) {
++            targets = mImpl.onSwitchUser(newUserId);
++        }
++        updateAssets(newUserId, targets);
++    }
++
++    public List<String> getEnabledOverlayPaths(@NonNull final String packageName,
++            final int userId) {
++        synchronized (mLock) {
++            return mImpl.onGetEnabledOverlayPaths(packageName, userId);
++        }
++    }
++
++    private final class PackageReceiver extends BroadcastReceiver {
++        @Override
++        public void onReceive(@NonNull final Context context, @NonNull final Intent intent) {
++            final Uri data = intent.getData();
++            if (data == null) {
++                Slog.e(TAG, "Cannot handle package broadcast with null data");
++                return;
++            }
++            final String packageName = data.getSchemeSpecificPart();
++
++            final boolean replacing = intent.getBooleanExtra(Intent.EXTRA_REPLACING, false);
++
++            final int[] userIds;
++            final int extraUid = intent.getIntExtra(Intent.EXTRA_UID, UserHandle.USER_NULL);
++            if (extraUid == UserHandle.USER_NULL) {
++                userIds = mUserManager.getUserIds();
++            } else {
++                userIds = new int[] { UserHandle.getUserId(extraUid) };
++            }
++
++            switch (intent.getAction()) {
++                case ACTION_PACKAGE_ADDED:
++                    if (replacing) {
++                        onPackageUpgraded(packageName, userIds);
++                    } else {
++                        onPackageAdded(packageName, userIds);
++                    }
++                    break;
++                case ACTION_PACKAGE_CHANGED:
++                    onPackageChanged(packageName, userIds);
++                    break;
++                case ACTION_PACKAGE_REMOVED:
++                    if (replacing) {
++                        onPackageUpgrading(packageName, userIds);
++                    } else {
++                        onPackageRemoved(packageName, userIds);
++                    }
++                    break;
++                default:
++                    // do nothing
++                    break;
++            }
++        }
++
++        private void onPackageAdded(@NonNull final String packageName,
++                @NonNull final int[] userIds) {
++            for (final int userId : userIds) {
++                synchronized (mLock) {
++                    final PackageInfo pi = mPackageManager.getPackageInfo(packageName, userId, false);
++                    if (pi != null) {
++                        mPackageManager.cachePackageInfo(packageName, userId, pi);
++                        if (!isOverlayPackage(pi)) {
++                            mImpl.onTargetPackageAdded(packageName, userId);
++                        } else {
++                            mImpl.onOverlayPackageAdded(packageName, userId);
++                        }
++                    }
++                }
++            }
++        }
++
++        private void onPackageChanged(@NonNull final String packageName,
++                @NonNull final int[] userIds) {
++            for (int userId : userIds) {
++                synchronized (mLock) {
++                    final PackageInfo pi = mPackageManager.getPackageInfo(packageName, userId, false);
++                    if (pi != null) {
++                        mPackageManager.cachePackageInfo(packageName, userId, pi);
++                        if (!isOverlayPackage(pi)) {
++                            mImpl.onTargetPackageChanged(packageName, userId);
++                        } else {
++                            mImpl.onOverlayPackageChanged(packageName, userId);
++                        }
++                    }
++                }
++            }
++        }
++
++        private void onPackageUpgrading(@NonNull final String packageName,
++                @NonNull final int[] userIds) {
++            for (int userId : userIds) {
++                synchronized (mLock) {
++                    mPackageManager.forgetPackageInfo(packageName, userId);
++                    final OverlayInfo oi = mImpl.onGetOverlayInfo(packageName, userId);
++                    if (oi == null) {
++                        mImpl.onTargetPackageUpgrading(packageName, userId);
++                    } else {
++                        mImpl.onOverlayPackageUpgrading(packageName, userId);
++                    }
++                }
++            }
++        }
++
++        private void onPackageUpgraded(@NonNull final String packageName,
++                @NonNull final int[] userIds) {
++            for (int userId : userIds) {
++                synchronized (mLock) {
++                    final PackageInfo pi = mPackageManager.getPackageInfo(packageName, userId, false);
++                    if (pi != null) {
++                        mPackageManager.cachePackageInfo(packageName, userId, pi);
++                        if (!isOverlayPackage(pi)) {
++                            mImpl.onTargetPackageUpgraded(packageName, userId);
++                        } else {
++                            mImpl.onOverlayPackageUpgraded(packageName, userId);
++                        }
++                    }
++                }
++            }
++        }
++
++        private void onPackageRemoved(@NonNull final String packageName,
++                @NonNull final int[] userIds) {
++            for (int userId : userIds) {
++                synchronized (mLock) {
++                    mPackageManager.forgetPackageInfo(packageName, userId);
++                    final OverlayInfo oi = mImpl.onGetOverlayInfo(packageName, userId);
++                    if (oi == null) {
++                        mImpl.onTargetPackageRemoved(packageName, userId);
++                    } else {
++                        mImpl.onOverlayPackageRemoved(packageName, userId);
++                    }
++                }
++            }
++        }
++    }
++
++    private final class UserReceiver extends BroadcastReceiver {
++        @Override
++        public void onReceive(@NonNull final Context context, @NonNull final Intent intent) {
++            switch (intent.getAction()) {
++                case ACTION_USER_REMOVED:
++                    final int userId =
++                        intent.getIntExtra(Intent.EXTRA_USER_HANDLE, UserHandle.USER_NULL);
++                    if (userId != UserHandle.USER_NULL) {
++                        synchronized (mLock) {
++                            mImpl.onUserRemoved(userId);
++                            mPackageManager.forgetAllPackageInfos(userId);
++                        }
++                    }
++                    break;
++                default:
++                    // do nothing
++                    break;
++            }
++        }
++    }
++
++    private final IBinder mService = new IOverlayManager.Stub() {
++        @Override
++        public Map<String, List<OverlayInfo>> getAllOverlays(int userId)
++                throws RemoteException {
++            userId = handleIncomingUser(userId, "getAllOverlays");
++
++            synchronized (mLock) {
++                return mImpl.onGetOverlaysForUser(userId);
++            }
++        }
++
++        @Override
++        public List<OverlayInfo> getOverlayInfosForTarget(@Nullable final String targetPackageName,
++                int userId) throws RemoteException {
++            userId = handleIncomingUser(userId, "getOverlayInfosForTarget");
++            if (targetPackageName == null) {
++                return Collections.emptyList();
++            }
++
++            synchronized (mLock) {
++                return mImpl.onGetOverlayInfosForTarget(targetPackageName, userId);
++            }
++        }
++
++        @Override
++        public OverlayInfo getOverlayInfo(@Nullable final String packageName,
++                int userId) throws RemoteException {
++            userId = handleIncomingUser(userId, "getOverlayInfo");
++            if (packageName == null) {
++                return null;
++            }
++
++            synchronized (mLock) {
++                return mImpl.onGetOverlayInfo(packageName, userId);
++            }
++        }
++
++        @Override
++        public boolean setEnabled(@Nullable final String packageName, final boolean enable,
++                int userId) throws RemoteException {
++            enforceChangeConfigurationPermission("setEnabled");
++            userId = handleIncomingUser(userId, "setEnabled");
++            if (packageName == null) {
++                return false;
++            }
++
++            final long ident = Binder.clearCallingIdentity();
++            try {
++                synchronized (mLock) {
++                    return mImpl.onSetEnabled(packageName, enable, userId);
++                }
++            } finally {
++                Binder.restoreCallingIdentity(ident);
++            }
++        }
++
++        @Override
++        public boolean setPriority(@Nullable final String packageName,
++                @Nullable final String parentPackageName, int userId) throws RemoteException {
++            enforceChangeConfigurationPermission("setPriority");
++            userId = handleIncomingUser(userId, "setPriority");
++            if (packageName == null || parentPackageName == null) {
++                return false;
++            }
++
++            final long ident = Binder.clearCallingIdentity();
++            try {
++                synchronized (mLock) {
++                    return mImpl.onSetPriority(packageName, parentPackageName, userId);
++                }
++            } finally {
++                Binder.restoreCallingIdentity(ident);
++            }
++        }
++
++        @Override
++        public boolean setHighestPriority(@Nullable final String packageName, int userId)
++                throws RemoteException {
++            enforceChangeConfigurationPermission("setHighestPriority");
++            userId = handleIncomingUser(userId, "setHighestPriority");
++            if (packageName == null) {
++                return false;
++            }
++
++            final long ident = Binder.clearCallingIdentity();
++            try {
++                synchronized (mLock) {
++                    return mImpl.onSetHighestPriority(packageName, userId);
++                }
++            } finally {
++                Binder.restoreCallingIdentity(ident);
++            }
++        }
++
++        @Override
++        public boolean setLowestPriority(@Nullable final String packageName, int userId)
++                throws RemoteException {
++            enforceChangeConfigurationPermission("setLowestPriority");
++            userId = handleIncomingUser(userId, "setLowestPriority");
++            if (packageName == null) {
++                return false;
++            }
++
++            final long ident = Binder.clearCallingIdentity();
++            try {
++                synchronized (mLock) {
++                    return mImpl.onSetLowestPriority(packageName, userId);
++                }
++            } finally {
++                Binder.restoreCallingIdentity(ident);
++            }
++        }
++
++        @Override
++        public void onShellCommand(@NonNull final FileDescriptor in,
++                @NonNull final FileDescriptor out, @NonNull final FileDescriptor err,
++                @NonNull final String[] args, @NonNull final ResultReceiver resultReceiver) {
++            (new OverlayManagerShellCommand(this)).exec(
++                    this, in, out, err, args, resultReceiver);
++        }
++
++        @Override
++        protected void dump(@NonNull final FileDescriptor fd, @NonNull final PrintWriter pw,
++                @NonNull final String[] argv) {
++            enforceDumpPermission("dump");
++
++            final boolean verbose = argv.length > 0 && "--verbose".equals(argv[0]);
++
++            synchronized (mLock) {
++                mImpl.onDump(pw);
++                mPackageManager.dump(pw, verbose);
++            }
++        }
++
++        /**
++         * Ensure that the caller has permission to interact with the given userId.
++         * If the calling user is not the same as the provided user, the caller needs
++         * to hold the INTERACT_ACROSS_USERS_FULL permission (or be system uid or
++         * root).
++         *
++         * @param userId the user to interact with
++         * @param message message for any SecurityException
++         */
++        private int handleIncomingUser(final int userId, @NonNull final String message) {
++            return ActivityManager.handleIncomingUser(Binder.getCallingPid(),
++                    Binder.getCallingUid(), userId, false, true, message, null);
++        }
++
++        /**
++         * Enforce that the caller holds the CHANGE_CONFIGURATION permission (or is
++         * system or root).
++         *
++         * @param message used as message if SecurityException is thrown
++         * @throws SecurityException if the permission check fails
++         */
++        private void enforceChangeConfigurationPermission(@NonNull final String message) {
++            final int callingUid = Binder.getCallingUid();
++
++            if (callingUid != Process.SYSTEM_UID && callingUid != 0) {
++                getContext().enforceCallingOrSelfPermission(
++                        android.Manifest.permission.CHANGE_CONFIGURATION, message);
++            }
++        }
++
++        /**
++         * Enforce that the caller holds the DUMP permission (or is system or root).
++         *
++         * @param message used as message if SecurityException is thrown
++         * @throws SecurityException if the permission check fails
++         */
++        private void enforceDumpPermission(@NonNull final String message) {
++            final int callingUid = Binder.getCallingUid();
++
++            if (callingUid != Process.SYSTEM_UID && callingUid != 0) {
++                getContext().enforceCallingOrSelfPermission(android.Manifest.permission.DUMP,
++                        message);
++            }
++        }
++    };
++
++    private boolean isOverlayPackage(@NonNull final PackageInfo pi) {
++        return pi != null && pi.overlayTarget != null;
++    }
++
++    private final class OverlayChangeListener implements OverlayManagerSettings.ChangeListener {
++        @Override
++        public void onSettingsChanged() {
++            schedulePersistSettings();
++        }
++
++        @Override
++        public void onOverlayAdded(@NonNull final OverlayInfo oi) {
++            scheduleBroadcast(Intent.ACTION_OVERLAY_ADDED, oi, oi.isEnabled());
++        }
++
++        @Override
++        public void onOverlayRemoved(@NonNull final OverlayInfo oi) {
++            scheduleBroadcast(Intent.ACTION_OVERLAY_REMOVED, oi, oi.isEnabled());
++        }
++
++        @Override
++        public void onOverlayChanged(@NonNull final OverlayInfo oi,
++                @NonNull final OverlayInfo oldOi) {
++            scheduleBroadcast(Intent.ACTION_OVERLAY_CHANGED, oi, oi.isEnabled() != oldOi.isEnabled());
++        }
++
++        @Override
++        public void onOverlayPriorityChanged(@NonNull final OverlayInfo oi) {
++            scheduleBroadcast(Intent.ACTION_OVERLAY_PRIORITY_CHANGED, oi, oi.isEnabled());
++        }
++
++        private void scheduleBroadcast(@NonNull final String action, @NonNull final OverlayInfo oi,
++                final boolean doUpdate) {
++            FgThread.getHandler().post(new BroadcastRunnable(action, oi, doUpdate));
++        }
++
++        private final class BroadcastRunnable extends Thread {
++            private final String mAction;
++            private final OverlayInfo mOverlayInfo;
++            private final boolean mDoUpdate;
++
++            public BroadcastRunnable(@NonNull final String action, @NonNull final OverlayInfo oi,
++                    final boolean doUpdate) {
++                mAction = action;
++                mOverlayInfo = oi;
++                mDoUpdate = doUpdate;
++            }
++
++            public void run() {
++                if (mDoUpdate) {
++                    updateAssets(mOverlayInfo.userId, mOverlayInfo.targetPackageName);
++                }
++                sendBroadcast(mAction, mOverlayInfo.targetPackageName, mOverlayInfo.packageName,
++                        mOverlayInfo.userId);
++            }
++
++            private void sendBroadcast(@NonNull final String action,
++                    @NonNull final String targetPackageName, @NonNull final String packageName,
++                    final int userId) {
++                final Intent intent = new Intent(action, Uri.fromParts("package",
++                            String.format("%s/%s", targetPackageName, packageName), null));
++                intent.setFlags(Intent.FLAG_RECEIVER_REGISTERED_ONLY_BEFORE_BOOT);
++                if (DEBUG) {
++                    Slog.d(TAG, String.format("send broadcast %s", intent));
++                }
++                try {
++                    ActivityManagerNative.getDefault().broadcastIntent(null, intent, null, null, 0,
++                            null, null, null, android.app.AppOpsManager.OP_NONE, null, false, false,
++                            userId);
++                } catch (RemoteException e) {
++                    // Intentionally left empty.
++                }
++            }
++
++        }
++    }
++
++    private void updateAssets(final int userId, final String targetPackageName) {
++        final List<String> list = new ArrayList<>();
++        list.add(targetPackageName);
++        updateAssets(userId, list);
++    }
++
++    private void updateAssets(final int userId, List<String> targetPackageNames) {
++        // TODO: uncomment when we integrate OMS properly
++        // final PackageManagerInternal pm = LocalServices.getService(PackageManagerInternal.class);
++        // final boolean updateFrameworkRes = targetPackageNames.contains("android");
++        // if (updateFrameworkRes) {
++        //     targetPackageNames = pm.getTargetPackageNames(userId);
++        // }
++
++        // final Map<String, String[]> allPaths = new ArrayMap<>(targetPackageNames.size());
++        // synchronized (mLock) {
++        //     final List<String> frameworkPaths = mImpl.onGetEnabledOverlayPaths("android", userId);
++        //     for (final String packageName : targetPackageNames) {
++        //         final List<String> paths = new ArrayList<>();
++        //         paths.addAll(frameworkPaths);
++        //         if (!"android".equals(packageName)) {
++        //             paths.addAll(mImpl.onGetEnabledOverlayPaths(packageName, userId));
++        //         }
++        //         allPaths.put(packageName,
++        //             paths.isEmpty() ? null : paths.toArray(new String[paths.size()]));
++        //     }
++        // }
++
++        // for (String packageName : targetPackageNames) {
++        //     pm.setResourceDirs(userId, packageName, allPaths.get(packageName));
++        // }
++
++        // final IActivityManager am = ActivityManagerNative.getDefault();
++        // try {
++        //     am.updateAssets(userId, targetPackageNames);
++        // } catch (RemoteException e) {
++        //     // Intentionally left empty.
++        // }
++    }
++
++    private void schedulePersistSettings() {
++        if (mPersistSettingsScheduled.get()) {
++            return;
++        }
++        mPersistSettingsScheduled.set(true);
++        IoThread.getHandler().post(new Runnable() {
++            @Override
++            public void run() {
++                mPersistSettingsScheduled.set(false);
++                synchronized (mLock) {
++                    FileOutputStream stream = null;
++                    try {
++                        stream = mSettingsFile.startWrite();
++                        mSettings.persist(stream);
++                        mSettingsFile.finishWrite(stream);
++                    } catch (IOException | XmlPullParserException e) {
++                        mSettingsFile.failWrite(stream);
++                        Slog.e(TAG, "failed to persist overlay state", e);
++                    }
++                }
++            }
++        });
++    }
++
++    private void restoreSettings() {
++        synchronized (mLock) {
++            if (!mSettingsFile.getBaseFile().exists()) {
++                return;
++            }
++            try (final FileInputStream stream = mSettingsFile.openRead()) {
++                mSettings.restore(stream);
++
++                // We might have data for dying users if the device was
++                // restarted before we received USER_REMOVED. Remove data for
++                // users that will not exist after the system is ready.
++
++                for (final UserInfo deadUser : getDeadUsers()) {
++                    final int userId = deadUser.getUserHandle().getIdentifier();
++                    mSettings.removeUser(userId);
++                }
++            } catch (IOException | XmlPullParserException e) {
++                Slog.e(TAG, "failed to restore overlay state", e);
++            }
++        }
++    }
++
++    private List<UserInfo> getDeadUsers() {
++        final List<UserInfo> users = mUserManager.getUsers(false);
++        final List<UserInfo> onlyLiveUsers = mUserManager.getUsers(true);
++
++        // UserInfo doesn't implement equals, so we'll roll our own
++        // Collection.removeAll implementation
++        final Iterator<UserInfo> iter = users.iterator();
++        while (iter.hasNext()) {
++            final UserInfo ui = iter.next();
++            for (final UserInfo live : onlyLiveUsers) {
++                if (ui.id == live.id) {
++                    iter.remove();
++                    break;
++                }
++            }
++        }
++
++        return users;
++    }
++
++    private static final class PackageManagerHelper implements
++        OverlayManagerServiceImpl.PackageManagerHelper {
++
++        private final IPackageManager mPackageManager;
++        private final PackageManagerInternal mPackageManagerInternal;
++
++        // Use a cache for performance and for consistency within OMS: because
++        // additional PACKAGE_* intents may be delivered while we process an
++        // intent, querying the PackageManagerService for the actual current
++        // state may lead to contradictions within OMS. Better then to lag
++        // behind until all pending intents have been processed.
++        private final SparseArray<HashMap<String, PackageInfo>> mCache = new SparseArray<>();
++
++        public PackageManagerHelper() {
++            mPackageManager = getPackageManager();
++            mPackageManagerInternal = LocalServices.getService(PackageManagerInternal.class);
++        }
++
++        public PackageInfo getPackageInfo(@NonNull final String packageName, final int userId,
++                final boolean useCache) {
++            if (useCache) {
++                final PackageInfo cachedPi = getCachedPackageInfo(packageName, userId);
++                if (cachedPi != null) {
++                    return cachedPi;
++                }
++            }
++            try {
++                final PackageInfo pi = mPackageManager.getPackageInfo(packageName, 0, userId);
++                if (useCache && pi != null) {
++                    cachePackageInfo(packageName, userId, pi);
++                }
++                return pi;
++            } catch (RemoteException e) {
++                // Intentionally left empty.
++            }
++            return null;
++        }
++
++        @Override
++        public PackageInfo getPackageInfo(@NonNull final String packageName, final int userId) {
++            return getPackageInfo(packageName, userId, true);
++        }
++
++        @Override
++        public boolean signaturesMatching(@NonNull final String packageName1,
++                @NonNull final String packageName2, final int userId) {
++            // The package manager does not support different versions of packages
++            // to be installed for different users: ignore userId for now.
++            try {
++                return mPackageManager.checkSignatures(packageName1, packageName2) == SIGNATURE_MATCH;
++            } catch (RemoteException e) {
++                // Intentionally left blank
++            }
++            return false;
++        }
++
++        @Override
++        public List<PackageInfo> getOverlayPackages(final int userId) {
++            return mPackageManagerInternal.getOverlayPackages(userId);
++        }
++
++        public PackageInfo getCachedPackageInfo(@NonNull final String packageName,
++                final int userId) {
++            final HashMap<String, PackageInfo> map = mCache.get(userId);
++            return map == null ? null : map.get(packageName);
++        }
++
++        public void cachePackageInfo(@NonNull final String packageName, final int userId,
++                @NonNull final PackageInfo pi) {
++            HashMap<String, PackageInfo> map = mCache.get(userId);
++            if (map == null) {
++                map = new HashMap<>();
++                mCache.put(userId, map);
++            }
++            map.put(packageName, pi);
++        }
++
++        public void forgetPackageInfo(@NonNull final String packageName, final int userId) {
++            final HashMap<String, PackageInfo> map = mCache.get(userId);
++            if (map == null) {
++                return;
++            }
++            map.remove(packageName);
++            if (map.isEmpty()) {
++                mCache.delete(userId);
++            }
++        }
++
++        public void forgetAllPackageInfos(final int userId) {
++            mCache.delete(userId);
++        }
++
++        private static final String TAB1 = "    ";
++        private static final String TAB2 = TAB1 + TAB1;
++
++        public void dump(@NonNull final PrintWriter pw, final boolean verbose) {
++            pw.println("PackageInfo cache");
++
++            if (!verbose) {
++                int n = 0;
++                for (int i = 0; i < mCache.size(); i++) {
++                    final int userId = mCache.keyAt(i);
++                    n += mCache.get(userId).size();
++                }
++                pw.println(TAB1 + n + " package(s)");
++                return;
++            }
++
++            if (mCache.size() == 0) {
++                pw.println(TAB1 + "<empty>");
++                return;
++            }
++
++            for (int i = 0; i < mCache.size(); i++) {
++                final int userId = mCache.keyAt(i);
++                pw.println(TAB1 + "User " + userId);
++                final HashMap<String, PackageInfo> map = mCache.get(userId);
++                for (Map.Entry<String, PackageInfo> entry : map.entrySet()) {
++                    pw.println(TAB2 + entry.getKey() + ": " + entry.getValue());
++                }
++            }
++        }
++    }
++}
+diff --git a/services/core/java/com/android/server/om/OverlayManagerServiceImpl.java b/services/core/java/com/android/server/om/OverlayManagerServiceImpl.java
+new file mode 100644
+index 0000000..2a0d88b
+--- /dev/null
++++ b/services/core/java/com/android/server/om/OverlayManagerServiceImpl.java
+@@ -0,0 +1,478 @@
++/*
++ * Copyright (C) 2016 The Android Open Source Project
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package com.android.server.om;
++
++import static android.content.om.OverlayInfo.STATE_APPROVED_DISABLED;
++import static android.content.om.OverlayInfo.STATE_APPROVED_ENABLED;
++import static android.content.om.OverlayInfo.STATE_NOT_APPROVED_COMPONENT_DISABLED;
++import static android.content.om.OverlayInfo.STATE_NOT_APPROVED_DANGEROUS_OVERLAY;
++import static android.content.om.OverlayInfo.STATE_NOT_APPROVED_MISSING_TARGET;
++import static android.content.om.OverlayInfo.STATE_NOT_APPROVED_NO_IDMAP;
++import static com.android.server.om.OverlayManagerService.DEBUG;
++import static com.android.server.om.OverlayManagerService.TAG;
++
++import android.annotation.NonNull;
++import android.annotation.Nullable;
++import android.content.om.OverlayInfo;
++import android.content.pm.ApplicationInfo;
++import android.content.pm.PackageInfo;
++import android.util.ArrayMap;
++import android.util.ArraySet;
++import android.util.Slog;
++
++import java.io.PrintWriter;
++import java.util.ArrayList;
++import java.util.Iterator;
++import java.util.List;
++import java.util.Map;
++import java.util.Set;
++
++/**
++ * Internal implementation of OverlayManagerService.
++ *
++ * Methods in this class should only be called by the OverlayManagerService.
++ * This class is not thread-safe; the caller is expected to ensure the
++ * necessary thread synchronization.
++ *
++ * @see OverlayManagerService
++ */
++final class OverlayManagerServiceImpl {
++    private final PackageManagerHelper mPackageManager;
++    private final IdmapManager mIdmapManager;
++    private final OverlayManagerSettings mSettings;
++
++    OverlayManagerServiceImpl(@NonNull final PackageManagerHelper packageManager,
++            @NonNull final IdmapManager idmapManager,
++            @NonNull final OverlayManagerSettings settings) {
++        mPackageManager = packageManager;
++        mIdmapManager = idmapManager;
++        mSettings = settings;
++    }
++
++    /*
++     * Call this when switching to a new Android user. Will return a list of
++     * target packages that must refresh their overlays. This list is the union
++     * of two sets: the set of targets with currently active overlays, and the
++     * set of targets that had, but no longer have, active overlays.
++     */
++    List<String> onSwitchUser(final int newUserId) {
++        if (DEBUG) {
++            Slog.d(TAG, "onSwitchUser newUserId=" + newUserId);
++        }
++
++        final Set<String> packagesToUpdateAssets = new ArraySet<>();
++        final Map<String, List<OverlayInfo>> tmp = mSettings.getOverlaysForUser(newUserId);
++        final Map<String, OverlayInfo> storedOverlayInfos = new ArrayMap<>(tmp.size());
++        for (final List<OverlayInfo> chunk: tmp.values()) {
++            for (final OverlayInfo oi: chunk) {
++                storedOverlayInfos.put(oi.packageName, oi);
++            }
++        }
++
++        for (PackageInfo overlayPackage: mPackageManager.getOverlayPackages(newUserId)) {
++            final OverlayInfo oi = storedOverlayInfos.get(overlayPackage.packageName);
++            if (oi == null || !oi.targetPackageName.equals(overlayPackage.overlayTarget)) {
++                if (oi != null) {
++                    packagesToUpdateAssets.add(oi.targetPackageName);
++                }
++                mSettings.init(overlayPackage.packageName, newUserId,
++                        overlayPackage.overlayTarget,
++                        overlayPackage.applicationInfo.getBaseCodePath());
++            }
++
++            try {
++                final PackageInfo targetPackage =
++                    mPackageManager.getPackageInfo(overlayPackage.overlayTarget, newUserId);
++                updateState(targetPackage, overlayPackage, newUserId);
++            } catch (OverlayManagerSettings.BadKeyException e) {
++                Slog.e(TAG, "failed to update settings", e);
++                mSettings.remove(overlayPackage.packageName, newUserId);
++            }
++
++            packagesToUpdateAssets.add(overlayPackage.overlayTarget);
++            storedOverlayInfos.remove(overlayPackage.packageName);
++        }
++
++        // any OverlayInfo left in storedOverlayInfos is no longer
++        // installed and should be removed
++        for (final OverlayInfo oi: storedOverlayInfos.values()) {
++            mSettings.remove(oi.packageName, oi.userId);
++            removeIdmapIfPossible(oi);
++            packagesToUpdateAssets.add(oi.targetPackageName);
++        }
++
++        // remove target packages that are not installed
++        final Iterator<String> iter = packagesToUpdateAssets.iterator();
++        while (iter.hasNext()) {
++            String targetPackageName = iter.next();
++            if (mPackageManager.getPackageInfo(targetPackageName, newUserId) == null) {
++                iter.remove();
++            }
++        }
++
++        return new ArrayList<String>(packagesToUpdateAssets);
++    }
++
++    void onUserRemoved(final int userId) {
++        if (DEBUG) {
++            Slog.d(TAG, "onUserRemoved userId=" + userId);
++        }
++        mSettings.removeUser(userId);
++    }
++
++    void onTargetPackageAdded(@NonNull final String packageName, final int userId) {
++        if (DEBUG) {
++            Slog.d(TAG, "onTargetPackageAdded packageName=" + packageName + " userId=" + userId);
++        }
++
++        final PackageInfo targetPackage = mPackageManager.getPackageInfo(packageName, userId);
++        updateAllOverlaysForTarget(packageName, userId, targetPackage);
++    }
++
++    void onTargetPackageChanged(@NonNull final String packageName, final int userId) {
++        if (DEBUG) {
++            Slog.d(TAG, "onTargetPackageChanged packageName=" + packageName + " userId=" + userId);
++        }
++
++        final PackageInfo targetPackage = mPackageManager.getPackageInfo(packageName, userId);
++        updateAllOverlaysForTarget(packageName, userId, targetPackage);
++    }
++
++    void onTargetPackageUpgrading(@NonNull final String packageName, final int userId) {
++        if (DEBUG) {
++            Slog.d(TAG, "onTargetPackageUpgrading packageName=" + packageName + " userId=" + userId);
++        }
++
++        updateAllOverlaysForTarget(packageName, userId, null);
++    }
++
++    void onTargetPackageUpgraded(@NonNull final String packageName, final int userId) {
++        if (DEBUG) {
++            Slog.d(TAG, "onTargetPackageUpgraded packageName=" + packageName + " userId=" + userId);
++        }
++
++        final PackageInfo targetPackage = mPackageManager.getPackageInfo(packageName, userId);
++        updateAllOverlaysForTarget(packageName, userId, targetPackage);
++    }
++
++    void onTargetPackageRemoved(@NonNull final String packageName, final int userId) {
++        if (DEBUG) {
++            Slog.d(TAG, "onTargetPackageRemoved packageName=" + packageName + " userId=" + userId);
++        }
++
++        updateAllOverlaysForTarget(packageName, userId, null);
++    }
++
++    private void updateAllOverlaysForTarget(@NonNull final String packageName, final int userId,
++            @Nullable final PackageInfo targetPackage) {
++        final List<OverlayInfo> ois = mSettings.getOverlaysForTarget(packageName, userId);
++        for (final OverlayInfo oi : ois) {
++            final PackageInfo overlayPackage = mPackageManager.getPackageInfo(oi.packageName, userId);
++            if (overlayPackage == null) {
++                mSettings.remove(oi.packageName, oi.userId);
++                removeIdmapIfPossible(oi);
++            } else {
++                try {
++                    updateState(targetPackage, overlayPackage, userId);
++                } catch (OverlayManagerSettings.BadKeyException e) {
++                    Slog.e(TAG, "failed to update settings", e);
++                    mSettings.remove(oi.packageName, userId);
++                }
++            }
++        }
++    }
++
++    void onOverlayPackageAdded(@NonNull final String packageName, final int userId) {
++        if (DEBUG) {
++            Slog.d(TAG, "onOverlayPackageAdded packageName=" + packageName + " userId=" + userId);
++        }
++
++        final PackageInfo overlayPackage = mPackageManager.getPackageInfo(packageName, userId);
++        if (overlayPackage == null) {
++            Slog.w(TAG, "overlay package " + packageName + " was added, but couldn't be found");
++            onOverlayPackageRemoved(packageName, userId);
++            return;
++        }
++
++        final PackageInfo targetPackage =
++            mPackageManager.getPackageInfo(overlayPackage.overlayTarget, userId);
++
++        mSettings.init(packageName, userId, overlayPackage.overlayTarget,
++                overlayPackage.applicationInfo.getBaseCodePath());
++        try {
++            updateState(targetPackage, overlayPackage, userId);
++        } catch (OverlayManagerSettings.BadKeyException e) {
++            Slog.e(TAG, "failed to update settings", e);
++            mSettings.remove(packageName, userId);
++        }
++    }
++
++    void onOverlayPackageChanged(@NonNull final String packageName, final int userId) {
++        if (DEBUG) {
++            Slog.d(TAG, "onOverlayPackageChanged packageName=" + packageName + " userId=" + userId);
++        }
++
++        final PackageInfo overlayPackage = mPackageManager.getPackageInfo(packageName, userId);
++        if (overlayPackage == null) {
++            Slog.w(TAG, "overlay package " + packageName + " was changed, but couldn't be found");
++            onOverlayPackageRemoved(packageName, userId);
++            return;
++        }
++
++        final PackageInfo targetPackage =
++            mPackageManager.getPackageInfo(overlayPackage.overlayTarget, userId);
++
++        try {
++            updateState(targetPackage, overlayPackage, userId);
++        } catch (OverlayManagerSettings.BadKeyException e) {
++            Slog.e(TAG, "failed to update settings", e);
++            mSettings.remove(packageName, userId);
++        }
++    }
++
++    void onOverlayPackageUpgrading(@NonNull final String packageName, final int userId) {
++        if (DEBUG) {
++            Slog.d(TAG, "onOverlayPackageUpgrading packageName=" + packageName + " userId=" + userId);
++        }
++
++        try {
++            final OverlayInfo oi = mSettings.getOverlayInfo(packageName, userId);
++            mSettings.setUpgrading(packageName, userId, true);
++            removeIdmapIfPossible(oi);
++        } catch (OverlayManagerSettings.BadKeyException e) {
++            Slog.e(TAG, "failed to update settings", e);
++            mSettings.remove(packageName, userId);
++        }
++    }
++
++    void onOverlayPackageUpgraded(@NonNull final String packageName, final int userId) {
++        if (DEBUG) {
++            Slog.d(TAG, "onOverlayPackageUpgraded packageName=" + packageName + " userId=" + userId);
++        }
++
++        final PackageInfo overlayPackage = mPackageManager.getPackageInfo(packageName, userId);
++        if (overlayPackage == null) {
++            Slog.w(TAG, "overlay package " + packageName + " was upgraded, but couldn't be found");
++            onOverlayPackageRemoved(packageName, userId);
++            return;
++        }
++
++        try {
++            final String storedTargetPackageName = mSettings.getTargetPackageName(packageName, userId);
++            if (!overlayPackage.overlayTarget.equals(storedTargetPackageName)) {
++                // Sneaky little hobbitses, changing the overlay's target package
++                // from one version to the next! We can't use the old version's
++                // state.
++                mSettings.remove(packageName, userId);
++                onOverlayPackageAdded(packageName, userId);
++                return;
++            }
++
++            mSettings.setUpgrading(packageName, userId, false);
++            final PackageInfo targetPackage =
++                mPackageManager.getPackageInfo(overlayPackage.overlayTarget, userId);
++            updateState(targetPackage, overlayPackage, userId);
++        } catch (OverlayManagerSettings.BadKeyException e) {
++            Slog.e(TAG, "failed to update settings", e);
++            mSettings.remove(packageName, userId);
++        }
++    }
++
++    void onOverlayPackageRemoved(@NonNull final String packageName, final int userId) {
++        if (DEBUG) {
++            Slog.d(TAG, "onOverlayPackageRemoved packageName=" + packageName + " userId=" + userId);
++        }
++
++        try {
++            final OverlayInfo oi = mSettings.getOverlayInfo(packageName, userId);
++            mSettings.remove(packageName, userId);
++            removeIdmapIfPossible(oi);
++        } catch (OverlayManagerSettings.BadKeyException e) {
++            Slog.e(TAG, "failed to remove overlay package", e);
++        }
++    }
++
++    OverlayInfo onGetOverlayInfo(@NonNull final String packageName, final int userId) {
++        try {
++            return mSettings.getOverlayInfo(packageName, userId);
++        } catch (OverlayManagerSettings.BadKeyException e) {
++            return null;
++        }
++    }
++
++    List<OverlayInfo> onGetOverlayInfosForTarget(@NonNull final String targetPackageName,
++            final int userId) {
++        return mSettings.getOverlaysForTarget(targetPackageName, userId);
++    }
++
++    Map<String, List<OverlayInfo>> onGetOverlaysForUser(final int userId) {
++        return mSettings.getOverlaysForUser(userId);
++    }
++
++    boolean onSetEnabled(@NonNull final String packageName, final boolean enable,
++            final int userId) {
++        if (DEBUG) {
++            Slog.d(TAG, String.format("onSetEnabled packageName=%s enable=%s userId=%d",
++                        packageName, enable, userId));
++        }
++
++        final PackageInfo overlayPackage = mPackageManager.getPackageInfo(packageName, userId);
++        if (overlayPackage == null) {
++            return false;
++        }
++
++        try {
++            final OverlayInfo oi = mSettings.getOverlayInfo(packageName, userId);
++            final PackageInfo targetPackage =
++                mPackageManager.getPackageInfo(oi.targetPackageName, userId);
++            mSettings.setEnabled(packageName, userId, enable);
++            updateState(targetPackage, overlayPackage, userId);
++            return true;
++        } catch (OverlayManagerSettings.BadKeyException e) {
++            return false;
++        }
++    }
++
++    boolean onSetPriority(@NonNull final String packageName,
++            @NonNull final String newParentPackageName, final int userId) {
++        return mSettings.setPriority(packageName, newParentPackageName, userId);
++    }
++
++    boolean onSetHighestPriority(@NonNull final String packageName, final int userId) {
++        return mSettings.setHighestPriority(packageName, userId);
++    }
++
++    boolean onSetLowestPriority(@NonNull final String packageName, final int userId) {
++        return mSettings.setLowestPriority(packageName, userId);
++    }
++
++    void onDump(@NonNull final PrintWriter pw) {
++        mSettings.dump(pw);
++    }
++
++    List<String> onGetEnabledOverlayPaths(@NonNull final String targetPackageName,
++            final int userId) {
++        final List<OverlayInfo> overlays = mSettings.getOverlaysForTarget(targetPackageName, userId);
++        final List<String> paths = new ArrayList<>(overlays.size());
++        for (final OverlayInfo oi : overlays) {
++            if (oi.isEnabled()) {
++                paths.add(oi.baseCodePath);
++            }
++        }
++        return paths;
++    }
++
++    private void updateState(@Nullable final PackageInfo targetPackage,
++            @NonNull final PackageInfo overlayPackage, final int userId)
++        throws OverlayManagerSettings.BadKeyException {
++        if (targetPackage != null) {
++            mIdmapManager.createIdmap(targetPackage, overlayPackage, userId);
++        }
++
++        mSettings.setBaseCodePath(overlayPackage.packageName, userId,
++                overlayPackage.applicationInfo.getBaseCodePath());
++
++        final int currentState = mSettings.getState(overlayPackage.packageName, userId);
++        final int newState = calculateNewState(targetPackage, overlayPackage, userId);
++        if (currentState != newState) {
++            if (DEBUG) {
++                Slog.d(TAG, String.format("%s:%d: %s -> %s",
++                            overlayPackage.packageName, userId,
++                            OverlayInfo.stateToString(currentState),
++                            OverlayInfo.stateToString(newState)));
++            }
++            mSettings.setState(overlayPackage.packageName, userId, newState);
++        }
++    }
++
++    private int calculateNewState(@Nullable final PackageInfo targetPackage,
++            @NonNull final PackageInfo overlayPackage, final int userId)
++        throws OverlayManagerSettings.BadKeyException {
++        if (!overlayPackage.applicationInfo.enabled) {
++            return STATE_NOT_APPROVED_COMPONENT_DISABLED;
++        }
++
++        if (targetPackage == null) {
++            return STATE_NOT_APPROVED_MISSING_TARGET;
++        }
++
++        if (!mIdmapManager.idmapExists(overlayPackage, userId)) {
++            return STATE_NOT_APPROVED_NO_IDMAP;
++        }
++
++        final boolean enableIfApproved = mSettings.getEnabled(overlayPackage.packageName, userId);
++
++        if (mPackageManager.signaturesMatching(targetPackage.packageName,
++                    overlayPackage.packageName, userId)) {
++            return enableIfApproved ? STATE_APPROVED_ENABLED : STATE_APPROVED_DISABLED;
++        }
++
++        if ((overlayPackage.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) {
++            return enableIfApproved ? STATE_APPROVED_ENABLED : STATE_APPROVED_DISABLED;
++        }
++
++        if (!mIdmapManager.isDangerous(overlayPackage, userId)) {
++            return enableIfApproved ? STATE_APPROVED_ENABLED : STATE_APPROVED_DISABLED;
++        }
++
++        return STATE_NOT_APPROVED_DANGEROUS_OVERLAY;
++    }
++
++    private void removeIdmapIfPossible(@NonNull final OverlayInfo oi) {
++        // For a given package, all Android users share the same idmap file.
++        // This works because Android currently does not support users to
++        // install different versions of the same package. It also means we
++        // cannot remove an idmap file if any user still needs it.
++        //
++        // When/if the Android framework allows different versions of the same
++        // package to be installed for different users, idmap file handling
++        // should be revised:
++        //
++        // - an idmap file should be unique for each {user, package} pair
++        //
++        // - the path to the idmap file should be passed to the native Asset
++        //   Manager layers, just like the path to the apk is passed today
++        //
++        // As part of that change, calls to this method should be replaced by
++        // direct calls to IdmapManager.removeIdmap, without looping over all
++        // users.
++
++        if (!mIdmapManager.idmapExists(oi)) {
++            return;
++        }
++        final List<Integer> userIds = mSettings.getUsers();
++        for (final int userId : userIds) {
++            try {
++                final OverlayInfo tmp = mSettings.getOverlayInfo(oi.packageName, userId);
++                if (tmp != null && tmp.isEnabled()) {
++                    // someone is still using the idmap file -> we cannot remove it
++                    return;
++                }
++            } catch (OverlayManagerSettings.BadKeyException e) {
++                // intentionally left empty
++            }
++        }
++        mIdmapManager.removeIdmap(oi, oi.userId);
++    }
++
++    interface PackageManagerHelper {
++        PackageInfo getPackageInfo(@NonNull String packageName, int userId);
++        boolean signaturesMatching(@NonNull String packageName1, @NonNull String packageName2,
++                                   int userId);
++        List<PackageInfo> getOverlayPackages(int userId);
++    }
++}
+diff --git a/services/core/java/com/android/server/om/OverlayManagerSettings.java b/services/core/java/com/android/server/om/OverlayManagerSettings.java
+new file mode 100644
+index 0000000..af0bb64
+--- /dev/null
++++ b/services/core/java/com/android/server/om/OverlayManagerSettings.java
+@@ -0,0 +1,656 @@
++/*
++ * Copyright (C) 2016 The Android Open Source Project
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package com.android.server.om;
++
++import static android.content.om.OverlayInfo.STATE_NOT_APPROVED_UNKNOWN;
++import static com.android.server.om.OverlayManagerService.DEBUG;
++import static com.android.server.om.OverlayManagerService.TAG;
++
++import android.annotation.NonNull;
++import android.annotation.Nullable;
++import android.content.om.OverlayInfo;
++import android.util.AndroidRuntimeException;
++import android.util.ArrayMap;
++import android.util.Slog;
++import android.util.Xml;
++
++import com.android.internal.util.FastXmlSerializer;
++import com.android.internal.util.XmlUtils;
++
++import org.xmlpull.v1.XmlPullParser;
++import org.xmlpull.v1.XmlPullParserException;
++
++import java.io.IOException;
++import java.io.InputStream;
++import java.io.InputStreamReader;
++import java.io.OutputStream;
++import java.io.PrintWriter;
++import java.util.ArrayList;
++import java.util.Collections;
++import java.util.Iterator;
++import java.util.List;
++import java.util.ListIterator;
++import java.util.Map;
++
++/**
++ * Data structure representing the current state of all overlay packages in the
++ * system.
++ *
++ * Modifications to the data are exposed through the ChangeListener interface.
++ *
++ * @see ChangeListener
++ * @see OverlayManagerService
++ */
++final class OverlayManagerSettings {
++    private final List<ChangeListener> mListeners = new ArrayList<>();
++
++    private final ArrayList<SettingsItem> mItems = new ArrayList<>();
++
++    void init(@NonNull final String packageName, final int userId,
++            @NonNull final String targetPackageName, @NonNull final String baseCodePath) {
++        remove(packageName, userId);
++        final SettingsItem item =
++            new SettingsItem(packageName, userId, targetPackageName, baseCodePath);
++        mItems.add(item);
++    }
++
++    void remove(@NonNull final String packageName, final int userId) {
++        final SettingsItem item = select(packageName, userId);
++        if (item == null) {
++            return;
++        }
++        final OverlayInfo oi = item.getOverlayInfo();
++        mItems.remove(item);
++        if (oi != null) {
++            notifyOverlayRemoved(oi);
++        }
++    }
++
++    boolean contains(@NonNull final String packageName, final int userId) {
++        return select(packageName, userId) != null;
++    }
++
++    OverlayInfo getOverlayInfo(@NonNull final String packageName, final int userId)
++            throws BadKeyException {
++        final SettingsItem item = select(packageName, userId);
++        if (item == null) {
++            throw new BadKeyException(packageName, userId);
++        }
++        return item.getOverlayInfo();
++    }
++
++    String getTargetPackageName(@NonNull final String packageName, final int userId)
++            throws BadKeyException {
++        final SettingsItem item = select(packageName, userId);
++        if (item == null) {
++            throw new BadKeyException(packageName, userId);
++        }
++        return item.getTargetPackageName();
++    }
++
++    void setBaseCodePath(@NonNull final String packageName, final int userId,
++            @NonNull final String path) throws BadKeyException {
++        final SettingsItem item = select(packageName, userId);
++        if (item == null) {
++            throw new BadKeyException(packageName, userId);
++        }
++        item.setBaseCodePath(path);
++        notifySettingsChanged();
++    }
++
++    boolean getUpgrading(@NonNull final String packageName, final int userId)
++            throws BadKeyException {
++        final SettingsItem item = select(packageName, userId);
++        if (item == null) {
++            throw new BadKeyException(packageName, userId);
++        }
++        return item.isUpgrading();
++    }
++
++    void setUpgrading(@NonNull final String packageName, final int userId, final boolean newValue)
++            throws BadKeyException {
++        final SettingsItem item = select(packageName, userId);
++        if (item == null) {
++            throw new BadKeyException(packageName, userId);
++        }
++        if (newValue == item.isUpgrading()) {
++            return; // nothing to do
++        }
++
++        if (newValue) {
++            final OverlayInfo oi = item.getOverlayInfo();
++            item.setUpgrading(true);
++            item.setState(STATE_NOT_APPROVED_UNKNOWN);
++            notifyOverlayRemoved(oi);
++        } else {
++            item.setUpgrading(false);
++        }
++        notifySettingsChanged();
++    }
++
++    boolean getEnabled(@NonNull final String packageName, final int userId) throws BadKeyException {
++        final SettingsItem item = select(packageName, userId);
++        if (item == null) {
++            throw new BadKeyException(packageName, userId);
++        }
++        return item.isEnabled();
++    }
++
++    void setEnabled(@NonNull final String packageName, final int userId, final boolean enable)
++            throws BadKeyException {
++        final SettingsItem item = select(packageName, userId);
++        if (item == null) {
++            throw new BadKeyException(packageName, userId);
++        }
++        if (enable == item.isEnabled()) {
++            return; // nothing to do
++        }
++
++        item.setEnabled(enable);
++        notifySettingsChanged();
++    }
++
++    int getState(@NonNull final String packageName, final int userId) throws BadKeyException {
++        final SettingsItem item = select(packageName, userId);
++        if (item == null) {
++            throw new BadKeyException(packageName, userId);
++        }
++        return item.getState();
++    }
++
++    void setState(@NonNull final String packageName, final int userId, final int state)
++            throws BadKeyException {
++        final SettingsItem item = select(packageName, userId);
++        if (item == null) {
++            throw new BadKeyException(packageName, userId);
++        }
++        final OverlayInfo previous = item.getOverlayInfo();
++        item.setState(state);
++        final OverlayInfo current = item.getOverlayInfo();
++        if (previous.state == STATE_NOT_APPROVED_UNKNOWN) {
++            notifyOverlayAdded(current);
++            notifySettingsChanged();
++        } else if (current.state != previous.state) {
++            notifyOverlayChanged(current, previous);
++            notifySettingsChanged();
++        }
++    }
++
++    List<OverlayInfo> getOverlaysForTarget(@NonNull final String targetPackageName,
++            final int userId) {
++        final List<SettingsItem> items = selectWhereTarget(targetPackageName, userId);
++        if (items.isEmpty()) {
++            return Collections.emptyList();
++        }
++        final List<OverlayInfo> out = new ArrayList<>(items.size());
++        for (final SettingsItem item : items) {
++            if (item.isUpgrading()) {
++                continue;
++            }
++            out.add(item.getOverlayInfo());
++        }
++        return out;
++    }
++
++    Map<String, List<OverlayInfo>> getOverlaysForUser(final int userId) {
++        final List<SettingsItem> items = selectWhereUser(userId);
++        if (items.isEmpty()) {
++            return Collections.emptyMap();
++        }
++        final Map<String, List<OverlayInfo>> out = new ArrayMap<>(items.size());
++        for (final SettingsItem item : items) {
++            if (item.isUpgrading()) {
++                continue;
++            }
++            final String targetPackageName = item.getTargetPackageName();
++            if (!out.containsKey(targetPackageName)) {
++                out.put(targetPackageName, new ArrayList<OverlayInfo>());
++            }
++            final List<OverlayInfo> overlays = out.get(targetPackageName);
++            overlays.add(item.getOverlayInfo());
++        }
++        return out;
++    }
++
++    List<String> getTargetPackageNamesForUser(final int userId) {
++        final List<SettingsItem> items = selectWhereUser(userId);
++        if (items.isEmpty()) {
++            return Collections.emptyList();
++        }
++        final List<String> out = new ArrayList<>();
++        for (final SettingsItem item : items) {
++            if (item.isUpgrading()) {
++                continue;
++            }
++            final String targetPackageName = item.getTargetPackageName();
++            if (!out.contains(targetPackageName)) {
++                out.add(targetPackageName);
++            }
++        }
++        return out;
++    }
++
++    List<Integer> getUsers() {
++        final ArrayList<Integer> users = new ArrayList<>();
++        for (final SettingsItem item : mItems) {
++            if (!users.contains(item.userId)) {
++                users.add(item.userId);
++            }
++        }
++        return users;
++    }
++
++    void removeUser(final int userId) {
++        final Iterator<SettingsItem> iter = mItems.iterator();
++        while (iter.hasNext()) {
++            final SettingsItem item = iter.next();
++            if (item.userId == userId) {
++                iter.remove();
++            }
++        }
++    }
++
++    boolean setPriority(@NonNull final String packageName,
++            @NonNull final String newParentPackageName, final int userId) {
++        if (packageName.equals(newParentPackageName)) {
++            return false;
++        }
++        final SettingsItem rowToMove = select(packageName, userId);
++        if (rowToMove == null || rowToMove.isUpgrading()) {
++            return false;
++        }
++        final SettingsItem newParentRow = select(newParentPackageName, userId);
++        if (newParentRow == null || newParentRow.isUpgrading()) {
++            return false;
++        }
++        if (!rowToMove.getTargetPackageName().equals(newParentRow.getTargetPackageName())) {
++            return false;
++        }
++
++        mItems.remove(rowToMove);
++        final ListIterator<SettingsItem> iter = mItems.listIterator();
++        while (iter.hasNext()) {
++            final SettingsItem item = iter.next();
++            if (item.userId == userId && item.packageName.equals(newParentPackageName)) {
++                iter.add(rowToMove);
++                notifyOverlayPriorityChanged(rowToMove.getOverlayInfo());
++                notifySettingsChanged();
++                return true;
++            }
++        }
++
++        Slog.wtf(TAG, "failed to find the parent item a second time");
++        return false;
++    }
++
++    boolean setLowestPriority(@NonNull final String packageName, final int userId) {
++        final SettingsItem item = select(packageName, userId);
++        if (item == null || item.isUpgrading()) {
++            return false;
++        }
++        mItems.remove(item);
++        mItems.add(0, item);
++        notifyOverlayPriorityChanged(item.getOverlayInfo());
++        notifySettingsChanged();
++        return true;
++    }
++
++    boolean setHighestPriority(@NonNull final String packageName, final int userId) {
++        final SettingsItem item = select(packageName, userId);
++        if (item == null || item.isUpgrading()) {
++            return false;
++        }
++        mItems.remove(item);
++        mItems.add(item);
++        notifyOverlayPriorityChanged(item.getOverlayInfo());
++        notifySettingsChanged();
++        return true;
++    }
++
++    private static final String TAB1 = "    ";
++    private static final String TAB2 = TAB1 + TAB1;
++    private static final String TAB3 = TAB2 + TAB1;
++
++    void dump(@NonNull final PrintWriter pw) {
++        pw.println("Settings");
++        dumpItems(pw);
++        dumpListeners(pw);
++    }
++
++    private void dumpItems(@NonNull final PrintWriter pw) {
++        pw.println(TAB1 + "Items");
++
++        if (mItems.isEmpty()) {
++            pw.println(TAB2 + "<none>");
++            return;
++        }
++
++        for (final SettingsItem item : mItems) {
++            final StringBuilder sb = new StringBuilder();
++            sb.append(TAB2 + item.packageName + ":" + item.userId + " {\n");
++            sb.append(TAB3 + "packageName.......: " + item.packageName + "\n");
++            sb.append(TAB3 + "userId............: " + item.userId + "\n");
++            sb.append(TAB3 + "targetPackageName.: " + item.getTargetPackageName() + "\n");
++            sb.append(TAB3 + "baseCodePath......: " + item.getBaseCodePath() + "\n");
++            sb.append(TAB3 + "state.............: " + OverlayInfo.stateToString(item.getState()) + "\n");
++            sb.append(TAB3 + "isEnabled.........: " + item.isEnabled() + "\n");
++            sb.append(TAB3 + "isUpgrading.......: " + item.isUpgrading() + "\n");
++            sb.append(TAB2 + "}");
++            pw.println(sb.toString());
++        }
++    }
++
++    private void dumpListeners(@NonNull final PrintWriter pw) {
++        pw.println(TAB1 + "Change listeners");
++
++        if (mListeners.isEmpty()) {
++            pw.println(TAB2 + "<none>");
++            return;
++        }
++
++        for (ChangeListener ch : mListeners) {
++            pw.println(TAB2 + ch);
++        }
++
++    }
++
++    void restore(@NonNull final InputStream is) throws IOException, XmlPullParserException {
++        Serializer.restore(mItems, is);
++    }
++
++    void persist(@NonNull final OutputStream os) throws IOException, XmlPullParserException {
++        Serializer.persist(mItems, os);
++    }
++
++    private static final class Serializer {
++        private static final String TAG_OVERLAYS = "overlays";
++        private static final String TAG_ITEM = "item";
++
++        private static final String ATTR_BASE_CODE_PATH = "baseCodePath";
++        private static final String ATTR_IS_ENABLED = "isEnabled";
++        private static final String ATTR_IS_UPGRADING = "isUpgrading";
++        private static final String ATTR_PACKAGE_NAME = "packageName";
++        private static final String ATTR_STATE = "state";
++        private static final String ATTR_TARGET_PACKAGE_NAME = "targetPackageName";
++        private static final String ATTR_USER_ID = "userId";
++        private static final String ATTR_VERSION = "version";
++
++        private static final int CURRENT_VERSION = 1;
++
++        public static void restore(@NonNull final ArrayList<SettingsItem> table,
++                @NonNull final InputStream is) throws IOException, XmlPullParserException {
++
++            table.clear();
++            final XmlPullParser parser = Xml.newPullParser();
++            parser.setInput(new InputStreamReader(is));
++            XmlUtils.beginDocument(parser, TAG_OVERLAYS);
++            int version = XmlUtils.readIntAttribute(parser, ATTR_VERSION);
++            if (version != CURRENT_VERSION) {
++                throw new XmlPullParserException("unrecognized version " + version);
++            }
++            int depth = parser.getDepth();
++
++            while (XmlUtils.nextElementWithin(parser, depth)) {
++                switch (parser.getName()) {
++                    case TAG_ITEM:
++                        final SettingsItem item = restoreRow(parser, depth + 1);
++                        table.add(item);
++                        break;
++                }
++            }
++        }
++
++        private static SettingsItem restoreRow(@NonNull final XmlPullParser parser, final int depth)
++                throws IOException {
++            final String packageName = XmlUtils.readStringAttribute(parser, ATTR_PACKAGE_NAME);
++            final int userId = XmlUtils.readIntAttribute(parser, ATTR_USER_ID);
++            final String targetPackageName = XmlUtils.readStringAttribute(parser,
++                    ATTR_TARGET_PACKAGE_NAME);
++            final String baseCodePath = XmlUtils.readStringAttribute(parser, ATTR_BASE_CODE_PATH);
++            final int state = XmlUtils.readIntAttribute(parser, ATTR_STATE);
++            final boolean isEnabled = XmlUtils.readBooleanAttribute(parser, ATTR_IS_ENABLED);
++            final boolean isUpgrading = XmlUtils.readBooleanAttribute(parser, ATTR_IS_UPGRADING);
++
++            return new SettingsItem(packageName, userId, targetPackageName, baseCodePath, state,
++                    isEnabled, isUpgrading);
++        }
++
++        public static void persist(@NonNull final ArrayList<SettingsItem> table,
++                @NonNull final OutputStream os) throws IOException, XmlPullParserException {
++            final FastXmlSerializer xml = new FastXmlSerializer();
++            xml.setOutput(os, "utf-8");
++            xml.startDocument(null, true);
++            xml.setFeature("http://xmlpull.org/v1/doc/features.html#indent-output", true);
++            xml.startTag(null, TAG_OVERLAYS);
++            XmlUtils.writeIntAttribute(xml, ATTR_VERSION, CURRENT_VERSION);
++
++            for (final SettingsItem item : table) {
++                persistRow(xml, item);
++            }
++            xml.endTag(null, TAG_OVERLAYS);
++            xml.endDocument();
++        }
++
++        private static void persistRow(@NonNull final FastXmlSerializer xml,
++                @NonNull final SettingsItem item) throws IOException {
++            xml.startTag(null, TAG_ITEM);
++            XmlUtils.writeStringAttribute(xml, ATTR_PACKAGE_NAME, item.packageName);
++            XmlUtils.writeIntAttribute(xml, ATTR_USER_ID, item.userId);
++            XmlUtils.writeStringAttribute(xml, ATTR_TARGET_PACKAGE_NAME, item.targetPackageName);
++            XmlUtils.writeStringAttribute(xml, ATTR_BASE_CODE_PATH, item.baseCodePath);
++            XmlUtils.writeIntAttribute(xml, ATTR_STATE, item.state);
++            XmlUtils.writeBooleanAttribute(xml, ATTR_IS_ENABLED, item.isEnabled);
++            XmlUtils.writeBooleanAttribute(xml, ATTR_IS_UPGRADING, item.isUpgrading);
++            xml.endTag(null, TAG_ITEM);
++        }
++    }
++
++    private static final class SettingsItem {
++        private final int userId;
++        private final String packageName;
++        private final String targetPackageName;
++        private String baseCodePath;
++        private int state;
++        private boolean isEnabled;
++        private boolean isUpgrading;
++        private OverlayInfo cache;
++
++        SettingsItem(@NonNull final String packageName, final int userId,
++                @NonNull final String targetPackageName, @NonNull final String baseCodePath,
++                final int state, final boolean isEnabled, final boolean isUpgrading) {
++            this.packageName = packageName;
++            this.userId = userId;
++            this.targetPackageName = targetPackageName;
++            this.baseCodePath = baseCodePath;
++            this.state = state;
++            this.isEnabled = isEnabled;
++            this.isUpgrading = isUpgrading;
++            cache = null;
++        }
++
++        SettingsItem(@NonNull final String packageName, final int userId,
++                @NonNull final String targetPackageName, @NonNull final String baseCodePath) {
++            this(packageName, userId, targetPackageName, baseCodePath, STATE_NOT_APPROVED_UNKNOWN,
++                    false, false);
++        }
++
++        private String getTargetPackageName() {
++            return targetPackageName;
++        }
++
++        private String getBaseCodePath() {
++            return baseCodePath;
++        }
++
++        private void setBaseCodePath(@NonNull final String path) {
++            if (!baseCodePath.equals(path)) {
++                baseCodePath = path;
++                invalidateCache();
++            }
++        }
++
++        private int getState() {
++            return state;
++        }
++
++        private void setState(final int state) {
++            if (this.state != state) {
++                this.state = state;
++                invalidateCache();
++            }
++        }
++
++        private boolean isEnabled() {
++            return isEnabled;
++        }
++
++        private void setEnabled(final boolean enable) {
++            if (isEnabled != enable) {
++                isEnabled = enable;
++                invalidateCache();
++            }
++        }
++
++        private boolean isUpgrading() {
++            return isUpgrading;
++        }
++
++        private void setUpgrading(final boolean upgrading) {
++            if (isUpgrading != upgrading) {
++                isUpgrading = upgrading;
++                invalidateCache();
++            }
++        }
++
++        private OverlayInfo getOverlayInfo() {
++            if (isUpgrading) {
++                return null;
++            }
++            if (cache == null) {
++                cache = new OverlayInfo(packageName, targetPackageName, baseCodePath,
++                        state, userId);
++            }
++            return cache;
++        }
++
++        private void invalidateCache() {
++            cache = null;
++        }
++    }
++
++    private SettingsItem select(@NonNull final String packageName, final int userId) {
++        for (final SettingsItem item : mItems) {
++            if (item.userId == userId && item.packageName.equals(packageName)) {
++                return item;
++            }
++        }
++        return null;
++    }
++
++    private List<SettingsItem> selectWhereUser(final int userId) {
++        final ArrayList<SettingsItem> items = new ArrayList<>();
++        for (final SettingsItem item : mItems) {
++            if (item.userId == userId) {
++                items.add(item);
++            }
++        }
++        return items;
++    }
++
++    private List<SettingsItem> selectWhereTarget(@NonNull final String targetPackageName,
++            final int userId) {
++        final ArrayList<SettingsItem> items = new ArrayList<>();
++        for (final SettingsItem item : mItems) {
++            if (item.userId == userId && item.getTargetPackageName().equals(targetPackageName)) {
++                items.add(item);
++            }
++        }
++        return items;
++    }
++
++    private void assertNotNull(@Nullable final Object o) {
++        if (o == null) {
++            throw new AndroidRuntimeException("object must not be null");
++        }
++    }
++
++    void addChangeListener(@NonNull final ChangeListener listener) {
++        mListeners.add(listener);
++    }
++
++    void removeChangeListener(@NonNull final ChangeListener listener) {
++        mListeners.remove(listener);
++    }
++
++    private void notifySettingsChanged() {
++        for (final ChangeListener listener : mListeners) {
++            listener.onSettingsChanged();
++        }
++    }
++
++    private void notifyOverlayAdded(@NonNull final OverlayInfo oi) {
++        if (DEBUG) {
++            assertNotNull(oi);
++        }
++        for (final ChangeListener listener : mListeners) {
++            listener.onOverlayAdded(oi);
++        }
++    }
++
++    private void notifyOverlayRemoved(@NonNull final OverlayInfo oi) {
++        if (DEBUG) {
++            assertNotNull(oi);
++        }
++        for (final ChangeListener listener : mListeners) {
++            listener.onOverlayRemoved(oi);
++        }
++    }
++
++    private void notifyOverlayChanged(@NonNull final OverlayInfo oi,
++            @NonNull final OverlayInfo oldOi) {
++        if (DEBUG) {
++            assertNotNull(oi);
++            assertNotNull(oldOi);
++        }
++        for (final ChangeListener listener : mListeners) {
++            listener.onOverlayChanged(oi, oldOi);
++        }
++    }
++
++    private void notifyOverlayPriorityChanged(@NonNull final OverlayInfo oi) {
++        if (DEBUG) {
++            assertNotNull(oi);
++        }
++        for (final ChangeListener listener : mListeners) {
++            listener.onOverlayPriorityChanged(oi);
++        }
++    }
++
++    interface ChangeListener {
++        void onSettingsChanged();
++        void onOverlayAdded(@NonNull OverlayInfo oi);
++        void onOverlayRemoved(@NonNull OverlayInfo oi);
++        void onOverlayChanged(@NonNull OverlayInfo oi, @NonNull OverlayInfo oldOi);
++        void onOverlayPriorityChanged(@NonNull OverlayInfo oi);
++    }
++
++    static final class BadKeyException extends RuntimeException {
++        public BadKeyException(@NonNull final String packageName, final int userId) {
++            super("Bad key packageName=" + packageName + " userId=" + userId);
++        }
++    }
++}
+diff --git a/services/core/java/com/android/server/om/OverlayManagerShellCommand.java b/services/core/java/com/android/server/om/OverlayManagerShellCommand.java
+new file mode 100644
+index 0000000..d6f5373
+--- /dev/null
++++ b/services/core/java/com/android/server/om/OverlayManagerShellCommand.java
+@@ -0,0 +1,179 @@
++/*
++ * Copyright (C) 2016 The Android Open Source Project
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package com.android.server.om;
++
++import android.annotation.NonNull;
++import android.annotation.Nullable;
++import android.content.om.IOverlayManager;
++import android.content.om.OverlayInfo;
++import android.os.RemoteException;
++import android.os.ShellCommand;
++import android.os.UserHandle;
++
++import java.io.PrintWriter;
++import java.util.List;
++import java.util.Map;
++
++/**
++ * Implementation of 'cmd overlay' commands.
++ *
++ * This class provides an interface to the OverlayManagerService via adb.
++ * Intended only for manual debugging. Execute 'adb exec-out cmd overlay help'
++ * for a list of available commands.
++ */
++final class OverlayManagerShellCommand extends ShellCommand {
++    private final IOverlayManager mInterface;
++
++    OverlayManagerShellCommand(@NonNull final IOverlayManager iom) {
++        mInterface = iom;
++    }
++
++    @Override
++    public int onCommand(@Nullable final String cmd) {
++        if (cmd == null) {
++            return handleDefaultCommands(cmd);
++        }
++        final PrintWriter err = getErrPrintWriter();
++        try {
++            switch (cmd) {
++                case "list":
++                    return runList();
++                case "enable":
++                    return runEnableDisable(true);
++                case "disable":
++                    return runEnableDisable(false);
++                case "set-priority":
++                    return runSetPriority();
++                default:
++                    return handleDefaultCommands(cmd);
++            }
++        } catch (IllegalArgumentException e) {
++            err.println("Error: " + e.getMessage());
++        } catch (RemoteException e) {
++            err.println("Remote exception: " + e);
++        }
++        return -1;
++    }
++
++    @Override
++    public void onHelp() {
++        final PrintWriter out = getOutPrintWriter();
++        out.println("Overlay manager (overlay) commands:");
++        out.println("  help");
++        out.println("    Print this help text.");
++        out.println("  dump [--verbose] [--user USER_ID] [PACKAGE [PACKAGE [...]]]");
++        out.println("    Print debugging information about the overlay manager.");
++        out.println("  list [--user USER_ID] [PACKAGE [PACKAGE [...]]]");
++        out.println("    Print information about target and overlay packages.");
++        out.println("    Overlay packages are printed in priority order. With optional");
++        out.println("    parameters PACKAGEs, limit output to the specified packages");
++        out.println("    but include more information about each package.");
++        out.println("  enable [--user USER_ID] PACKAGE");
++        out.println("    Enable overlay package PACKAGE.");
++        out.println("  disable [--user USER_ID] PACKAGE");
++        out.println("    Disable overlay package PACKAGE.");
++        out.println("  set-priority [--user USER_ID] PACKAGE PARENT|lowest|highest");
++        out.println("    Change the priority of the overlay PACKAGE to be just higher than");
++        out.println("    the priority of PACKAGE_PARENT If PARENT is the special keyword");
++        out.println("    'lowest', change priority of PACKAGE to the lowest priority.");
++        out.println("    If PARENT is the special keyword 'highest', change priority of");
++        out.println("    PACKAGE to the highest priority.");
++    }
++
++    private int runList() throws RemoteException {
++        final PrintWriter out = getOutPrintWriter();
++        final PrintWriter err = getErrPrintWriter();
++
++        int userId = UserHandle.USER_SYSTEM;
++        String opt;
++        while ((opt = getNextOption()) != null) {
++            switch (opt) {
++                case "--user":
++                    userId = UserHandle.parseUserArg(getNextArgRequired());
++                    break;
++                default:
++                    err.println("Error: Unknown option: " + opt);
++                    return 1;
++            }
++        }
++
++        final Map<String, List<OverlayInfo>> allOverlays = mInterface.getAllOverlays(userId);
++        for (final String targetPackageName : allOverlays.keySet()) {
++            out.println(targetPackageName);
++            for (final OverlayInfo oi : allOverlays.get(targetPackageName)) {
++                String status = "---";
++                if (oi.isApproved()) {
++                    status = "[ ]";
++                }
++                if (oi.isEnabled()) {
++                    status = "[x]";
++                }
++                out.println(String.format("%s %s", status, oi.packageName));
++            }
++            out.println();
++        }
++        return 0;
++    }
++
++    private int runEnableDisable(final boolean enable) throws RemoteException {
++        final PrintWriter err = getErrPrintWriter();
++
++        int userId = UserHandle.USER_SYSTEM;
++        String opt;
++        while ((opt = getNextOption()) != null) {
++            switch (opt) {
++                case "--user":
++                    userId = UserHandle.parseUserArg(getNextArgRequired());
++                    break;
++                default:
++                    err.println("Error: Unknown option: " + opt);
++                    return 1;
++            }
++        }
++
++        final String packageName = getNextArgRequired();
++        return mInterface.setEnabled(packageName, enable, userId) ? 0 : 1;
++    }
++
++    private int runSetPriority() throws RemoteException {
++        final PrintWriter err = getErrPrintWriter();
++
++        int userId = UserHandle.USER_SYSTEM;
++        String opt;
++        while ((opt = getNextOption()) != null) {
++            switch (opt) {
++                case "--user":
++                    userId = UserHandle.parseUserArg(getNextArgRequired());
++                    break;
++                default:
++                    err.println("Error: Unknown option: " + opt);
++                    return 1;
++            }
++        }
++
++        final String packageName = getNextArgRequired();
++        final String newParentPackageName = getNextArgRequired();
++
++        if ("highest".equals(newParentPackageName)) {
++            return mInterface.setHighestPriority(packageName, userId) ? 0 : 1;
++        } else if ("lowest".equals(newParentPackageName)) {
++            return mInterface.setLowestPriority(packageName, userId) ? 0 : 1;
++        } else {
++            return mInterface.setPriority(packageName, newParentPackageName, userId) ? 0 : 1;
++        }
++    }
++}
+diff --git a/services/core/java/com/android/server/pm/PackageManagerService.java b/services/core/java/com/android/server/pm/PackageManagerService.java
+index 3a549d2..6b2f2c8 100755
+--- a/services/core/java/com/android/server/pm/PackageManagerService.java
++++ b/services/core/java/com/android/server/pm/PackageManagerService.java
+@@ -21030,6 +21030,47 @@ Slog.v(TAG, ":: stepped forward, applying functor at tag " + parser.getName());
+             return mProtectedPackages.canPackageBeWiped(userId,
+                     packageName);
+         }
++
++        @Override
++        public List<PackageInfo> getOverlayPackages(int userId) {
++            final ArrayList<PackageInfo> overlayPackages = new ArrayList<PackageInfo>();
++            synchronized (mPackages) {
++                for (PackageParser.Package p : mPackages.values()) {
++                    if (p.mOverlayTarget != null) {
++                        PackageInfo pkg = generatePackageInfo((PackageSetting)p.mExtras, 0, userId);
++                        if (pkg != null) {
++                            overlayPackages.add(pkg);
++                        }
++                    }
++                }
++            }
++            return overlayPackages;
++        }
++
++        @Override
++        public List<String> getTargetPackageNames(int userId) {
++            List<String> targetPackages = new ArrayList<>();
++            synchronized (mPackages) {
++                for (PackageParser.Package p : mPackages.values()) {
++                    if (p.mOverlayTarget == null) {
++                        targetPackages.add(p.packageName);
++                    }
++                }
++            }
++            return targetPackages;
++        }
++
++        @Override
++        public void setResourceDirs(int userId, String packageName, String[] resourceDirs) {
++            // TODO: uncomment when we integrate OMS properly
++            // synchronized (mPackages) {
++            //     PackageSetting ps = mSettings.mPackages.get(packageName);
++            //     if (ps == null) {
++            //         return;
++            //     }
++            //     ps.setResourceDirs(resourceDirs, userId);
++            // }
++        }
+     }
+ 
+     @Override
+-- 
+2.9.3
+

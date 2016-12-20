@@ -1,0 +1,29 @@
+From cba4bda2632d8293c2b72906f1fe44942ba7632e Mon Sep 17 00:00:00 2001
+From: Nicholas Chum <nicholaschum@gmail.com>
+Date: Thu, 27 Oct 2016 07:08:00 +0200
+Subject: [PATCH 11/32] OMS7-N: Do not enforce code policy limiting overlay
+ installation [10/11]
+
+Change-Id: Iea317f3771f25dbfcbf4938e88cace12fd97d7eb
+---
+ services/core/java/com/android/server/pm/PackageManagerService.java | 4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/services/core/java/com/android/server/pm/PackageManagerService.java b/services/core/java/com/android/server/pm/PackageManagerService.java
+index fc0c9e9..605dce8 100755
+--- a/services/core/java/com/android/server/pm/PackageManagerService.java
++++ b/services/core/java/com/android/server/pm/PackageManagerService.java
+@@ -8076,10 +8076,6 @@ public class PackageManagerService extends IPackageManager.Stub {
+             pkg.applicationInfo.privateFlags |= ApplicationInfo.PRIVATE_FLAG_PRIVILEGED;
+         }
+ 
+-        if ((policyFlags & PackageParser.PARSE_ENFORCE_CODE) != 0) {
+-            enforceCodePolicy(pkg);
+-        }
+-
+         if (mCustomResolverComponentName != null &&
+                 mCustomResolverComponentName.getPackageName().equals(pkg.packageName)) {
+             setUpCustomResolverActivity(pkg);
+-- 
+2.9.3
+

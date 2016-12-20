@@ -1,0 +1,49 @@
+From 2ed4e16a2f42b21e77ad6d8af981543d16fd6158 Mon Sep 17 00:00:00 2001
+From: George G <kreach3r@users.noreply.github.com>
+Date: Mon, 14 Nov 2016 14:49:47 +0200
+Subject: [PATCH 20/32] Notification dynamic colors bool compatible with OMS7
+ (2/2)
+
+OMS7 introduced this fine piece of code: https://github.com/SubstratumResources/platform_frameworks_base/blob/n-oms7/core/java/android/app/ResourcesManager.java#L897..#L904
+
+// Resources.getSystem Resources are created on request and aren't tracked by
+// mResourceReferences.
+//
+// If overlays targeting "android" are to be used, we must create the system
+// resources regardless of whether they already exist, since otherwise the
+// information on what overlays to use would be lost. This is wasteful for most
+// applications, so limit this operation to the system user only. (This means
+// Resources.getSystem() will *not* use overlays for applications.)
+
+Replaced deprecated Resources.getSystem() with compatible method.
+
+Change-Id: I02efe27de3cc7067552964ffbaf079f9e9b5bc3e
+---
+ core/java/android/app/Notification.java | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/core/java/android/app/Notification.java b/core/java/android/app/Notification.java
+index ab6b42d..5036fe2 100644
+--- a/core/java/android/app/Notification.java
++++ b/core/java/android/app/Notification.java
+@@ -3746,7 +3746,7 @@ public class Notification implements Parcelable
+         }
+ 
+         int resolveIconContrastColor() {
+-            if (!Resources.getSystem().getBoolean(R.bool.config_allowNotificationIconTextTinting)) {
++            if (!mContext.getResources().getBoolean(R.bool.config_allowNotificationIconTextTinting)) {
+                 return mContext.getColor(R.color.notification_icon_default_color);
+             } else {
+                 return resolveContrastColor();
+@@ -3754,7 +3754,7 @@ public class Notification implements Parcelable
+         }
+ 
+         int resolveContrastColor() {
+-            if (!Resources.getSystem().getBoolean(R.bool.config_allowNotificationIconTextTinting)) {
++            if (!mContext.getResources().getBoolean(R.bool.config_allowNotificationIconTextTinting)) {
+                 return mContext.getColor(R.color.notification_text_default_color);
+             }
+ 
+-- 
+2.9.3
+

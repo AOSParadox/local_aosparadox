@@ -1,0 +1,58 @@
+From 18f45f3eb2f4b55589fc1d2416090ffbb772ba9d Mon Sep 17 00:00:00 2001
+From: Nicholas Chum <nicholaschum@gmail.com>
+Date: Sun, 8 Nov 2015 05:27:28 -0500
+Subject: [PATCH 29/32] Themes: Allow Resolver List BG to be fully themed
+
+We are able to trace the activity of the new resolver/chooser through
+different
+methods, thus leading us to the Java file:
+\com\android\internal\app\ChooserActivity.java
+Here we see that the exposed "chooser_service_row_background_color" is
+available, but not the rest of the activity, so we look into R.layout's,
+and we
+find chooser_grid to be the only one containing hardcoded
+"@color/white" values (as this is framework, we assume this is also
+known as
+"@android:color/white" to themers).
+
+Expose all "@color/white" values from this file to resolver_list_bg.
+
+Change-Id: I286d92b5d1f672c8adb3c0af1951793521536d90
+---
+ core/res/res/layout/chooser_grid.xml | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/core/res/res/layout/chooser_grid.xml b/core/res/res/layout/chooser_grid.xml
+index d12c8ba..d947094 100644
+--- a/core/res/res/layout/chooser_grid.xml
++++ b/core/res/res/layout/chooser_grid.xml
+@@ -31,7 +31,7 @@
+             android:layout_alwaysShow="true"
+             android:elevation="8dp"
+             android:paddingStart="16dp"
+-            android:background="@color/white" >
++            android:background="@color/resolver_list_bg" >
+         <TextView android:id="@+id/profile_button"
+                   android:layout_width="wrap_content"
+                   android:layout_height="48dp"
+@@ -74,7 +74,7 @@
+             android:id="@+id/resolver_list"
+             android:clipToPadding="false"
+             android:scrollbarStyle="outsideOverlay"
+-            android:background="@color/white"
++            android:background="@color/resolver_list_bg"
+             android:elevation="8dp"
+             android:listSelector="@color/transparent"
+             android:divider="@null"
+@@ -85,7 +85,7 @@
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_alwaysShow="true"
+-              android:background="@color/white"
++              android:background="@color/resolver_list_bg"
+               android:text="@string/noApplications"
+               android:padding="32dp"
+               android:gravity="center"
+-- 
+2.9.3
+
