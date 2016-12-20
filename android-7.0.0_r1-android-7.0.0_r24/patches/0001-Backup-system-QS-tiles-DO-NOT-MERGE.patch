@@ -1,0 +1,144 @@
+From f0e7bb3400383bbe72f3cfc80968b85afe284f91 Mon Sep 17 00:00:00 2001
+From: Jason Monk <jmonk@google.com>
+Date: Thu, 25 Aug 2016 15:57:14 -0400
+Subject: [PATCH] Backup system QS tiles DO NOT MERGE
+
+Add QS tiles to the backup list.  Non-system tiles will get removed
+since they won't be installed when restore happens.
+
+Change-Id: Iccf6e773384c45bd4d1f10c21aa8af356b3920d2
+Bug: 28782938
+(cherry picked from commit 37bd2be160e56c3b94a1ad5b7b7c50bfc7e1f663)
+---
+ core/java/android/provider/Settings.java               |  9 ++++++++-
+ .../systemui/qs/external/TileLifecycleManager.java     | 18 ++++++++++++++++++
+ .../systemui/qs/external/TileServiceManager.java       |  9 ++++++++-
+ .../android/systemui/statusbar/phone/QSTileHost.java   | 16 ++--------------
+ 4 files changed, 36 insertions(+), 16 deletions(-)
+
+diff --git a/core/java/android/provider/Settings.java b/core/java/android/provider/Settings.java
+index 3626699..275bda9 100644
+--- a/core/java/android/provider/Settings.java
++++ b/core/java/android/provider/Settings.java
+@@ -6508,6 +6508,12 @@ public final class Settings {
+                 "managed_profile_contact_remote_search";
+ 
+         /**
++         * Holds comma separated list of ordering of QS tiles.
++         * @hide
++         */
++        public static final String QS_TILES = "sysui_qs_tiles";
++
++        /**
+          * This are the settings to be backed up.
+          *
+          * NOTE: Settings are backed up and restored in the order they appear
+@@ -6580,7 +6586,8 @@ public final class Settings {
+             ENHANCED_VOICE_PRIVACY_ENABLED,
+             TTY_MODE_ENABLED,
+             INCALL_POWER_BUTTON_BEHAVIOR,
+-            WIFI_DISCONNECT_DELAY_DURATION
++            WIFI_DISCONNECT_DELAY_DURATION,
++            QS_TILES
+         };
+ 
+         /**
+diff --git a/packages/SystemUI/src/com/android/systemui/qs/external/TileLifecycleManager.java b/packages/SystemUI/src/com/android/systemui/qs/external/TileLifecycleManager.java
+index 79f9de6..11bf0c5 100644
+--- a/packages/SystemUI/src/com/android/systemui/qs/external/TileLifecycleManager.java
++++ b/packages/SystemUI/src/com/android/systemui/qs/external/TileLifecycleManager.java
+@@ -63,6 +63,9 @@ public class TileLifecycleManager extends BroadcastReceiver implements
+     private static final int MAX_BIND_RETRIES = 5;
+     private static final int BIND_RETRY_DELAY = 1000;
+ 
++    // Shared prefs that hold tile lifecycle info.
++    private static final String TILES = "tiles_prefs";
++
+     private final Context mContext;
+     private final Handler mHandler;
+     private final Intent mIntent;
+@@ -123,6 +126,12 @@ public class TileLifecycleManager extends BroadcastReceiver implements
+     }
+ 
+     public void setBindService(boolean bind) {
++        if (mBound && mUnbindImmediate) {
++            // If we are already bound and expecting to unbind, this means we should stay bound
++            // because something else wants to hold the connection open.
++            mUnbindImmediate = false;
++            return;
++        }
+         mBound = bind;
+         if (bind) {
+             if (mBindTryCount == MAX_BIND_RETRIES) {
+@@ -399,4 +408,13 @@ public class TileLifecycleManager extends BroadcastReceiver implements
+     public interface TileChangeListener {
+         void onTileChanged(ComponentName tile);
+     }
++
++    public static boolean isTileAdded(Context context, ComponentName component) {
++        return context.getSharedPreferences(TILES, 0).getBoolean(component.flattenToString(), false);
++    }
++
++    public static void setTileAdded(Context context, ComponentName component, boolean added) {
++        context.getSharedPreferences(TILES, 0).edit().putBoolean(component.flattenToString(),
++                added).commit();
++    }
+ }
+diff --git a/packages/SystemUI/src/com/android/systemui/qs/external/TileServiceManager.java b/packages/SystemUI/src/com/android/systemui/qs/external/TileServiceManager.java
+index 3d030f9..da2c524 100644
+--- a/packages/SystemUI/src/com/android/systemui/qs/external/TileServiceManager.java
++++ b/packages/SystemUI/src/com/android/systemui/qs/external/TileServiceManager.java
+@@ -86,8 +86,15 @@ public class TileServiceManager {
+         IntentFilter filter = new IntentFilter();
+         filter.addAction(Intent.ACTION_PACKAGE_REMOVED);
+         filter.addDataScheme("package");
+-        mServices.getContext().registerReceiverAsUser(mUninstallReceiver,
++        Context context = mServices.getContext();
++        context.registerReceiverAsUser(mUninstallReceiver,
+                 new UserHandle(ActivityManager.getCurrentUser()), filter, null, mHandler);
++        ComponentName component = tileLifecycleManager.getComponent();
++        if (!TileLifecycleManager.isTileAdded(context, component)) {
++            TileLifecycleManager.setTileAdded(context, component, true);
++            mStateManager.onTileAdded();
++            mStateManager.flushMessagesAndUnbind();
++        }
+     }
+ 
+     public void setTileChangeListener(TileChangeListener changeListener) {
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/phone/QSTileHost.java b/packages/SystemUI/src/com/android/systemui/statusbar/phone/QSTileHost.java
+index adf8cb7..0478c49 100755
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/phone/QSTileHost.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/phone/QSTileHost.java
+@@ -86,7 +86,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
+     private static final String TAG = "QSTileHost";
+     private static final boolean DEBUG = Log.isLoggable(TAG, Log.DEBUG);
+ 
+-    public static final String TILES_SETTING = "sysui_qs_tiles";
++    public static final String TILES_SETTING = Secure.QS_TILES;
+ 
+     private final Context mContext;
+     private final PhoneStatusBar mStatusBar;
+@@ -407,19 +407,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
+                         new UserHandle(ActivityManager.getCurrentUser()));
+                 lifecycleManager.onStopListening();
+                 lifecycleManager.onTileRemoved();
+-                lifecycleManager.flushMessagesAndUnbind();
+-            }
+-        }
+-        for (int i = 0; i < NA; i++) {
+-            String tileSpec = newTiles.get(i);
+-            if (!tileSpec.startsWith(CustomTile.PREFIX)) continue;
+-            if (!previousTiles.contains(tileSpec)) {
+-                ComponentName component = CustomTile.getComponentFromSpec(tileSpec);
+-                Intent intent = new Intent().setComponent(component);
+-                TileLifecycleManager lifecycleManager = new TileLifecycleManager(new Handler(),
+-                        mContext, mServices, new Tile(component), intent,
+-                        new UserHandle(ActivityManager.getCurrentUser()));
+-                lifecycleManager.onTileAdded();
++                TileLifecycleManager.setTileAdded(mContext, component, false);
+                 lifecycleManager.flushMessagesAndUnbind();
+             }
+         }
+-- 
+2.9.3
+

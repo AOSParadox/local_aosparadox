@@ -1,0 +1,55 @@
+From a21fe6e02266124a2e4d4cdd927deefa2d1eb045 Mon Sep 17 00:00:00 2001
+From: Eric Laurent <elaurent@google.com>
+Date: Fri, 23 Sep 2016 13:10:18 -0700
+Subject: [PATCH] DO NOT MERGE - fix truncated boot sound
+
+Wait for audioserver service initialization to complete
+before playing the sound
+
+Bug: 31651778
+Change-Id: I988de549d20468a090c939a1c624ee47d4036cd3
+(cherry picked from commit 75bf3fd73b5a75698f41f1593e384a9a3a3afb74)
+---
+ cmds/bootanimation/Android.mk      | 3 ++-
+ cmds/bootanimation/AudioPlayer.cpp | 4 ++++
+ 2 files changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/cmds/bootanimation/Android.mk b/cmds/bootanimation/Android.mk
+index 7a119bd..a215149 100644
+--- a/cmds/bootanimation/Android.mk
++++ b/cmds/bootanimation/Android.mk
+@@ -24,7 +24,8 @@ LOCAL_SHARED_LIBRARIES := \
+     libGLESv1_CM \
+     libgui \
+     libtinyalsa \
+-    libregionalization
++    libregionalization \
++    libmedia
+ 
+ LOCAL_MODULE:= bootanimation
+ 
+diff --git a/cmds/bootanimation/AudioPlayer.cpp b/cmds/bootanimation/AudioPlayer.cpp
+index 2932130..f5acac4 100644
+--- a/cmds/bootanimation/AudioPlayer.cpp
++++ b/cmds/bootanimation/AudioPlayer.cpp
+@@ -23,6 +23,7 @@
+ #include <tinyalsa/asoundlib.h>
+ #include <utils/Log.h>
+ #include <utils/String8.h>
++#include <media/AudioSystem.h>
+ 
+ #define ID_RIFF 0x46464952
+ #define ID_WAVE 0x45564157
+@@ -143,6 +144,9 @@ bool AudioPlayer::init(const char* config)
+     struct mixer* mixer = NULL;
+     char    name[MAX_LINE_LENGTH];
+ 
++    // Fake call to wait for audio HAL initialization completion
++    AudioSystem::getParameters(String8(""));
++
+     for (;;) {
+         const char* endl = strstr(config, "\n");
+         if (!endl) break;
+-- 
+2.9.3
+
