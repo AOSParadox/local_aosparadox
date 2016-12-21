@@ -1,4 +1,4 @@
-From 5fe09e6d8d2cac346fc03ce005592580c6ab42bf Mon Sep 17 00:00:00 2001
+From 57d9155ae389d25e21d7efe291ecc13a45a35a33 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?M=C3=A5rten=20Kongstad?= <marten.kongstad@sonymobile.com>
 Date: Tue, 15 Dec 2015 16:40:23 +0100
 Subject: [PATCH 02/32] OMS7-N: Introduce the OverlayManagerService [2/11]
@@ -3026,10 +3026,10 @@ index 0000000..d6f5373
 +    }
 +}
 diff --git a/services/core/java/com/android/server/pm/PackageManagerService.java b/services/core/java/com/android/server/pm/PackageManagerService.java
-index 3a549d2..6b2f2c8 100755
+index edd679b..4dcb342 100755
 --- a/services/core/java/com/android/server/pm/PackageManagerService.java
 +++ b/services/core/java/com/android/server/pm/PackageManagerService.java
-@@ -21030,6 +21030,47 @@ Slog.v(TAG, ":: stepped forward, applying functor at tag " + parser.getName());
+@@ -21036,6 +21036,47 @@ Slog.v(TAG, ":: stepped forward, applying functor at tag " + parser.getName());
              return mProtectedPackages.canPackageBeWiped(userId,
                      packageName);
          }

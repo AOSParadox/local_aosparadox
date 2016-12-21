@@ -1,4 +1,4 @@
-From 2b9993062202f0b4fa6ad8374d959dad9affecf4 Mon Sep 17 00:00:00 2001
+From 22bd12e2b387e4a146ae7d252f0b809d96c60961 Mon Sep 17 00:00:00 2001
 From: 0xD34D <clark@scheffsblend.com>
 Date: Wed, 22 Jun 2016 23:54:23 +0300
 Subject: [PATCH 17/32] N-Extras: Add dynamic theme fonts support
@@ -560,7 +560,7 @@ index 2886f0d..990c9bd 100644
      protected void finalize() throws Throwable {
          try {
 diff --git a/services/core/java/com/android/server/am/ActivityManagerService.java b/services/core/java/com/android/server/am/ActivityManagerService.java
-index b8f153c..52ee461 100644
+index 3844f07..91276fd 100644
 --- a/services/core/java/com/android/server/am/ActivityManagerService.java
 +++ b/services/core/java/com/android/server/am/ActivityManagerService.java
 @@ -510,6 +510,8 @@ public final class ActivityManagerService extends ActivityManagerNative
@@ -572,7 +572,7 @@ index b8f153c..52ee461 100644
      // Access modes for handleIncomingUser.
      static final int ALLOW_NON_FULL = 0;
      static final int ALLOW_NON_FULL_IN_PROFILE = 1;
-@@ -3737,6 +3739,13 @@ public final class ActivityManagerService extends ActivityManagerNative
+@@ -3753,6 +3755,13 @@ public final class ActivityManagerService extends ActivityManagerNative
                  mNativeDebuggingApp = null;
              }
  
@@ -586,7 +586,7 @@ index b8f153c..52ee461 100644
              String requiredAbi = (abiOverride != null) ? abiOverride : app.info.primaryCpuAbi;
              if (requiredAbi == null) {
                  requiredAbi = Build.SUPPORTED_ABIS[0];
-@@ -3761,7 +3770,7 @@ public final class ActivityManagerService extends ActivityManagerNative
+@@ -3777,7 +3786,7 @@ public final class ActivityManagerService extends ActivityManagerNative
              Process.ProcessStartResult startResult = Process.start(entryPoint,
                      app.processName, uid, uid, gids, debugFlags, mountExternal,
                      app.info.targetSdkVersion, app.info.seinfo, requiredAbi, instructionSet,

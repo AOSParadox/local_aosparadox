@@ -1,4 +1,4 @@
-From 5f803e012f37c3862dff9a3fd1c8b6bab72fb97f Mon Sep 17 00:00:00 2001
+From df75c06b7405918fb9dbe8a931202a81b93f8295 Mon Sep 17 00:00:00 2001
 From: Louis Popi <theh2o64@gmail.com>
 Date: Tue, 20 Dec 2016 11:34:31 +0100
 Subject: [PATCH 03/32] Revert "Support AOSP service to scan carrier resources"
@@ -400,7 +400,7 @@ index f16fa37..0000000
 -    return NULL;
 -}
 diff --git a/services/core/java/com/android/server/pm/PackageManagerService.java b/services/core/java/com/android/server/pm/PackageManagerService.java
-index 6b2f2c8..1d65cfd 100755
+index 4dcb342..d0dc0d5 100755
 --- a/services/core/java/com/android/server/pm/PackageManagerService.java
 +++ b/services/core/java/com/android/server/pm/PackageManagerService.java
 @@ -234,7 +234,6 @@ import com.android.internal.content.PackageHelper;

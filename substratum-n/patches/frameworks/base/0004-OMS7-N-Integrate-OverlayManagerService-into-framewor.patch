@@ -1,4 +1,4 @@
-From d0f814be129c1cf87694d7b1dbd2d52990368a27 Mon Sep 17 00:00:00 2001
+From b86b04611a75a3400016386c5b617810f0a84233 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?M=C3=A5rten=20Kongstad?= <marten.kongstad@sonymobile.com>
 Date: Thu, 2 Jun 2016 09:35:31 +0200
 Subject: [PATCH 04/32] OMS7-N: Integrate OverlayManagerService into framework
@@ -987,7 +987,7 @@ index ecc69e9..30461b6 100644
       * Starts the specified boot phase for all system services that have been started up to
       * this point.
 diff --git a/services/core/java/com/android/server/am/ActivityManagerService.java b/services/core/java/com/android/server/am/ActivityManagerService.java
-index 47e68d1..b8f153c 100644
+index f322dcc..3844f07 100644
 --- a/services/core/java/com/android/server/am/ActivityManagerService.java
 +++ b/services/core/java/com/android/server/am/ActivityManagerService.java
 @@ -63,6 +63,7 @@ import org.xmlpull.v1.XmlPullParserException;
@@ -998,7 +998,7 @@ index 47e68d1..b8f153c 100644
  import android.annotation.UserIdInt;
  import android.app.Activity;
  import android.app.ActivityManager;
-@@ -18877,6 +18878,57 @@ public final class ActivityManagerService extends ActivityManagerNative
+@@ -18902,6 +18903,57 @@ public final class ActivityManagerService extends ActivityManagerNative
      }
  
      /**
@@ -1129,7 +1129,7 @@ index ec148dd..761ef52 100644
  
      private void schedulePersistSettings() {
 diff --git a/services/core/java/com/android/server/pm/PackageManagerService.java b/services/core/java/com/android/server/pm/PackageManagerService.java
-index 1d65cfd..3ccc88a 100755
+index d0dc0d5..4f493ef 100755
 --- a/services/core/java/com/android/server/pm/PackageManagerService.java
 +++ b/services/core/java/com/android/server/pm/PackageManagerService.java
 @@ -396,17 +396,16 @@ public class PackageManagerService extends IPackageManager.Stub {
@@ -1307,7 +1307,7 @@ index 1d65cfd..3ccc88a 100755
          return pkg;
      }
  
-@@ -16367,7 +16276,7 @@ public class PackageManagerService extends IPackageManager.Stub {
+@@ -16373,7 +16282,7 @@ public class PackageManagerService extends IPackageManager.Stub {
                      false /*installed*/, true /*stopped*/, true /*notLaunched*/,
                      false /*hidden*/, false /*suspended*/, null, null, null,
                      false /*blockUninstall*/,
@@ -1316,7 +1316,7 @@ index 1d65cfd..3ccc88a 100755
          }
      }
  
-@@ -21017,14 +20926,13 @@ Slog.v(TAG, ":: stepped forward, applying functor at tag " + parser.getName());
+@@ -21023,14 +20932,13 @@ Slog.v(TAG, ":: stepped forward, applying functor at tag " + parser.getName());
  
          @Override
          public void setResourceDirs(int userId, String packageName, String[] resourceDirs) {

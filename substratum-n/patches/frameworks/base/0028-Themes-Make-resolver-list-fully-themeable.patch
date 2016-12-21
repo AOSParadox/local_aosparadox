@@ -1,4 +1,4 @@
-From ad9f22d3a61b83efad974091ab9e7198f6628834 Mon Sep 17 00:00:00 2001
+From 2ce72c8bdbd5b6aa2559a9421af37502a15c4222 Mon Sep 17 00:00:00 2001
 From: Thyrus11 <thyrus11@gmail.com>
 Date: Sat, 21 Feb 2015 07:19:42 +0100
 Subject: [PATCH 28/32] Themes: Make resolver list fully themeable

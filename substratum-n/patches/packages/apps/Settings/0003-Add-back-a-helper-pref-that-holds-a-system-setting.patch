@@ -1,4 +1,4 @@
-From 93cb4419d540b6f8ca9f5693456926e6278f39f4 Mon Sep 17 00:00:00 2001
+From 533a9e9ec9e06b79df016ad5040b3ccef83dd68b Mon Sep 17 00:00:00 2001
 From: Danny Baumann <dannybaumann@web.de>
 Date: Tue, 11 Nov 2014 13:13:39 +0100
 Subject: [PATCH 3/6] Add back a helper pref that holds a system setting.
@@ -38,7 +38,7 @@ index 3c3300e..b62c371 100644
  -keepclassmembers class com.android.settings.inputmethod.UserDictionaryAddWordActivity {
 diff --git a/src/com/android/settings/preference/GlobalSettingSwitchPreference.java b/src/com/android/settings/preference/GlobalSettingSwitchPreference.java
 new file mode 100644
-index 0000000..cb16266
+index 0000000..f0c320c
 --- /dev/null
 +++ b/src/com/android/settings/preference/GlobalSettingSwitchPreference.java
 @@ -0,0 +1,65 @@
@@ -100,7 +100,7 @@ index 0000000..cb16266
 +                getKey(), defaultReturnValue ? 1 : 0) != 0;
 +    }
 +
-+    @Override
++//    @Override
 +    protected boolean isPersisted() {
 +        // Using getString instead of getInt so we can simply check for null
 +        // instead of catching an exception. (All values are stored as strings.)
@@ -109,7 +109,7 @@ index 0000000..cb16266
 +}
 diff --git a/src/com/android/settings/preference/SecureSettingSwitchPreference.java b/src/com/android/settings/preference/SecureSettingSwitchPreference.java
 new file mode 100644
-index 0000000..2b54503
+index 0000000..e6cd2d8
 --- /dev/null
 +++ b/src/com/android/settings/preference/SecureSettingSwitchPreference.java
 @@ -0,0 +1,65 @@
@@ -171,7 +171,7 @@ index 0000000..2b54503
 +                getKey(), defaultReturnValue ? 1 : 0) != 0;
 +    }
 +
-+    @Override
++//    @Override
 +    protected boolean isPersisted() {
 +        // Using getString instead of getInt so we can simply check for null
 +        // instead of catching an exception. (All values are stored as strings.)
@@ -180,7 +180,7 @@ index 0000000..2b54503
 +}
 diff --git a/src/com/android/settings/preference/SystemSettingSwitchPreference.java b/src/com/android/settings/preference/SystemSettingSwitchPreference.java
 new file mode 100644
-index 0000000..23c8c06
+index 0000000..2f5d2bc
 --- /dev/null
 +++ b/src/com/android/settings/preference/SystemSettingSwitchPreference.java
 @@ -0,0 +1,65 @@
@@ -242,7 +242,7 @@ index 0000000..23c8c06
 +                getKey(), defaultReturnValue ? 1 : 0) != 0;
 +    }
 +
-+    @Override
++    //@Override
 +    protected boolean isPersisted() {
 +        // Using getString instead of getInt so we can simply check for null
 +        // instead of catching an exception. (All values are stored as strings.)

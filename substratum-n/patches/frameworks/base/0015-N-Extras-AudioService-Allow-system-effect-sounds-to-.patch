@@ -1,4 +1,4 @@
-From 044bae7af54574b797218937e490288be185f97d Mon Sep 17 00:00:00 2001
+From 7d3e8ff38f6730875c149198b4012e84b5d26134 Mon Sep 17 00:00:00 2001
 From: Nicholas Chum <nicholaschum@gmail.com>
 Date: Sun, 17 Jul 2016 17:56:40 -0400
 Subject: [PATCH 15/32] N-Extras: AudioService: Allow system effect sounds to

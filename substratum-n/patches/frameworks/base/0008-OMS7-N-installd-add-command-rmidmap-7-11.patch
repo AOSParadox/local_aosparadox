@@ -1,4 +1,4 @@
-From 2494b8fbb524796c009584dda796fc1da75ee68c Mon Sep 17 00:00:00 2001
+From 00c93afc8b8c94f403133e55653963b68f0a7356 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?M=C3=A5rten=20Kongstad?= <marten.kongstad@sonymobile.com>
 Date: Thu, 2 Jun 2016 09:35:09 +0200
 Subject: [PATCH 08/32] OMS7-N: installd: add command 'rmidmap' [7/11]

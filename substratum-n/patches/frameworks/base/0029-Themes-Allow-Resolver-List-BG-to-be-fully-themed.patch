@@ -1,4 +1,4 @@
-From 18f45f3eb2f4b55589fc1d2416090ffbb772ba9d Mon Sep 17 00:00:00 2001
+From 092e34accf9ca63b1b8c071516e895f4dbfeeab7 Mon Sep 17 00:00:00 2001
 From: Nicholas Chum <nicholaschum@gmail.com>
 Date: Sun, 8 Nov 2015 05:27:28 -0500
 Subject: [PATCH 29/32] Themes: Allow Resolver List BG to be fully themed

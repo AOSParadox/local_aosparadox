@@ -1,4 +1,4 @@
-From b027978279774dd23b9ff91609c3975584d8d223 Mon Sep 17 00:00:00 2001
+From d4363f157bee2b71ba71366ca527e461318fec00 Mon Sep 17 00:00:00 2001
 From: George G <kreach3r@users.noreply.github.com>
 Date: Tue, 3 Nov 2015 23:57:22 +0200
 Subject: [PATCH 6/6] Settings: Expose storage summary text

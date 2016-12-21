@@ -193,7 +193,6 @@ git cherry-pick 22be15b2c23c3038cd2a9d12f7b88b862508cc92 # Unexport OmtpMessageR
 cd $MY_NICE_FOLDER
 cd system/bt/
 git cherry-pick ea06f0204fc3cc9c0a32b747bf6d24183f8d9cef # Disable auto-pairing for hands-free devices
-git am < $PATCHES/0001-audio_a2dp_hw-Always-update-frame-counter-in-out_wri.patch # audio_a2dp_hw: Always update frame counter in out_write
 
 cd $MY_NICE_FOLDER
 cd system/media/

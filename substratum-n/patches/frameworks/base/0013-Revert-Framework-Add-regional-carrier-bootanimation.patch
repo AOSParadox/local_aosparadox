@@ -1,29 +1,14 @@
-From ff7652ac604ac7f3b895724ff7cd167a2ea5a3b5 Mon Sep 17 00:00:00 2001
+From 58df37147fcc6568ee679787b5dbf97b64899455 Mon Sep 17 00:00:00 2001
 From: Louis Popi <theh2o64@gmail.com>
 Date: Tue, 20 Dec 2016 11:36:50 +0100
 Subject: [PATCH 13/32] Revert "Framework: Add regional carrier bootanimation"
 
 This reverts commit facebfa8c17bc6a6d57f1eaabeff41fd9fd37e0e.
 ---
- cmds/bootanimation/Android.mk        |  3 +--
  cmds/bootanimation/BootAnimation.cpp | 44 +++++-------------------------------
  cmds/bootanimation/BootAnimation.h   |  7 ------
- 3 files changed, 7 insertions(+), 47 deletions(-)
+ 2 files changed, 6 insertions(+), 45 deletions(-)
 
-diff --git a/cmds/bootanimation/Android.mk b/cmds/bootanimation/Android.mk
-index 7a119bd..7c8842c 100644
---- a/cmds/bootanimation/Android.mk
-+++ b/cmds/bootanimation/Android.mk
-@@ -23,8 +23,7 @@ LOCAL_SHARED_LIBRARIES := \
-     libEGL \
-     libGLESv1_CM \
-     libgui \
--    libtinyalsa \
--    libregionalization
-+    libtinyalsa
- 
- LOCAL_MODULE:= bootanimation
- 
 diff --git a/cmds/bootanimation/BootAnimation.cpp b/cmds/bootanimation/BootAnimation.cpp
 index c5a3239..c597ed2 100644
 --- a/cmds/bootanimation/BootAnimation.cpp

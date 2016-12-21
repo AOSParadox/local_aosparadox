@@ -1,4 +1,4 @@
-From 70c612444d7b5b3a412a1c152cbba749b618fa88 Mon Sep 17 00:00:00 2001
+From dc5203c3447f8b8743e69e8cf696a079d850e9f8 Mon Sep 17 00:00:00 2001
 From: daveyannihilation <daveyannihilation@hotmail.com>
 Date: Tue, 20 Sep 2016 23:35:04 +0800
 Subject: [PATCH 5/6] Themes: Expose condition card colors

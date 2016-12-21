@@ -1,4 +1,4 @@
-From 264960240666300addd9d12ff11168d8811465ee Mon Sep 17 00:00:00 2001
+From 9c9d076ddddff338a88ade034ed9beadef44d68f Mon Sep 17 00:00:00 2001
 From: Nicholas Chum <nicholaschum@gmail.com>
 Date: Mon, 23 Nov 2015 23:49:15 -0500
 Subject: [PATCH 32/32] Themes: Allow Permission Icons to be fully themed

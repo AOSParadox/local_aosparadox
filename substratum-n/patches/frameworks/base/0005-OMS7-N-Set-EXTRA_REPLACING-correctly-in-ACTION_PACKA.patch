@@ -1,4 +1,4 @@
-From c5565862dee259ea906d19e38f9121f2c9132093 Mon Sep 17 00:00:00 2001
+From 882383c0089a24bf62405443f8e72b04a6902748 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?M=C3=A5rten=20Kongstad?= <marten.kongstad@sonymobile.com>
 Date: Mon, 25 Apr 2016 16:29:22 +0200
 Subject: [PATCH 05/32] OMS7-N: Set EXTRA_REPLACING correctly in
@@ -35,7 +35,7 @@ Change-Id: Icf869013d5d652de4bf0f6df4529b7a68d35a25c
  1 file changed, 1 insertion(+)
 
 diff --git a/services/core/java/com/android/server/pm/PackageManagerService.java b/services/core/java/com/android/server/pm/PackageManagerService.java
-index 3ccc88a..fc0c9e9 100755
+index 4f493ef..c29acd8 100755
 --- a/services/core/java/com/android/server/pm/PackageManagerService.java
 +++ b/services/core/java/com/android/server/pm/PackageManagerService.java
 @@ -1889,6 +1889,7 @@ public class PackageManagerService extends IPackageManager.Stub {

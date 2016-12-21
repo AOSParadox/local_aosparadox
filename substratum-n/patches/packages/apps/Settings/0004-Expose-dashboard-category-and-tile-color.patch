@@ -1,4 +1,4 @@
-From ac15198d326112fb37f87305046af4caba5f0dcb Mon Sep 17 00:00:00 2001
+From 8d325926b1114dfcfe78db68134225e08cd7f871 Mon Sep 17 00:00:00 2001
 From: Ivan Iskandar <iiiiskandar14@gmail.com>
 Date: Sun, 18 Sep 2016 10:12:05 +0700
 Subject: [PATCH 4/6] Expose dashboard category and tile color

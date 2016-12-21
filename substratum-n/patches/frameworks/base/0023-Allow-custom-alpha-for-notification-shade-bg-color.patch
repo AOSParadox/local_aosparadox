@@ -1,4 +1,4 @@
-From ef303cc0ad6b4b8d495771b8096f9179c911aa23 Mon Sep 17 00:00:00 2001
+From 3db199f176a990c3b570bbd95ab7977772ea26a3 Mon Sep 17 00:00:00 2001
 From: Simao Gomes Viana <xdevs23@outlook.com>
 Date: Fri, 25 Nov 2016 20:50:29 +0100
 Subject: [PATCH 23/32] Allow custom alpha for notification shade bg color
@@ -9,7 +9,7 @@ Change-Id: If621df83d994feae0448a734408ba85ac8329325
  1 file changed, 27 insertions(+), 13 deletions(-)
 
 diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/stack/NotificationStackScrollLayout.java b/packages/SystemUI/src/com/android/systemui/statusbar/stack/NotificationStackScrollLayout.java
-index 7de3879..6c36b37 100644
+index 1e5654e..76ac217 100644
 --- a/packages/SystemUI/src/com/android/systemui/statusbar/stack/NotificationStackScrollLayout.java
 +++ b/packages/SystemUI/src/com/android/systemui/statusbar/stack/NotificationStackScrollLayout.java
 @@ -429,19 +429,33 @@ public class NotificationStackScrollLayout extends ViewGroup

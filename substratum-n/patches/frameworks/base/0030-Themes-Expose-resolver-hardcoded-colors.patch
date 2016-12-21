@@ -1,4 +1,4 @@
-From 278b9bc94fcb31f0002f6c46846a6260302a8b01 Mon Sep 17 00:00:00 2001
+From 0c3796e1a138965a9ecbbf0cdb64a3500a807bde Mon Sep 17 00:00:00 2001
 From: Dave Kover <dkover@cyngn.com>
 Date: Wed, 18 Feb 2015 16:11:14 -0800
 Subject: [PATCH 30/32] Themes: Expose resolver hardcoded colors

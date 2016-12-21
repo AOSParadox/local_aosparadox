@@ -1,4 +1,4 @@
-From fec8d6ab3ce6b0dd629e910ba0f5bb466c844071 Mon Sep 17 00:00:00 2001
+From 97412abefba1a44082dbd6f78369b768534500db Mon Sep 17 00:00:00 2001
 From: Daniel Koman <dankoman30@gmail.com>
 Date: Fri, 17 Apr 2015 11:56:28 -0600
 Subject: [PATCH 21/32] Allow prevention of doze notification color inversion
