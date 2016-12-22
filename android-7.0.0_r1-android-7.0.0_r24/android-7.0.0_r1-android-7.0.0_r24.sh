@@ -3,10 +3,16 @@ export PATCHES=$MY_NICE_FOLDER/patches/
 
 cd $MY_NICE_FOLDER
 cd bionic/
+git branch -D old new
+git checkout -b old
+git checkout -b new
 git cherry-pick 719e2853fe02c15216728294c4e48e1f26d10280 # Fix a linking error in bionic/tests
 
 cd $MY_NICE_FOLDER
 cd build/
+git branch -D old new
+git checkout -b old
+git checkout -b new
 git cherry-pick --strategy-option theirs 732492b5980c70fb77ecb270ca3055696a425547 # Updating security string to 2016-09-05 to platform and CTS in preparation for 2016 September OTA on mnc-dev
 git cherry-pick --strategy-option theirs 8ac0be787cef0b973263095022de19ceb37e7635 # NRD90N
 git cherry-pick --strategy-option theirs d010e751de3a68f3aa14ed51dca78259c45223bf # "NRD90O"
@@ -75,6 +81,9 @@ git cherry-pick --strategy-option theirs e820b0523e4c050124cfc00ab3afe4d8e8f1c31
 
 cd $MY_NICE_FOLDER
 cd external/libavc/
+git branch -D old new
+git checkout -b old
+git checkout -b new
 git cherry-pick 0f6a66d731c15b03474a7c3fd87bf0966afffd93 # Fix in the case of invalid SPS PPS
 git cherry-pick 8a9474c27bfccdf9aa7beed6320d9bb71e54524c # Decoder: Fixes for handling errors in multi-slice MB Aff streams
 git cherry-pick eee053fdeb9f73c3f9d12cea2cc2606ee9867758 # Decoder: Ignore few dpb errors
@@ -82,6 +91,9 @@ git cherry-pick c0d86a2499d4974a8398c266f2cb58143985b208 # Decoder: Fixes in han
 
 cd $MY_NICE_FOLDER
 cd frameworks/av/
+git branch -D old new
+git checkout -b old
+git checkout -b new
 #git cherry-pick 8a74b92dd0ec0db323f54a0c618696839283a702 # Impose a size bound for dynamically allocated tables in stbl.
 #git cherry-pick 630ed150f7201ddadb00b8b8ce0c55c4cc6e8742 # SoftVPX: fix nFilledLen overflow
 #git cherry-pick 2d1f61f3723566f5618e9d5d26ba1bd0fd38087a # SoftMPEG4: Check the buffer size before writing the reference frame.
@@ -106,6 +118,9 @@ git cherry-pick 8705eadfe8513a2ecc245c3e5add1fe988c9c09c # Fix potential NULL de
 
 cd $MY_NICE_FOLDER
 cd frameworks/base/
+git branch -D old new
+git checkout -b old
+git checkout -b new
 git cherry-pick c4d27e949190d0dda13807d445544793e58aeb6c # Added error handling to settings suggestions list
 git cherry-pick 71c5b4497e8a25df20bb2531da972f5b2371073d # Avoid potential re-entry as a result of child mutation
 git cherry-pick 904e59617c8f6f49440bc800b678723668c46710 # Try to mitigate issue #31016187: system_server crash in ArraySet.
@@ -149,31 +164,52 @@ git cherry-pick 4744ea74cdd52b691abf781b349203006ce107d8 # DO NOT MERGE Isolated
 
 cd $MY_NICE_FOLDER
 cd frameworks/native/
+git branch -D old new
+git checkout -b old
+git checkout -b new
 git cherry-pick 1a54d9d51a0b3a5a2d0a2be9eea59d0e80ef11f9 # DO NOT MERGE ANYWHERE: BufferQueue consumers: Add discardFreeBuffer method
 
 cd $MY_NICE_FOLDER
 cd frameworks/opt/telephony/
+git branch -D old new
+git checkout -b old
+git checkout -b new
 git cherry-pick 8590a9440bbef5c7b70a9e59ea7a37451884d17b # Remove flag from intent sent from Catservice to StkApp.
 
 cd $MY_NICE_FOLDER
 cd libcore/
+git branch -D old new
+git checkout -b old
+git checkout -b new
 git cherry-pick f0de41a73171cbf4b60f82342a70fd4a50ef761e # ZipFile: Never change file offset during I/O operations.
 git cherry-pick 2ff5d780009be5db94b7135e367a0f24e6c2efff # sun.security.util: check lengths in DER encoding are non-negative
 
 cd $MY_NICE_FOLDER
 cd packages/apps/Bluetooth/
+git branch -D old new
+git checkout -b old
+git checkout -b new
 git cherry-pick 3f9497ead056f004d2cebc3f54d7b041ab16de29 # Fix setPairingConfirmation permissions issue (1/2)
 
 cd $MY_NICE_FOLDER
 cd packages/apps/CellBroadcastReceiver/
+git branch -D old new
+git checkout -b old
+git checkout -b new
 git cherry-pick bc4661c1d757fe0003069dce04e80445f61e19af # Fixed that emergency messages are not enabled for Japanese carriers
 
 cd $MY_NICE_FOLDER
 cd packages/apps/Launcher3/
+git branch -D old new
+git checkout -b old
+git checkout -b new
 git cherry-pick b4810a3c2074107c55c808daec44930b2a8af76e # Preventing a shortcut which requires permissions from being added to homescreen
 
 cd $MY_NICE_FOLDER
 cd packages/apps/Settings/
+git branch -D old new
+git checkout -b old
+git checkout -b new
 git cherry-pick 1a4f13794bb005e0947ab40c2b62c88c297ebdd3 # Don't remove wifi preferences when updating AP to avoid GC.
 git cherry-pick 575e991847d1f2978edcb7bd76378714686274a6 # Fix multiple bluetooth devices bug
 git cherry-pick 662943f03720dd476e5c4c42eeaebcd4e4120699 # Remove preference "Searching for Wi-Fi networks..."
@@ -183,17 +219,29 @@ git cherry-pick f04e4b7693fb08095e466bfae9ab46ccb6e20493 # Remove help links whe
 
 cd $MY_NICE_FOLDER
 cd packages/providers/DownloadProvider/
+git branch -D old new
+git checkout -b old
+git checkout -b new
 git cherry-pick fad292353c4f1a6cd4572644d552a53f7449fff0 # Enforce calling identity before clearing.
 
 cd $MY_NICE_FOLDER
 cd packages/services/Telephony/
+git branch -D old new
+git checkout -b old
+git checkout -b new
 git cherry-pick 933472a45e11ca92f653e178bbc7fa0592ae2762 # Restrict SipProfiles to profiles directory
 git cherry-pick 22be15b2c23c3038cd2a9d12f7b88b862508cc92 # Unexport OmtpMessageReceiver
 
 cd $MY_NICE_FOLDER
 cd system/bt/
+git branch -D old new
+git checkout -b old
+git checkout -b new
 git cherry-pick ea06f0204fc3cc9c0a32b747bf6d24183f8d9cef # Disable auto-pairing for hands-free devices
 
 cd $MY_NICE_FOLDER
 cd system/media/
+git branch -D old new
+git checkout -b old
+git checkout -b new
 git cherry-pick 0a1cd0704b4adc398209c058c14a145e5158567a # Fix potential overflow in Visualizer effect

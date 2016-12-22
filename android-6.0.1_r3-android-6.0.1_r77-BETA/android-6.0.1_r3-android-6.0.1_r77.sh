@@ -3,10 +3,16 @@ export MY_NICE_FOLDER=$(pwd)
 
 cd $MY_NICE_FOLDER
 cd  bionic/
+git branch -D old new
+git checkout -b old
+git checkout -b new
 git cherry-pick 12123dffb829086ebb1b07d81ef01522519ed657 # Update timezone data to 2016a
 
 cd $MY_NICE_FOLDER
 cd  build/
+git branch -D old new
+git checkout -b old
+git checkout -b new
 git cherry-pick --strategy-option theirs 27fdf2c8e5ddf07d97448c7a8c9adcf9083c55bb # MMB29N
 git cherry-pick --strategy-option theirs 06581f3f89ab131eb3f3dd2da4a7f0709b9e1e6f # Change version back to 6.0
 git cherry-pick --strategy-option theirs a625957dc9e7a63100abc7a6e0bee6c81f9106c9 # Revert "Change version back to 6.0"
@@ -66,21 +72,33 @@ git cherry-pick --strategy-option theirs 2bd7d28d9d405bf6fc9ffdc9ca1f5292014f8d6
 
 cd $MY_NICE_FOLDER
 cd  device/sample/
+git branch -D old new
+git checkout -b old
+git checkout -b new
 git cherry-pick b239828ba6f282793de417a46770c192c153ac47 # Adding APN for ATT AGMS Global (310-380)
 
 cd $MY_NICE_FOLDER
 cd  external/bouncycastle/
+git branch -D old new
+git checkout -b old
+git checkout -b new
 git cherry-pick 434e2549fba11aac00ec4deb19fa8c9ade2b6f4b # DO NOT MERGE bouncycastle: limit input length as specified by the NIST spec
 git cherry-pick 6183c7536df5c6b7f31812cb89ba8f6b9c43a3e2 # GCMParameters: fix insecure tag size
 git cherry-pick 52030b322af791833a4dc9ee0deee306b680b9a8 # GCMParameters: in ASN1 encoding, use 12 when no value is specified
 
 cd $MY_NICE_FOLDER
 cd  external/flac/
+git branch -D old new
+git checkout -b old
+git checkout -b new
 git cherry-pick b499389da21d89d32deff500376c5ee4f8f0b04c # Avoid free-before-initialize vulnerability in heap
 git cherry-pick 2ef9ce533a63ba0aa56e77b36d3577ce8e866936 # src/libFLAC/stream_decoder.c : Fix NULL de-reference.
 
 cd $MY_NICE_FOLDER
 cd  external/libavc/
+git branch -D old new
+git checkout -b old
+git checkout -b new
 git cherry-pick c64afe769aa2b451524cd8e206d2f131bb46e839 # Decoder Update mb count after mb map is set.
 git cherry-pick b41e5f3300383766497c6f417644048ff9262dea # Ensure ih264d_start_of_pic() is not repeated in ih264d_mark_err_slice_skip()
 git cherry-pick 78c2c6e74258880a2370b0462bdcf7018cab5516 # Decoder: Fix stack underflow in CAVLC 4x4 parse functions
@@ -96,6 +114,9 @@ git cherry-pick 3459df285a1bef7615a9e97c564e40c60d200946 # Decoder: Initialize f
 
 cd $MY_NICE_FOLDER
 cd  frameworks/av/
+git branch -D old new
+git checkout -b old
+git checkout -b new
 git cherry-pick 0681b5324c18b85a4e02b4e1a36ab67280d0ad2f # libstagefright: check requested memory size before allocation for SoftMPEG4Encoder and SoftVPXEncoder.
 git cherry-pick 7b461b52966265b7b55f723c22fa02fac32a8709 # Fix security vulnerability in ICrypto DO NOT MERGE
 git cherry-pick 349169847c86cd1154a3b401d4cab6f0a410b192 # fix possible overflow in effect wrappers.
@@ -164,6 +185,9 @@ git cherry-pick 540b2711b77f6490698d24af7c6a49307890f210 # DO NOT MERGE: Camera:
 
 cd $MY_NICE_FOLDER
 cd  frameworks/base/
+git branch -D old new
+git checkout -b old
+git checkout -b new
 git cherry-pick 463c543b770e47fd46e08178322866a5580ec297 # Don't allow contact sharing by default for device not recognized as carkit.
 git cherry-pick eebb13b2fbe9ec34123b326d240970e5b5b9fb9f # DO NOT MERGE Ensure that the device is provisioned before showing Recents.
 git cherry-pick 56bed21ec2d2fe10e0c1fc672582f14003148f8d # DO NOT MERGE SoundPool: add lock for findSample access from SoundPoolThread
@@ -210,12 +234,18 @@ git cherry-pick 4d1f4f1a776d24eb2727d1fef292b04a7491736c # DO NOT MERGE Disable 
 
 cd $MY_NICE_FOLDER
 cd  frameworks/minikin/
+git branch -D old new
+git checkout -b old
+git checkout -b new
 git cherry-pick 715e31e7334db3c196d64dd83e5bf2de4f1c711d # Avoid integer overflows in parsing fonts
 git cherry-pick 013771f6e806f9dc32ec4318dd4e1ddd79be0878 # Reject fonts with invalid ranges in cmap
 git cherry-pick 75265b340a24a883c2be387a1636b1ab24582a40 # Add error logging on invalid cmap
 
 cd $MY_NICE_FOLDER
 cd  frameworks/native/
+git branch -D old new
+git checkout -b old
+git checkout -b new
 git cherry-pick 93312a3a38bc3573c9b15c6a3c4c11fcdcfaa0da # IGraphicBufferConsumer: fix ATTACH_BUFFER info leak
 git cherry-pick daca8c3407dcc43eeded42d49b4357ff507f27de # IGraphicBufferProducer: fix QUEUE_BUFFER info leak
 git cherry-pick b3a9e6d04da503026b33a66f276a7753dcc11a3b # BQ: Add permission check to BufferQueueConsumer::dump
@@ -232,6 +262,9 @@ git cherry-pick 324e5c2f433edc774dd696413881679148386809 # Add FrameStats defaul
 
 cd $MY_NICE_FOLDER
 cd  frameworks/opt/telephony/
+git branch -D old new
+git checkout -b old
+git checkout -b new
 git cherry-pick c078223146c667cea03b090444efee76ce1a8ec0 # Check permissions on getDeviceId.
 git cherry-pick 2a74727f3e67f5218e78aaf7974cd8eeeb458e76 # Do not allow premium SMS during SuW
 git cherry-pick 94ada5cb4fce4520cc456924a32f4f52bba14bde # DO NOT MERGE add private function convertSafeLable
@@ -239,6 +272,9 @@ git cherry-pick 43cb9064a46429c9d3e9dd8f16489d8582768a25 # backport security fix
 
 cd $MY_NICE_FOLDER
 cd  hardware/broadcom/wlan/
+git branch -D old new
+git checkout -b old
+git checkout -b new
 git cherry-pick 2c5a4fac8bc8198f6a2635ede776f8de40a0c3e1 # Fix use-after-free in wifi_cleanup()
 git cherry-pick 9b127e70669e6447e3b4cc7a83a5e13b9248bbf5 # net: wireless: bcmdhd: update bcm4339 FW 6.37.32.RC23.34.42 [DO NOT MERGE]
 git cherry-pick a9d9aa3404d385f05e83da6654b524af64d7701c # net: wireless: bcmdhd: Update bcm4354/56 FW(7.35.101.1) [DO NOT MERGE]
@@ -249,11 +285,17 @@ git cherry-pick 5f03047be311542870ee197a0c8e7bd506e9eb2a # net: wireless: bcmdhd
 
 cd $MY_NICE_FOLDER
 cd  hardware/libhardware/
+git branch -D old new
+git checkout -b old
+git checkout -b new
 git cherry-pick 2a5e3d2ea98049b7c96f39f434f40ba1a690df7c # DO NOT MERGE Add ability to add interop entries dynamically (1/2)
 git cherry-pick 8b3d5a64c3c8d010ad4517f652731f09107ae9c5 # Add guest mode functionality (1/3)
 
 cd $MY_NICE_FOLDER
 cd  libcore/
+git branch -D old new
+git checkout -b old
+git checkout -b new
 git cherry-pick 4e6f59996fae4f9a2de077b113be46cd461e4b4d # GCMParameters: check that the default tag size is secure (16 bits)
 git cherry-pick 156bf0a0237c98bfca6826ac9030b1444c391a50 # CipherTest: test instance reuse with updateAAD
 git cherry-pick e565176fedcadcb6d1256a106bdb93d206d62043 # CipherTest: add test for multiple updateAAD calls
@@ -261,6 +303,9 @@ git cherry-pick 0cfcb79a5cf22eacd814b1c37b65a1b6398d90ab # CipherTest: in ASN1 e
 
 cd $MY_NICE_FOLDER
 cd  packages/apps/Bluetooth/
+git branch -D old new
+git checkout -b old
+git checkout -b new
 git cherry-pick fb02583acdfb7047795005bb5d27f0db1dfd4c5e # DO NOT MERGE Fix SMS delivered successfully but stuck SENDING issue
 git cherry-pick b026d70378fa286249223924f3e144a6a3ab4b7c # [DO NOT MERGE ANYWHERE] Null terminate MAP instance information
 git cherry-pick eb6e43c6a32f167d656d6b7fa4f3c61df4b239db # Fix memory leak in Bluetooth AVRCP JNI
@@ -271,12 +316,18 @@ git cherry-pick 122feb9a0b04290f55183ff2f0384c6c53756bd8 # Add guest mode functi
 
 cd $MY_NICE_FOLDER
 cd  packages/apps/Email/
+git branch -D old new
+git checkout -b old
+git checkout -b new
 git cherry-pick 2791f0b33b610247ef87278862e66c6045f89693 # Don't allow cachedFile Attachments if the content Uri is pointing to EmailProvider.
 git cherry-pick e81af0322a9dc5515e293bc8bd8826f34575b5fa # stop exporting EmailAccountCacheProvider
 git cherry-pick a549245b2f1e6510c6a87a1f381437bae30ee51b # Limit account id and id to longs
 
 cd $MY_NICE_FOLDER
 cd  packages/apps/Settings/
+git branch -D old new
+git checkout -b old
+git checkout -b new
 git cherry-pick da91ef8b9a77edf99ef1c5f28071911549750c85 # Block developer settings during SUW
 git cherry-pick ec25157ad840a4932c012f75eda1f239e6b4ef12 # Uncheck checkbox for contact sharing by default for non carkit devices.
 git cherry-pick f4b8ad6c3105fa17fba85e852b710e48aaf0794d # Preserve FRP lock if wiped during SUW
@@ -285,6 +336,9 @@ git cherry-pick 354b53f9ed0d493a271bcb642ed014c456f5fb0c # Pre-setup restriction
 
 cd $MY_NICE_FOLDER
 cd  packages/providers/ContactsProvider/
+git branch -D old new
+git checkout -b old
+git checkout -b new
 git cherry-pick d1d67f9ab530e4862af024eeed76ddc178b4bbd4 # Update directories when initializing ContactsProvider.
 
 cd $MY_NICE_FOLDER
@@ -295,21 +349,33 @@ git cherry-pick 092d6da1fd5ef6b0aac65b8e6249700cf4867815 # Enforce calling ident
 
 cd $MY_NICE_FOLDER
 cd  packages/providers/TelephonyProvider/
+git branch -D old new
+git checkout -b old
+git checkout -b new
 git cherry-pick 98faa36ce582085a51a5816aa40a85296a631bc5 # 30481342: Security Vulnerability - TOCTOU in MmsProvider allows access to files as phone (radio) uid
 
 cd $MY_NICE_FOLDER
 cd  packages/services/Telecomm/
+git branch -D old new
+git checkout -b old
+git checkout -b new
 git cherry-pick 2e11a63adbf452cd3b78c2e1e9e8234c6430fa4b # DO NOT MERGE Check PAH in addNewIncomingCall
 git cherry-pick f7b8b342d74e52a0bdab72cef38ef8fdbed6bef2 # DO NOT MERGE - Restrict ability to add call based on device provision status
 
 cd $MY_NICE_FOLDER
 cd  packages/services/Telephony/
+git branch -D old new
+git checkout -b old
+git checkout -b new
 git cherry-pick d2e1ace47ad3bd32b73922b0a60927d3b329e055 # Fixes creation of incorrect SIP PhoneAccountHandle
 git cherry-pick 1e2e90f8c650029bd76996bafdbc79c42fed1199 # DO NOT MERGE Use E PhoneAccount for MT ECM Call
 git cherry-pick 23cc31447cf38c287e5c154c95336e3bd90dc433 # Make TTY broadcasts protected
 
 cd $MY_NICE_FOLDER
 cd  system/bt/
+git branch -D old new
+git checkout -b old
+git checkout -b new
 git cherry-pick ed1563bbd6c634841aa1e27d13aaf0e0f3580ec9 # Fix crashes with lots of discovered LE devices
 git cherry-pick a3478935fe3fe3a1958813e531249f93628b9aa1 # DO NOT MERGE Add ability to add interop entries dynamically (2/2)
 git cherry-pick 11b7a84bd390192852c0b137284184846e5f281b # DO NOT MERGE Remove Porsche car-kit pairing workaround
@@ -323,5 +389,8 @@ git cherry-pick 9eb4d26eef078d50f02b6e420d065fa35f432ae3 # DO NOT MERGE Fix pote
 
 cd $MY_NICE_FOLDER
 cd  system/media/
+git branch -D old new
+git checkout -b old
+git checkout -b new
 git cherry-pick 0338e16553c42f4e74eeab4b58dd09a4be72df31 # Camera: Prevent data size overflow
 git cherry-pick f3723a4b7f99c322b87c18a970b428f4b2de366d # Camera metadata: Check for inconsistent data count
