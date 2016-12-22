@@ -1,0 +1,22 @@
+From efc67b329d95b79688d09e9494c116e9f5840159 Mon Sep 17 00:00:00 2001
+From: The Android Automerger <android-build@android.com>
+Date: Wed, 24 Feb 2016 19:56:31 -0800
+Subject: [PATCH 18/55] MOB29Y
+
+---
+ core/build_id.mk | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/core/build_id.mk b/core/build_id.mk
+index 057846e..8048d9e 100644
+--- a/core/build_id.mk
++++ b/core/build_id.mk
+@@ -18,4 +18,4 @@
+ # (like "CRB01").  It must be a single word, and is
+ # capitalized by convention.
+ 
+-export BUILD_ID=MOB29X
++export BUILD_ID=MOB29Y
+-- 
+2.9.3
+

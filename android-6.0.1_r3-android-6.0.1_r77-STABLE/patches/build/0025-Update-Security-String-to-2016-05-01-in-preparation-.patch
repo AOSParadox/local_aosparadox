@@ -1,0 +1,29 @@
+From 02ecc5aaaf1a5adfd91a7a97b6a3c7ef23e5bfcf Mon Sep 17 00:00:00 2001
+From: Zach Jang <zachjang@google.com>
+Date: Mon, 21 Mar 2016 17:42:55 -0700
+Subject: [PATCH 25/55] Update Security String to 2016-05-01 in preparation for
+ May 2016 Security OTA
+
+b/27724973
+
+Change-Id: I572123586730e45b304f352c8b0fd6371ff5788b
+---
+ core/version_defaults.mk | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/core/version_defaults.mk b/core/version_defaults.mk
+index 40ddfa0..721e5b4 100644
+--- a/core/version_defaults.mk
++++ b/core/version_defaults.mk
+@@ -103,7 +103,7 @@ ifeq "" "$(PLATFORM_SECURITY_PATCH)"
+   # Can be an arbitrary string, but must be a single word.
+   #
+   # If there is no $PLATFORM_SECURITY_PATCH set, keep it empty.
+-  PLATFORM_SECURITY_PATCH := 2016-04-02
++  PLATFORM_SECURITY_PATCH := 2016-05-01
+ endif
+ 
+ ifeq "" "$(PLATFORM_BASE_OS)"
+-- 
+2.9.3
+

@@ -1,0 +1,22 @@
+From f910902ba9d19ed91954cc91a97c40967b7bfa5d Mon Sep 17 00:00:00 2001
+From: The Android Automerger <android-build@google.com>
+Date: Fri, 25 Mar 2016 17:48:21 -0700
+Subject: [PATCH 26/55] "MOB30E"
+
+---
+ core/build_id.mk | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/core/build_id.mk b/core/build_id.mk
+index 28fdc2b..5d9fcf9 100644
+--- a/core/build_id.mk
++++ b/core/build_id.mk
+@@ -18,4 +18,4 @@
+ # (like "CRB01").  It must be a single word, and is
+ # capitalized by convention.
+ 
+-export BUILD_ID=MOB30D
++export BUILD_ID=MOB30E
+-- 
+2.9.3
+

@@ -1,0 +1,121 @@
+From 89f7ac3f1f17f80c8517fc0019977a4abb4b10c2 Mon Sep 17 00:00:00 2001
+From: Louis Popi <theh2o64@gmail.com>
+Date: Thu, 22 Dec 2016 09:52:07 +0100
+Subject: [PATCH 4/6] Revert "MPEG4Extractor: ensure kKeyTrackID exists"
+
+This reverts commit 607c4b5523be50fee53378caed8d7712ffcf4777.
+---
+ .../nuplayer/GenericSource.cpp                     | 34 +++++++++-------------
+ media/libstagefright/MPEG4Extractor.cpp            |  8 -----
+ media/libstagefright/SampleIterator.cpp            |  5 ----
+ 3 files changed, 14 insertions(+), 33 deletions(-)
+
+diff --git a/media/libmediaplayerservice/nuplayer/GenericSource.cpp b/media/libmediaplayerservice/nuplayer/GenericSource.cpp
+index aef74a5..c9800c4 100644
+--- a/media/libmediaplayerservice/nuplayer/GenericSource.cpp
++++ b/media/libmediaplayerservice/nuplayer/GenericSource.cpp
+@@ -219,9 +219,6 @@ status_t NuPlayer::GenericSource::initFromDataSource() {
+ 
+     for (size_t i = 0; i < numtracks; ++i) {
+         sp<MediaSource> track = extractor->getTrack(i);
+-        if (track == NULL) {
+-            continue;
+-        }
+ 
+         sp<MetaData> meta = extractor->getTrackMetaData(i);
+ 
+@@ -264,27 +261,24 @@ status_t NuPlayer::GenericSource::initFromDataSource() {
+             }
+         }
+ 
+-        mSources.push(track);
+-        int64_t durationUs;
+-        if (meta->findInt64(kKeyDuration, &durationUs)) {
+-            if (durationUs > mDurationUs) {
+-                mDurationUs = durationUs;
++        if (track != NULL) {
++            mSources.push(track);
++            int64_t durationUs;
++            if (meta->findInt64(kKeyDuration, &durationUs)) {
++                if (durationUs > mDurationUs) {
++                    mDurationUs = durationUs;
++                }
+             }
+-        }
+ 
+-        int32_t bitrate;
+-        if (totalBitrate >= 0 && meta->findInt32(kKeyBitRate, &bitrate)) {
+-            totalBitrate += bitrate;
+-        } else {
+-            totalBitrate = -1;
++            int32_t bitrate;
++            if (totalBitrate >= 0 && meta->findInt32(kKeyBitRate, &bitrate)) {
++                totalBitrate += bitrate;
++            } else {
++                totalBitrate = -1;
++            }
+         }
+     }
+ 
+-    if (mSources.size() == 0) {
+-        ALOGE("b/23705695");
+-        return UNKNOWN_ERROR;
+-    }
+-
+     mBitrate = totalBitrate;
+ 
+     return OK;
+@@ -332,7 +326,7 @@ int64_t NuPlayer::GenericSource::getLastReadPosition() {
+ 
+ status_t NuPlayer::GenericSource::setBuffers(
+         bool audio, Vector<MediaBuffer *> &buffers) {
+-    if ((mIsWidevine || mUseSetBuffers) && !audio && mVideoTrack.mSource != NULL) {
++    if ((mIsSecure || mUseSetBuffers) && !audio) {
+         return mVideoTrack.mSource->setBuffers(buffers);
+     }
+     return INVALID_OPERATION;
+diff --git a/media/libstagefright/MPEG4Extractor.cpp b/media/libstagefright/MPEG4Extractor.cpp
+index 7a01513..426613e 100755
+--- a/media/libstagefright/MPEG4Extractor.cpp
++++ b/media/libstagefright/MPEG4Extractor.cpp
+@@ -1009,11 +1009,6 @@ status_t MPEG4Extractor::parseChunk(off64_t *offset, int depth) {
+             }
+ 
+             if (isTrack) {
+-                int32_t trackId;
+-                // There must be exact one track header per track.
+-                if (!mLastTrack->meta->findInt32(kKeyTrackID, &trackId)) {
+-                    mLastTrack->skipTrack = true;
+-                }
+                 if (mLastTrack->skipTrack) {
+                     Track *cur = mFirstTrack;
+ 
+@@ -3071,9 +3066,6 @@ sp<MediaSource> MPEG4Extractor::getTrack(size_t index) {
+                 break;
+             }
+         }
+-    } else {
+-        ALOGE("b/21657957");
+-        return NULL;
+     }
+ 
+     ALOGV("getTrack called, pssh: %zu", mPssh.size());
+diff --git a/media/libstagefright/SampleIterator.cpp b/media/libstagefright/SampleIterator.cpp
+index c5f359e..2748349 100644
+--- a/media/libstagefright/SampleIterator.cpp
++++ b/media/libstagefright/SampleIterator.cpp
+@@ -84,11 +84,6 @@ status_t SampleIterator::seekTo(uint32_t sampleIndex) {
+ 
+     CHECK(sampleIndex < mStopChunkSampleIndex);
+ 
+-    if (mSamplesPerChunk == 0) {
+-        ALOGE("b/22802344");
+-        return ERROR_MALFORMED;
+-    }
+-
+     uint32_t chunk =
+         (sampleIndex - mFirstChunkSampleIndex) / mSamplesPerChunk
+         + mFirstChunk;
+-- 
+2.9.3
+

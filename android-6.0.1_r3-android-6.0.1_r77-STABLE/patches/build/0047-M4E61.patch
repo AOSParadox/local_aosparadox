@@ -1,0 +1,22 @@
+From f30ba4ac541c5ef5ccf9dc44fb7549c1e5eb145a Mon Sep 17 00:00:00 2001
+From: gitbuildkicker <android-build@google.com>
+Date: Tue, 30 Aug 2016 17:49:20 -0700
+Subject: [PATCH 47/55] M4E61
+
+---
+ core/build_id.mk | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/core/build_id.mk b/core/build_id.mk
+index 336f112..361f7ce 100644
+--- a/core/build_id.mk
++++ b/core/build_id.mk
+@@ -18,4 +18,4 @@
+ # (like "CRB01").  It must be a single word, and is
+ # capitalized by convention.
+ 
+-export BUILD_ID=M4B30U
++export BUILD_ID=M4E61
+-- 
+2.9.3
+

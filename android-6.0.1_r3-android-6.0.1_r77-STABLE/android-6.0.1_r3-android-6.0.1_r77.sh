@@ -141,6 +141,8 @@ git cherry-pick 94d9e646454f6246bf823b6897bd6aea5f08eda3 # Fix initialization of
 git cherry-pick 0bb5ced60304da7f61478ffd359e7ba65d72f181 # Fix size check for OMX_IndexParamConsumerUsageBits
 git cherry-pick db829699d3293f254a7387894303451a91278986 # Fix OMX_IndexParamConsumerUsageBits size check
 git cherry-pick 4e32001e4196f39ddd0b86686ae0231c8f5ed944 # DO NOT MERGE codecs: check OMX buffer size before use in (vorbis|opus)dec
+
+
 git cherry-pick d2f47191538837e796e2b10c1ff7e1ee35f6e0ab # codecs: check OMX buffer size before use in (h263|h264)dec
 git cherry-pick ad40e57890f81a3cf436c5f06da66396010bd9e5 # Check mp3 output buffer size
 git cherry-pick dd3546765710ce8dd49eb23901d90345dec8282f # AudioSource: initialize variables
@@ -149,6 +151,7 @@ git cherry-pick 918eeaa29d99d257282fafec931b4bda0e3bae12 # codecs: check OMX buf
 git cherry-pick 2b6f22dc64d456471a1dc6df09d515771d1427c8 # h264dec: check for overflows when calculating allocation size.
 git cherry-pick 45737cb776625f17384540523674761e6313e6d4 # Resolve merge conflict when cp'ing ag/931301 to mnc-mr1-release
 git cherry-pick b57b3967b1a42dd505dbe4fcf1e1d810e3ae3777 # SampleTable.cpp: Fixed a regression caused by a fix for bug 28076789.
+
 git cherry-pick 4f236c532039a61f0cf681d2e3c6e022911bbb5c # Check section size when verifying CRC
 git cherry-pick daef4327fe0c75b0a90bb8627458feec7a301e1f # Clear unused pointer field when sending across binder
 git cherry-pick 60547808ca4e9cfac50028c00c58a6ceb2319301 # h264bsdActivateParamSets: Prevent multiplication overflow.
@@ -161,10 +164,7 @@ git cherry-pick e441275efea14a98d5a059328e660d9a08b13932 # DO NOT MERGE stagefri
 git cherry-pick e9ef8505a1a33667ef97b752f77190c24b468015 # Fix corruption via buffer overflow in mediaserver
 git cherry-pick ed4f365e8b158934937ad0a2e14ede566923bc33 # OMXCodec: check IMemory::pointer() before using allocation
 git cherry-pick 356f1ded898c5708ea95fe22ece052c3a094950d # SoftVPX: fix nFilledLen overflow
-git cherry-pick 2a1a0fd88e84fc845cd6bce3a161672d80c1df39 # fix build
-git cherry-pick 3d4cb8bbc03aab52c71bb339624170f2b7238cdf # Add bound checks to utf16_to_utf8
-git cherry-pick 361db9e07657a6de075b5f23b5cfcecfd5a73fd3 # Fix build
-git cherry-pick 05713f1d239566bff957177f1a7aaba380fbc978 # Fix build
+
 git cherry-pick 9d32255b7302922bac4141bf557277d87bc81388 # omx: prevent input port enable/disable for software codecs
 git cherry-pick 2bef075f91e203e96130c88320b7d13eddc17d89 # Impose a size bound for dynamically allocated tables in stbl.
 git cherry-pick eb11f3a9e6638805c4473c3bf448584893bae519 # DO NOT MERGE - stagefright: fix integer overflow error
@@ -174,6 +174,7 @@ git cherry-pick dda9d703d7dd2129ff6242fae84ca156caa38632 # better validation len
 git cherry-pick 4c086a8dc1d9c9772ac705d2a1509b311985e374 # MediaPlayerService: avoid invalid static cast
 git cherry-pick b6af3b9bc072c4d832db9dc93ff818472cd50069 # soundtrigger: add size check on sound model and recogntion data
 git cherry-pick 089104004f5aeb2634764c56b948ef83318a9f95 # Fix build breakage caused by commit 940829f69b52d6038db66a9c727534636ecc456d.
+
 git cherry-pick f42ee8bd0cb51c571dd6dfcf71c61dce377768cd # MediaPlayerService: allow next player to be NULL
 git cherry-pick 8b9081319816c670fff1241a42ade3930a4e3176 # Fix potential overflow
 git cherry-pick 71e7a58b57dd26bfd70e01913e23707b94dd1811 # SoftAAC2: fix crash on all-zero adts buffer
@@ -204,6 +205,7 @@ git cherry-pick a94ceffd7bfeaae23cf2474e9a05a17a20e25607 # DO NOT MERGE ANYWHERE
 git cherry-pick 3a8f0cf7612b5ebd0710a424a437f5540a72b279 # DO NOT MERGE ANYWHERE: Hack to get devices booting again.
 git cherry-pick d60d0078d8a8a54ef898d936413321a085abff0d # DO NOT MERGE Bluetooth: Restrict gain for Absolute volume case
 git cherry-pick 4de51e4130c76562e5d4a13b56bd204b9d92f4e7 # DO NOT MERGE Read Bluetooth interop database entries from settings (1/2)
+
 git cherry-pick b22f3f2d93df118092449500177c9d07b08bbe91 # Conflict resolution CL to ag/868720 when cp'ing to mnc-mr1-release
 git cherry-pick 3cd1905d857913241198f65066e1aa78516192ea # Redact Account info from getCurrentSyncs
 git cherry-pick 12332e05f632794e18ea8c4ac52c98e82532e5db # [DO NOT MERGE] Disallow guest user from changing Wifi settings
@@ -214,6 +216,7 @@ git cherry-pick ec2fc50d202d975447211012997fe425496c849c # Don't pass URL path a
 git cherry-pick d2ef34d04101da98be587dd5b0455b86de88ed70 # Backport ChooserTarget package source check from N
 git cherry-pick 9b8c6d2df35455ce9e67907edded1e4a2ecb9e28 # Backport of backup transport whitelist
 git cherry-pick 9091f323bbc83b8a98aa1226eb8d288b9ac6b88e # WifiEnterpriseConfiguration: Do not print credentials in toString
+
 git cherry-pick 2e40f264cfc18d2ad7e5facad077f5498473fb89 # Fix string equality comparison
 git cherry-pick 135ea8b3263a0dd58cd5a83c33fad6f2f6c5b4f6 # Check caller's uid before allowing notification policy access.
 git cherry-pick 637501e9f6fdade50e2e64a227c402dc9e7f301d # Add bound checks to utf16_to_utf8
@@ -249,6 +252,7 @@ git checkout -b new
 git cherry-pick 93312a3a38bc3573c9b15c6a3c4c11fcdcfaa0da # IGraphicBufferConsumer: fix ATTACH_BUFFER info leak
 git cherry-pick daca8c3407dcc43eeded42d49b4357ff507f27de # IGraphicBufferProducer: fix QUEUE_BUFFER info leak
 git cherry-pick b3a9e6d04da503026b33a66f276a7753dcc11a3b # BQ: Add permission check to BufferQueueConsumer::dump
+
 git cherry-pick 25719f6e1f7e892df17b6f7eb4d6fc8c1fcc35f3 # Sanity check IMemory access versus underlying mmap
 git cherry-pick 5243afa8fa719e3cc6d1af4333986b2d7ee5e737 # Add SN logging
 git cherry-pick a30d7d90c4f718e46fb41a99b3d52800e1011b73 # BQ: fix some uninitialized variables

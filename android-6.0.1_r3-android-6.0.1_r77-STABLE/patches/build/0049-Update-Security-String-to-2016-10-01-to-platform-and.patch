@@ -1,0 +1,36 @@
+From 8f356ec1c70a38b4934af7578ef2aab33cac92b7 Mon Sep 17 00:00:00 2001
+From: Adam Seaton <aseaton@google.com>
+Date: Thu, 18 Aug 2016 10:33:30 -0700
+Subject: [PATCH 49/55] Update Security String to 2016-10-01 to platform and
+ CTS for October Security
+
+Fix merge conflict into mmr3
+Change-Id: I7ccdd54c1d269422c5e2e1f3e268fc539b6eb684
+---
+ core/version_defaults.mk | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
+
+diff --git a/core/version_defaults.mk b/core/version_defaults.mk
+index 068ed0e..1b3c7d8 100644
+--- a/core/version_defaults.mk
++++ b/core/version_defaults.mk
+@@ -100,12 +100,10 @@ endif
+ 
+ ifeq "" "$(PLATFORM_SECURITY_PATCH)"
+   # Used to indicate the security patch that has been applied to the device.
+-  #  It must signify that the build includes all security patches issued up through the designated Android Public Security Bulletin.
+-  #  It must be of the form "YYYY-MM-DD" on production devices.
+-  #  It must match one of the Android Security Patch Level strings of the Public Security Bulletins.
+-  # 
+-  #  If there is no $PLATFORM_SECURITY_PATCH set, keep it empty.
+-  PLATFORM_SECURITY_PATCH := 2016-10-05
++  # Can be an arbitrary string, but must be a single word.
++  #
++  # If there is no $PLATFORM_SECURITY_PATCH set, keep it empty.
++  PLATFORM_SECURITY_PATCH := 2016-10-01
+ endif
+ 
+ ifeq "" "$(PLATFORM_BASE_OS)"
+-- 
+2.9.3
+

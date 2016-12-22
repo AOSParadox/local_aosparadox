@@ -1,0 +1,87 @@
+From e1e26a3b14ce16c08f0f72b962a78922be7264d1 Mon Sep 17 00:00:00 2001
+From: Shreyas Basarge <snb@google.com>
+Date: Mon, 11 Jan 2016 15:43:54 +0000
+Subject: [PATCH 07/11] DO NOT MERGE Fix for syncs being dropped when appIdle
+ is on
+
+Syncs were being dropped when appIdleMode was on for
+an app. This CL backs off the sync instead of dropping
+it. When the app becomes non-idle, backoff is cleared
+and the sync is performed.
+
+Bug: 26355386
+Change-Id: I2040dfd847011d3ca902e66a8cd52b2a429177c1
+(cherry picked from commit 2c051498b2b0e2608740d906e70867b74083107d)
+---
+ .../com/android/server/content/SyncManager.java    | 41 ++++++++++++----------
+ 1 file changed, 22 insertions(+), 19 deletions(-)
+
+diff --git a/services/core/java/com/android/server/content/SyncManager.java b/services/core/java/com/android/server/content/SyncManager.java
+index 3ec0bee..ef086da 100644
+--- a/services/core/java/com/android/server/content/SyncManager.java
++++ b/services/core/java/com/android/server/content/SyncManager.java
+@@ -2604,32 +2604,17 @@ public class SyncManager {
+                         }
+                         continue;
+                     }
+-                    if (!isOperationValidLocked(op)) {
+-                        operationIterator.remove();
+-                        mSyncStorageEngine.deleteFromPending(op.pendingOperation);
+-                        continue;
+-                    }
+-                    // If the next run time is in the future, even given the flexible scheduling,
+-                    // return the time.
+-                    if (op.effectiveRunTime - op.flexTime > now) {
+-                        if (nextReadyToRunTime > op.effectiveRunTime) {
+-                            nextReadyToRunTime = op.effectiveRunTime;
+-                        }
+-                        if (isLoggable) {
+-                            Log.v(TAG, "    Not running sync operation: Sync too far in future."
+-                                    + "effective: " + op.effectiveRunTime + " flex: " + op.flexTime
+-                                    + " now: " + now);
+-                        }
+-                        continue;
+-                    }
+                     String packageName = getPackageName(op.target);
+                     ApplicationInfo ai = null;
+                     if (packageName != null) {
+                         try {
+                             ai = mContext.getPackageManager().getApplicationInfo(packageName,
+                                     PackageManager.GET_UNINSTALLED_PACKAGES
+-                                    | PackageManager.GET_DISABLED_COMPONENTS);
++                                            | PackageManager.GET_DISABLED_COMPONENTS);
+                         } catch (NameNotFoundException e) {
++                            operationIterator.remove();
++                            mSyncStorageEngine.deleteFromPending(op.pendingOperation);
++                            continue;
+                         }
+                     }
+                     // If app is considered idle, then skip for now and backoff
+@@ -2644,6 +2629,24 @@ public class SyncManager {
+                     } else {
+                         op.appIdle = false;
+                     }
++                    if (!isOperationValidLocked(op)) {
++                        operationIterator.remove();
++                        mSyncStorageEngine.deleteFromPending(op.pendingOperation);
++                        continue;
++                    }
++                    // If the next run time is in the future, even given the flexible scheduling,
++                    // return the time.
++                    if (op.effectiveRunTime - op.flexTime > now) {
++                        if (nextReadyToRunTime > op.effectiveRunTime) {
++                            nextReadyToRunTime = op.effectiveRunTime;
++                        }
++                        if (isLoggable) {
++                            Log.v(TAG, "    Not running sync operation: Sync too far in future."
++                                    + "effective: " + op.effectiveRunTime + " flex: " + op.flexTime
++                                    + " now: " + now);
++                        }
++                        continue;
++                    }
+                     // Add this sync to be run.
+                     operations.add(op);
+                 }
+-- 
+2.9.3
+

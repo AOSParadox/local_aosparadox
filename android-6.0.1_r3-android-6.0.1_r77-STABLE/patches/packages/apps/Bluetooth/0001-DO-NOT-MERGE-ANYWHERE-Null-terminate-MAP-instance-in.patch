@@ -1,0 +1,39 @@
+From 0968eeda226e8c633454b26580bfa5e88daef47c Mon Sep 17 00:00:00 2001
+From: Ajay Panicker <apanicke@google.com>
+Date: Thu, 7 Jan 2016 16:05:11 -0800
+Subject: [PATCH 1/2] [DO NOT MERGE ANYWHERE] Null terminate MAP instance
+ information
+
+Bug: 26437927
+Change-Id: I673de7f7c68b9a02b234bb99c6f89c7fc36f90c9
+---
+ src/com/android/bluetooth/map/BluetoothMapUtils.java | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/src/com/android/bluetooth/map/BluetoothMapUtils.java b/src/com/android/bluetooth/map/BluetoothMapUtils.java
+index 1537807..7ca5530 100644
+--- a/src/com/android/bluetooth/map/BluetoothMapUtils.java
++++ b/src/com/android/bluetooth/map/BluetoothMapUtils.java
+@@ -394,15 +394,16 @@ public class BluetoothMapUtils {
+     static public byte[] truncateUtf8StringToBytearray(String utf8String, int maxLength)
+             throws UnsupportedEncodingException {
+ 
+-        byte[] utf8Bytes = null;
++        byte[] utf8Bytes = new byte[utf8String.length() + 1];
+         try {
+-            utf8Bytes = utf8String.getBytes("UTF-8");
++            System.arraycopy(utf8String.getBytes("UTF-8"), 0,
++                             utf8Bytes, 0, utf8String.length());
+         } catch (UnsupportedEncodingException e) {
+             Log.e(TAG,"truncateUtf8StringToBytearray: getBytes exception ", e);
+             throw e;
+         }
+ 
+-        if (utf8Bytes.length > (maxLength - 1)) {
++        if (utf8Bytes.length > maxLength) {
+             /* if 'continuation' byte is in place 200,
+              * then strip previous bytes until utf-8 start byte is found */
+             if ( (utf8Bytes[maxLength - 1] & 0xC0) == 0x80 ) {
+-- 
+2.9.3
+

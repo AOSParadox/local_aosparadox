@@ -1,0 +1,22 @@
+From f03f08a285dcb966413dc6b4d011a8d8a7ded81d Mon Sep 17 00:00:00 2001
+From: The Android Automerger <android-build@google.com>
+Date: Thu, 17 Dec 2015 13:15:30 -0800
+Subject: [PATCH 13/55] "MMB29U"
+
+---
+ core/build_id.mk | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/core/build_id.mk b/core/build_id.mk
+index 16709e3..f55b184 100644
+--- a/core/build_id.mk
++++ b/core/build_id.mk
+@@ -18,4 +18,4 @@
+ # (like "CRB01").  It must be a single word, and is
+ # capitalized by convention.
+ 
+-export BUILD_ID=MMB29T
++export BUILD_ID=MMB29U
+-- 
+2.9.3
+

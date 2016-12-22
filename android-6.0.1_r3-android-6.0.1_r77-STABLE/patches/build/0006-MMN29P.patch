@@ -1,0 +1,22 @@
+From 87936d2ee54abc16a98cf87c9d1b60fa3b1275f4 Mon Sep 17 00:00:00 2001
+From: The Android Automerger <android-build@android.com>
+Date: Tue, 8 Dec 2015 12:35:29 -0800
+Subject: [PATCH 06/55] MMN29P
+
+---
+ core/build_id.mk | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/core/build_id.mk b/core/build_id.mk
+index 1eb4d73..3d097a0 100644
+--- a/core/build_id.mk
++++ b/core/build_id.mk
+@@ -18,4 +18,4 @@
+ # (like "CRB01").  It must be a single word, and is
+ # capitalized by convention.
+ 
+-export BUILD_ID=MMB29O
++export BUILD_ID=MMB29P
+-- 
+2.9.3
+

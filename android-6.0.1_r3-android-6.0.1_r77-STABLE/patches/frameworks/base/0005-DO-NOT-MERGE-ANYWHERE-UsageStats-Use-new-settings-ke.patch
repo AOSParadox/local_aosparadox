@@ -1,0 +1,96 @@
+From a4354fd5fa6aee445186c3ce4e63c81341c945dc Mon Sep 17 00:00:00 2001
+From: Adam Lesinski <adamlesinski@google.com>
+Date: Wed, 13 Jan 2016 12:26:07 -0800
+Subject: [PATCH 05/11] DO NOT MERGE ANYWHERE: UsageStats: Use new settings key
+ idle_duration2 for app idle
+
+Ignores the old, re-appropriated key "idle_duration" which is now
+set to a high value in order to force disable app idle on devices
+with bug b/26355386
+
+Bug:26355386
+Change-Id: Iff9de843ad6e547d29c1583687fc7f7ce7e15090
+---
+ core/java/android/provider/Settings.java                    |  4 +++-
+ .../java/com/android/server/usage/UsageStatsService.java    | 13 ++++++++++++-
+ .../com/android/server/usage/UserUsageStatsService.java     |  7 +++++--
+ 3 files changed, 20 insertions(+), 4 deletions(-)
+
+diff --git a/core/java/android/provider/Settings.java b/core/java/android/provider/Settings.java
+index f654577..c0c6ec2 100644
+--- a/core/java/android/provider/Settings.java
++++ b/core/java/android/provider/Settings.java
+@@ -7568,10 +7568,12 @@ public final class Settings {
+          * The following keys are supported:
+          *
+          * <pre>
+-         * idle_duration        (long)
++         * idle_duration2       (long)
+          * wallclock_threshold  (long)
+          * parole_interval      (long)
+          * parole_duration      (long)
++         *
++         * idle_duration        (long) // This is deprecated and used to circumvent b/26355386.
+          * </pre>
+          *
+          * <p>
+diff --git a/services/usage/java/com/android/server/usage/UsageStatsService.java b/services/usage/java/com/android/server/usage/UsageStatsService.java
+index 4c1db8c..90511f5 100644
+--- a/services/usage/java/com/android/server/usage/UsageStatsService.java
++++ b/services/usage/java/com/android/server/usage/UsageStatsService.java
+@@ -280,6 +280,11 @@ public class UsageStatsService extends SystemService implements
+         mHandler.sendEmptyMessageDelayed(MSG_FLUSH_TO_DISK, FLUSH_INTERVAL);
+     }
+ 
++    @Override
++    public long getAppIdleRollingWindowDurationMillis() {
++        return mAppIdleWallclockThresholdMillis * 2;
++    }
++
+     private void cleanUpRemovedUsersLocked() {
+         final List<UserInfo> users = mUserManager.getUsers(true);
+         if (users == null || users.size() == 0) {
+@@ -1107,7 +1112,13 @@ public class UsageStatsService extends SystemService implements
+      * Observe settings changes for {@link Settings.Global#APP_IDLE_CONSTANTS}.
+      */
+     private class SettingsObserver extends ContentObserver {
+-        private static final String KEY_IDLE_DURATION = "idle_duration";
++        /**
++         * This flag has been used to disable app idle on older builds with bug b/26355386.
++         */
++        @Deprecated
++        private static final String KEY_IDLE_DURATION_OLD = "idle_duration";
++
++        private static final String KEY_IDLE_DURATION = "idle_duration2";
+         private static final String KEY_WALLCLOCK_THRESHOLD = "wallclock_threshold";
+         private static final String KEY_PAROLE_INTERVAL = "parole_interval";
+         private static final String KEY_PAROLE_DURATION = "parole_duration";
+diff --git a/services/usage/java/com/android/server/usage/UserUsageStatsService.java b/services/usage/java/com/android/server/usage/UserUsageStatsService.java
+index addb1a1..25cc13c 100644
+--- a/services/usage/java/com/android/server/usage/UserUsageStatsService.java
++++ b/services/usage/java/com/android/server/usage/UserUsageStatsService.java
+@@ -68,6 +68,7 @@ class UserUsageStatsService {
+ 
+     interface StatsUpdatedListener {
+         void onStatsUpdated();
++        long getAppIdleRollingWindowDurationMillis();
+     }
+ 
+     UserUsageStatsService(Context context, int userId, File usageStatsDir,
+@@ -581,9 +582,11 @@ class UserUsageStatsService {
+      */
+     void refreshAppIdleRollingWindow(final long currentTimeMillis, final long deviceUsageTime) {
+         // Start the rolling window for AppIdle requests.
++        final long startRangeMillis = currentTimeMillis -
++                mListener.getAppIdleRollingWindowDurationMillis();
++
+         List<IntervalStats> stats = mDatabase.queryUsageStats(UsageStatsManager.INTERVAL_DAILY,
+-                currentTimeMillis - (1000 * 60 * 60 * 24 * 2), currentTimeMillis,
+-                new StatCombiner<IntervalStats>() {
++                startRangeMillis, currentTimeMillis, new StatCombiner<IntervalStats>() {
+                     @Override
+                     public void combine(IntervalStats stats, boolean mutable,
+                                         List<IntervalStats> accumulatedResult) {
+-- 
+2.9.3
+

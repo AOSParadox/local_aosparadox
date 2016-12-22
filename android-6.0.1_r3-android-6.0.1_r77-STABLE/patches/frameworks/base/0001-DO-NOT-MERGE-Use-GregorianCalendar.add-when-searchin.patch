@@ -1,0 +1,32 @@
+From 80322736d8b6787bd6713dd51ba6b09b7780a677 Mon Sep 17 00:00:00 2001
+From: Dan Sandler <dsandler@android.com>
+Date: Tue, 29 Dec 2015 15:45:39 -0500
+Subject: [PATCH 01/11] DO NOT MERGE: Use GregorianCalendar.add() when
+ searching for next alarm.
+
+Never attribute to malice that which is adequately explained
+by a bug, particularly one involving date math.
+
+Bug: 26326394
+Change-Id: I3483ac102c678a8852565c8ea94c06e19b3f26d8
+(cherry picked from commit 8d9aea8a1870ad83d9eccba1068a1685da5e96d0)
+---
+ packages/SystemUI/src/com/android/systemui/volume/ZenModePanel.java | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/packages/SystemUI/src/com/android/systemui/volume/ZenModePanel.java b/packages/SystemUI/src/com/android/systemui/volume/ZenModePanel.java
+index 3337714..07ec843 100644
+--- a/packages/SystemUI/src/com/android/systemui/volume/ZenModePanel.java
++++ b/packages/SystemUI/src/com/android/systemui/volume/ZenModePanel.java
+@@ -511,7 +511,7 @@ public class ZenModePanel extends LinearLayout {
+         GregorianCalendar weekRange = new GregorianCalendar();
+         final long now = weekRange.getTimeInMillis();
+         setToMidnight(weekRange);
+-        weekRange.roll(Calendar.DATE, 6);
++        weekRange.add(Calendar.DATE, 6);
+         final long nextAlarmMs = mController.getNextAlarm();
+         if (nextAlarmMs > 0) {
+             GregorianCalendar nextAlarm = new GregorianCalendar();
+-- 
+2.9.3
+

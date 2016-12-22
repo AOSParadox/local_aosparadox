@@ -1,0 +1,57 @@
+From 0d52578c7507c4cd5efef27b8c0c4ba3390dc777 Mon Sep 17 00:00:00 2001
+From: Kenny Root <kroot@google.com>
+Date: Thu, 25 Feb 2016 23:17:43 -0800
+Subject: [PATCH 2/2] CipherTest: add test for multiple updateAAD calls
+
+Make sure that multiple updateAAD calls are equivalent to other calls to
+updateAAD with the same data.
+
+(cherry picked from commit 67ee3c5c2dad218e497035de5100e9036d140fdd)
+
+Bug: 27371173
+Change-Id: Ie69df0906438ad26c566daed3f55b07ba60fe468
+---
+ .../test/java/libcore/javax/crypto/CipherTest.java | 27 ++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
+
+diff --git a/luni/src/test/java/libcore/javax/crypto/CipherTest.java b/luni/src/test/java/libcore/javax/crypto/CipherTest.java
+index e0e15cb..398c688 100644
+--- a/luni/src/test/java/libcore/javax/crypto/CipherTest.java
++++ b/luni/src/test/java/libcore/javax/crypto/CipherTest.java
+@@ -3540,6 +3540,33 @@ public final class CipherTest extends TestCase {
+     }
+ 
+     /*
++     * Check that two AAD updates are equivalent to one.
++     * http://b/27371173
++     */
++    public void test_AESGCMNoPadding_UpdateAADTwice_Success() throws Exception {
++        SecretKeySpec key = new SecretKeySpec(new byte[16], "AES");
++        GCMParameterSpec spec = new GCMParameterSpec(128, new byte[12]);
++        Cipher c1 = Cipher.getInstance("AES/GCM/NoPadding");
++        Cipher c2 = Cipher.getInstance("AES/GCM/NoPadding");
++
++        c1.init(Cipher.ENCRYPT_MODE, key, spec);
++        c1.updateAAD(new byte[] {
++                0x01, 0x02, 0x03, 0x04, 0x05,
++        });
++        c1.updateAAD(new byte[] {
++                0x06, 0x07, 0x08, 0x09, 0x10,
++        });
++
++        c2.init(Cipher.ENCRYPT_MODE, key, spec);
++        c2.updateAAD(new byte[] {
++                0x01, 0x02, 0x03, 0x04, 0x05,
++                0x06, 0x07, 0x08, 0x09, 0x10,
++        });
++
++        assertEquals(Arrays.toString(c1.doFinal()), Arrays.toString(c2.doFinal()));
++    }
++
++    /*
+      * Check that GCM encryption with old and new instances update correctly.
+      * http://b/26694388
+      */
+-- 
+2.9.3
+

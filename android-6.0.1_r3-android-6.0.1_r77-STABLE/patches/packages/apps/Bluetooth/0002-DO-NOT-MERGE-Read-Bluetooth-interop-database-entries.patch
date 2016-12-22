@@ -1,0 +1,152 @@
+From a15ee9d2fb55402abe8d05b0a2614cb6a1f82026 Mon Sep 17 00:00:00 2001
+From: Andre Eisenbach <eisenbach@google.com>
+Date: Thu, 14 Jan 2016 02:06:23 -0800
+Subject: [PATCH 2/2] DO NOT MERGE Read Bluetooth interop database entries from
+ settings (2/2)
+
+Interop database entries are stored in the system settings entry
+"BluetoothInteropDatabase". The format is a list of entries separated by
+";". An entry consists of a BDA fragment, followed by a comma and an
+integer representing a feature from interop.h.
+
+Example:
+To disable LE secure connections for devices starting with BDA 11:22:33,
+use "11:22:33,0".
+
+Bug: 26548845
+Change-Id: I5903930178b70d1eb52d64b1c6051ce8ee346da4
+---
+ ..._android_bluetooth_btservice_AdapterService.cpp | 26 +++++++++-
+ .../bluetooth/btservice/AdapterService.java        | 58 ++++++++++++++++++++++
+ 2 files changed, 82 insertions(+), 2 deletions(-)
+
+diff --git a/jni/com_android_bluetooth_btservice_AdapterService.cpp b/jni/com_android_bluetooth_btservice_AdapterService.cpp
+index 04a9b92..1a7a86d 100644
+--- a/jni/com_android_bluetooth_btservice_AdapterService.cpp
++++ b/jni/com_android_bluetooth_btservice_AdapterService.cpp
+@@ -1259,6 +1259,27 @@ static jboolean factoryResetNative(JNIEnv *env, jobject obj) {
+     return (ret == BT_STATUS_SUCCESS) ? JNI_TRUE : JNI_FALSE;
+ }
+ 
++static void interopDatabaseClearNative(JNIEnv *env, jobject obj) {
++    ALOGV("%s()", __FUNCTION__);
++    if (!sBluetoothInterface) return;
++    sBluetoothInterface->interop_database_clear();
++}
++
++static void interopDatabaseAddNative(JNIEnv *env, jobject obj, int feature,
++                                      jbyteArray address, int length) {
++    ALOGV("%s()", __FUNCTION__);
++    if (!sBluetoothInterface) return;
++
++    jbyte *addr = env->GetByteArrayElements(address, NULL);
++    if (addr == NULL) {
++        jniThrowIOException(env, EINVAL);
++        return;
++    }
++
++    sBluetoothInterface->interop_database_add(feature, (bt_bdaddr_t *)addr, length);
++    env->ReleaseByteArrayElements(address, addr, 0);
++}
++
+ static JNINativeMethod sMethods[] = {
+     /* name, signature, funcPtr */
+     {"classInitNative", "()V", (void *) classInitNative},
+@@ -1290,8 +1311,9 @@ static JNINativeMethod sMethods[] = {
+     {"dumpNative", "(Ljava/io/FileDescriptor;)V", (void*) dumpNative},
+     {"factoryResetNative", "()Z", (void*)factoryResetNative},
+     {"getSocketOptNative", "(III[B)I", (void*) getSocketOptNative},
+-    {"setSocketOptNative", "(III[BI)I", (void*) setSocketOptNative}
+-
++    {"setSocketOptNative", "(III[BI)I", (void*) setSocketOptNative},
++    {"interopDatabaseClearNative", "()V", (void*) interopDatabaseClearNative},
++    {"interopDatabaseAddNative", "(I[BI)V", (void*) interopDatabaseAddNative}
+ };
+ 
+ int register_com_android_bluetooth_btservice_AdapterService(JNIEnv* env)
+diff --git a/src/com/android/bluetooth/btservice/AdapterService.java b/src/com/android/bluetooth/btservice/AdapterService.java
+index 6fd8bd2..4e50f6a 100644
+--- a/src/com/android/bluetooth/btservice/AdapterService.java
++++ b/src/com/android/bluetooth/btservice/AdapterService.java
+@@ -393,6 +393,8 @@ public class AdapterService extends Service {
+             mAdapterStateMachine.sendMessage(mAdapterStateMachine.obtainMessage(AdapterState.BREDR_STOPPED));
+ 
+         } else if (isTurningOn) {
++            updateInteropDatabase();
++
+             //Process start pending
+             //Check if all services are started if so, update state
+             synchronized (mProfileServicesState) {
+@@ -419,6 +421,59 @@ public class AdapterService extends Service {
+         }
+     }
+ 
++    private void updateInteropDatabase() {
++        interopDatabaseClearNative();
++
++        String interop_string = Settings.Global.getString(getContentResolver(),
++                                            Settings.Global.BLUETOOTH_INTEROPERABILITY_LIST);
++        if (interop_string == null) return;
++        Log.d(TAG, "updateInteropDatabase: [" + interop_string + "]");
++
++        String[] entries = interop_string.split(";");
++        for (String entry : entries) {
++            String[] tokens = entry.split(",");
++            if (tokens.length != 2) continue;
++
++            // Get feature
++            int feature = 0;
++            try {
++                feature = Integer.parseInt(tokens[1]);
++            } catch (NumberFormatException e) {
++                Log.e(TAG, "updateInteropDatabase: Invalid feature '" + tokens[1] + "'");
++                continue;
++            }
++
++            // Get address bytes and length
++            int length = (tokens[0].length() + 1) / 3;
++            if (length < 1 || length > 6) {
++                Log.e(TAG, "updateInteropDatabase: Malformed address string '" + tokens[0] + "'");
++                continue;
++            }
++
++            byte[] addr = new byte[6];
++            int offset = 0;
++            for (int i = 0; i < tokens[0].length(); ) {
++                if (tokens[0].charAt(i) == ':') {
++                    i += 1;
++                } else {
++                    try {
++                        addr[offset++] = (byte) Integer.parseInt(tokens[0].substring(i, i + 2), 16);
++                    } catch (NumberFormatException e) {
++                        offset = 0;
++                        break;
++                    }
++                    i += 2;
++                }
++            }
++
++            // Check if address was parsed ok, otherwise, move on...
++            if (offset == 0) continue;
++
++            // Add entry
++            interopDatabaseAddNative(feature, addr, length);
++        }
++    }
++
+     @Override
+     public void onCreate() {
+         super.onCreate();
+@@ -2533,6 +2588,9 @@ public class AdapterService extends Service {
+     private native void alarmFiredNative();
+     private native void dumpNative(FileDescriptor fd);
+ 
++    private native void interopDatabaseClearNative();
++    private native void interopDatabaseAddNative(int feature, byte[] address, int length);
++
+     protected void finalize() {
+         cleanup();
+         if (TRACE_REF) {
+-- 
+2.9.3
+

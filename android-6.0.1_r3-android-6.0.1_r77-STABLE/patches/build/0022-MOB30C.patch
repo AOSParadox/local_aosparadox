@@ -1,0 +1,22 @@
+From c89af26c6bbfda2092cff38be75a427dd55e7d34 Mon Sep 17 00:00:00 2001
+From: The Android Automerger <android-build@android.com>
+Date: Wed, 16 Mar 2016 19:47:23 -0700
+Subject: [PATCH 22/55] MOB30C
+
+---
+ core/build_id.mk | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/core/build_id.mk b/core/build_id.mk
+index c690778..a28103c 100644
+--- a/core/build_id.mk
++++ b/core/build_id.mk
+@@ -18,4 +18,4 @@
+ # (like "CRB01").  It must be a single word, and is
+ # capitalized by convention.
+ 
+-export BUILD_ID=MOB30B
++export BUILD_ID=MOB30C
+-- 
+2.9.3
+

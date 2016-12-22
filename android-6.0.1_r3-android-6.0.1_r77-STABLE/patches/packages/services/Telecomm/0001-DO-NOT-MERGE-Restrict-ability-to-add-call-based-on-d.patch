@@ -1,0 +1,29 @@
+From c8ed965ec5b01c962d0de565da7b843b3a026127 Mon Sep 17 00:00:00 2001
+From: Hall Liu <hallliu@google.com>
+Date: Wed, 27 Jan 2016 11:07:07 -0800
+Subject: [PATCH] DO NOT MERGE - Restrict ability to add call based on device
+ provision status
+
+Always return false for canAddCall if device is not yet provisioned.
+
+Bug: 26303187
+Change-Id: I9c4ebc8b954a79562b2ec83d59314a3fb621ddfb
+---
+ src/com/android/server/telecom/CallsManager.java | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/com/android/server/telecom/CallsManager.java b/src/com/android/server/telecom/CallsManager.java
+index 8ab7063..18ba442 100644
+--- a/src/com/android/server/telecom/CallsManager.java
++++ b/src/com/android/server/telecom/CallsManager.java
+@@ -25,6 +25,7 @@ import android.os.Message;
+ import android.os.SystemProperties;
+ import android.os.Trace;
+ import android.provider.CallLog.Calls;
++import android.provider.Settings;
+ import android.telecom.CallAudioState;
+ import android.provider.Settings;
+ import android.telecom.Conference;
+-- 
+2.9.3
+

@@ -1,0 +1,29 @@
+From aeef8d7521032f42985c684aec20cf3d13b6a955 Mon Sep 17 00:00:00 2001
+From: Adam Seaton <aseaton@google.com>
+Date: Thu, 18 Aug 2016 14:11:04 -0700
+Subject: [PATCH 45/55] Update Security String to 2016-10-05 to Platform and
+ CTS for October Security Updates (rebased)
+
+b/30946906
+
+Change-Id: Ia5207f919908496a593e3163788bfb75ce4e055d
+---
+ core/version_defaults.mk | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/core/version_defaults.mk b/core/version_defaults.mk
+index 1b3c7d8..558a035 100644
+--- a/core/version_defaults.mk
++++ b/core/version_defaults.mk
+@@ -103,7 +103,7 @@ ifeq "" "$(PLATFORM_SECURITY_PATCH)"
+   # Can be an arbitrary string, but must be a single word.
+   #
+   # If there is no $PLATFORM_SECURITY_PATCH set, keep it empty.
+-  PLATFORM_SECURITY_PATCH := 2016-10-01
++  PLATFORM_SECURITY_PATCH := 2016-10-05
+ endif
+ 
+ ifeq "" "$(PLATFORM_BASE_OS)"
+-- 
+2.9.3
+

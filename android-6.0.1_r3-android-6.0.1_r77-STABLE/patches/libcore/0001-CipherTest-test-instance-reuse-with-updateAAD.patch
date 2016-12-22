@@ -1,0 +1,69 @@
+From fe36496a603cfba532218bfadbc83a9b35b9f91a Mon Sep 17 00:00:00 2001
+From: Kenny Root <kroot@google.com>
+Date: Thu, 25 Feb 2016 23:15:47 -0800
+Subject: [PATCH 1/2] CipherTest: test instance reuse with updateAAD
+
+AAD was not being reset on each Cipher init or doFinal call, so add
+regression tests to make sure that is now the case.
+
+(cherry picked from commit d90a44bf4956d335e2a876015cf258dc46e226ea)
+
+Bug: 27324690
+Change-Id: I5f7606efb6dfcd412166eed2bd5f417097a97f1f
+---
+ .../test/java/libcore/javax/crypto/CipherTest.java | 41 ++++++++++++++++++++++
+ 1 file changed, 41 insertions(+)
+
+diff --git a/luni/src/test/java/libcore/javax/crypto/CipherTest.java b/luni/src/test/java/libcore/javax/crypto/CipherTest.java
+index 116f45f..e0e15cb 100644
+--- a/luni/src/test/java/libcore/javax/crypto/CipherTest.java
++++ b/luni/src/test/java/libcore/javax/crypto/CipherTest.java
+@@ -3538,4 +3538,45 @@ public final class CipherTest extends TestCase {
+         cipher.init(Cipher.ENCRYPT_MODE, keyGen.generateKeyPair().getPublic());
+         cipher.doFinal(new byte[] {1,2,3,4});
+     }
++
++    /*
++     * Check that GCM encryption with old and new instances update correctly.
++     * http://b/26694388
++     */
++    public void test_AESGCMNoPadding_Reuse_Success() throws Exception {
++        SecretKeySpec key = new SecretKeySpec(new byte[16], "AES");
++        GCMParameterSpec spec = new GCMParameterSpec(128, new byte[12]);
++        Cipher c1 = Cipher.getInstance("AES/GCM/NoPadding");
++        Cipher c2 = Cipher.getInstance("AES/GCM/NoPadding");
++
++        // Pollute the c1 cipher with AAD
++        c1.init(Cipher.ENCRYPT_MODE, key, spec);
++        c1.updateAAD(new byte[] {
++                0x01, 0x02, 0x03, 0x04, 0x05,
++        });
++
++        // Now init each again and make sure the outputs are the same
++        c1.init(Cipher.ENCRYPT_MODE, key, spec);
++        c2.init(Cipher.ENCRYPT_MODE, key, spec);
++
++        byte[] aad = new byte[] {
++                0x10, 0x20, 0x30, 0x40, 0x50, 0x60,
++        };
++        c1.updateAAD(aad);
++        c2.updateAAD(aad);
++
++        assertEquals(Arrays.toString(c1.doFinal()), Arrays.toString(c2.doFinal()));
++
++        // .doFinal should also reset the state, so check that as well.
++        byte[] aad2 = new byte[] {
++                0x77, 0x66, 0x55, 0x44, 0x33, 0x22, 0x11,
++        };
++
++        Cipher c3 = Cipher.getInstance("AES/GCM/NoPadding");
++        c3.init(Cipher.ENCRYPT_MODE, key, spec);
++
++        c1.updateAAD(aad2);
++        c3.updateAAD(aad2);
++        assertEquals(Arrays.toString(c1.doFinal()), Arrays.toString(c3.doFinal()));
++    }
+ }
+-- 
+2.9.3
+
