@@ -1,0 +1,52 @@
+From 8131d00be4159e585b1f04ab2519374d5be279c5 Mon Sep 17 00:00:00 2001
+From: Doris Ling <dling@google.com>
+Date: Wed, 31 Aug 2016 14:27:19 -0700
+Subject: [PATCH 4/6] Fix NullPointerException when refreshing wifi
+ preferences.
+
+AccessPointPreference.refresh() is being called in different threads.
+The refresh of the preference should only be updated in the main thread.
+When access point updates is received not in the main thread, will post
+the refreshing of the preference to the message queue to make the update
+on the UI thread.
+
+Test: auto - run monkey to verify there is no ANR or crash
+      manual - go to Settings->Wifi, toggle on/off many times and verify
+      there is no crash.
+
+Change-Id: I656a70ecf2e7b9446c7b95b6b42ab19a5cc2e51c
+Fixes: 30902893
+(cherry picked from commit b8011dbb936df94f54bbce75282a2caf477346dc)
+---
+ src/com/android/settings/wifi/WifiSettings.java | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
+
+diff --git a/src/com/android/settings/wifi/WifiSettings.java b/src/com/android/settings/wifi/WifiSettings.java
+index b5404c9..55a083f 100755
+--- a/src/com/android/settings/wifi/WifiSettings.java
++++ b/src/com/android/settings/wifi/WifiSettings.java
+@@ -910,8 +910,19 @@ public class WifiSettings extends RestrictedSettingsFragment
+     }
+ 
+     @Override
+-    public void onAccessPointChanged(AccessPoint accessPoint) {
+-        ((LongPressAccessPointPreference) accessPoint.getTag()).refresh();
++    public void onAccessPointChanged(final AccessPoint accessPoint) {
++        View view = getView();
++        if (view != null) {
++            view.post(new Runnable() {
++                @Override
++                public void run() {
++                    Object tag = accessPoint.getTag();
++                    if (tag != null) {
++                        ((LongPressAccessPointPreference) tag).refresh();
++                    }
++                }
++            });
++        }
+     }
+ 
+     @Override
+-- 
+2.9.3
+

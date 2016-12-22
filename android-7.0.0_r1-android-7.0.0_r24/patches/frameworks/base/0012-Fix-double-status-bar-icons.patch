@@ -1,0 +1,89 @@
+From 65c5f1a254b9c1ea5bd970fba124fe50c270323e Mon Sep 17 00:00:00 2001
+From: Jason Monk <jmonk@google.com>
+Date: Tue, 26 Jul 2016 13:04:50 -0400
+Subject: [PATCH 12/40] Fix double status bar icons
+
+Don't allow the status bar icon slot list to be changed because
+it confuses the relationship between StatusBarIconList and
+StatusBarIconController.  Set it in the constructor to enforce
+this.
+
+Change-Id: Ieeea0a9efad88179d1cccc0e5702899333de2e72
+Fixes: 28524184
+(cherry picked from commit c6fe61c59c5a3a6ae691256c9afdde3820e3dd9e)
+(cherry picked from commit 12124d7ecaf074fa1014d01934aeb24667e90cf4)
+---
+ .../src/com/android/systemui/statusbar/phone/PhoneStatusBar.java  | 1 -
+ .../android/systemui/statusbar/phone/StatusBarIconController.java | 8 ++------
+ .../com/android/systemui/statusbar/phone/StatusBarIconList.java   | 7 ++-----
+ 3 files changed, 4 insertions(+), 12 deletions(-)
+
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/phone/PhoneStatusBar.java b/packages/SystemUI/src/com/android/systemui/statusbar/phone/PhoneStatusBar.java
+index f4a3f5a..3d5a1b0 100755
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/phone/PhoneStatusBar.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/phone/PhoneStatusBar.java
+@@ -3567,7 +3567,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
+ 
+         repositionNavigationBar();
+         updateRowStates();
+-        mIconController.defineSlots();
+         mScreenPinningRequest.onConfigurationChanged();
+         mNetworkController.onConfigurationChanged();
+     }
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/phone/StatusBarIconController.java b/packages/SystemUI/src/com/android/systemui/statusbar/phone/StatusBarIconController.java
+index f415ae5..716a44e 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/phone/StatusBarIconController.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/phone/StatusBarIconController.java
+@@ -112,6 +112,8 @@ public class StatusBarIconController extends StatusBarIconList implements Tunabl
+ 
+     public StatusBarIconController(Context context, View statusBar, View keyguardStatusBar,
+             PhoneStatusBar phoneStatusBar) {
++        super(context.getResources().getStringArray(
++                com.android.internal.R.array.config_statusBarIcons));
+         mContext = context;
+         mPhoneStatusBar = phoneStatusBar;
+         mSystemIconArea = (LinearLayout) statusBar.findViewById(R.id.system_icon_area);
+@@ -137,7 +139,6 @@ public class StatusBarIconController extends StatusBarIconList implements Tunabl
+         mDarkModeIconColorSingleTone = context.getColor(R.color.dark_mode_icon_color_single_tone);
+         mLightModeIconColorSingleTone = context.getColor(R.color.light_mode_icon_color_single_tone);
+         mHandler = new Handler();
+-        defineSlots();
+         loadDimens();
+ 
+         TunerService.get(mContext).addTunable(this, ICON_BLACKLIST);
+@@ -197,11 +198,6 @@ public class StatusBarIconController extends StatusBarIconList implements Tunabl
+                 R.dimen.status_bar_icon_padding);
+     }
+ 
+-    public void defineSlots() {
+-        defineSlots(mContext.getResources().getStringArray(
+-                com.android.internal.R.array.config_statusBarIcons));
+-    }
+-
+     private void addSystemIcon(int index, StatusBarIcon icon) {
+         String slot = getSlot(index);
+         int viewIndex = getViewIndex(index);
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/phone/StatusBarIconList.java b/packages/SystemUI/src/com/android/systemui/statusbar/phone/StatusBarIconList.java
+index 3619d47..e23067f 100755
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/phone/StatusBarIconList.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/phone/StatusBarIconList.java
+@@ -25,14 +25,11 @@ public class StatusBarIconList {
+     private ArrayList<String> mSlots = new ArrayList<>();
+     private ArrayList<StatusBarIcon> mIcons = new ArrayList<>();
+ 
+-    public void defineSlots(String[] slots) {
+-        mSlots.clear();
++    public StatusBarIconList(String[] slots) {
+         final int N = slots.length;
+         for (int i=0; i < N; i++) {
+             mSlots.add(slots[i]);
+-            if (mIcons.size() < mSlots.size()) {
+-                mIcons.add(null);
+-            }
++            mIcons.add(null);
+         }
+     }
+ 
+-- 
+2.9.3
+

@@ -1,0 +1,209 @@
+From 613ab8cada2e66737546b5a60b8abfabed577045 Mon Sep 17 00:00:00 2001
+From: Sunny Goyal <sunnygoyal@google.com>
+Date: Thu, 8 Sep 2016 14:32:06 -0700
+Subject: [PATCH] Preventing a shortcut which requires permissions from being
+ added to homescreen
+
+A shortcut can be added by any app as INSTALL_SHORTCUT is a normal
+level permission. But the intent is actually launched by the launcher
+app which can have other permission as well.
+
+> When adding a shortcut from the broadcast, verify that the intent does
+not require any permission
+> When adding a shortcut using the two-step drop process, verify that
+the source app also has the permission to create such a shortcut
+
+Bug: 30778130
+Change-Id: I33a391bc0af81248aaff4459aaa79d1adc77926b
+(cherry picked from commit fb5096d07bb3bb59fd4b5db6b68613030169b4bd)
+(cherry picked from commit 116d34bc634cfe12ffa2f291df286629d5abdcfd)
+---
+ .../android/launcher3/InstallShortcutReceiver.java | 10 ++++
+ src/com/android/launcher3/Launcher.java            | 19 +++++++-
+ .../launcher3/util/PackageManagerHelper.java       | 56 ++++++++++++++++++++++
+ 3 files changed, 83 insertions(+), 2 deletions(-)
+
+diff --git a/src/com/android/launcher3/InstallShortcutReceiver.java b/src/com/android/launcher3/InstallShortcutReceiver.java
+index 4b4656d..8e2dd24 100644
+--- a/src/com/android/launcher3/InstallShortcutReceiver.java
++++ b/src/com/android/launcher3/InstallShortcutReceiver.java
+@@ -33,6 +33,7 @@ import com.android.launcher3.compat.LauncherActivityInfoCompat;
+ import com.android.launcher3.compat.LauncherAppsCompat;
+ import com.android.launcher3.compat.UserHandleCompat;
+ import com.android.launcher3.compat.UserManagerCompat;
++import com.android.launcher3.util.PackageManagerHelper;
+ import com.android.launcher3.util.Thunk;
+ 
+ import org.json.JSONException;
+@@ -146,6 +147,15 @@ public class InstallShortcutReceiver extends BroadcastReceiver {
+         }
+         PendingInstallShortcutInfo info = createPendingInfo(context, data);
+         if (info != null) {
++            if (!info.isLauncherActivity()) {
++                // Since its a custom shortcut, verify that it is safe to launch.
++                if (!PackageManagerHelper.hasPermissionForActivity(
++                        context, info.launchIntent, null)) {
++                    // Target cannot be launched, or requires some special permission to launch
++                    Log.e(TAG, "Ignoring malicious intent " + info.launchIntent.toUri(0));
++                    return;
++                }
++            }
+             queuePendingShortcutInfo(info, context);
+         }
+     }
+diff --git a/src/com/android/launcher3/Launcher.java b/src/com/android/launcher3/Launcher.java
+index 2fe8ff8..e9c5704 100644
+--- a/src/com/android/launcher3/Launcher.java
++++ b/src/com/android/launcher3/Launcher.java
+@@ -124,6 +124,7 @@ import com.android.launcher3.hideapp.HideAppInfo;
+ import com.android.launcher3.model.WidgetsModel;
+ import com.android.launcher3.util.ComponentKey;
+ import com.android.launcher3.util.LongArrayMap;
++import com.android.launcher3.util.PackageManagerHelper;
+ import com.android.launcher3.util.TestingUtils;
+ import com.android.launcher3.util.Thunk;
+ import com.android.launcher3.widget.PendingAddWidgetInfo;
+@@ -220,6 +221,8 @@ public class Launcher extends Activity
+     private static final String RUNTIME_STATE_PENDING_ADD_SPAN_X = "launcher.add_span_x";
+     // Type: int
+     private static final String RUNTIME_STATE_PENDING_ADD_SPAN_Y = "launcher.add_span_y";
++    // Type: int
++    private static final String RUNTIME_STATE_PENDING_ADD_COMPONENT = "launcher.add_component";
+     // Type: parcelable
+     private static final String RUNTIME_STATE_PENDING_ADD_WIDGET_INFO = "launcher.add_widget_info";
+     // Type: parcelable
+@@ -287,7 +290,7 @@ public class Launcher extends Activity
+     private AppWidgetManagerCompat mAppWidgetManager;
+     private LauncherAppWidgetHost mAppWidgetHost;
+ 
+-    @Thunk ItemInfo mPendingAddInfo = new ItemInfo();
++    @Thunk PendingAddItemInfo mPendingAddInfo = new PendingAddItemInfo();
+     private LauncherAppWidgetProviderInfo mPendingAddWidgetInfo;
+     private int mPendingAddWidgetId = -1;
+ 
+@@ -1427,6 +1430,8 @@ public class Launcher extends Activity
+             mPendingAddInfo.cellY = savedState.getInt(RUNTIME_STATE_PENDING_ADD_CELL_Y);
+             mPendingAddInfo.spanX = savedState.getInt(RUNTIME_STATE_PENDING_ADD_SPAN_X);
+             mPendingAddInfo.spanY = savedState.getInt(RUNTIME_STATE_PENDING_ADD_SPAN_Y);
++            mPendingAddInfo.componentName =
++                    savedState.getParcelable(RUNTIME_STATE_PENDING_ADD_COMPONENT);
+             AppWidgetProviderInfo info = savedState.getParcelable(
+                     RUNTIME_STATE_PENDING_ADD_WIDGET_INFO);
+             mPendingAddWidgetInfo = info == null ?
+@@ -1614,7 +1619,13 @@ public class Launcher extends Activity
+         CellLayout layout = getCellLayout(container, screenId);
+ 
+         ShortcutInfo info = InstallShortcutReceiver.fromShortcutIntent(this, data);
+-        if (info == null) {
++        if (info == null || mPendingAddInfo.componentName == null) {
++            return;
++        }
++        if (!PackageManagerHelper.hasPermissionForActivity(
++                this, info.intent, mPendingAddInfo.componentName.getPackageName())) {
++            // The app is trying to add a shortcut without sufficient permissions
++            Log.e(TAG, "Ignoring malicious intent " + info.intent.toUri(0));
+             return;
+         }
+         final View view = createShortcut(info);
+@@ -2089,6 +2100,8 @@ public class Launcher extends Activity
+             outState.putInt(RUNTIME_STATE_PENDING_ADD_CELL_Y, mPendingAddInfo.cellY);
+             outState.putInt(RUNTIME_STATE_PENDING_ADD_SPAN_X, mPendingAddInfo.spanX);
+             outState.putInt(RUNTIME_STATE_PENDING_ADD_SPAN_Y, mPendingAddInfo.spanY);
++            outState.putParcelable(RUNTIME_STATE_PENDING_ADD_COMPONENT,
++                    mPendingAddInfo.componentName);
+             outState.putParcelable(RUNTIME_STATE_PENDING_ADD_WIDGET_INFO, mPendingAddWidgetInfo);
+             outState.putInt(RUNTIME_STATE_PENDING_ADD_WIDGET_ID, mPendingAddWidgetId);
+         }
+@@ -2332,6 +2345,7 @@ public class Launcher extends Activity
+         mPendingAddInfo.spanX = mPendingAddInfo.spanY = -1;
+         mPendingAddInfo.minSpanX = mPendingAddInfo.minSpanY = 1;
+         mPendingAddInfo.dropPos = null;
++        mPendingAddInfo.componentName = null;
+     }
+ 
+     void addAppWidgetFromDropImpl(final int appWidgetId, final ItemInfo info, final
+@@ -2407,6 +2421,7 @@ public class Launcher extends Activity
+         mPendingAddInfo.container = container;
+         mPendingAddInfo.screenId = screenId;
+         mPendingAddInfo.dropPos = null;
++        mPendingAddInfo.componentName = componentName;
+ 
+         if (cell != null) {
+             mPendingAddInfo.cellX = cell[0];
+diff --git a/src/com/android/launcher3/util/PackageManagerHelper.java b/src/com/android/launcher3/util/PackageManagerHelper.java
+index 5e60ed6..938dcb4 100644
+--- a/src/com/android/launcher3/util/PackageManagerHelper.java
++++ b/src/com/android/launcher3/util/PackageManagerHelper.java
+@@ -16,8 +16,15 @@
+ 
+ package com.android.launcher3.util;
+ 
++import android.app.AppOpsManager;
++import android.content.Context;
++import android.content.Intent;
+ import android.content.pm.ApplicationInfo;
+ import android.content.pm.PackageManager;
++import android.content.pm.PackageManager.NameNotFoundException;
++import android.content.pm.ResolveInfo;
++import android.os.Build;
++import android.text.TextUtils;
+ 
+ import com.android.launcher3.Utilities;
+ 
+@@ -68,4 +75,53 @@ public class PackageManagerHelper {
+             return false;
+         }
+     }
++
++    /**
++     * Returns true if {@param srcPackage} has the permission required to start the activity from
++     * {@param intent}. If {@param srcPackage} is null, then the activity should not need
++     * any permissions
++     */
++    public static boolean hasPermissionForActivity(Context context, Intent intent,
++            String srcPackage) {
++        PackageManager pm = context.getPackageManager();
++        ResolveInfo target = pm.resolveActivity(intent, 0);
++        if (target == null) {
++            // Not a valid target
++            return false;
++        }
++        if (TextUtils.isEmpty(target.activityInfo.permission)) {
++            // No permission is needed
++            return true;
++        }
++        if (TextUtils.isEmpty(srcPackage)) {
++            // The activity requires some permission but there is no source.
++            return false;
++        }
++
++        // Source does not have sufficient permissions.
++        if(pm.checkPermission(target.activityInfo.permission, srcPackage) !=
++                PackageManager.PERMISSION_GRANTED) {
++            return false;
++        }
++
++        if (!Utilities.ATLEAST_MARSHMALLOW) {
++            // These checks are sufficient for below M devices.
++            return true;
++        }
++
++        // On M and above also check AppOpsManager for compatibility mode permissions.
++        if (TextUtils.isEmpty(AppOpsManager.permissionToOp(target.activityInfo.permission))) {
++            // There is no app-op for this permission, which could have been disabled.
++            return true;
++        }
++
++        // There is no direct way to check if the app-op is allowed for a particular app. Since
++        // app-op is only enabled for apps running in compatibility mode, simply block such apps.
++
++        try {
++            return pm.getApplicationInfo(srcPackage, 0).targetSdkVersion >= Build.VERSION_CODES.M;
++        } catch (NameNotFoundException e) { }
++
++        return false;
++    }
+ }
+-- 
+2.9.3
+

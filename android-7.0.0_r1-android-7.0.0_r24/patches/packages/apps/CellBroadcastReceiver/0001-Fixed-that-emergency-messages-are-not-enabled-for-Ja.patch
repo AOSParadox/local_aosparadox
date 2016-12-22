@@ -1,0 +1,43 @@
+From ff17a2a1e59ed2696ade26f3631fc2a9aad8518a Mon Sep 17 00:00:00 2001
+From: Jack Yu <jackyu@google.com>
+Date: Fri, 22 Jul 2016 15:39:09 -0700
+Subject: [PATCH] Fixed that emergency messages are not enabled for Japanese
+ carriers
+
+The emergency ETWS (Earthquake and Tsunami Warning System) other
+messages were not enabled during boot up. Added the corresponding
+channel 4356 (0x1104) into the configuration list.
+
+bug: 30295364
+Change-Id: Ib9d0765d418b26b38c0f5047039c5c7ea9fbd714
+---
+ .../android/cellbroadcastreceiver/CellBroadcastConfigService.java | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/src/com/android/cellbroadcastreceiver/CellBroadcastConfigService.java b/src/com/android/cellbroadcastreceiver/CellBroadcastConfigService.java
+index 93e5039..271f0e2 100644
+--- a/src/com/android/cellbroadcastreceiver/CellBroadcastConfigService.java
++++ b/src/com/android/cellbroadcastreceiver/CellBroadcastConfigService.java
+@@ -357,12 +357,18 @@ public class CellBroadcastConfigService extends IntentService {
+ 
+         /** Enable GSM ETWS series messages. */
+ 
+-        // Enable/Disable GSM ETWS messages.
++        // Enable/Disable GSM ETWS messages (4352 ~ 4354).
+         setCellBroadcastRange(manager, enableEtwsAlerts,
+                 SmsManager.CELL_BROADCAST_RAN_TYPE_GSM,
+                 SmsCbConstants.MESSAGE_ID_ETWS_EARTHQUAKE_WARNING,
+                 SmsCbConstants.MESSAGE_ID_ETWS_EARTHQUAKE_AND_TSUNAMI_WARNING);
+ 
++        // Enable/Disable GSM ETWS other messages (4356).
++        setCellBroadcastRange(manager, enableEtwsAlerts,
++                SmsManager.CELL_BROADCAST_RAN_TYPE_GSM,
++                SmsCbConstants.MESSAGE_ID_ETWS_OTHER_EMERGENCY_TYPE,
++                SmsCbConstants.MESSAGE_ID_ETWS_OTHER_EMERGENCY_TYPE);
++
+         // Enable/Disable GSM ETWS test messages (4355).
+         setCellBroadcastRange(manager, enableEtwsTestAlerts,
+                 SmsManager.CELL_BROADCAST_RAN_TYPE_GSM,
+-- 
+2.9.3
+

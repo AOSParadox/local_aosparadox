@@ -1,0 +1,32 @@
+From 5d8a5bb39ee579eada32871286c623aad3febcc9 Mon Sep 17 00:00:00 2001
+From: Alan Viverette <alanv@google.com>
+Date: Wed, 27 Jul 2016 10:23:35 -0400
+Subject: [PATCH 02/40] Avoid potential re-entry as a result of child mutation
+
+Don't set the callback until we're all done making changes.
+
+Bug: 30902893
+Change-Id: Ia1560692a83ecb2c50f5e77fa4d1e8155a78a204
+(cherry picked from commit b46ba3b2b0268688852cdf3d1fb4afe4873d63be)
+(cherry picked from commit 66b3a0d1aa48d5d663dcad86468605c565bb1880)
+---
+ graphics/java/android/graphics/drawable/DrawableContainer.java | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/graphics/java/android/graphics/drawable/DrawableContainer.java b/graphics/java/android/graphics/drawable/DrawableContainer.java
+index d5143da..cc7f5c7 100644
+--- a/graphics/java/android/graphics/drawable/DrawableContainer.java
++++ b/graphics/java/android/graphics/drawable/DrawableContainer.java
+@@ -851,8 +851,8 @@ public class DrawableContainer extends Drawable implements Drawable.Callback {
+ 
+         private Drawable prepareDrawable(Drawable child) {
+             child.setLayoutDirection(mLayoutDirection);
+-            child.setCallback(mOwner);
+             child = child.mutate();
++            child.setCallback(mOwner);
+             return child;
+         }
+ 
+-- 
+2.9.3
+

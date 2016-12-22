@@ -1,0 +1,22 @@
+From c8e0279d3020d03c1356a7295a969a93691c131e Mon Sep 17 00:00:00 2001
+From: gitbuildkicker <android-build@google.com>
+Date: Tue, 9 Aug 2016 15:15:50 -0700
+Subject: [PATCH 05/63] "NRD90P"
+
+---
+ core/build_id.mk | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/core/build_id.mk b/core/build_id.mk
+index ea2a80f..ee80ea3 100644
+--- a/core/build_id.mk
++++ b/core/build_id.mk
+@@ -18,4 +18,4 @@
+ # (like "CRB01").  It must be a single word, and is
+ # capitalized by convention.
+ 
+-export BUILD_ID=NRD90O
++export BUILD_ID=NRD90P
+-- 
+2.9.3
+

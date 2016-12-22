@@ -1,0 +1,101 @@
+From a9294e966efd75e00aba708abb8cf2886fc6de0c Mon Sep 17 00:00:00 2001
+From: Marco Nelissen <marcone@google.com>
+Date: Thu, 6 Oct 2016 15:31:52 -0700
+Subject: [PATCH 12/13] Fix divide by zero
+
+and be stricter about the layout of various boxes in mp4 files.
+
+Bug: 31318219
+Change-Id: I50034d5b6b1967ca6e88aabeacf49f26ba3c0d32
+(cherry picked from commit 0d13824315b0491d44e9c6eb5db06489ab0fcc20)
+---
+ media/libmedia/IMediaExtractor.cpp      |  3 +++
+ media/libstagefright/MPEG4Extractor.cpp | 23 ++++++++++++++++++-----
+ 2 files changed, 21 insertions(+), 5 deletions(-)
+
+diff --git a/media/libmedia/IMediaExtractor.cpp b/media/libmedia/IMediaExtractor.cpp
+index e8ad75b..72d1d7c 100644
+--- a/media/libmedia/IMediaExtractor.cpp
++++ b/media/libmedia/IMediaExtractor.cpp
+@@ -160,6 +160,9 @@ status_t BnMediaExtractor::onTransact(
+             if (data.readUint32(&idx) == NO_ERROR &&
+                     data.readUint32(&flags) == NO_ERROR) {
+                 sp<MetaData> meta = getTrackMetaData(idx, flags);
++                if (meta == NULL) {
++                    return UNKNOWN_ERROR;
++                }
+                 meta->writeToParcel(*reply);
+                 return NO_ERROR;
+             }
+diff --git a/media/libstagefright/MPEG4Extractor.cpp b/media/libstagefright/MPEG4Extractor.cpp
+index d6c1302..d51c2f2 100644
+--- a/media/libstagefright/MPEG4Extractor.cpp
++++ b/media/libstagefright/MPEG4Extractor.cpp
+@@ -477,7 +477,8 @@ sp<MetaData> MPEG4Extractor::getTrackMetaData(
+             } else {
+                 uint32_t sampleIndex;
+                 uint32_t sampleTime;
+-                if (track->sampleTable->findThumbnailSample(&sampleIndex) == OK
++                if (track->timescale != 0 &&
++                        track->sampleTable->findThumbnailSample(&sampleIndex) == OK
+                         && track->sampleTable->getMetaDataForSample(
+                             sampleIndex, NULL /* offset */, NULL /* size */,
+                             &sampleTime) == OK) {
+@@ -926,6 +927,10 @@ status_t MPEG4Extractor::parseChunk(off64_t *offset, int depth) {
+         case FOURCC('s', 'c', 'h', 'i'):
+         case FOURCC('e', 'd', 't', 's'):
+         {
++            if (chunk_type == FOURCC('m', 'o', 'o', 'v') && depth != 0) {
++                ALOGE("moov: depth %d", depth);
++                return ERROR_MALFORMED;
++            }
+             if (chunk_type == FOURCC('m', 'o', 'o', 'f') && !mMoofFound) {
+                 // store the offset of the first segment
+                 mMoofFound = true;
+@@ -954,6 +959,10 @@ status_t MPEG4Extractor::parseChunk(off64_t *offset, int depth) {
+ 
+             bool isTrack = false;
+             if (chunk_type == FOURCC('t', 'r', 'a', 'k')) {
++                if (depth != 1) {
++                    ALOGE("trak: depth %d", depth);
++                    return ERROR_MALFORMED;
++                }
+                 isTrack = true;
+ 
+                 Track *track = new Track;
+@@ -977,6 +986,10 @@ status_t MPEG4Extractor::parseChunk(off64_t *offset, int depth) {
+             while (*offset < stop_offset) {
+                 status_t err = parseChunk(offset, depth + 1);
+                 if (err != OK) {
++                    if (isTrack) {
++                        mLastTrack->skipTrack = true;
++                        break;
++                    }
+                     return err;
+                 }
+             }
+@@ -1322,10 +1335,6 @@ status_t MPEG4Extractor::parseChunk(off64_t *offset, int depth) {
+ 
+         case FOURCC('s', 't', 's', 'd'):
+         {
+-            if (chunk_data_size < 8) {
+-                return ERROR_MALFORMED;
+-            }
+-
+             uint8_t buffer[8];
+             if (chunk_data_size < (off64_t)sizeof(buffer)) {
+                 return ERROR_MALFORMED;
+@@ -1951,6 +1960,10 @@ status_t MPEG4Extractor::parseChunk(off64_t *offset, int depth) {
+         {
+             *offset += chunk_size;
+ 
++            if (depth != 1) {
++                ALOGE("mvhd: depth %d", depth);
++                return ERROR_MALFORMED;
++            }
+             if (chunk_data_size < 32) {
+                 return ERROR_MALFORMED;
+             }
+-- 
+2.9.3
+

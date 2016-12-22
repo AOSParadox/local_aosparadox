@@ -1,0 +1,71 @@
+From 4903f14108f2f928fb0112ead0405827bdcad719 Mon Sep 17 00:00:00 2001
+From: Andy Hung <hunga@google.com>
+Date: Thu, 28 Jul 2016 10:53:22 -0700
+Subject: [PATCH 02/13] AudioFlinger: Account for frames dropped in suspend
+ mode
+
+These frames must be added to the kernel position in timestamps.
+
+Bug: 30025777
+Change-Id: I30c14503c9467059c3782e5c96c01ae1cf3709f6
+(cherry picked from commit 238fa3deff26d7e4d9e81bd0a88c936f16226c4e)
+(cherry picked from commit 9ebe29bcc5070e41c3e40ba16c93b5a3e2972aa5)
+---
+ services/audioflinger/Threads.cpp | 14 +++++++++-----
+ services/audioflinger/Threads.h   |  1 +
+ 2 files changed, 10 insertions(+), 5 deletions(-)
+
+diff --git a/services/audioflinger/Threads.cpp b/services/audioflinger/Threads.cpp
+index be55f7f..0caada8 100644
+--- a/services/audioflinger/Threads.cpp
++++ b/services/audioflinger/Threads.cpp
+@@ -1592,6 +1592,7 @@ AudioFlinger::PlaybackThread::PlaybackThread(const sp<AudioFlinger>& audioFlinge
+         mEffectBufferValid(false),
+         mSuspended(0), mBytesWritten(0),
+         mFramesWritten(0),
++        mSuspendedFrames(0),
+         mActiveTracksGeneration(0),
+         // mStreamTypes[] initialized in constructor body
+         mOutput(output),
+@@ -2923,7 +2924,8 @@ bool AudioFlinger::PlaybackThread::threadLoop()
+ 
+                 // copy over kernel info
+                 mTimestamp.mPosition[ExtendedTimestamp::LOCATION_KERNEL] =
+-                        timestamp.mPosition[ExtendedTimestamp::LOCATION_KERNEL];
++                        timestamp.mPosition[ExtendedTimestamp::LOCATION_KERNEL]
++                        + mSuspendedFrames; // add frames discarded when suspended
+                 mTimestamp.mTimeNs[ExtendedTimestamp::LOCATION_KERNEL] =
+                         timestamp.mTimeNs[ExtendedTimestamp::LOCATION_KERNEL];
+             }
+@@ -3087,10 +3089,12 @@ bool AudioFlinger::PlaybackThread::threadLoop()
+ 
+             mBytesRemaining = mCurrentWriteLength;
+             if (isSuspended()) {
+-                mSleepTimeUs = suspendSleepTimeUs();
+-                // simulate write to HAL when suspended
+-                mBytesWritten += mSinkBufferSize;
+-                mFramesWritten += mSinkBufferSize / mFrameSize;
++                // Simulate write to HAL when suspended (e.g. BT SCO phone call).
++                mSleepTimeUs = suspendSleepTimeUs(); // assumes full buffer.
++                const size_t framesRemaining = mBytesRemaining / mFrameSize;
++                mBytesWritten += mBytesRemaining;
++                mFramesWritten += framesRemaining;
++                mSuspendedFrames += framesRemaining; // to adjust kernel HAL position
+                 mBytesRemaining = 0;
+             }
+ 
+diff --git a/services/audioflinger/Threads.h b/services/audioflinger/Threads.h
+index 71e0011..f0a828e 100644
+--- a/services/audioflinger/Threads.h
++++ b/services/audioflinger/Threads.h
+@@ -704,6 +704,7 @@ protected:
+ 
+     int64_t                         mBytesWritten;
+     int64_t                         mFramesWritten; // not reset on standby
++    int64_t                         mSuspendedFrames; // not reset on standby
+ private:
+     // mMasterMute is in both PlaybackThread and in AudioFlinger.  When a
+     // PlaybackThread needs to find out if master-muted, it checks it's local
+-- 
+2.9.3
+

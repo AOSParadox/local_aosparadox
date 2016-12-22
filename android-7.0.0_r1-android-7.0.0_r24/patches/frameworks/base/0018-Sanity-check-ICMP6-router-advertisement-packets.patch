@@ -1,0 +1,60 @@
+From e2779def42a3c57ff36c824da60a21acd8213bd4 Mon Sep 17 00:00:00 2001
+From: Paul Jensen <pauljensen@google.com>
+Date: Wed, 20 Jul 2016 15:01:17 -0400
+Subject: [PATCH 18/40] Sanity check ICMP6 router advertisement packets
+
+There is a chance a packet can slip by before we install the filter
+on our socket listening for RAs, so add some basic sanity checking
+to make sure we've recieved an RA.
+
+Change-Id: I14cf84a0814896a41e00f50af376dfc4988d36cb
+Fixes: 29586253
+(cherry picked from commit a36213867afc7fde57bfa70bc4b1642a4e5245bd)
+---
+ services/net/java/android/net/apf/ApfFilter.java | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
+
+diff --git a/services/net/java/android/net/apf/ApfFilter.java b/services/net/java/android/net/apf/ApfFilter.java
+index ce37426..bae889c 100644
+--- a/services/net/java/android/net/apf/ApfFilter.java
++++ b/services/net/java/android/net/apf/ApfFilter.java
+@@ -131,6 +131,7 @@ public class ApfFilter {
+ 
+     private static final int ICMP6_TYPE_OFFSET = ETH_HEADER_LEN + IPV6_HEADER_LEN;
+     private static final int ICMP6_NEIGHBOR_ANNOUNCEMENT = 136;
++    private static final int ICMP6_ROUTER_ADVERTISEMENT = 134;
+ 
+     // NOTE: this must be added to the IPv4 header length in IPV4_HEADER_SIZE_MEMORY_SLOT
+     private static final int UDP_DESTINATION_PORT_OFFSET = ETH_HEADER_LEN + 2;
+@@ -306,7 +307,11 @@ public class ApfFilter {
+         }
+ 
+         private long uint32(int s) {
+-            return s & 0xffffffff;
++            return s & 0xffffffffL;
++        }
++
++        private long getUint16(ByteBuffer buffer, int position) {
++            return uint16(buffer.getShort(position));
+         }
+ 
+         private void prefixOptionToString(StringBuffer sb, int offset) {
+@@ -375,6 +380,15 @@ public class ApfFilter {
+             mPacket.clear();
+             mLastSeen = curTime();
+ 
++            // Sanity check packet in case a packet arrives before we attach RA filter
++            // to our packet socket. b/29586253
++            if (getUint16(mPacket, ETH_ETHERTYPE_OFFSET) != ETH_P_IPV6 ||
++                    uint8(mPacket.get(IPV6_NEXT_HEADER_OFFSET)) != IPPROTO_ICMPV6 ||
++                    uint8(mPacket.get(ICMP6_TYPE_OFFSET)) != ICMP6_ROUTER_ADVERTISEMENT) {
++                throw new IllegalArgumentException("Not an ICMP6 router advertisement");
++            }
++
++
+             // Ignore the checksum.
+             int lastNonLifetimeStart = addNonLifetime(0,
+                     ICMP6_RA_CHECKSUM_OFFSET,
+-- 
+2.9.3
+

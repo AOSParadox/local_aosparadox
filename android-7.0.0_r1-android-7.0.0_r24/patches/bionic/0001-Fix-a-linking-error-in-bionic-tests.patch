@@ -1,0 +1,35 @@
+From 3d05c76c2364e9b3233b3fadab2c22792c84e8ec Mon Sep 17 00:00:00 2001
+From: Tianjie Xu <xunchang@google.com>
+Date: Thu, 6 Oct 2016 19:23:05 -0700
+Subject: [PATCH] Fix a linking error in bionic/tests
+
+Fix the following linking error by adding liblog in the makefile:
+"system/core/libziparchive/zip_archive.cc:277: error: undefined reference to
+'__android_log_error_write'"
+
+The error happens because libziparchive has dependency on liblog. This
+error affects the downstream branches of nyc-dev.
+
+Bug: 31251826
+Test: mma -j32
+Change-Id: Ia42909bbbd150ae0ca9f6aa6b14372f2e0aedccf
+(cherry picked from commit 3656958a16590d07d1e25587734e000beb437740)
+---
+ tests/Android.mk | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/tests/Android.mk b/tests/Android.mk
+index 06bbb26..641592b 100644
+--- a/tests/Android.mk
++++ b/tests/Android.mk
+@@ -318,6 +318,7 @@ common_bionic-unit-tests_shared_libraries_target := \
+ common_bionic-unit-tests_static_libraries_target := \
+     libbase \
+     libziparchive \
++    liblog \
+     libz \
+     libutils \
+ 
+-- 
+2.9.3
+

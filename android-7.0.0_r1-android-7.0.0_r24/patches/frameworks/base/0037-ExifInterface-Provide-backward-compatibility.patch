@@ -1,0 +1,44 @@
+From 34e0a441aa36a5e6b66404abab56a89a981ae193 Mon Sep 17 00:00:00 2001
+From: Sungsoo <sungsoo@google.com>
+Date: Thu, 13 Oct 2016 12:57:44 +0900
+Subject: [PATCH 37/40] ExifInterface: Provide backward compatibility
+
+Resolve merge conflict into nyc-release
+ExifInterface.saveAttribute() didn't throw UnsupportedOperationException
+before. Use IOException instead of UnsupportedOperationException for
+backward compatibility.
+
+Bug: 30936376, Bug: 32068647, Bug: 31319086
+Change-Id: Ifb478db3af820eb846c5373d3a284367da3495a0
+(cherry picked from commit 5a7bd1b9f09ed0b67b0807e12cf4b1e477af5f90)
+---
+ media/java/android/media/ExifInterface.java | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/media/java/android/media/ExifInterface.java b/media/java/android/media/ExifInterface.java
+index 56af57a..6f24f76 100644
+--- a/media/java/android/media/ExifInterface.java
++++ b/media/java/android/media/ExifInterface.java
+@@ -1554,14 +1554,16 @@ public class ExifInterface {
+      * copying all the data from one file to another and deleting the old file and renaming the
+      * other. It's best to use {@link #setAttribute(String,String)} to set all attributes to write
+      * and make a single call rather than multiple calls for each attribute.
++     * <p>
++     * This method is only supported for JPEG files.
++     * </p>
+      */
+     public void saveAttributes() throws IOException {
+         if (!mIsSupportedFile || mIsRaw) {
+-            throw new UnsupportedOperationException(
+-                    "ExifInterface only supports saving attributes on JPEG formats.");
++            throw new IOException("ExifInterface only supports saving attributes on JPEG formats.");
+         }
+         if (mIsInputStream || (mSeekableFileDescriptor == null && mFilename == null)) {
+-            throw new UnsupportedOperationException(
++            throw new IOException(
+                     "ExifInterface does not support saving attributes for the current input.");
+         }
+ 
+-- 
+2.9.3
+

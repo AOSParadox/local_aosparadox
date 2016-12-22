@@ -1,0 +1,62 @@
+From 56c854296696612dac209430a5d1ed8cb94152af Mon Sep 17 00:00:00 2001
+From: Selim Cinek <cinek@google.com>
+Date: Wed, 13 Jul 2016 14:34:56 -0700
+Subject: [PATCH 06/40] Fixed a bug where the headsup would be stuck
+ disappearing
+
+Change-Id: I56d6be69f6e59c1bec647e7e70e50a36b793f895
+Fixes: 30120962
+(cherry picked from commit a4155bb7c0da61a41bb7bd9907f05157ec731661)
+---
+ .../stack/NotificationStackScrollLayout.java        | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
+
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/stack/NotificationStackScrollLayout.java b/packages/SystemUI/src/com/android/systemui/statusbar/stack/NotificationStackScrollLayout.java
+index 7de3879..17d3d71 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/stack/NotificationStackScrollLayout.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/stack/NotificationStackScrollLayout.java
+@@ -2347,6 +2347,7 @@ public class NotificationStackScrollLayout extends ViewGroup
+         if (hasAddEvent) {
+             // This child was just added lets remove all events.
+             mHeadsUpChangeAnimations.removeAll(mTmpList);
++            ((ExpandableNotificationRow ) child).setHeadsupDisappearRunning(false);
+         }
+         mTmpList.clear();
+         return hasAddEvent;
+@@ -2604,6 +2605,10 @@ public class NotificationStackScrollLayout extends ViewGroup
+                 type = row.wasJustClicked()
+                         ? AnimationEvent.ANIMATION_TYPE_HEADS_UP_DISAPPEAR_CLICK
+                         : AnimationEvent.ANIMATION_TYPE_HEADS_UP_DISAPPEAR;
++                if (row.isChildInGroup()) {
++                    // We can otherwise get stuck in there if it was just isolated
++                    row.setHeadsupDisappearRunning(false);
++                }
+             } else {
+                 StackViewState viewState = mCurrentStackScrollState.getViewStateForView(row);
+                 if (viewState == null) {
+@@ -3093,6 +3098,22 @@ public class NotificationStackScrollLayout extends ViewGroup
+         requestChildrenUpdate();
+         runAnimationFinishedRunnables();
+         clearViewOverlays();
++        clearHeadsUpDisappearRunning();
++    }
++
++    private void clearHeadsUpDisappearRunning() {
++        for (int i = 0; i < getChildCount(); i++) {
++            View view = getChildAt(i);
++            if (view instanceof ExpandableNotificationRow) {
++                ExpandableNotificationRow row = (ExpandableNotificationRow) view;
++                row.setHeadsupDisappearRunning(false);
++                if (row.isSummaryWithChildren()) {
++                    for (ExpandableNotificationRow child : row.getNotificationChildren()) {
++                        child.setHeadsupDisappearRunning(false);
++                    }
++                }
++            }
++        }
+     }
+ 
+     private void clearViewOverlays() {
+-- 
+2.9.3
+

@@ -1,0 +1,51 @@
+From ff5ef1b47afa819a28325bdd8b1d79c3d51a5a19 Mon Sep 17 00:00:00 2001
+From: Doris Ling <dling@google.com>
+Date: Mon, 29 Aug 2016 18:44:41 -0700
+Subject: [PATCH 3/6] Remove preference "Searching for Wi-Fi networks..."
+
+When we add the preference "Searching for Wi-Fi networks...", we didn't
+provide a key to the preference. As a result, each time when we get
+access point update and try to show such tile, it creates a new one, and
+results in multiple entries of such tile. Adding a key to the preference
+will prevent the multiple entry from being added.
+
+Test: Manual -
+1. Turn wifi off and on several times, verify that there is only one entry
+   of "Searching for Wi-Fi networks..." when initializing the wifi access
+   point list.
+2. Verifies that when the access point list is established, the
+   "Searching for Wi-Fi networks..." entry is gone.
+
+Change-Id: Iaad329d89f8e4b52129d0661501aa34fbd956692
+
+Change-Id: I1bfa77051e068926e8c876a89adf14d143970e7e
+Fixes: 31143961
+(cherry picked from commit b8e8485720757bcc1c8e5e1e3c5f3f8b2d33ae03)
+---
+ src/com/android/settings/wifi/WifiSettings.java | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/src/com/android/settings/wifi/WifiSettings.java b/src/com/android/settings/wifi/WifiSettings.java
+index d0f803c..b5404c9 100755
+--- a/src/com/android/settings/wifi/WifiSettings.java
++++ b/src/com/android/settings/wifi/WifiSettings.java
+@@ -116,6 +116,8 @@ public class WifiSettings extends RestrictedSettingsFragment
+     private static final String SAVE_DIALOG_ACCESS_POINT_STATE = "wifi_ap_state";
+     private static final String SAVED_WIFI_NFC_DIALOG_STATE = "wifi_nfc_dlg_state";
+ 
++    private static final String PREF_KEY_EMPTY_WIFI_LIST = "wifi_empty_list";
++
+     protected WifiManager mWifiManager;
+     private WifiManager.ActionListener mConnectListener;
+     private WifiManager.ActionListener mSaveListener;
+@@ -697,6 +699,7 @@ public class WifiSettings extends RestrictedSettingsFragment
+                     pref.setSelectable(false);
+                     pref.setSummary(R.string.wifi_empty_list_wifi_on);
+                     pref.setOrder(0);
++                    pref.setKey(PREF_KEY_EMPTY_WIFI_LIST);
+                     getPreferenceScreen().addPreference(pref);
+                     mAddPreference.setOrder(1);
+                     getPreferenceScreen().addPreference(mAddPreference);
+-- 
+2.9.3
+

@@ -1,0 +1,45 @@
+From d01e49a647a01def2b10dfd2d38d3ee1a2a62f5a Mon Sep 17 00:00:00 2001
+From: Wei Jia <wjia@google.com>
+Date: Tue, 13 Sep 2016 16:50:07 -0700
+Subject: [PATCH 08/13] OMXNodeInstance: sanity check portIndex.
+
+Bug: 31385713
+Change-Id: Ib91d00eb5cc8c51c84d37f5d36d6b7ca594d201f
+(cherry picked from commit f80a1f5075a7c6e1982d37c68bfed7c9a611bb20)
+---
+ media/libstagefright/omx/OMXNodeInstance.cpp | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/media/libstagefright/omx/OMXNodeInstance.cpp b/media/libstagefright/omx/OMXNodeInstance.cpp
+index 3039fbb..1e8d6d3 100644
+--- a/media/libstagefright/omx/OMXNodeInstance.cpp
++++ b/media/libstagefright/omx/OMXNodeInstance.cpp
+@@ -452,6 +452,12 @@ status_t OMXNodeInstance::getState(OMX_STATETYPE* state) {
+ 
+ status_t OMXNodeInstance::enableNativeBuffers(
+         OMX_U32 portIndex, OMX_BOOL graphic, OMX_BOOL enable) {
++    if (portIndex >= NELEM(mSecureBufferType)) {
++        ALOGE("b/31385713, portIndex(%u)", portIndex);
++        android_errorWriteLog(0x534e4554, "31385713");
++        return BAD_VALUE;
++    }
++
+     Mutex::Autolock autoLock(mLock);
+     CLOG_CONFIG(enableNativeBuffers, "%s:%u%s, %d", portString(portIndex), portIndex,
+                 graphic ? ", graphic" : "", enable);
+@@ -1092,6 +1098,12 @@ status_t OMXNodeInstance::allocateSecureBuffer(
+         return BAD_VALUE;
+     }
+ 
++    if (portIndex >= NELEM(mSecureBufferType)) {
++        ALOGE("b/31385713, portIndex(%u)", portIndex);
++        android_errorWriteLog(0x534e4554, "31385713");
++        return BAD_VALUE;
++    }
++
+     Mutex::Autolock autoLock(mLock);
+ 
+     BufferMeta *buffer_meta = new BufferMeta(size, portIndex);
+-- 
+2.9.3
+

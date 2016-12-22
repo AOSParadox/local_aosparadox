@@ -1,0 +1,46 @@
+From 5939f5fc896610561bda33b418de0aa8113ea393 Mon Sep 17 00:00:00 2001
+From: Raph Levien <raph@google.com>
+Date: Mon, 25 Jul 2016 10:05:35 -0700
+Subject: [PATCH 05/40] Enforce consistent sizes for arrays in
+ SpannableStringInternal
+
+The grow logic in SpannableStringInternal#setSpan assumes that the
+size of mSpanData is consistent with that of mSpans, in particular
+that if the latter doesn't need to grow, neither does the former.
+The copySpans() method didn't enforce this, creating an mSpanData
+array only big enough to hold the data.
+
+This patch documents the invariant in a comment and enforces it.
+
+Bug: 30359314
+Change-Id: Ie25db70a76836e97af8476a7f5c10cb4b976c1cf
+(cherry picked from commit 83549088c643586aa6013d947ad2c21464a3878e)
+(cherry picked from commit 9cde7244b633028d12fedcf3c66f16c0f25af9a7)
+---
+ core/java/android/text/SpannableStringInternal.java | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/core/java/android/text/SpannableStringInternal.java b/core/java/android/text/SpannableStringInternal.java
+index 47e71be..4b02df86 100644
+--- a/core/java/android/text/SpannableStringInternal.java
++++ b/core/java/android/text/SpannableStringInternal.java
+@@ -33,6 +33,7 @@ import java.lang.reflect.Array;
+             mText = source.toString().substring(start, end);
+ 
+         mSpans = EmptyArray.OBJECT;
++        // Invariant: mSpanData.length = mSpans.length * COLUMNS
+         mSpanData = EmptyArray.INT;
+ 
+         if (source instanceof Spanned) {
+@@ -99,7 +100,7 @@ import java.lang.reflect.Array;
+             Object[] srcSpans = src.mSpans;
+             mSpanCount = count;
+             mSpans = ArrayUtils.newUnpaddedObjectArray(mSpanCount);
+-            mSpanData = new int[mSpanCount * COLUMNS];
++            mSpanData = new int[mSpans.length * COLUMNS];
+             for (int i = 0, j = 0; i < limit; i++) {
+                 int spanStart = srcData[i * COLUMNS + START];
+                 int spanEnd = srcData[i * COLUMNS + END];
+-- 
+2.9.3
+

@@ -1,0 +1,54 @@
+From 0fe97421ef2d755655ed67dbd809b9b6aca66e3a Mon Sep 17 00:00:00 2001
+From: Andrii Kulian <akulian@google.com>
+Date: Fri, 29 Jul 2016 12:55:41 -0700
+Subject: [PATCH 14/40] DO NOT MERGE -- Fix finishing activity in non-focused
+ stack
+
+This CL explicitly checks if we're finishing activity in non-focused
+stack as there are other cases except this one when we finish paused
+activities in FINISH_AFTER_VISIBLE mode.
+
+Bug: 29007436
+Bug: 29458854
+Change-Id: I67744d23cd72f2fe8861180008bfdd284a7b5e26
+(cherry picked from commit 995fa2bd2d334a37e10760c21ac108f4a3595713)
+(cherry picked from commit 772c598f660444306c9d8bff42e5fba08132e5cf)
+---
+ services/core/java/com/android/server/am/ActivityStack.java | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
+
+diff --git a/services/core/java/com/android/server/am/ActivityStack.java b/services/core/java/com/android/server/am/ActivityStack.java
+index 9942009..5859d34 100644
+--- a/services/core/java/com/android/server/am/ActivityStack.java
++++ b/services/core/java/com/android/server/am/ActivityStack.java
+@@ -3542,19 +3542,22 @@ final class ActivityStack {
+         final ActivityState prevState = r.state;
+         if (DEBUG_STATES) Slog.v(TAG_STATES, "Moving to FINISHING: " + r);
+         r.state = ActivityState.FINISHING;
++        final boolean finishingActivityInNonFocusedStack
++                = r.task.stack != mStackSupervisor.getFocusedStack()
++                && prevState == ActivityState.PAUSED && mode == FINISH_AFTER_VISIBLE;
+ 
+         if (mode == FINISH_IMMEDIATELY
+                 || (prevState == ActivityState.PAUSED
+-                    && (mode == FINISH_AFTER_PAUSE || mode == FINISH_AFTER_VISIBLE
+-                        || mStackId == PINNED_STACK_ID))
++                    && (mode == FINISH_AFTER_PAUSE || mStackId == PINNED_STACK_ID))
++                || finishingActivityInNonFocusedStack
+                 || prevState == ActivityState.STOPPED
+                 || prevState == ActivityState.INITIALIZING) {
+             r.makeFinishingLocked();
+             boolean activityRemoved = destroyActivityLocked(r, true, "finish-imm");
+ 
+-            if (prevState == ActivityState.PAUSED && mode == FINISH_AFTER_VISIBLE) {
+-                // Finishing activity that was in paused state - this can happen if it was in
+-                // not currently focused stack. Need to make something visible in its place.
++            if (finishingActivityInNonFocusedStack) {
++                // Finishing activity that was in paused state and it was in not currently focused
++                // stack, need to make something visible in its place.
+                 mStackSupervisor.ensureActivitiesVisibleLocked(null, 0, !PRESERVE_WINDOWS);
+             }
+             if (activityRemoved) {
+-- 
+2.9.3
+

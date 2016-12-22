@@ -1,0 +1,32 @@
+From 5e4e16c387cf9b8d8dd4b5e6ef9a93434e863811 Mon Sep 17 00:00:00 2001
+From: Jason Monk <jmonk@google.com>
+Date: Fri, 14 Oct 2016 10:46:37 -0400
+Subject: [PATCH 39/40] Fix launching alarm pending intent
+
+Launch it as a pending intent.
+
+Change-Id: I2adf9347facb9c6fb58cbf8549233c34fcc87350
+Fixes: 23909438
+(cherry picked from commit d0408f0028ea2572c71fda20f96fd64facdb0341)
+---
+ .../com/android/systemui/statusbar/phone/QuickStatusBarHeader.java    | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/phone/QuickStatusBarHeader.java b/packages/SystemUI/src/com/android/systemui/statusbar/phone/QuickStatusBarHeader.java
+index 2de8329..01f3185 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/phone/QuickStatusBarHeader.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/phone/QuickStatusBarHeader.java
+@@ -371,9 +371,7 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
+             }
+         } else if (v == mAlarmStatus && mNextAlarm != null) {
+             PendingIntent showIntent = mNextAlarm.getShowIntent();
+-            if (showIntent != null && showIntent.isActivity()) {
+-                mActivityStarter.startActivity(showIntent.getIntent(), true /* dismissShade */);
+-            }
++            mActivityStarter.startPendingIntentDismissingKeyguard(showIntent);
+         }
+     }
+ 
+-- 
+2.9.3
+

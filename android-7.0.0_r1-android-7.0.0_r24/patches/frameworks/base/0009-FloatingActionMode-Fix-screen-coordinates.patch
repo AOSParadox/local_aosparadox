@@ -1,0 +1,45 @@
+From 87ec2aaab389886bc48336283ab714eed8d5630e Mon Sep 17 00:00:00 2001
+From: Abodunrinwa Toki <toki@google.com>
+Date: Fri, 15 Jul 2016 14:40:26 +0100
+Subject: [PATCH 09/40] FloatingActionMode: Fix screen coordinates.
+
+Use application context to get the screen's display metrics.
+
+Bug: 30127070
+Change-Id: I2c453c494ef210c12d89fc7e3ff026728f9ecb0f
+(cherry picked from commit afb38c5cc4226ce82367015f4ce52765018226d6)
+(cherry picked from commit 99c340cad9ec79128a32a39416a5764a34aa362b)
+---
+ core/java/com/android/internal/view/FloatingActionMode.java | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
+
+diff --git a/core/java/com/android/internal/view/FloatingActionMode.java b/core/java/com/android/internal/view/FloatingActionMode.java
+index 31ab26f..831c646 100644
+--- a/core/java/com/android/internal/view/FloatingActionMode.java
++++ b/core/java/com/android/internal/view/FloatingActionMode.java
+@@ -26,6 +26,7 @@ import android.view.View;
+ import android.view.ViewConfiguration;
+ import android.view.ViewGroup;
+ import android.view.ViewParent;
++import android.util.DisplayMetrics;
+ 
+ import com.android.internal.R;
+ import com.android.internal.util.Preconditions;
+@@ -209,11 +210,9 @@ public class FloatingActionMode extends ActionMode {
+     }
+ 
+     private boolean isContentRectWithinBounds() {
+-        mScreenRect.set(
+-            0,
+-            0,
+-            mContext.getResources().getDisplayMetrics().widthPixels,
+-            mContext.getResources().getDisplayMetrics().heightPixels);
++        DisplayMetrics metrics = mContext.getApplicationContext()
++                .getResources().getDisplayMetrics();
++        mScreenRect.set(0, 0, metrics.widthPixels, metrics.heightPixels);
+ 
+         return intersectsClosed(mContentRectOnScreen, mScreenRect)
+             && intersectsClosed(mContentRectOnScreen, mViewRectOnScreen);
+-- 
+2.9.3
+

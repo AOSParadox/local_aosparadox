@@ -1,0 +1,22 @@
+From 1ad8a9f5ab00d3ee3b367bc3984e06b95c780369 Mon Sep 17 00:00:00 2001
+From: The Android Automerger <android-build@android.com>
+Date: Mon, 1 Aug 2016 19:22:31 -0700
+Subject: [PATCH 02/63] NRD90N
+
+---
+ core/build_id.mk | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/core/build_id.mk b/core/build_id.mk
+index c0cf0e1..e5190b4 100644
+--- a/core/build_id.mk
++++ b/core/build_id.mk
+@@ -18,4 +18,4 @@
+ # (like "CRB01").  It must be a single word, and is
+ # capitalized by convention.
+ 
+-export BUILD_ID=NRD90M
++export BUILD_ID=NRD90N
+-- 
+2.9.3
+

@@ -1,0 +1,37 @@
+From d86a59d16f36b3de12c959365b027d9f824b303a Mon Sep 17 00:00:00 2001
+From: Adam Seaton <aseaton@google.com>
+Date: Thu, 18 Aug 2016 10:33:30 -0700
+Subject: [PATCH 17/63] Update Security String to 2016-10-01 to platform and
+ CTS for October Security
+
+Change-Id: I7ccdd54c1d269422c5e2e1f3e268fc539b6eb684
+(cherry picked from commit cb60b2dedbf6a346f3affc66a2e89a8068c530e2)
+---
+ core/version_defaults.mk | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
+
+diff --git a/core/version_defaults.mk b/core/version_defaults.mk
+index 181a1c8..ae12a06 100644
+--- a/core/version_defaults.mk
++++ b/core/version_defaults.mk
+@@ -109,12 +109,11 @@ ifeq "" "$(DEFAULT_APP_TARGET_SDK)"
+ endif
+ 
+ ifeq "" "$(PLATFORM_SECURITY_PATCH)"
+-    #  Used to indicate the security patch that has been applied to the device.
+-    #  It must signify that the build includes all security patches issued up through the designated Android Public Security Bulletin.
+-    #  It must be of the form "YYYY-MM-DD" on production devices.
+-    #  It must match one of the Android Security Patch Level strings of the Public Security Bulletins.
+-    #  If there is no $PLATFORM_SECURITY_PATCH set, keep it empty.
+-      PLATFORM_SECURITY_PATCH := 2016-10-05
++  # Used to indicate the security patch that has been applied to the device.
++  # Must be of the form "YYYY-MM-DD" on production devices.
++  #
++  # If there is no $PLATFORM_SECURITY_PATCH set, keep it empty.
++  PLATFORM_SECURITY_PATCH := 2016-10-01
+ endif
+ 
+ ifeq "" "$(PLATFORM_BASE_OS)"
+-- 
+2.9.3
+

@@ -1,0 +1,37 @@
+From dabbe373c415306b724fe8e0def9985c01330174 Mon Sep 17 00:00:00 2001
+From: Adam Seaton <aseaton@google.com>
+Date: Thu, 25 Aug 2016 19:46:06 -0700
+Subject: [PATCH 15/63] Update comments around PLATFORM_SECURITY_LEVEL
+ (nyc-dev) Bug: 29881091
+
+Change-Id: I2bdaf7f796ab94b14416aaed6d68dc3a239ea5f9
+(cherry picked from commit c63e4295ef685eca81434d2f936c28f7b09843da)
+---
+ core/version_defaults.mk | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
+
+diff --git a/core/version_defaults.mk b/core/version_defaults.mk
+index 31decf1..181a1c8 100644
+--- a/core/version_defaults.mk
++++ b/core/version_defaults.mk
+@@ -109,11 +109,12 @@ ifeq "" "$(DEFAULT_APP_TARGET_SDK)"
+ endif
+ 
+ ifeq "" "$(PLATFORM_SECURITY_PATCH)"
+-  # Used to indicate the security patch that has been applied to the device.
+-  # Must be of the form "YYYY-MM-DD" on production devices.
+-  #
+-  # If there is no $PLATFORM_SECURITY_PATCH set, keep it empty.
+-  PLATFORM_SECURITY_PATCH := 2016-10-05
++    #  Used to indicate the security patch that has been applied to the device.
++    #  It must signify that the build includes all security patches issued up through the designated Android Public Security Bulletin.
++    #  It must be of the form "YYYY-MM-DD" on production devices.
++    #  It must match one of the Android Security Patch Level strings of the Public Security Bulletins.
++    #  If there is no $PLATFORM_SECURITY_PATCH set, keep it empty.
++      PLATFORM_SECURITY_PATCH := 2016-10-05
+ endif
+ 
+ ifeq "" "$(PLATFORM_BASE_OS)"
+-- 
+2.9.3
+

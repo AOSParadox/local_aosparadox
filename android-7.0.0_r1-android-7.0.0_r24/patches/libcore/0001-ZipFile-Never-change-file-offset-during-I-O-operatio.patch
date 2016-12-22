@@ -1,0 +1,248 @@
+From 96ecd0b09b52c4afb0ea17b2228206a49775c83d Mon Sep 17 00:00:00 2001
+From: Narayan Kamath <narayan@google.com>
+Date: Thu, 18 Aug 2016 14:15:58 +0100
+Subject: [PATCH 1/2] ZipFile: Never change file offset during I/O operations.
+
+Use pread instead read and eliminate unnecessary calls to lseek.
+
+dalvik.system.VMClassLoader maintains a cache of JarFile objects
+that it creates whenever it loads resources from them. This cache may
+be populated in the zygote as a side effect of preloading classes. When
+processes are forked from the zygote, the file descriptors associated
+with these JarFile objects point to the same kernel file description
+and may end up stepping on each others toes. To avoid such issues, we
+never make any offset changes to the associated file.
+
+Note that we have a guarantee that the file will never be closed in
+any forked process because the associated JarFile objects can never be
+collected.
+
+test: run cts -m CtsLibcoreTestCases / ZipStressTest / manual testing
+      to trigger the race condition.
+
+bug: 30407219
+bug: 30904760
+
+(cherry picked from commit 0393d3c84ed9bd24bcf0dac3782a1cc23400ace8)
+
+(cherry picked from commit 50c5924a4a1f78b7722d97dc958317027e25e214)
+
+Change-Id: I1d2be54e768f668616e5b53e038d80fab5aa7e18
+(cherry picked from commit 36d074286912d876489c6ff21bc0c41016180dad)
+---
+ .../java/libcore/java/util/zip/ZipFileTest.java    | 49 ++++++++++++++++++++++
+ ojluni/src/main/java/java/util/zip/ZipFile.java    |  8 ++++
+ ojluni/src/main/native/java_util_zip_ZipFile.c     |  7 ++++
+ ojluni/src/main/native/zip_util.c                  | 33 ++++++---------
+ 4 files changed, 76 insertions(+), 21 deletions(-)
+
+diff --git a/luni/src/test/java/libcore/java/util/zip/ZipFileTest.java b/luni/src/test/java/libcore/java/util/zip/ZipFileTest.java
+index 02210ac..03fa29a 100644
+--- a/luni/src/test/java/libcore/java/util/zip/ZipFileTest.java
++++ b/luni/src/test/java/libcore/java/util/zip/ZipFileTest.java
+@@ -16,7 +16,18 @@
+ 
+ package libcore.java.util.zip;
+ 
++import android.system.OsConstants;
++import libcore.io.Libcore;
++
++import java.io.BufferedOutputStream;
++import java.io.File;
++import java.io.FileDescriptor;
++import java.io.FileOutputStream;
++import java.io.InputStream;
+ import java.io.OutputStream;
++import java.util.Enumeration;
++import java.util.zip.ZipEntry;
++import java.util.zip.ZipFile;
+ import java.util.zip.ZipOutputStream;
+ 
+ public final class ZipFileTest extends AbstractZipFileTest {
+@@ -25,4 +36,42 @@ public final class ZipFileTest extends AbstractZipFileTest {
+     protected ZipOutputStream createZipOutputStream(OutputStream wrapped) {
+         return new ZipOutputStream(wrapped);
+     }
++
++    // http://b/30407219
++    public void testZipFileOffsetNeverChangesAfterInit() throws Exception {
++        final File f = createTemporaryZipFile();
++        writeEntries(createZipOutputStream(new BufferedOutputStream(new FileOutputStream(f))),
++                2 /* number of entries */, 1024 /* entry size */, true /* setEntrySize */);
++
++        ZipFile zipFile = new ZipFile(f);
++        FileDescriptor fd = new FileDescriptor();
++        fd.setInt$(zipFile.getFileDescriptor());
++
++        long initialOffset = android.system.Os.lseek(fd, 0, OsConstants.SEEK_CUR);
++
++        Enumeration<? extends ZipEntry> entries = zipFile.entries();
++        assertOffset(initialOffset, fd);
++
++        // Get references to the two elements in the file.
++        ZipEntry entry1 = entries.nextElement();
++        ZipEntry entry2 = entries.nextElement();
++        assertFalse(entries.hasMoreElements());
++        assertOffset(initialOffset, fd);
++
++        InputStream is1 = zipFile.getInputStream(entry1);
++        assertOffset(initialOffset, fd);
++        is1.read(new byte[256]);
++        assertOffset(initialOffset, fd);
++        is1.close();
++
++        assertNotNull(zipFile.getEntry(entry2.getName()));
++        assertOffset(initialOffset, fd);
++
++        zipFile.close();
++    }
++
++    private static void assertOffset(long initialOffset, FileDescriptor fd) throws Exception {
++        long currentOffset = android.system.Os.lseek(fd, 0, OsConstants.SEEK_CUR);
++        assertEquals(initialOffset, currentOffset);
++    }
+ }
+diff --git a/ojluni/src/main/java/java/util/zip/ZipFile.java b/ojluni/src/main/java/java/util/zip/ZipFile.java
+index e6624af..9ff661a 100755
+--- a/ojluni/src/main/java/java/util/zip/ZipFile.java
++++ b/ojluni/src/main/java/java/util/zip/ZipFile.java
+@@ -771,6 +771,14 @@ class ZipFile implements ZipConstants, Closeable {
+         return locsig;
+     }
+ 
++    /** @hide */
++    // @VisibleForTesting
++    public int getFileDescriptor() {
++        return getFileDescriptor(jzfile);
++    }
++
++    private static native int getFileDescriptor(long jzfile);
++
+     private static native long open(String name, int mode, long lastModified,
+                                     boolean usemmap) throws IOException;
+     private static native int getTotal(long jzfile);
+diff --git a/ojluni/src/main/native/java_util_zip_ZipFile.c b/ojluni/src/main/native/java_util_zip_ZipFile.c
+index 7280d97..5353ff4 100644
+--- a/ojluni/src/main/native/java_util_zip_ZipFile.c
++++ b/ojluni/src/main/native/java_util_zip_ZipFile.c
+@@ -156,6 +156,12 @@ ZipFile_close(JNIEnv *env, jclass cls, jlong zfile)
+     ZIP_Close(jlong_to_ptr(zfile));
+ }
+ 
++JNIEXPORT jint JNICALL
++ZipFile_getFileDescriptor(JNIEnv *env, jclass cls, jlong zfile) {
++    jzfile *zip = jlong_to_ptr(zfile);
++    return zip->zfd;
++}
++
+ JNIEXPORT jlong JNICALL
+ ZipFile_getEntry(JNIEnv *env, jclass cls, jlong zfile,
+                  jbyteArray name, jboolean addSlash)
+@@ -390,6 +396,7 @@ JarFile_getMetaInfEntryNames(JNIEnv *env, jobject obj)
+ }
+ 
+ static JNINativeMethod gMethods[] = {
++  NATIVE_METHOD(ZipFile, getFileDescriptor, "(J)I"),
+   NATIVE_METHOD(ZipFile, getEntry, "(J[BZ)J"),
+   NATIVE_METHOD(ZipFile, freeEntry, "(JJ)V"),
+   NATIVE_METHOD(ZipFile, getNextEntry, "(JI)J"),
+diff --git a/ojluni/src/main/native/zip_util.c b/ojluni/src/main/native/zip_util.c
+index a4dbe14..5a2a0b8 100644
+--- a/ojluni/src/main/native/zip_util.c
++++ b/ojluni/src/main/native/zip_util.c
+@@ -142,7 +142,7 @@ ZFILE_Close(ZFILE zfd) {
+ }
+ 
+ static int
+-ZFILE_read(ZFILE zfd, char *buf, jint nbytes) {
++ZFILE_read(ZFILE zfd, char *buf, jint nbytes, jlong offset) {
+ #ifdef WIN32
+     return (int) IO_Read(zfd, buf, nbytes);
+ #else
+@@ -154,7 +154,7 @@ ZFILE_read(ZFILE zfd, char *buf, jint nbytes) {
+      * JVM_IO_INTR is tricky and could cause undesired side effect. So we decided
+      * to simply call "read" on Solaris/Linux. See details in bug 6304463.
+      */
+-    return read(zfd, buf, nbytes);
++    return pread(zfd, buf, nbytes, offset);
+ #endif
+ }
+ 
+@@ -183,11 +183,11 @@ InitializeZip()
+ }
+ 
+ /*
+- * Reads len bytes of data into buf.
++ * Reads len bytes of data from the specified offset into buf.
+  * Returns 0 if all bytes could be read, otherwise returns -1.
+  */
+ static int
+-readFully(ZFILE zfd, void *buf, jlong len) {
++readFullyAt(ZFILE zfd, void *buf, jlong len, jlong offset) {
+   char *bp = (char *) buf;
+ 
+   while (len > 0) {
+@@ -195,9 +195,10 @@ readFully(ZFILE zfd, void *buf, jlong len) {
+         jint count = (len < limit) ?
+             (jint) len :
+             (jint) limit;
+-        jint n = ZFILE_read(zfd, bp, count);
++        jint n = ZFILE_read(zfd, bp, count, offset);
+         if (n > 0) {
+             bp += n;
++            offset += n;
+             len -= n;
+         } else if (n == JVM_IO_ERR && errno == EINTR) {
+           /* Retry after EINTR (interrupted by signal).
+@@ -210,19 +211,6 @@ readFully(ZFILE zfd, void *buf, jlong len) {
+     return 0;
+ }
+ 
+-/*
+- * Reads len bytes of data from the specified offset into buf.
+- * Returns 0 if all bytes could be read, otherwise returns -1.
+- */
+-static int
+-readFullyAt(ZFILE zfd, void *buf, jlong len, jlong offset)
+-{
+-    if (IO_Lseek(zfd, offset, SEEK_SET) == -1) {
+-        return -1; /* lseek failure. */
+-    }
+-
+-    return readFully(zfd, buf, len);
+-}
+ 
+ /*
+  * Allocates a new zip file object for the specified file name.
+@@ -877,14 +865,17 @@ ZIP_Put_In_Cache0(const char *name, ZFILE zfd, char **pmsg, jlong lastModified,
+         return NULL;
+     }
+ 
+-    // Assumption, zfd refers to start of file. Trivially, reuse errbuf.
+-    if (readFully(zfd, errbuf, 4) != -1) {  // errors will be handled later
++    // Trivially, reuse errbuf.
++    if (readFullyAt(zfd, errbuf, 4, 0 /* offset */) != -1) {  // errors will be handled later
+         if (GETSIG(errbuf) == LOCSIG)
+             zip->locsig = JNI_TRUE;
+         else
+             zip->locsig = JNI_FALSE;
+     }
+ 
++    // This lseek is safe because it happens during construction of the ZipFile
++    // object. We must take care not to perform any operations that change the
++    // offset after (see b/30407219).
+     len = zip->len = IO_Lseek(zfd, 0, SEEK_END);
+     if (len <= 0) {
+         if (len == 0) { /* zip file is empty */
+@@ -984,7 +975,7 @@ readCENHeader(jzfile *zip, jlong cenpos, jint bufsize)
+     censize = CENSIZE(cen);
+     if (censize <= bufsize) return cen;
+     if ((cen = realloc(cen, censize)) == NULL)              goto Catch;
+-    if (readFully(zfd, cen+bufsize, censize-bufsize) == -1) goto Catch;
++    if (readFullyAt(zfd, cen+bufsize, censize-bufsize, cenpos + bufsize) == -1) goto Catch;
+     return cen;
+ 
+  Catch:
+-- 
+2.9.3
+

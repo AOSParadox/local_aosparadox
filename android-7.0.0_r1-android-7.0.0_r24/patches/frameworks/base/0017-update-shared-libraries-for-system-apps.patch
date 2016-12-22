@@ -1,0 +1,39 @@
+From 80b4effdd7e15bfcac969c9cecdce831a7de64e2 Mon Sep 17 00:00:00 2001
+From: Todd Kennedy <toddke@google.com>
+Date: Thu, 28 Jul 2016 13:28:16 -0700
+Subject: [PATCH 17/40] update shared libraries for system apps
+
+After removing updates for a system package, we weren't updating its
+shared libraries when we should have. Make it so.
+
+NOTE: This didn't affect device boot because we update all of the
+shared libraries for all system applications after scanning packages.
+
+Bug: 30266503
+Change-Id: I8edf4344228fb3e793e7648ea70a041cb5db6af6
+(cherry picked from commit 6058df65e645a81bdc7285dcd9f8b12b9f5b534f)
+(cherry picked from commit 85a91def5c741b91a409d6a3cd6ae1df289d8f21)
+---
+ services/core/java/com/android/server/pm/PackageManagerService.java | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/services/core/java/com/android/server/pm/PackageManagerService.java b/services/core/java/com/android/server/pm/PackageManagerService.java
+index 3a549d2..edd679b 100755
+--- a/services/core/java/com/android/server/pm/PackageManagerService.java
++++ b/services/core/java/com/android/server/pm/PackageManagerService.java
+@@ -16081,6 +16081,12 @@ public class PackageManagerService extends IPackageManager.Stub {
+                     + e.getMessage());
+             return false;
+         }
++        try {
++            // update shared libraries for the newly re-installed system package
++            updateSharedLibrariesLPw(newPkg, null);
++        } catch (PackageManagerException e) {
++            Slog.e(TAG, "updateAllSharedLibrariesLPw failed: " + e.getMessage());
++        }
+ 
+         prepareAppDataAfterInstallLIF(newPkg);
+ 
+-- 
+2.9.3
+

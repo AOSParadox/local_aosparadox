@@ -1,7 +1,7 @@
-From a21fe6e02266124a2e4d4cdd927deefa2d1eb045 Mon Sep 17 00:00:00 2001
+From db17603a96732ca473b5507558dd9748163b0131 Mon Sep 17 00:00:00 2001
 From: Eric Laurent <elaurent@google.com>
 Date: Fri, 23 Sep 2016 13:10:18 -0700
-Subject: [PATCH] DO NOT MERGE - fix truncated boot sound
+Subject: [PATCH 34/40] DO NOT MERGE - fix truncated boot sound
 
 Wait for audioserver service initialization to complete
 before playing the sound

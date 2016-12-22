@@ -1,0 +1,240 @@
+From a280e7ef57dff305f502764fd93152151354219c Mon Sep 17 00:00:00 2001
+From: Selim Cinek <cinek@google.com>
+Date: Wed, 20 Jul 2016 13:46:49 -0700
+Subject: [PATCH 07/40] Fixed a bug where notifications could reappear
+
+With sensitive notifications a user could get into
+a situation where the groupsummary would not be cleared
+because its dismissability was never updated and based
+on the visibility of the veto button. This is now corrected.
+
+This Cl also cleans up the veto button handling overall and
+ensures that there's no stale state arond it.
+
+Change-Id: Ic7df8d382146d7863ee551c1daa8ba5ed384c7b5
+Fixes: 30056258
+(cherry picked from commit 9e624e732aa5646c83d203587be9c2c4e94c9266)
+(cherry picked from commit f3b64692a37e7e357342ee8f8dc23ff602a792d9)
+---
+ .../android/systemui/statusbar/BaseStatusBar.java  | 18 +++---------
+ .../statusbar/ExpandableNotificationRow.java       | 34 +++++++++++++++-------
+ .../stack/NotificationStackScrollLayout.java       | 24 +++++++--------
+ .../statusbar/stack/StackScrollAlgorithm.java      | 14 ++++-----
+ 4 files changed, 47 insertions(+), 43 deletions(-)
+
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/BaseStatusBar.java b/packages/SystemUI/src/com/android/systemui/statusbar/BaseStatusBar.java
+index 8530d66..e224141 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/BaseStatusBar.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/BaseStatusBar.java
+@@ -40,7 +40,6 @@ import android.content.pm.PackageManager;
+ import android.content.pm.PackageManager.NameNotFoundException;
+ import android.content.pm.UserInfo;
+ import android.content.res.Configuration;
+-import android.content.res.Resources;
+ import android.database.ContentObserver;
+ import android.graphics.Rect;
+ import android.graphics.drawable.Drawable;
+@@ -959,18 +958,15 @@ public abstract class BaseStatusBar extends SystemUI implements
+         }
+     }
+ 
+-    protected View bindVetoButtonClickListener(View row, final StatusBarNotification n) {
+-        View vetoButton = row.findViewById(R.id.veto);
+-        vetoButton.setOnClickListener(new View.OnClickListener() {
++    protected void bindDismissListener(final ExpandableNotificationRow row) {
++        row.setOnDismissListener(new View.OnClickListener() {
+             public void onClick(View v) {
+                 // Accessibility feedback
+                 v.announceForAccessibility(
+                         mContext.getString(R.string.accessibility_notification_dismissed));
+-                performRemoveNotification(n, false /* removeView */);
++                performRemoveNotification(row.getStatusBarNotification(), false /* removeView */);
+             }
+         });
+-        vetoButton.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+-        return vetoButton;
+     }
+ 
+     protected void performRemoveNotification(StatusBarNotification n, boolean removeView) {
+@@ -1647,9 +1643,7 @@ public abstract class BaseStatusBar extends SystemUI implements
+         }
+ 
+         workAroundBadLayerDrawableOpacity(row);
+-        View vetoButton = bindVetoButtonClickListener(row, sbn);
+-        vetoButton.setContentDescription(mContext.getString(
+-                R.string.accessibility_remove_notification));
++        bindDismissListener(row);
+ 
+         // NB: the large icon is now handled entirely by the template
+ 
+@@ -2409,10 +2403,6 @@ public abstract class BaseStatusBar extends SystemUI implements
+         updateHeadsUp(key, entry, shouldPeek, alertAgain);
+         updateNotifications();
+ 
+-        // Update the veto button accordingly (and as a result, whether this row is
+-        // swipe-dismissable)
+-        bindVetoButtonClickListener(entry.row, notification);
+-
+         if (!notification.isClearable()) {
+             // The user may have performed a dismiss action on the notification, since it's
+             // not clearable we should snap it back.
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/ExpandableNotificationRow.java b/packages/SystemUI/src/com/android/systemui/statusbar/ExpandableNotificationRow.java
+index f09eae8..e400506 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/ExpandableNotificationRow.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/ExpandableNotificationRow.java
+@@ -109,7 +109,6 @@ public class ExpandableNotificationRow extends ActivatableNotificationView {
+     private int mHeadsUpHeight;
+     private View mVetoButton;
+     private int mNotificationColor;
+-    private boolean mClearable;
+     private ExpansionLogger mLogger;
+     private String mLoggingKey;
+     private NotificationSettingsIconRow mSettingsIconRow;
+@@ -280,7 +279,6 @@ public class ExpandableNotificationRow extends ActivatableNotificationView {
+         mPublicLayout.onNotificationUpdated(entry);
+         mShowingPublicInitialized = false;
+         updateNotificationColor();
+-        updateClearability();
+         if (mIsSummaryWithChildren) {
+             mChildrenContainer.recreateNotificationHeader(mExpandClickListener, mEntry.notification);
+             mChildrenContainer.onNotificationUpdated();
+@@ -779,6 +777,14 @@ public class ExpandableNotificationRow extends ActivatableNotificationView {
+         return mGroupParentWhenDismissed;
+     }
+ 
++    public void performDismiss() {
++        mVetoButton.performClick();
++    }
++
++    public void setOnDismissListener(OnClickListener listener) {
++        mVetoButton.setOnClickListener(listener);
++    }
++
+     public interface ExpansionLogger {
+         public void logNotificationExpansion(String key, boolean userAction, boolean expanded);
+     }
+@@ -880,6 +886,9 @@ public class ExpandableNotificationRow extends ActivatableNotificationView {
+             }
+         });
+         mVetoButton = findViewById(R.id.veto);
++        mVetoButton.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
++        mVetoButton.setContentDescription(mContext.getString(
++                R.string.accessibility_remove_notification));
+ 
+         // Add the views that we translate to reveal the gear
+         mTranslateableViews = new ArrayList<View>();
+@@ -893,6 +902,10 @@ public class ExpandableNotificationRow extends ActivatableNotificationView {
+         mTranslateableViews.remove(mGutsStub);
+     }
+ 
++    public View getVetoButton() {
++        return mVetoButton;
++    }
++
+     public void resetTranslation() {
+         if (mTranslateableViews != null) {
+             for (int i = 0; i < mTranslateableViews.size(); i++) {
+@@ -1157,7 +1170,9 @@ public class ExpandableNotificationRow extends ActivatableNotificationView {
+     }
+ 
+     /**
+-     * @return Can the underlying notification be cleared?
++     * @return Can the underlying notification be cleared? This can be different from whether the
++     *         notification can be dismissed in case notifications are sensitive on the lockscreen.
++     * @see #canViewBeDismissed()
+      */
+     public boolean isClearable() {
+         return mStatusBarNotification != null && mStatusBarNotification.isClearable();
+@@ -1317,7 +1332,6 @@ public class ExpandableNotificationRow extends ActivatableNotificationView {
+         NotificationContentView showingLayout = getShowingLayout();
+         showingLayout.updateBackgroundColor(animated);
+         mPrivateLayout.updateExpandButtons(isExpandable());
+-        updateClearability();
+         mShowingPublicInitialized = true;
+     }
+ 
+@@ -1357,12 +1371,12 @@ public class ExpandableNotificationRow extends ActivatableNotificationView {
+         return mIsHeadsUp;
+     }
+ 
+-    private void updateClearability() {
+-        // public versions cannot be dismissed
+-        mVetoButton.setVisibility(canViewBeDismissed() ? View.VISIBLE : View.GONE);
+-    }
+-
+-    private boolean canViewBeDismissed() {
++    /**
++     * @return Whether this view is allowed to be dismissed. Only valid for visible notifications as
++     *         otherwise some state might not be updated. To request about the general clearability
++     *         see {@link #isClearable()}.
++     */
++    public boolean canViewBeDismissed() {
+         return isClearable() && (!mShowingPublic || !mSensitiveHiddenInGeneral);
+     }
+ 
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/stack/NotificationStackScrollLayout.java b/packages/SystemUI/src/com/android/systemui/statusbar/stack/NotificationStackScrollLayout.java
+index 17d3d71..1e5654e 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/stack/NotificationStackScrollLayout.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/stack/NotificationStackScrollLayout.java
+@@ -780,20 +780,20 @@ public class NotificationStackScrollLayout extends ViewGroup
+ 
+     public static void performDismiss(View v, NotificationGroupManager groupManager,
+             boolean fromAccessibility) {
+-        if (v instanceof ExpandableNotificationRow) {
+-            ExpandableNotificationRow row = (ExpandableNotificationRow) v;
+-            if (groupManager.isOnlyChildInGroup(row.getStatusBarNotification())) {
+-                ExpandableNotificationRow groupSummary =
+-                        groupManager.getLogicalGroupSummary(row.getStatusBarNotification());
+-                if (groupSummary.isClearable()) {
+-                    performDismiss(groupSummary, groupManager, fromAccessibility);
+-                }
++        if (!(v instanceof ExpandableNotificationRow)) {
++            return;
++        }
++        ExpandableNotificationRow row = (ExpandableNotificationRow) v;
++        if (groupManager.isOnlyChildInGroup(row.getStatusBarNotification())) {
++            ExpandableNotificationRow groupSummary =
++                    groupManager.getLogicalGroupSummary(row.getStatusBarNotification());
++            if (groupSummary.isClearable()) {
++                performDismiss(groupSummary, groupManager, fromAccessibility);
+             }
+-            row.setDismissed(true, fromAccessibility);
+         }
+-        final View veto = v.findViewById(R.id.veto);
+-        if (veto != null && veto.getVisibility() != View.GONE) {
+-            veto.performClick();
++        row.setDismissed(true, fromAccessibility);
++        if (row.isClearable()) {
++            row.performDismiss();
+         }
+         if (DEBUG) Log.v(TAG, "onChildDismissed: " + v);
+     }
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/stack/StackScrollAlgorithm.java b/packages/SystemUI/src/com/android/systemui/statusbar/stack/StackScrollAlgorithm.java
+index 87e87c8..45647ff 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/stack/StackScrollAlgorithm.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/stack/StackScrollAlgorithm.java
+@@ -173,14 +173,14 @@ public class StackScrollAlgorithm {
+     }
+ 
+     public static boolean canChildBeDismissed(View v) {
+-        if (v instanceof ExpandableNotificationRow) {
+-            ExpandableNotificationRow row = (ExpandableNotificationRow) v;
+-            if (row.areGutsExposed()) {
+-                return false;
+-            }
++        if (!(v instanceof ExpandableNotificationRow)) {
++            return false;
++        }
++        ExpandableNotificationRow row = (ExpandableNotificationRow) v;
++        if (row.areGutsExposed()) {
++            return false;
+         }
+-        final View veto = v.findViewById(R.id.veto);
+-        return (veto != null && veto.getVisibility() != View.GONE);
++        return row.canViewBeDismissed();
+     }
+ 
+     /**
+-- 
+2.9.3
+

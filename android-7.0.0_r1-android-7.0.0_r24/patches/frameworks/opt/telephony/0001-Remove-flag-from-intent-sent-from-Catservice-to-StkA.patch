@@ -1,0 +1,30 @@
+From 8c0a2950d67e52c341176d1946bb4203c2c143d7 Mon Sep 17 00:00:00 2001
+From: Sanket Padawe <sanketpadawe@google.com>
+Date: Fri, 9 Sep 2016 10:28:57 -0700
+Subject: [PATCH] Remove flag from intent sent from Catservice to StkApp.
+
++ Remove FLAG_RECEIVER_REGISTERED_ONLY_BEFORE_BOOT from intent sent from
+CatService to StkApp as StkApp doesn't have registered receiver.
+
+Bug: 31292260
+Change-Id: Icdf688795138342b7de3b1a4cd31563351b2ccd5
+(cherry picked from commit f6f1da3df0fee3f8a4f22e3d3f5d58c1a15bf912)
+---
+ src/java/com/android/internal/telephony/cat/CatService.java | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/src/java/com/android/internal/telephony/cat/CatService.java b/src/java/com/android/internal/telephony/cat/CatService.java
+index fe74104..2c2a697 100644
+--- a/src/java/com/android/internal/telephony/cat/CatService.java
++++ b/src/java/com/android/internal/telephony/cat/CatService.java
+@@ -523,7 +523,6 @@ public class CatService extends Handler implements AppInterface {
+ 
+     private void broadcastCatCmdIntent(CatCmdMessage cmdMsg) {
+         Intent intent = new Intent(AppInterface.CAT_CMD_ACTION);
+-        intent.addFlags(Intent.FLAG_RECEIVER_REGISTERED_ONLY_BEFORE_BOOT);
+         intent.putExtra("STK CMD", cmdMsg);
+         intent.putExtra("SLOT_ID", mSlotId);
+         CatLog.d(this, "Sending CmdMsg: " + cmdMsg+ " on slotid:" + mSlotId);
+-- 
+2.9.3
+

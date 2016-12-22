@@ -1,0 +1,45 @@
+From 404e0d49640adcbe4c329003d573adafb0642f98 Mon Sep 17 00:00:00 2001
+From: Ray Essick <essick@google.com>
+Date: Tue, 13 Sep 2016 11:43:17 -0700
+Subject: [PATCH 07/13] Fix free-after-use for MediaHTTP
+
+fix free-after-use when we reconnect to an HTTP media source.
+
+Change-Id: I96da5a79f5382409a545f8b4e22a24523f287464
+Tests: compilation and eyeballs
+Bug: 31373622
+(cherry picked from commit dd81e1592ffa77812998b05761eb840b70fed121)
+---
+ media/libstagefright/http/MediaHTTP.cpp | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/media/libstagefright/http/MediaHTTP.cpp b/media/libstagefright/http/MediaHTTP.cpp
+index 76ec625..5b18814 100644
+--- a/media/libstagefright/http/MediaHTTP.cpp
++++ b/media/libstagefright/http/MediaHTTP.cpp
+@@ -58,15 +58,19 @@ status_t MediaHTTP::connect(
+         extHeaders.add(String8("User-Agent"), String8(MakeUserAgent().c_str()));
+     }
+ 
+-    bool success = mHTTPConnection->connect(uri, &extHeaders);
++    mLastURI = uri;
++    // reconnect() calls with uri == old mLastURI.c_str(), which gets zapped
++    // as part of the above assignment. Ensure no accidental later use.
++    uri = NULL;
++
++    bool success = mHTTPConnection->connect(mLastURI.c_str(), &extHeaders);
+ 
+     mLastHeaders = extHeaders;
+-    mLastURI = uri;
+ 
+     mCachedSizeValid = false;
+ 
+     if (success) {
+-        AString sanitized = uriDebugString(uri);
++        AString sanitized = uriDebugString(mLastURI);
+         mName = String8::format("MediaHTTP(%s)", sanitized.c_str());
+     }
+ 
+-- 
+2.9.3
+

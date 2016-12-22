@@ -1,0 +1,49 @@
+From c367c75e244805998e467fb13def17bd651d4c40 Mon Sep 17 00:00:00 2001
+From: Yuichi Biwa <yuichi.xa.biwa@sonymobile.com>
+Date: Mon, 30 Nov 2015 14:43:34 +0900
+Subject: [PATCH 10/40] ChooserActivity: Cannot start app that the icon
+ overflows the layout
+
+Symptom:
+When sharing an image from Album, ChooserActivity can be shown.
+But then the app to be located to the bottom part of the list may not
+be started even if user tap it.
+
+Root cause:
+ChooserActivity uses ResolverDrawerLayout. And ResolverDrawerLayout
+can display only some items on the list (known as "Collapse mode").
+When the item clipping along the bottom edge is tapped by the user,
+ResolverDrawerLayout tries to expand the list and scroll it to a
+better position, instead of starting an application.
+In this problem case, ResolverDrawerLayout continues to try to expand
+the list whenever tapping, so an application will never start.
+
+Solution:
+Change a condition so that mOpenOnClick becomes true only when the list
+has been collapsed (mCollapseOffset > 0).
+
+Bug: 30153542
+
+Change-Id: I576fb6c8b6a91d79c1e0d46d069146779f4dbd17
+(cherry picked from commit 4f3a843ea9b6ffe2e29e6625ffb3d87fbf143623)
+(cherry picked from commit cb3e1237b5aacb03523a0f2e597326c2662877cf)
+---
+ core/java/com/android/internal/widget/ResolverDrawerLayout.java | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/core/java/com/android/internal/widget/ResolverDrawerLayout.java b/core/java/com/android/internal/widget/ResolverDrawerLayout.java
+index 8b9d503..e84cc27 100644
+--- a/core/java/com/android/internal/widget/ResolverDrawerLayout.java
++++ b/core/java/com/android/internal/widget/ResolverDrawerLayout.java
+@@ -245,7 +245,7 @@ public class ResolverDrawerLayout extends ViewGroup {
+                 final float y = ev.getY();
+                 mInitialTouchX = x;
+                 mInitialTouchY = mLastTouchY = y;
+-                mOpenOnClick = isListChildUnderClipped(x, y) && mCollapsibleHeight > 0;
++                mOpenOnClick = isListChildUnderClipped(x, y) && mCollapseOffset > 0;
+             }
+             break;
+ 
+-- 
+2.9.3
+

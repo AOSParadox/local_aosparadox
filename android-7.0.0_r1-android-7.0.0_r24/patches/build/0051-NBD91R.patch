@@ -1,0 +1,22 @@
+From 0ad3db52e50a5d581b163ef7df509ec0b0b4ca21 Mon Sep 17 00:00:00 2001
+From: gitbuildkicker <android-build@google.com>
+Date: Wed, 26 Oct 2016 12:07:42 -0700
+Subject: [PATCH 51/63] NBD91R
+
+---
+ core/build_id.mk | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/core/build_id.mk b/core/build_id.mk
+index 9ac255e..038c041 100644
+--- a/core/build_id.mk
++++ b/core/build_id.mk
+@@ -18,4 +18,4 @@
+ # (like "CRB01").  It must be a single word, and is
+ # capitalized by convention.
+ 
+-export BUILD_ID=NBF26
++export BUILD_ID=NBD91R
+-- 
+2.9.3
+

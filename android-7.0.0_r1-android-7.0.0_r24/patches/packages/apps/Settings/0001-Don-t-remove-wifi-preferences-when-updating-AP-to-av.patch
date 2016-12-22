@@ -1,0 +1,58 @@
+From 90aaf8abd3f34a2dd8ccb8338ee84cdd720eb2ee Mon Sep 17 00:00:00 2001
+From: Fan Zhang <zhfan@google.com>
+Date: Wed, 24 Aug 2016 14:52:49 -0700
+Subject: [PATCH 1/6] Don't remove wifi preferences when updating AP to avoid
+ GC.
+
+Bug: 30870531
+
+Removing wifi preferences every time will force update create a new set
+of preferences, which leads to higher chance of GC.
+
+Change-Id: Ifea2f63a3b54fa0d5861fb34a348d81e99bcab68
+(cherry picked from commit 9d031f2fbce4cc525e4d5a5598e9c9d1813c2ce2)
+---
+ src/com/android/settings/wifi/WifiSettings.java | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/src/com/android/settings/wifi/WifiSettings.java b/src/com/android/settings/wifi/WifiSettings.java
+index 40e3673..d0f803c 100755
+--- a/src/com/android/settings/wifi/WifiSettings.java
++++ b/src/com/android/settings/wifi/WifiSettings.java
+@@ -43,6 +43,7 @@ import android.provider.Settings;
+ import android.support.v7.preference.Preference;
+ import android.support.v7.preference.PreferenceViewHolder;
+ import android.text.Spannable;
++import android.text.TextUtils;
+ import android.text.style.TextAppearanceSpan;
+ import android.util.Log;
+ import android.view.ContextMenu;
+@@ -55,6 +56,7 @@ import android.widget.ProgressBar;
+ import android.widget.TextView;
+ import android.widget.TextView.BufferType;
+ import android.widget.Toast;
++
+ import com.android.internal.logging.MetricsLogger;
+ import com.android.internal.logging.MetricsProto.MetricsEvent;
+ import com.android.settings.LinkifyUtils;
+@@ -647,7 +649,6 @@ public class WifiSettings extends RestrictedSettingsFragment
+                 // AccessPoints are automatically sorted with TreeSet.
+                 final Collection<AccessPoint> accessPoints =
+                         mWifiTracker.getAccessPoints();
+-                getPreferenceScreen().removeAll();
+ 
+                 boolean hasAvailableAccessPoints = false;
+                 int index = 0;
+@@ -656,6 +657,9 @@ public class WifiSettings extends RestrictedSettingsFragment
+                     // Ignore access points that are out of range.
+                     if (accessPoint.getLevel() != -1) {
+                         String key = accessPoint.getBssid();
++                        if (TextUtils.isEmpty(key)) {
++                            key = accessPoint.getSsidStr();
++                        }
+                         hasAvailableAccessPoints = true;
+                         LongPressAccessPointPreference pref = (LongPressAccessPointPreference)
+                                 getCachedPreference(key);
+-- 
+2.9.3
+

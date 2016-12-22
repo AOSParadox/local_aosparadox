@@ -1,0 +1,128 @@
+From 7be49363cc980ad00dcf751bd7c989bac825bca9 Mon Sep 17 00:00:00 2001
+From: Sergio Giro <sgiro@google.com>
+Date: Fri, 19 Aug 2016 16:02:30 +0100
+Subject: [PATCH 2/2] sun.security.util: check lengths in DER encoding are
+ non-negative
+
+Port of:
+http://hg.openjdk.java.net/jdk8u/jdk8u/jdk/rev/4581ed6af636
+
+This completes the upgrade to jdk8u60 of the classes
+DerIndefLenConverter and DerInputStream.
+
+(cherry picked from commit e27611b2c8a2c8cb413ff2f5f0c9cbae288aa835)
+
+Bug: 30703445
+Bug: 29631070
+Change-Id: I052a1ea9959f9623973bf949a96923b603e17774
+(cherry picked from commit 4c3078609421ce333468dd415d62980e68d35c9e)
+---
+ .../security/auth/x500/X500PrincipalTest.java      | 24 ++++++++++++++++++++++
+ .../sun/security/util/DerIndefLenConverter.java    | 23 +++++++++++++++------
+ .../java/sun/security/util/DerInputStream.java     |  4 ++++
+ 3 files changed, 45 insertions(+), 6 deletions(-)
+
+diff --git a/luni/src/test/java/libcore/javax/security/auth/x500/X500PrincipalTest.java b/luni/src/test/java/libcore/javax/security/auth/x500/X500PrincipalTest.java
+index 4f5d658..5471b1f 100644
+--- a/luni/src/test/java/libcore/javax/security/auth/x500/X500PrincipalTest.java
++++ b/luni/src/test/java/libcore/javax/security/auth/x500/X500PrincipalTest.java
+@@ -120,6 +120,30 @@ public class X500PrincipalTest extends TestCase {
+         expectExceptionInDNConstructor("l=\\g0");
+     }
+ 
++    public void testNegativeLen() {
++        try {
++            X500Principal p = new X500Principal(new byte[]{
++                    0x30, // DerValue.tag_Sequence read in DerValue#getSequence
++                    9,    // Length of the vector. read in readVector.
++                          // DerInputStream.getLength will just return this as 10 & 0x80 == 0
++                    -1,   // Tag of the first value in the sequencevalue. Convenient so that it
++                          // doesn't hold DerIndefLenConverter.isEOC()
++                    (byte) 0x80, // Encoding in indefinite form
++                    -1,          // Second tag to be read by DerIndefLenConverter
++                    (byte) 0x84, // Second length byte to be read, 0x80 means long form, 4 bytes
++                    (byte) 0xff, // Length to be read by DerIndefLenConverter, -6, will move the
++                                 // buffer position to the second tag
++                    (byte) 0xff,
++                    (byte) 0xff,
++                    (byte) -6,
++                    0,           // Needed as otherwise it's detected that there's nothing after
++                    // the length
++            });
++            fail("expected IllegalArgumentException");
++        } catch (IllegalArgumentException expected) {
++        }
++    }
++
+     private void expectExceptionInDNConstructor(String dn) {
+         try {
+             X500Principal principal = new X500Principal(dn);
+diff --git a/ojluni/src/main/java/sun/security/util/DerIndefLenConverter.java b/ojluni/src/main/java/sun/security/util/DerIndefLenConverter.java
+index 78d9e30..cbd5ecc 100755
+--- a/ojluni/src/main/java/sun/security/util/DerIndefLenConverter.java
++++ b/ojluni/src/main/java/sun/security/util/DerIndefLenConverter.java
+@@ -1,5 +1,5 @@
+ /*
+- * Copyright (c) 1998, 2008, Oracle and/or its affiliates. All rights reserved.
++ * Copyright (c) 1998, 2012, Oracle and/or its affiliates. All rights reserved.
+  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+  *
+  * This code is free software; you can redistribute it and/or modify it
+@@ -156,12 +156,18 @@ class DerIndefLenConverter {
+         }
+         if (isLongForm(lenByte)) {
+             lenByte &= LEN_MASK;
+-            if (lenByte > 4)
++            if (lenByte > 4) {
+                 throw new IOException("Too much data");
+-            if ((dataSize - dataPos) < (lenByte + 1))
++            }
++            if ((dataSize - dataPos) < (lenByte + 1)) {
+                 throw new IOException("Too little data");
+-            for (int i = 0; i < lenByte; i++)
++            }
++            for (int i = 0; i < lenByte; i++) {
+                 curLen = (curLen << 8) + (data[dataPos++] & 0xff);
++            }
++            if (curLen < 0) {
++                throw new IOException("Invalid length bytes");
++            }
+         } else {
+            curLen = (lenByte & LEN_MASK);
+         }
+@@ -188,10 +194,15 @@ class DerIndefLenConverter {
+         }
+         if (isLongForm(lenByte)) {
+             lenByte &= LEN_MASK;
+-            for (int i = 0; i < lenByte; i++)
++            for (int i = 0; i < lenByte; i++) {
+                 curLen = (curLen << 8) + (data[dataPos++] & 0xff);
+-        } else
++            }
++            if (curLen < 0) {
++                throw new IOException("Invalid length bytes");
++            }
++        } else {
+             curLen = (lenByte & LEN_MASK);
++        }
+         writeLength(curLen);
+         writeValue(curLen);
+     }
+diff --git a/ojluni/src/main/java/sun/security/util/DerInputStream.java b/ojluni/src/main/java/sun/security/util/DerInputStream.java
+index 8f51439..dae8afd 100755
+--- a/ojluni/src/main/java/sun/security/util/DerInputStream.java
++++ b/ojluni/src/main/java/sun/security/util/DerInputStream.java
+@@ -604,6 +604,10 @@ public class DerInputStream {
+                 value <<= 8;
+                 value += 0x0ff & in.read();
+             }
++            if (value < 0) {
++                throw new IOException("DerInputStream.getLength(): "
++                        + "Invalid length bytes");
++            }
+         }
+         return value;
+     }
+-- 
+2.9.3
+

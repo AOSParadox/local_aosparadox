@@ -1,0 +1,62 @@
+From 2dcbddcdf3b5d104b14e8cd765af65e13765ee41 Mon Sep 17 00:00:00 2001
+From: Yohei Yukawa <yukawa@google.com>
+Date: Fri, 5 Aug 2016 15:38:55 -0700
+Subject: [PATCH 13/40] Make sure IME focus is synced to View focus
+
+This CL fixes an edge case that my previous CL [1] forgot to handle.
+
+The goal of my previous CL was to avoid InputMethodManager from getting
+confused by a false focus-in event from temporarily detached Views.
+However, my CL forgot to take care of the case where the temporarily
+detached View is still focused even after the temporary detach mode is
+done.
+
+The bad news is that such a situation is relatively easy to trigger by
+having a ListView that has EditText as follows, which seems to be
+known to be a common technique in Android developer community to put an
+EditText in a ListView.
+  ListView#listView.addHeaderView(new EditText(context), null, true);
+
+If the ListView is initialized as above, and the EditText has input
+focus, View focus and IME focus start to disagree immediatelly after the
+ListView's layout is re-evaluated.  This is really easy to trigger, for
+example just by dismissing the IME window.
+
+In summary, the root cause is that InputMethodManager#focusIn(View) is
+now always ignored as long as the View is temporarily detached, under an
+assumption that IMM#focusIn(View) will be called back again with a View
+that is not temporarily detached when everything is stable.  Hence the
+fix is to do so by hooking up View#dispatchFinishTemporaryDetach() to
+call IMM#focusIn(View) again when the View is actually focused in the
+final state.
+
+ [1]: Ia79bbd8468f768d546354382b47b39dd31ef7bb5
+      a4ed0cfcb6885beeb52f701bfc64c393b668f7ba
+
+Bug: 30022872
+Bug: 30578745
+Bug: 30706985
+Change-Id: Iecbdb00dcef8c72e4f7b31035c9bf0f4a40a578f
+(cherry picked from commit dd228fbb4d2cb3d178ed7f1889343bfe177aafa2)
+(cherry picked from commit 8eb07090a4fdd5a184f172853249323d85cff262)
+---
+ core/java/android/view/View.java | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/core/java/android/view/View.java b/core/java/android/view/View.java
+index f0b42ab..c9bb412 100644
+--- a/core/java/android/view/View.java
++++ b/core/java/android/view/View.java
+@@ -9816,6 +9816,9 @@ public class View implements Drawable.Callback, KeyEvent.Callback,
+     public void dispatchFinishTemporaryDetach() {
+         onFinishTemporaryDetach();
+         mPrivateFlags3 &= ~PFLAG3_TEMPORARY_DETACH;
++        if (hasWindowFocus() && hasFocus()) {
++            InputMethodManager.getInstance().focusIn(this);
++        }
+     }
+ 
+     /**
+-- 
+2.9.3
+

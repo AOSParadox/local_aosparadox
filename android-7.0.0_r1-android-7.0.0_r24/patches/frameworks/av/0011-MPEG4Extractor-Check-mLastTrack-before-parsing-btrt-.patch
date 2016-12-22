@@ -1,0 +1,30 @@
+From a319b7df19e3f215ca0b3f9b3e5b31a49666f72d Mon Sep 17 00:00:00 2001
+From: Pawin Vongmasa <pawin@google.com>
+Date: Fri, 30 Sep 2016 00:58:32 -0700
+Subject: [PATCH 11/13] MPEG4Extractor: Check mLastTrack before parsing btrt
+ box.
+
+Bug: 31449945
+Change-Id: I3380d494a57bb81f1a7455c64c3ab78da12c382d
+(cherry picked from commit fd9cc97d4dfe2a2fbce2c0f1704d7a27ce7cbc44)
+---
+ media/libstagefright/MPEG4Extractor.cpp | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/media/libstagefright/MPEG4Extractor.cpp b/media/libstagefright/MPEG4Extractor.cpp
+index 7fd2103..d6c1302 100644
+--- a/media/libstagefright/MPEG4Extractor.cpp
++++ b/media/libstagefright/MPEG4Extractor.cpp
+@@ -1779,6 +1779,9 @@ status_t MPEG4Extractor::parseChunk(off64_t *offset, int depth) {
+         case FOURCC('b', 't', 'r', 't'):
+         {
+             *offset += chunk_size;
++            if (mLastTrack == NULL) {
++                return ERROR_MALFORMED;
++            }
+ 
+             uint8_t buffer[12];
+             if (chunk_data_size != sizeof(buffer)) {
+-- 
+2.9.3
+

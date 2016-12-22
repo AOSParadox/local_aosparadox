@@ -1,0 +1,239 @@
+From fd41b2c2a209ce1f1d2e9c0c8b1d19c2305e2441 Mon Sep 17 00:00:00 2001
+From: Robin Lee <rgl@google.com>
+Date: Mon, 8 Aug 2016 14:48:43 +0100
+Subject: [PATCH 23/40] DO NOT MERGE Stop work challenge freeform bypass
+
+Bypassing work challenge in freeform mode was trivial by just keeping
+work apps open in freeform mode and then switching focus to them from
+another app.
+
+Because the only interception point is startActivity this never
+triggered work challenge.
+
+The solution is to trigger the check on focus change events and also to
+allow passing the result back into the freeform stack instead of dumping
+our user out into the homescreen.
+
+Change-Id: I141ecf90b5f0e708a21d27141b6fec6074e5d475
+Fix: 30693465
+(cherry picked from commit 0737c2b4c2ae6415eced00926235f848d1957bae)
+---
+ .../android/server/am/ActivityManagerService.java  | 15 ++++
+ .../android/server/am/ActivityStackSupervisor.java | 79 +++++++++++++++++++---
+ .../com/android/server/am/ActivityStarter.java     |  5 ++
+ .../devicepolicy/DevicePolicyManagerService.java   |  7 ++
+ 4 files changed, 95 insertions(+), 11 deletions(-)
+
+diff --git a/services/core/java/com/android/server/am/ActivityManagerService.java b/services/core/java/com/android/server/am/ActivityManagerService.java
+index 47e68d1..a379ae6 100644
+--- a/services/core/java/com/android/server/am/ActivityManagerService.java
++++ b/services/core/java/com/android/server/am/ActivityManagerService.java
+@@ -3071,6 +3071,15 @@ public final class ActivityManagerService extends ActivityManagerNative
+                 if (task == null) {
+                     return;
+                 }
++                if (mUserController.shouldConfirmCredentials(task.userId)) {
++                    mActivityStarter.showConfirmDeviceCredential(task.userId);
++                    if (task.stack != null && task.stack.mStackId == FREEFORM_WORKSPACE_STACK_ID) {
++                        mStackSupervisor.moveTaskToStackLocked(task.taskId,
++                                FULLSCREEN_WORKSPACE_STACK_ID, !ON_TOP, !FORCE_FOCUS,
++                                "setFocusedTask", ANIMATE);
++                    }
++                    return;
++                }
+                 final ActivityRecord r = task.topRunningActivityLocked();
+                 if (setFocusedActivityLocked(r, "setFocusedTask")) {
+                     mStackSupervisor.resumeFocusedStackTopActivityLocked();
+@@ -11803,6 +11812,12 @@ public final class ActivityManagerService extends ActivityManagerNative
+                 final long ident = Binder.clearCallingIdentity();
+                 try {
+                     final int currentUserId = mUserController.getCurrentUserIdLocked();
++
++                    // Drop locked freeform tasks out into the fullscreen stack.
++                    // TODO: Redact the tasks in place. It's much better to keep them on the screen
++                    //       where they were before, but in an obscured state.
++                    mStackSupervisor.moveProfileTasksFromFreeformToFullscreenStackLocked(userId);
++
+                     if (mUserController.isLockScreenDisabled(currentUserId)) {
+                         // If there is no device lock, we will show the profile's credential page.
+                         mActivityStarter.showConfirmDeviceCredential(userId);
+diff --git a/services/core/java/com/android/server/am/ActivityStackSupervisor.java b/services/core/java/com/android/server/am/ActivityStackSupervisor.java
+index 06e5ea2..4e03ec8 100644
+--- a/services/core/java/com/android/server/am/ActivityStackSupervisor.java
++++ b/services/core/java/com/android/server/am/ActivityStackSupervisor.java
+@@ -743,9 +743,11 @@ public final class ActivityStackSupervisor implements DisplayListener {
+         if (!mService.mUserController.shouldConfirmCredentials(userId)) {
+             return false;
+         }
+-        final ActivityStack fullScreenStack = getStack(FULLSCREEN_WORKSPACE_STACK_ID);
+-        final ActivityStack dockedStack = getStack(DOCKED_STACK_ID);
+-        final ActivityStack[] activityStacks = new ActivityStack[] {fullScreenStack, dockedStack};
++        final ActivityStack[] activityStacks = {
++            getStack(DOCKED_STACK_ID),
++            getStack(FREEFORM_WORKSPACE_STACK_ID),
++            getStack(FULLSCREEN_WORKSPACE_STACK_ID),
++        };
+         for (final ActivityStack activityStack : activityStacks) {
+             if (activityStack == null) {
+                 continue;
+@@ -759,14 +761,22 @@ public final class ActivityStackSupervisor implements DisplayListener {
+             if (activityStack.isDockedStack() && mIsDockMinimized) {
+                 continue;
+             }
+-            final TaskRecord topTask = activityStack.topTask();
+-            if (topTask == null) {
+-                continue;
+-            }
+-            // To handle the case that work app is in the task but just is not the top one.
+-            for (int i = topTask.mActivities.size() - 1; i >= 0; i--) {
+-                final ActivityRecord activityRecord = topTask.mActivities.get(i);
+-                if (activityRecord.userId == userId) {
++            if (activityStack.mStackId == FREEFORM_WORKSPACE_STACK_ID) {
++                // TODO: Only the topmost task should trigger credential confirmation. But first,
++                //       there needs to be a way to block out locked task window surfaces.
++                final List<TaskRecord> tasks = activityStack.getAllTasks();
++                final int size = tasks.size();
++                for (int i = 0; i < size; i++) {
++                    if (taskContainsActivityFromUser(tasks.get(i), userId)) {
++                        return true;
++                    }
++                }
++            } else {
++                final TaskRecord topTask = activityStack.topTask();
++                if (topTask == null) {
++                    continue;
++                }
++                if (taskContainsActivityFromUser(topTask, userId)) {
+                     return true;
+                 }
+             }
+@@ -774,6 +784,17 @@ public final class ActivityStackSupervisor implements DisplayListener {
+         return false;
+     }
+ 
++    private boolean taskContainsActivityFromUser(TaskRecord task, @UserIdInt int userId) {
++        // To handle the case that work app is in the task but just is not the top one.
++        for (int i = task.mActivities.size() - 1; i >= 0; i--) {
++            final ActivityRecord activityRecord = task.mActivities.get(i);
++            if (activityRecord.userId == userId) {
++                return true;
++            }
++        }
++        return false;
++    }
++
+     void setNextTaskIdForUserLocked(int taskId, int userId) {
+         final int currentTaskId = mCurTaskIdForUser.get(userId, -1);
+         if (taskId > currentTaskId) {
+@@ -2151,6 +2172,32 @@ public final class ActivityStackSupervisor implements DisplayListener {
+         }
+     }
+ 
++    /**
++     * TODO: remove the need for this method. (b/30693465)
++     *
++     * @param userId user handle for the locked managed profile. Freeform tasks for this user will
++     *        be moved to another stack, so they are not shown in the background.
++     */
++    void moveProfileTasksFromFreeformToFullscreenStackLocked(@UserIdInt int userId) {
++        final ActivityStack stack = getStack(FREEFORM_WORKSPACE_STACK_ID);
++        if (stack == null) {
++            return;
++        }
++        mWindowManager.deferSurfaceLayout();
++        try {
++            final ArrayList<TaskRecord> tasks = stack.getAllTasks();
++            final int size = tasks.size();
++            for (int i = size - 1; i >= 0; i--) {
++                if (taskContainsActivityFromUser(tasks.get(i), userId)) {
++                    positionTaskInStackLocked(tasks.get(i).taskId, FULLSCREEN_WORKSPACE_STACK_ID,
++                            /* position */ 0);
++                }
++            }
++        } finally {
++            mWindowManager.continueSurfaceLayout();
++        }
++    }
++
+     void resizeDockedStackLocked(Rect dockedBounds, Rect tempDockedTaskBounds,
+             Rect tempDockedTaskInsetBounds,
+             Rect tempOtherTaskBounds, Rect tempOtherTaskInsetBounds, boolean preserveWindows) {
+@@ -2331,6 +2378,10 @@ public final class ActivityStackSupervisor implements DisplayListener {
+             // Preferred stack is the docked stack, but the task can't go in the docked stack.
+             // Put it in the fullscreen stack.
+             stackId = FULLSCREEN_WORKSPACE_STACK_ID;
++        } else if (stackId == FREEFORM_WORKSPACE_STACK_ID
++                && mService.mUserController.shouldConfirmCredentials(task.userId)) {
++            // Task is barred from the freeform stack. Put it in the fullscreen stack.
++            stackId = FULLSCREEN_WORKSPACE_STACK_ID;
+         }
+ 
+         if (task.stack != null) {
+@@ -2403,6 +2454,12 @@ public final class ActivityStackSupervisor implements DisplayListener {
+             Slog.w(TAG, "Can not move unresizeable task=" + task
+                     + " to docked stack. Moving to stackId=" + stackId + " instead.");
+         }
++        if (stackId == FREEFORM_WORKSPACE_STACK_ID
++                && mService.mUserController.shouldConfirmCredentials(task.userId)) {
++            stackId = (prevStack != null) ? prevStack.mStackId : FULLSCREEN_WORKSPACE_STACK_ID;
++            Slog.w(TAG, "Can not move locked profile task=" + task
++                    + " to freeform stack. Moving to stackId=" + stackId + " instead.");
++        }
+ 
+         // Temporarily disable resizeablility of task we are moving. We don't want it to be resized
+         // if a docked stack is created below which will lead to the stack we are moving from and
+diff --git a/services/core/java/com/android/server/am/ActivityStarter.java b/services/core/java/com/android/server/am/ActivityStarter.java
+index 7b3f65a..ba497c7 100644
+--- a/services/core/java/com/android/server/am/ActivityStarter.java
++++ b/services/core/java/com/android/server/am/ActivityStarter.java
+@@ -623,10 +623,15 @@ class ActivityStarter {
+         ActivityStack targetStack;
+         ActivityStack fullscreenStack =
+                 mSupervisor.getStack(FULLSCREEN_WORKSPACE_STACK_ID);
++        ActivityStack freeformStack =
++                mSupervisor.getStack(FREEFORM_WORKSPACE_STACK_ID);
+         if (fullscreenStack != null &&
+                 fullscreenStack.getStackVisibilityLocked(null) != ActivityStack.STACK_INVISIBLE) {
+             // Single window case and the case that the docked stack is shown with fullscreen stack.
+             targetStack = fullscreenStack;
++        } else if (freeformStack != null &&
++                freeformStack.getStackVisibilityLocked(null) != ActivityStack.STACK_INVISIBLE) {
++            targetStack = freeformStack;
+         } else {
+             // The case that the docked stack is shown with recent.
+             targetStack = mSupervisor.getStack(HOME_STACK_ID);
+diff --git a/services/devicepolicy/java/com/android/server/devicepolicy/DevicePolicyManagerService.java b/services/devicepolicy/java/com/android/server/devicepolicy/DevicePolicyManagerService.java
+index b528016..2aaf945 100644
+--- a/services/devicepolicy/java/com/android/server/devicepolicy/DevicePolicyManagerService.java
++++ b/services/devicepolicy/java/com/android/server/devicepolicy/DevicePolicyManagerService.java
+@@ -53,6 +53,7 @@ import android.app.admin.SecurityLog;
+ import android.app.admin.SecurityLog.SecurityEvent;
+ import android.app.admin.SystemUpdatePolicy;
+ import android.app.backup.IBackupManager;
++import android.app.trust.TrustManager;
+ import android.content.BroadcastReceiver;
+ import android.content.ComponentName;
+ import android.content.Context;
+@@ -1366,6 +1367,10 @@ public class DevicePolicyManagerService extends IDevicePolicyManager.Stub {
+             return TelephonyManager.from(mContext);
+         }
+ 
++        TrustManager getTrustManager() {
++            return (TrustManager) mContext.getSystemService(Context.TRUST_SERVICE);
++        }
++
+         IWindowManager getIWindowManager() {
+             return IWindowManager.Stub
+                     .asInterface(ServiceManager.getService(Context.WINDOW_SERVICE));
+@@ -4181,6 +4186,8 @@ public class DevicePolicyManagerService extends IDevicePolicyManager.Stub {
+                     mInjector.powerManagerGoToSleep(SystemClock.uptimeMillis(),
+                             PowerManager.GO_TO_SLEEP_REASON_DEVICE_ADMIN, 0);
+                     mInjector.getIWindowManager().lockNow(null);
++                } else {
++                    mInjector.getTrustManager().setDeviceLockedForUser(userToLock, true);
+                 }
+             } catch (RemoteException e) {
+             } finally {
+-- 
+2.9.3
+

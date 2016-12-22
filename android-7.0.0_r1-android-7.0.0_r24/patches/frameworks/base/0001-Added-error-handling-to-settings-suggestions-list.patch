@@ -1,0 +1,41 @@
+From f82c72bb5204831d51c03b2ea41bf8ce3040b464 Mon Sep 17 00:00:00 2001
+From: Salvador Martinez <dehboxturtle@google.com>
+Date: Thu, 4 Aug 2016 13:37:52 -0700
+Subject: [PATCH 01/40] Added error handling to settings suggestions list
+
+The suggestions list in the summary page of the
+settings app could sometimes cause a crash due to
+an uncaught exception. Tis fixed now.
+
+Bug: 30656840
+Change-Id: If79f53e6a8c17a81653228d613797e94c473d410
+(cherry picked from commit 60d92b3b8390e33e069f343d6a425ab07c498d3d)
+---
+ .../SettingsLib/src/com/android/settingslib/SuggestionParser.java     | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/packages/SettingsLib/src/com/android/settingslib/SuggestionParser.java b/packages/SettingsLib/src/com/android/settingslib/SuggestionParser.java
+index 741b0ea..21786c9 100644
+--- a/packages/SettingsLib/src/com/android/settingslib/SuggestionParser.java
++++ b/packages/SettingsLib/src/com/android/settingslib/SuggestionParser.java
+@@ -28,7 +28,6 @@ import android.util.Xml;
+ import android.provider.Settings;
+ import android.accounts.Account;
+ import android.accounts.AccountManager;
+-import android.content.ContentValues;
+ import android.content.pm.PackageManager;
+ import android.content.res.Resources;
+ import android.view.InflateException;
+@@ -176,6 +175,9 @@ public class SuggestionParser {
+         } catch (PackageManager.NameNotFoundException e) {
+             Log.w(TAG, "Cannot find resources for " + suggestion.intent.getComponent());
+             return false;
++        } catch (Resources.NotFoundException e) {
++            Log.w(TAG, "Cannot find resources for " + suggestion.intent.getComponent(), e);
++            return false;
+         }
+     }
+ 
+-- 
+2.9.3
+

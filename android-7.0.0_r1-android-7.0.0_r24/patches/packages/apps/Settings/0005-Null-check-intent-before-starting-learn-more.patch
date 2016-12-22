@@ -1,0 +1,35 @@
+From a5ae4d2d2ddad09976a2c1e9d2905a3bdeb4e4af Mon Sep 17 00:00:00 2001
+From: Andrew Sapperstein <asapperstein@google.com>
+Date: Mon, 2 May 2016 18:28:21 -0700
+Subject: [PATCH 5/6] Null check intent before starting "learn more".
+
+It is possible in certain build configurations to have an invalid
+link. Instead of crashing, swallow the error and write to logs.
+
+BUG: 28381984
+Fixes: 31246856
+Change-Id: I19f20b96afb42758187707f1b86a5817e8d737a8
+(cherry picked from commit 6561d4870f031395316cf2fc956f69c306f04ae4)
+(cherry picked from commit e56d2be0b289707f99dd7988d719150991dcdd80)
+---
+ .../android/settings/fingerprint/FingerprintEnrollIntroduction.java   | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/src/com/android/settings/fingerprint/FingerprintEnrollIntroduction.java b/src/com/android/settings/fingerprint/FingerprintEnrollIntroduction.java
+index 4cbf963..5b9d398 100644
+--- a/src/com/android/settings/fingerprint/FingerprintEnrollIntroduction.java
++++ b/src/com/android/settings/fingerprint/FingerprintEnrollIntroduction.java
+@@ -187,6 +187,10 @@ public class FingerprintEnrollIntroduction extends FingerprintEnrollBase
+         public void onClick(View widget) {
+             Context ctx = widget.getContext();
+             Intent intent = HelpUtils.getHelpIntent(ctx, getURL(), ctx.getClass().getName());
++            if (intent == null) {
++                Log.w(LearnMoreSpan.TAG, "Null help intent.");
++                return;
++            }
+             try {
+                 // This needs to be startActivityForResult even though we do not care about the
+                 // actual result because the help app needs to know about who invoked it.
+-- 
+2.9.3
+

@@ -1,7 +1,7 @@
-From f0e7bb3400383bbe72f3cfc80968b85afe284f91 Mon Sep 17 00:00:00 2001
+From 704c99ce51291dab16d3effd9a73cbcc84835c7a Mon Sep 17 00:00:00 2001
 From: Jason Monk <jmonk@google.com>
 Date: Thu, 25 Aug 2016 15:57:14 -0400
-Subject: [PATCH] Backup system QS tiles DO NOT MERGE
+Subject: [PATCH 19/40] Backup system QS tiles DO NOT MERGE
 
 Add QS tiles to the backup list.  Non-system tiles will get removed
 since they won't be installed when restore happens.

@@ -1,0 +1,45 @@
+From a63e072733deedf7b5af42cf77daadf7f993021d Mon Sep 17 00:00:00 2001
+From: Maurice Lam <yukl@google.com>
+Date: Thu, 1 Sep 2016 17:10:59 -0700
+Subject: [PATCH 6/6] Remove help links when device is not provisioned. DO NOT
+ MERGE
+
+Bug: 31246856
+Change-Id: Id638de8ab1c6b815d62916a584892be84cabe1ae
+(cherry picked from commit d0a95da564df4c52ed7475af0d1833e95b0d746b)
+---
+ .../settings/fingerprint/FingerprintEnrollIntroduction.java      | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/src/com/android/settings/fingerprint/FingerprintEnrollIntroduction.java b/src/com/android/settings/fingerprint/FingerprintEnrollIntroduction.java
+index 5b9d398..1719289 100644
+--- a/src/com/android/settings/fingerprint/FingerprintEnrollIntroduction.java
++++ b/src/com/android/settings/fingerprint/FingerprintEnrollIntroduction.java
+@@ -25,6 +25,7 @@ import android.hardware.fingerprint.FingerprintManager;
+ import android.os.Bundle;
+ import android.os.UserHandle;
+ import android.os.UserManager;
++import android.provider.Settings.Global;
+ import android.text.Annotation;
+ import android.text.SpannableString;
+ import android.text.SpannableStringBuilder;
+@@ -69,9 +70,15 @@ public class FingerprintEnrollIntroduction extends FingerprintEnrollBase
+         final RecyclerItemAdapter adapter = (RecyclerItemAdapter) layout.getAdapter();
+         adapter.setOnItemSelectedListener(this);
+         Item item = (Item) adapter.findItemById(R.id.fingerprint_introduction_message);
++        String linkUrl = getString(R.string.help_url_fingerprint);
++        if (Global.getInt(getContentResolver(), Global.DEVICE_PROVISIONED, 0) == 0) {
++            // If the device is not provisioned, help intents from HelpUtils will be null, so don't
++            // show the link at all.
++            linkUrl = "";
++        }
+         item.setTitle(LearnMoreSpan.linkify(
+                 getText(R.string.security_settings_fingerprint_enroll_introduction_message),
+-                getString(R.string.help_url_fingerprint)));
++                linkUrl));
+         // setupwizard library automatically sets the divider inset to
+         // R.dimen.suw_items_icon_divider_inset. We adjust this back to 0 as we do not want
+         // an inset within settings.
+-- 
+2.9.3
+

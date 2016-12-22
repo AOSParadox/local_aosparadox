@@ -1,0 +1,28 @@
+From 75cf8c9270e8c0f478f72e5fd18929a2e4e1ceae Mon Sep 17 00:00:00 2001
+From: rago <rago@google.com>
+Date: Tue, 23 Aug 2016 11:09:52 -0700
+Subject: [PATCH] Fix potential overflow in Visualizer effect
+
+Bug: 30229821
+Change-Id: Ia07041a5a149d7d3e120aa6ea0345fb86da37c9b
+(cherry picked from commit b61dd321d08b21a5629044eca7f96e2ecd348e5f)
+(cherry picked from commit 7bbd5008747431d42e2f8cfbc0ddcb8465cdb4a5)
+---
+ audio_effects/include/audio_effects/effect_visualizer.h | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/audio_effects/include/audio_effects/effect_visualizer.h b/audio_effects/include/audio_effects/effect_visualizer.h
+index cfd99f5..fe46d7f 100644
+--- a/audio_effects/include/audio_effects/effect_visualizer.h
++++ b/audio_effects/include/audio_effects/effect_visualizer.h
+@@ -41,6 +41,7 @@ const effect_uuid_t * const SL_IID_VISUALIZATION = &SL_IID_VISUALIZATION_;
+ 
+ #define MEASUREMENT_IDX_PEAK 0
+ #define MEASUREMENT_IDX_RMS  1
++#define MEASUREMENT_COUNT 2
+ 
+ /* enumerated parameters for Visualizer effect */
+ typedef enum
+-- 
+2.9.3
+

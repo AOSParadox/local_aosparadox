@@ -1,0 +1,30 @@
+From 79a07a81242924c990cc54e9556a0a924f7b2822 Mon Sep 17 00:00:00 2001
+From: "Tadashi G. Takaoka" <takaoka@google.com>
+Date: Fri, 16 Sep 2016 11:41:07 +0900
+Subject: [PATCH 30/40] Catch all exceptions when parsing IME meta data
+
+Bug: 30568284
+Change-Id: I0b613f8ce0f014320c5ac1bf445699ea2702a0a2
+(cherry picked from commit dddc438e97509a858319e91988908b27085792d6)
+---
+ services/core/java/com/android/server/InputMethodManagerService.java | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/services/core/java/com/android/server/InputMethodManagerService.java b/services/core/java/com/android/server/InputMethodManagerService.java
+index 5d8fe7c..76b1011 100644
+--- a/services/core/java/com/android/server/InputMethodManagerService.java
++++ b/services/core/java/com/android/server/InputMethodManagerService.java
+@@ -3069,8 +3069,8 @@ public class InputMethodManagerService extends IInputMethodManager.Stub
+                 if (DEBUG) {
+                     Slog.d(TAG, "Found an input method " + p);
+                 }
+-            } catch (XmlPullParserException | IOException e) {
+-                Slog.w(TAG, "Unable to load input method " + compName, e);
++            } catch (Exception e) {
++                Slog.wtf(TAG, "Unable to load input method " + compName, e);
+             }
+         }
+ 
+-- 
+2.9.3
+

@@ -1,0 +1,174 @@
+From 016fcda26b4d021ed5c13df9fd2c0907b8dbeae7 Mon Sep 17 00:00:00 2001
+From: Svetoslav Ganov <svetoslavganov@google.com>
+Date: Mon, 29 Aug 2016 11:14:05 -0700
+Subject: [PATCH 20/40] Properly close fd backing a MemoryIntArray
+
+Use ParcelFileDescriptor only as an IPC transport
+to make sure MemoryIntArray manges its backing fd.
+
+Bug:30310689
+
+Change-Id: Ib3cc13ef4ae2a744e5f7a96099570e0431847bce
+(cherry picked from commit fe2462f3a60b34ee6b7d8764d92ae58fc0cd7dfd)
+(cherry picked from commit e257d6e167fc1beed092324ff4b8bcb073e55904)
+---
+ core/java/android/util/MemoryIntArray.java | 50 ++++++++++++++----------------
+ core/jni/android_util_MemoryIntArray.cpp   |  8 -----
+ 2 files changed, 24 insertions(+), 34 deletions(-)
+
+diff --git a/core/java/android/util/MemoryIntArray.java b/core/java/android/util/MemoryIntArray.java
+index 8f9b36e..83e693c 100644
+--- a/core/java/android/util/MemoryIntArray.java
++++ b/core/java/android/util/MemoryIntArray.java
+@@ -54,7 +54,7 @@ public final class MemoryIntArray implements Parcelable, Closeable {
+     private final int mOwnerPid;
+     private final boolean mClientWritable;
+     private final long mMemoryAddr;
+-    private ParcelFileDescriptor mFd;
++    private int mFd;
+ 
+     /**
+      * Creates a new instance.
+@@ -71,22 +71,23 @@ public final class MemoryIntArray implements Parcelable, Closeable {
+         mOwnerPid = Process.myPid();
+         mClientWritable = clientWritable;
+         final String name = UUID.randomUUID().toString();
+-        mFd = ParcelFileDescriptor.fromFd(nativeCreate(name, size));
+-        mMemoryAddr = nativeOpen(mFd.getFd(), true, clientWritable);
++        mFd = nativeCreate(name, size);
++        mMemoryAddr = nativeOpen(mFd, true, clientWritable);
+     }
+ 
+     private MemoryIntArray(Parcel parcel) throws IOException {
+         mOwnerPid = parcel.readInt();
+         mClientWritable = (parcel.readInt() == 1);
+-        mFd = parcel.readParcelable(null);
+-        if (mFd == null) {
++        ParcelFileDescriptor pfd = parcel.readParcelable(null);
++        if (pfd == null) {
+             throw new IOException("No backing file descriptor");
+         }
++        mFd = pfd.detachFd();
+         final long memoryAddress = parcel.readLong();
+         if (isOwner()) {
+             mMemoryAddr = memoryAddress;
+         } else {
+-            mMemoryAddr = nativeOpen(mFd.getFd(), false, mClientWritable);
++            mMemoryAddr = nativeOpen(mFd, false, mClientWritable);
+         }
+     }
+ 
+@@ -108,7 +109,7 @@ public final class MemoryIntArray implements Parcelable, Closeable {
+     public int get(int index) throws IOException {
+         enforceNotClosed();
+         enforceValidIndex(index);
+-        return nativeGet(mFd.getFd(), mMemoryAddr, index, isOwner());
++        return nativeGet(mFd, mMemoryAddr, index, isOwner());
+     }
+ 
+     /**
+@@ -124,7 +125,7 @@ public final class MemoryIntArray implements Parcelable, Closeable {
+         enforceNotClosed();
+         enforceWritable();
+         enforceValidIndex(index);
+-        nativeSet(mFd.getFd(), mMemoryAddr, index, value, isOwner());
++        nativeSet(mFd, mMemoryAddr, index, value, isOwner());
+     }
+ 
+     /**
+@@ -134,7 +135,7 @@ public final class MemoryIntArray implements Parcelable, Closeable {
+      */
+     public int size() throws IOException {
+         enforceNotClosed();
+-        return nativeSize(mFd.getFd());
++        return nativeSize(mFd);
+     }
+ 
+     /**
+@@ -145,9 +146,8 @@ public final class MemoryIntArray implements Parcelable, Closeable {
+     @Override
+     public void close() throws IOException {
+         if (!isClosed()) {
+-            ParcelFileDescriptor pfd = mFd;
+-            mFd = null;
+-            nativeClose(pfd.getFd(), mMemoryAddr, isOwner());
++            nativeClose(mFd, mMemoryAddr, isOwner());
++            mFd = -1;
+         }
+     }
+ 
+@@ -155,7 +155,7 @@ public final class MemoryIntArray implements Parcelable, Closeable {
+      * @return Whether this array is closed and shouldn't be used.
+      */
+     public boolean isClosed() {
+-        return mFd == null;
++        return mFd == -1;
+     }
+ 
+     @Override
+@@ -171,10 +171,15 @@ public final class MemoryIntArray implements Parcelable, Closeable {
+ 
+     @Override
+     public void writeToParcel(Parcel parcel, int flags) {
+-        parcel.writeInt(mOwnerPid);
+-        parcel.writeInt(mClientWritable ? 1 : 0);
+-        parcel.writeParcelable(mFd, 0);
+-        parcel.writeLong(mMemoryAddr);
++        ParcelFileDescriptor pfd = ParcelFileDescriptor.adoptFd(mFd);
++        try {
++            parcel.writeInt(mOwnerPid);
++            parcel.writeInt(mClientWritable ? 1 : 0);
++            parcel.writeParcelable(pfd, flags & ~Parcelable.PARCELABLE_WRITE_RETURN_VALUE);
++            parcel.writeLong(mMemoryAddr);
++        } finally {
++            pfd.detachFd();
++        }
+     }
+ 
+     @Override
+@@ -189,19 +194,12 @@ public final class MemoryIntArray implements Parcelable, Closeable {
+             return false;
+         }
+         MemoryIntArray other = (MemoryIntArray) obj;
+-        if (mFd == null) {
+-            if (other.mFd != null) {
+-                return false;
+-            }
+-        } else if (mFd.getFd() != other.mFd.getFd()) {
+-            return false;
+-        }
+-        return true;
++        return mFd == other.mFd;
+     }
+ 
+     @Override
+     public int hashCode() {
+-        return mFd != null ? mFd.hashCode() : 1;
++        return mFd;
+     }
+ 
+     private boolean isOwner() {
+diff --git a/core/jni/android_util_MemoryIntArray.cpp b/core/jni/android_util_MemoryIntArray.cpp
+index f45be12..d0c0f2f 100644
+--- a/core/jni/android_util_MemoryIntArray.cpp
++++ b/core/jni/android_util_MemoryIntArray.cpp
+@@ -160,16 +160,8 @@ static jint android_util_MemoryIntArray_size(JNIEnv* env, jobject clazz, jint fd
+         return -1;
+     }
+ 
+-    // Use ASHMEM_GET_SIZE to find out if the fd refers to an ashmem region.
+-    // ASHMEM_GET_SIZE should succeed for all ashmem regions, and the kernel
+-    // should return ENOTTY for all other valid file descriptors
+     int ashmemSize = ashmem_get_size_region(fd);
+     if (ashmemSize < 0) {
+-        if (errno == ENOTTY) {
+-            // ENOTTY means that the ioctl does not apply to this object,
+-            // i.e., it is not an ashmem region.
+-            return -1;
+-        }
+         // Some other error, throw exception
+         jniThrowIOException(env, errno);
+         return -1;
+-- 
+2.9.3
+

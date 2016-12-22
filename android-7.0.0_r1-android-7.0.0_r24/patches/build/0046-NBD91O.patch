@@ -1,0 +1,22 @@
+From fdeac6946ca01e991e83e6811453e72047499afa Mon Sep 17 00:00:00 2001
+From: The Android Automerger <android-build@android.com>
+Date: Mon, 24 Oct 2016 16:29:05 -0700
+Subject: [PATCH 46/63] NBD91O
+
+---
+ core/build_id.mk | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/core/build_id.mk b/core/build_id.mk
+index 4ed4859..ff4cf02 100644
+--- a/core/build_id.mk
++++ b/core/build_id.mk
+@@ -18,4 +18,4 @@
+ # (like "CRB01").  It must be a single word, and is
+ # capitalized by convention.
+ 
+-export BUILD_ID=NBF24
++export BUILD_ID=NBD91O
+-- 
+2.9.3
+

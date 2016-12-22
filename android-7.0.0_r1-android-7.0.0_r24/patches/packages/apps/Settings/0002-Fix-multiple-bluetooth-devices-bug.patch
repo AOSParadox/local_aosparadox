@@ -1,0 +1,40 @@
+From 57753945e10c2448432f59c6bf82a77697cb46cf Mon Sep 17 00:00:00 2001
+From: Jason Monk <jmonk@google.com>
+Date: Mon, 25 Jul 2016 10:37:39 -0400
+Subject: [PATCH 2/6] Fix multiple bluetooth devices bug
+
+Was bug in some code trying to handle preference animations better.
+Since those animations are all disabled now, just remove everything
+again and re-add it.
+
+Change-Id: If1ce07a8f2b4144d95a95cec6ebb1b423644825a
+Fixes: 29314480
+(cherry picked from commit 6666f9cc37ac8f9b99c6a174b1478924ed8fc6cd)
+(cherry picked from commit e2428aff751cf52bc11e5f44f79064fc2c5cf9ef)
+---
+ src/com/android/settings/bluetooth/BluetoothSettings.java | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
+
+diff --git a/src/com/android/settings/bluetooth/BluetoothSettings.java b/src/com/android/settings/bluetooth/BluetoothSettings.java
+index 0a8221b..5a4bf7d 100644
+--- a/src/com/android/settings/bluetooth/BluetoothSettings.java
++++ b/src/com/android/settings/bluetooth/BluetoothSettings.java
+@@ -385,11 +385,10 @@ public final class BluetoothSettings extends DeviceListPreferenceFragment implem
+                     messageId = R.string.bluetooth_empty_list_user_restricted;
+                     break;
+                 }
+-                if (getPreferenceScreen().getPreferenceCount() == 0) {
+-                    getPreferenceScreen().addPreference(mPairedDevicesCategory);
+-                    getPreferenceScreen().addPreference(mAvailableDevicesCategory);
+-                    getPreferenceScreen().addPreference(mMyDevicePreference);
+-                }
++                getPreferenceScreen().removeAll();
++                getPreferenceScreen().addPreference(mPairedDevicesCategory);
++                getPreferenceScreen().addPreference(mAvailableDevicesCategory);
++                getPreferenceScreen().addPreference(mMyDevicePreference);
+ 
+                 // Paired devices category
+                 addDeviceCategory(mPairedDevicesCategory,
+-- 
+2.9.3
+

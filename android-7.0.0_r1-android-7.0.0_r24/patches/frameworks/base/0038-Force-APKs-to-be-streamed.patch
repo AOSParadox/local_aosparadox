@@ -1,0 +1,46 @@
+From 0210f8318238810f7c2c5d242ac17a674de06a80 Mon Sep 17 00:00:00 2001
+From: Todd Kennedy <toddke@google.com>
+Date: Thu, 22 Sep 2016 13:25:46 -0700
+Subject: [PATCH 38/40] Force APKs to be streamed
+
+When using the new "cmd" command, APKs must be streamed instead of specifying
+a file.
+
+Change-Id: I977cd817ac545d7c5293f53b9fa4b155bea7449e
+Fixes: 31251489
+Test: manually installed packages using 'adb install', 'adb shell cmd package install' and 'adb shell pm install'
+(cherry picked from commit d220683d339256790813348beedabe061aca643c)
+---
+ .../com/android/server/pm/PackageManagerShellCommand.java | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
+
+diff --git a/services/core/java/com/android/server/pm/PackageManagerShellCommand.java b/services/core/java/com/android/server/pm/PackageManagerShellCommand.java
+index 07dc404..251b277 100644
+--- a/services/core/java/com/android/server/pm/PackageManagerShellCommand.java
++++ b/services/core/java/com/android/server/pm/PackageManagerShellCommand.java
+@@ -1146,14 +1146,15 @@ class PackageManagerShellCommand extends ShellCommand {
+     private int doWriteSplit(int sessionId, String inPath, long sizeBytes, String splitName,
+             boolean logSuccess) throws RemoteException {
+         final PrintWriter pw = getOutPrintWriter();
+-        if ("-".equals(inPath)) {
+-            inPath = null;
+-        } else if (inPath != null) {
+-            final File file = new File(inPath);
+-            if (file.isFile()) {
+-                sizeBytes = file.length();
+-            }
++        if (sizeBytes <= 0) {
++            pw.println("Error: must specify a APK size");
++            return 1;
++        }
++        if (inPath != null && !"-".equals(inPath)) {
++            pw.println("Error: APK content must be streamed");
++            return 1;
+         }
++        inPath = null;
+ 
+         final SessionInfo info = mInterface.getPackageInstaller().getSessionInfo(sessionId);
+ 
+-- 
+2.9.3
+

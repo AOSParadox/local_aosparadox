@@ -1,0 +1,163 @@
+From a33ae952002c6dfdb50463882fc92ccbe1070fb3 Mon Sep 17 00:00:00 2001
+From: Chris Craik <ccraik@google.com>
+Date: Mon, 25 Jul 2016 15:29:59 -0700
+Subject: [PATCH 16/40] Cherry pick TextureView fixes
+
+The following changes are in this commit:
+
+Avoid destroying TextureView surfaces for onStop
+
+bug:30238922
+
+TextureViews will hold onto their backing surfaces, which will allow
+them to resume gracefully when the app's surfaces are saved.
+
+Now only resources that are destroyed for onStop are DisplayLists.
+
+(cherry picked from commit 391d560402c2902e0fd701f99eabd91025154201)
+
+TextureView: destroy layer on destroyHardwareResources event
+
+bug:30468770
+
+(cherry picked from commit 1c16c37d8646ed25e844af8472eede988ad0c2f0)
+
+Fix NPE in TextureView
+
+Bug: 30651595
+
+(cherry picked from commit 3c2587f26eed32a8723488131d1d8940dc147ee1)
+
+Fix NPE in TextureView
+
+Bug: 30779663
+
+(cherry picked from commit 7e237189c292cdb886733eb95c6069b7ac002527)
+
+Fix maps resume being blank
+
+Bug: 30889568
+
+Fixes an issue where mLayer didn't have
+the mSurface set on it in certain resume
+scenarios.
+
+(cherry picked from commit 03df0834e63b587dbfb8fdcd0086e3e1e72b9f9d)
+(cherry picked from commit 2e8a8a24320fac0eedfdfb4151068499bb6b00cd)
+---
+ core/java/android/view/TextureView.java | 54 ++++++++++++++++++---------------
+ 1 file changed, 29 insertions(+), 25 deletions(-)
+
+diff --git a/core/java/android/view/TextureView.java b/core/java/android/view/TextureView.java
+index 1a712c3..c7eca44 100644
+--- a/core/java/android/view/TextureView.java
++++ b/core/java/android/view/TextureView.java
+@@ -218,15 +218,32 @@ public class TextureView extends View {
+     /** @hide */
+     @Override
+     protected void onDetachedFromWindowInternal() {
+-        destroySurface();
++        destroyHardwareLayer();
++        releaseSurfaceTexture();
+         super.onDetachedFromWindowInternal();
+     }
+ 
+-    private void destroySurface() {
++    /**
++     * @hide
++     */
++    @Override
++    protected void destroyHardwareResources() {
++        destroyHardwareLayer();
++    }
++
++    private void destroyHardwareLayer() {
+         if (mLayer != null) {
+             mLayer.detachSurfaceTexture();
++            mLayer.destroy();
++            mLayer = null;
++            mMatrixChanged = true;
++        }
++    }
+ 
++    private void releaseSurfaceTexture() {
++        if (mSurface != null) {
+             boolean shouldRelease = true;
++
+             if (mListener != null) {
+                 shouldRelease = mListener.onSurfaceTextureDestroyed(mSurface);
+             }
+@@ -235,14 +252,10 @@ public class TextureView extends View {
+                 nDestroyNativeWindow();
+             }
+ 
+-            mLayer.destroy();
+-            if (shouldRelease) mSurface.release();
++            if (shouldRelease) {
++                mSurface.release();
++            }
+             mSurface = null;
+-            mLayer = null;
+-
+-            // Make sure if/when new layer gets re-created, transform matrix will
+-            // be re-applied.
+-            mMatrixChanged = true;
+             mHadSurface = true;
+         }
+     }
+@@ -355,17 +368,6 @@ public class TextureView extends View {
+         }
+     }
+ 
+-    /**
+-     * @hide
+-     */
+-    @Override
+-    protected void destroyHardwareResources() {
+-        super.destroyHardwareResources();
+-        destroySurface();
+-        invalidateParentCaches();
+-        invalidate(true);
+-    }
+-
+     HardwareLayer getHardwareLayer() {
+         if (mLayer == null) {
+             if (mAttachInfo == null || mAttachInfo.mHardwareRenderer == null) {
+@@ -373,17 +375,17 @@ public class TextureView extends View {
+             }
+ 
+             mLayer = mAttachInfo.mHardwareRenderer.createTextureLayer();
+-            if (!mUpdateSurface) {
++            boolean createNewSurface = (mSurface == null);
++            if (createNewSurface) {
+                 // Create a new SurfaceTexture for the layer.
+                 mSurface = new SurfaceTexture(false);
+-                mLayer.setSurfaceTexture(mSurface);
++                nCreateNativeWindow(mSurface);
+             }
++            mLayer.setSurfaceTexture(mSurface);
+             mSurface.setDefaultBufferSize(getWidth(), getHeight());
+-            nCreateNativeWindow(mSurface);
+-
+             mSurface.setOnFrameAvailableListener(mUpdateListener, mAttachInfo.mHandler);
+ 
+-            if (mListener != null && !mUpdateSurface) {
++            if (mListener != null && createNewSurface) {
+                 mListener.onSurfaceTextureAvailable(mSurface, getWidth(), getHeight());
+             }
+             mLayer.setLayerPaint(mLayerPaint);
+@@ -742,9 +744,11 @@ public class TextureView extends View {
+                     "released SurfaceTexture");
+         }
+         if (mSurface != null) {
++            nDestroyNativeWindow();
+             mSurface.release();
+         }
+         mSurface = surfaceTexture;
++        nCreateNativeWindow(mSurface);
+ 
+         /*
+          * If the view is visible and we already made a layer, update the
+-- 
+2.9.3
+

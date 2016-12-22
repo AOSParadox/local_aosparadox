@@ -1,0 +1,51 @@
+From 7ddc0cb6445d6a42bca9202329bfab9489318d83 Mon Sep 17 00:00:00 2001
+From: Sudheer Shanka <sudheersai@google.com>
+Date: Wed, 14 Sep 2016 14:37:14 -0700
+Subject: [PATCH 29/40] Fix deadlock in AcitivityManagerService.
+
+Don't hold mPidsSelfLocked lock when calling
+cleanUpApplicationRecordLocked.
+
+Bug: 31463143
+Change-Id: I421962cbfd7c466662edcef805c3e27321dc5a98
+(cherry picked from commit 67e05b4d28bb63974f88f6abaf8b3636215c9511)
+---
+ .../android/server/am/ActivityManagerService.java   | 21 ++++++++++++---------
+ 1 file changed, 12 insertions(+), 9 deletions(-)
+
+diff --git a/services/core/java/com/android/server/am/ActivityManagerService.java b/services/core/java/com/android/server/am/ActivityManagerService.java
+index a379ae6..dab4167 100644
+--- a/services/core/java/com/android/server/am/ActivityManagerService.java
++++ b/services/core/java/com/android/server/am/ActivityManagerService.java
+@@ -3822,16 +3822,19 @@ public final class ActivityManagerService extends ActivityManagerNative
+             app.killed = false;
+             app.killedByAm = false;
+             checkTime(startTime, "startProcess: starting to update pids map");
++            ProcessRecord oldApp;
++            synchronized (mPidsSelfLocked) {
++                oldApp = mPidsSelfLocked.get(startResult.pid);
++            }
++            // If there is already an app occupying that pid that hasn't been cleaned up
++            if (oldApp != null && !app.isolated) {
++                // Clean up anything relating to this pid first
++                Slog.w(TAG, "Reusing pid " + startResult.pid
++                        + " while app is still mapped to it");
++                cleanUpApplicationRecordLocked(oldApp, false, false, -1,
++                        true /*replacingPid*/);
++            }
+             synchronized (mPidsSelfLocked) {
+-                ProcessRecord oldApp;
+-                // If there is already an app occupying that pid that hasn't been cleaned up
+-                if ((oldApp = mPidsSelfLocked.get(startResult.pid)) != null && !app.isolated) {
+-                    // Clean up anything relating to this pid first
+-                    Slog.w(TAG, "Reusing pid " + startResult.pid
+-                            + " while app is still mapped to it");
+-                    cleanUpApplicationRecordLocked(oldApp, false, false, -1,
+-                            true /*replacingPid*/);
+-                }
+                 this.mPidsSelfLocked.put(startResult.pid, app);
+                 if (isActivityProcess) {
+                     Message msg = mHandler.obtainMessage(PROC_START_TIMEOUT_MSG);
+-- 
+2.9.3
+

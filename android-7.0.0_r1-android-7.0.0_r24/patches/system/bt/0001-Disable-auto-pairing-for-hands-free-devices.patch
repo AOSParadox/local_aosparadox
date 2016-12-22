@@ -1,0 +1,28 @@
+From a91b2654d3237d1e0419f783417e99c60dd764b4 Mon Sep 17 00:00:00 2001
+From: Andre Eisenbach <eisenbach@google.com>
+Date: Thu, 7 Jul 2016 09:58:59 -0700
+Subject: [PATCH] Disable auto-pairing for hands-free devices
+
+Fixes: 30004157
+Change-Id: Id170856fbee5ea345f02f55d3a6e3376d846c2de
+(cherry picked from commit e8b81851c33095fe3b3ac78329073309be5421e1)
+(cherry picked from commit d2a37effc254ef0ffef6068fddad13466cc92358)
+---
+ btif/src/btif_dm.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/btif/src/btif_dm.c b/btif/src/btif_dm.c
+index 5879011..fd21d6a 100644
+--- a/btif/src/btif_dm.c
++++ b/btif/src/btif_dm.c
+@@ -1051,7 +1051,6 @@ static void btif_dm_pin_req_evt(tBTA_DM_PIN_REQ *p_pin_req)
+             return;
+         }
+         if (check_cod(&bd_addr, COD_AV_HEADSETS) ||
+-            check_cod(&bd_addr, COD_AV_HANDSFREE) ||
+             check_cod(&bd_addr, COD_AV_HEADPHONES) ||
+             check_cod(&bd_addr, COD_AV_PORTABLE_AUDIO) ||
+             check_cod(&bd_addr, COD_AV_HIFI_AUDIO) ||
+-- 
+2.9.3
+

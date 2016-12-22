@@ -1,0 +1,52 @@
+From 8844015824c468b40110576c0baa3cba91eb2cb8 Mon Sep 17 00:00:00 2001
+From: Christopher Tate <ctate@google.com>
+Date: Wed, 3 Aug 2016 14:57:47 -0700
+Subject: [PATCH 15/40] Eliminate next-alarm-clock broadcast flapping
+
+When multiple alarm clocks are scheduled at the same time, we would
+flap among the alternatives for considering them the 'next upcoming
+alarm clock', which in turn would generate [many] spurious broadcasts
+about changes to the upcoming alarm situation.  This is now fixed;
+once we have found the soonest upcoming alarm clock, we stick with
+that one until it becomes unavailable, eliminating the spurious
+broadcast traffic.
+
+Bug 29501073
+
+Change-Id: Ice1892490bb339e05fa8bd9d324fa1c6718b4942
+(cherry picked from commit 76389c00d3d3ce79e48d9e87b597707ed3e8970c)
+(cherry picked from commit c60da1edc1f5f8d028c3e88b8ca51d790f2a012a)
+---
+ services/core/java/com/android/server/AlarmManagerService.java | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/services/core/java/com/android/server/AlarmManagerService.java b/services/core/java/com/android/server/AlarmManagerService.java
+index de9453c..f51d68f 100644
+--- a/services/core/java/com/android/server/AlarmManagerService.java
++++ b/services/core/java/com/android/server/AlarmManagerService.java
+@@ -1803,9 +1803,10 @@ class AlarmManagerService extends SystemService {
+                 Alarm a = alarms.get(j);
+                 if (a.alarmClock != null) {
+                     final int userId = UserHandle.getUserId(a.uid);
++                    AlarmManager.AlarmClockInfo current = mNextAlarmClockForUser.get(userId);
+ 
+                     if (DEBUG_ALARM_CLOCK) {
+-                        Log.v(TAG, "Found AlarmClockInfo at " +
++                        Log.v(TAG, "Found AlarmClockInfo " + a.alarmClock + " at " +
+                                 formatNextAlarm(getContext(), a.alarmClock, userId) +
+                                 " for user " + userId);
+                     }
+@@ -1813,6 +1814,10 @@ class AlarmManagerService extends SystemService {
+                     // Alarms and batches are sorted by time, no need to compare times here.
+                     if (nextForUser.get(userId) == null) {
+                         nextForUser.put(userId, a.alarmClock);
++                    } else if (a.alarmClock.equals(current)
++                            && current.getTriggerTime() <= nextForUser.get(userId).getTriggerTime()) {
++                        // same/earlier time and it's the one we cited before, so stick with it
++                        nextForUser.put(userId, current);
+                     }
+                 }
+             }
+-- 
+2.9.3
+
