@@ -18,4 +18,4 @@ function extract() {
     done
 }
 
-extract project_list
+extract $PATCHES/../project_list
