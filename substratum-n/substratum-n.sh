@@ -1,7 +1,7 @@
 #!/bin/bash
 
 export MY_NICE_FOLDER=$(pwd)
-export PATCHES=$MY_NICE_FOLDER/patches/
+export PATCHES=$MY_NICE_FOLDER/local_aosparadox/substratum-n/patches
 
 function extract() {
     for FILE in `egrep -v '(^#|^$)' $1`; do

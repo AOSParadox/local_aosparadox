@@ -1,5 +1,5 @@
 export MY_NICE_FOLDER=$(pwd)
-export PATCHES=$MY_NICE_FOLDER/patches/
+export PATCHES=$MY_NICE_FOLDER/local_aosparadox/android-7.0.0_r1-android-7.0.0_r24/patches
 
 cd $MY_NICE_FOLDER
 cd bionic/
