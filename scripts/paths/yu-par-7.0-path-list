@@ -5,4 +5,5 @@ frameworks/base
 hardware/libhardware
 hardware/qcom/audio
 hardware/qcom/wlan
+hardware/qcom/camera
 system/media
