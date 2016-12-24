@@ -77,7 +77,7 @@
 
   <!-- Custom YU CAF repos -->
   <project path="bootable/recovery" name="android_bootable_recovery" remote="par" revision="yu-par-7.0" />
-  <project name="android_bionic" path="bionic" remote="par" revision="yu-par-7.0" />
+  <project name="AOSPA/android_bionic" path="bionic" remote="github" revision="nougat-mr1" />
   <project groups="pdk" name="android_build" path="build" remote="par" revision="8916-par-7.0">
     <copyfile dest="Makefile" src="core/root.mk"/>
   </project>
