@@ -131,12 +131,13 @@
   <!-- <project path="bootable/recovery" name="sandroid_bootable_recovery" remote="par" revision="android-6.0" />
   <project path="external/busybox" name="omnirom/android_external_busybox" remote="github" revision="android-6.0" /> -->
 
-  <!-- Needed CyanogenMod repos for Java 8 -->
+  <!-- Needed LineageOS repos for Java 8 -->
   <remove-project name="platform/external/guava"/>
-  <project path="external/connectivity" name="CyanogenMod/android_external_connectivity" remote="github" revision="cm-13.0" />
-  <project path="external/f2fs-tools" name="CyanogenMod/android_external_f2fs-tools" remote="github" revision="cm-13.0" />
-  <project path="external/guava" name="CyanogenMod/android_external_guava" remote="github" revision="cm-13.0" />
-  <project path="frameworks/support" name="CyanogenMod/android_frameworks_support" remote="github" revision="cm-13.0" />
+  <remove-project name="platform/frameworks/suppport"/>
+  <project path="external/connectivity" name="LineageOS/android_external_connectivity" remote="github" revision="cm-13.0" />
+  <project path="external/f2fs-tools" name="LineageOS/android_external_f2fs-tools" remote="github" revision="cm-13.0" />
+  <project path="external/guava" name="LineageOS/android_external_guava" remote="github" revision="cm-13.0" />
+  <project path="frameworks/support" name="LineageOS/android_frameworks_support" remote="github" revision="cm-13.0" />
 
   <!-- Uneeded CAF repos -->
   <remove-project name="device/lge/hammerhead"/>
