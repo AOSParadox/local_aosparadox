@@ -10,6 +10,8 @@ frameworks/opt/net/ims
 hardware/qcom/bt
 hardware/qcom/display
 packages/apps/FMRadio
+packages/apps/Dialer
+packages/providers/MediaProvider
 system/core
 system/extras
 system/vold
