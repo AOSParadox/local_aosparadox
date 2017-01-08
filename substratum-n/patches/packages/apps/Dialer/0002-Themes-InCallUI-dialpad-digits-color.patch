@@ -1,4 +1,4 @@
-From 196ab31f0b72ee0fd3cd520ecc5e4e6afc71a8f9 Mon Sep 17 00:00:00 2001
+From ce2c336f84e7ad0c3a56c794f20d8f15af61ff2f Mon Sep 17 00:00:00 2001
 From: George G <kreach3r@users.noreply.github.com>
 Date: Mon, 14 Nov 2016 16:05:32 +0200
 Subject: [PATCH 2/2] Themes: InCallUI dialpad digits color
