@@ -1,0 +1,68 @@
+From b477551da1cbcf2e957ec1696e6a5e54f9c7b932 Mon Sep 17 00:00:00 2001
+From: SpiritCroc <spiritcroc@gmail.com>
+Date: Fri, 9 Dec 2016 12:47:54 +0100
+Subject: [PATCH 06/11] Settings: Expose LinearColorBar default colors
+
+Change-Id: I8e63f10f9e4079d1a03eaece18e8343102f4a755
+---
+ res/values/projekt_colors.xml                             |  5 +++++
+ src/com/android/settings/applications/LinearColorBar.java | 10 +++++++---
+ 2 files changed, 12 insertions(+), 3 deletions(-)
+
+diff --git a/res/values/projekt_colors.xml b/res/values/projekt_colors.xml
+index bb6099b..e1977f9 100644
+--- a/res/values/projekt_colors.xml
++++ b/res/values/projekt_colors.xml
+@@ -39,4 +39,9 @@
+     <color name="storage_private_3">#fff2a600</color>
+     <color name="storage_private_4">#ffec407a</color>
+     <color name="storage_private_5">#ffc0ca33</color>
++
++    <!-- Linear color bar -->
++    <color name="linear_color_bar_left">@*android:color/accent_device_default_light</color>
++    <color name="linear_color_bar_middle">@*android:color/accent_device_default_light</color>
++    <color name="linear_color_bar_right">#ffced7db</color>
+ </resources>
+diff --git a/src/com/android/settings/applications/LinearColorBar.java b/src/com/android/settings/applications/LinearColorBar.java
+index b637671..b0b8b82 100644
+--- a/src/com/android/settings/applications/LinearColorBar.java
++++ b/src/com/android/settings/applications/LinearColorBar.java
+@@ -15,6 +15,7 @@ import android.util.DisplayMetrics;
+ import android.view.MotionEvent;
+ import android.widget.LinearLayout;
+ import com.android.settings.Utils;
++import com.android.settings.R;
+ 
+ public class LinearColorBar extends LinearLayout {
+ 
+@@ -28,7 +29,7 @@ public class LinearColorBar extends LinearLayout {
+ 
+     private int mLeftColor;
+     private int mMiddleColor;
+-    private int mRightColor = RIGHT_COLOR;
++    private int mRightColor;
+ 
+     private boolean mShowIndicator = true;
+     private boolean mShowingGreen;
+@@ -70,7 +71,10 @@ public class LinearColorBar extends LinearLayout {
+                 ? 2 : 1;
+         mEdgeGradientPaint.setStrokeWidth(mLineWidth);
+         mEdgeGradientPaint.setAntiAlias(true);
+-        mLeftColor = mMiddleColor = Utils.getColorAccent(context);
++
++        mLeftColor = context.getResources().getColor(R.color.linear_color_bar_left);
++        mMiddleColor = context.getResources().getColor(R.color.linear_color_bar_middle);
++        mRightColor = context.getResources().getColor(R.color.linear_color_bar_right);
+     }
+ 
+     public void setOnRegionTappedListener(OnRegionTappedListener listener) {
+@@ -271,4 +275,4 @@ public class LinearColorBar extends LinearLayout {
+             canvas.drawRect(mRect, mPaint);
+         }
+     }
+-}
+\ No newline at end of file
++}
+-- 
+2.7.4
+

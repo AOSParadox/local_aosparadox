@@ -1,7 +1,7 @@
-From 7d3e8ff38f6730875c149198b4012e84b5d26134 Mon Sep 17 00:00:00 2001
+From 51501ccfcf121d9a808274bf89bf89ab2a33af72 Mon Sep 17 00:00:00 2001
 From: Nicholas Chum <nicholaschum@gmail.com>
 Date: Sun, 17 Jul 2016 17:56:40 -0400
-Subject: [PATCH 15/32] N-Extras: AudioService: Allow system effect sounds to
+Subject: [PATCH 27/31] N-Extras: AudioService: Allow system effect sounds to
  be themed
 
 This commit checks whether there is a preexisting file in the themed
@@ -17,7 +17,7 @@ Change-Id: I7666c2bd259443ccec442bf6059786bea3dc069e
  1 file changed, 21 insertions(+), 5 deletions(-)
 
 diff --git a/services/core/java/com/android/server/audio/AudioService.java b/services/core/java/com/android/server/audio/AudioService.java
-index 94d0736..9529014 100644
+index 26760a7..d66eec1 100644
 --- a/services/core/java/com/android/server/audio/AudioService.java
 +++ b/services/core/java/com/android/server/audio/AudioService.java
 @@ -117,6 +117,7 @@ import com.android.server.pm.UserManagerService;
@@ -36,7 +36,7 @@ index 94d0736..9529014 100644
      private static final List<String> SOUND_EFFECT_FILES = new ArrayList<String>();
  
      /* Sound effect file name mapping sound effect id (AudioManager.FX_xxx) to
-@@ -4568,9 +4570,16 @@ public class AudioService extends IAudioService.Stub {
+@@ -4571,9 +4573,16 @@ public class AudioService extends IAudioService.Stub {
                          continue;
                      }
                      if (poolId[SOUND_EFFECT_FILES_MAP[effect][0]] == -1) {
@@ -56,7 +56,7 @@ index 94d0736..9529014 100644
                          int sampleId = mSoundPool.load(filePath, 0);
                          if (sampleId <= 0) {
                              Log.w(TAG, "Soundpool could not load file: "+filePath);
-@@ -4676,8 +4685,15 @@ public class AudioService extends IAudioService.Stub {
+@@ -4679,8 +4688,15 @@ public class AudioService extends IAudioService.Stub {
                  } else {
                      MediaPlayer mediaPlayer = new MediaPlayer();
                      try {
@@ -75,5 +75,5 @@ index 94d0736..9529014 100644
                          mediaPlayer.setAudioStreamType(AudioSystem.STREAM_SYSTEM);
                          mediaPlayer.prepare();
 -- 
-2.9.3
+2.7.4
 

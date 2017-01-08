@@ -1,16 +1,16 @@
-From 8d325926b1114dfcfe78db68134225e08cd7f871 Mon Sep 17 00:00:00 2001
+From 297946fe34aeae9660dcd6593df204a083fc102b Mon Sep 17 00:00:00 2001
 From: Ivan Iskandar <iiiiskandar14@gmail.com>
 Date: Sun, 18 Sep 2016 10:12:05 +0700
-Subject: [PATCH 4/6] Expose dashboard category and tile color
+Subject: [PATCH 01/11] Settings: Expose dashboard category and tile color
 
 Change-Id: Ia9c83eb9b8360923ed52e03641b4179681a80330
 ---
  res/drawable/dashboard_category_title_bg.xml | 21 +++++++++++++++++++++
  res/drawable/dashboard_tile_bg.xml           | 21 +++++++++++++++++++++
- res/drawable/selectable_card.xml             |  2 +-
+ res/drawable/selectable_card.xml             |  4 ++--
  res/layout/dashboard_category.xml            |  2 +-
- res/values/projekt_colors.xml                | 23 +++++++++++++++++++++++
- 5 files changed, 67 insertions(+), 2 deletions(-)
+ res/values/projekt_colors.xml                | 21 +++++++++++++++++++++
+ 5 files changed, 66 insertions(+), 3 deletions(-)
  create mode 100644 res/drawable/dashboard_category_title_bg.xml
  create mode 100644 res/drawable/dashboard_tile_bg.xml
  create mode 100644 res/values/projekt_colors.xml
@@ -70,38 +70,40 @@ index 0000000..61d113d
 +   <solid android:color="@color/selectable_card_background" />
 +</shape>
 diff --git a/res/drawable/selectable_card.xml b/res/drawable/selectable_card.xml
-index 554b9f6..fbc7704 100644
+index df9ddb1..74018b2 100644
 --- a/res/drawable/selectable_card.xml
 +++ b/res/drawable/selectable_card.xml
-@@ -17,5 +17,5 @@
- 
- <ripple xmlns:android="http://schemas.android.com/apk/res/android"
-     android:color="?android:attr/colorControlHighlight" >
+@@ -18,5 +18,5 @@
+ <ripple
+     xmlns:android="http://schemas.android.com/apk/res/android"
+     android:color="?android:attr/colorControlHighlight">
 -    <item android:drawable="@color/card_background"/>
+-</ripple>
+\ No newline at end of file
 +    <item android:drawable="@drawable/dashboard_tile_bg"/>
- </ripple>
++</ripple>
 diff --git a/res/layout/dashboard_category.xml b/res/layout/dashboard_category.xml
-index 7019a9c..93de40a 100644
+index 2e5dd5c..7836644 100644
 --- a/res/layout/dashboard_category.xml
 +++ b/res/layout/dashboard_category.xml
 @@ -20,7 +20,7 @@
      android:layout_height="@dimen/dashboard_category_height"
      android:orientation="vertical"
      android:paddingBottom="8dip"
--    android:background="@color/card_background"
-+    android:background="@drawable/dashboard_category_title_bg"
-     android:importantForAccessibility="noHideDescendants"
-     android:elevation="@dimen/dashboard_category_elevation" >
+-    android:background="@color/card_background">
++    android:background="@drawable/dashboard_category_title_bg">
  
+     <TextView android:id="@android:id/title"
+         android:layout_width="match_parent"
 diff --git a/res/values/projekt_colors.xml b/res/values/projekt_colors.xml
 new file mode 100644
-index 0000000..5348f79
+index 0000000..60419bd
 --- /dev/null
 +++ b/res/values/projekt_colors.xml
-@@ -0,0 +1,23 @@
+@@ -0,0 +1,21 @@
 +<?xml version="1.0" encoding="utf-8"?>
 +<!--
-+    Copyright (c) 2016 Project Substratum
++    Copyright (c) 2016 Projekt Substratum
 +
 +    Licensed under the Apache License, Version 2.0 (the "License");
 +    you may not use this file except in compliance with the License.
@@ -115,13 +117,11 @@ index 0000000..5348f79
 +    See the License for the specific language governing permissions and
 +    limitations under the License.
 +-->
-+
 +<resources>
-+
++    <!-- Dashboard category and tile background -->
 +    <color name="dashboard_category_title_background">@color/card_background</color>
 +    <color name="selectable_card_background">@color/card_background</color>
-+
 +</resources>
 -- 
-2.9.3
+2.7.4
 

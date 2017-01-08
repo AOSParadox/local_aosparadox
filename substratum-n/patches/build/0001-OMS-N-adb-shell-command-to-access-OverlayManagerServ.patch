@@ -1,4 +1,4 @@
-From 0fc79625e55b09ae62a82f3c6501005c690b5fc6 Mon Sep 17 00:00:00 2001
+From 6fa568dc568e733f0fcd463d9432252eeda3eec8 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?M=C3=A5rten=20Kongstad?= <marten.kongstad@sonymobile.com>
 Date: Mon, 27 Jul 2015 12:24:40 +0200
 Subject: [PATCH] OMS-N: adb shell command to access OverlayManagerService
@@ -40,5 +40,5 @@ index 4d70664..5b673ff 100644
      ping6 \
      platform.xml \
 -- 
-2.9.3
+2.7.4
 

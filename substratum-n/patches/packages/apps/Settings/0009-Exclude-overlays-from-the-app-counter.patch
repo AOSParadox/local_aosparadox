@@ -1,0 +1,49 @@
+From a1a14b4ae63b027178f0d03ccbff4d73cbd16229 Mon Sep 17 00:00:00 2001
+From: Ivan Iskandar <iiiiskandar14@gmail.com>
+Date: Fri, 9 Dec 2016 02:19:20 +0100
+Subject: [PATCH 09/11] Exclude overlays from the app counter
+
+This exclude overlays from the app counter that shows
+in manage app summary.
+
+idea from @KreAch3R
+
+Change-Id: I8cd591dc89eb87057e8c2ae3b2cca2c76c34534b
+(cherry picked from commit 990eeb53387bbd52e76ce7e7b45c171d1e01e7a1)
+---
+ src/com/android/settings/applications/AppCounter.java         | 1 +
+ src/com/android/settings/applications/ManageApplications.java | 6 ++++++
+ 2 files changed, 7 insertions(+)
+
+diff --git a/src/com/android/settings/applications/AppCounter.java b/src/com/android/settings/applications/AppCounter.java
+index fb8d580..852358d 100644
+--- a/src/com/android/settings/applications/AppCounter.java
++++ b/src/com/android/settings/applications/AppCounter.java
+@@ -47,6 +47,7 @@ public abstract class AppCounter extends AsyncTask<Void, Void, Integer> {
+                 ParceledListSlice<ApplicationInfo> list =
+                         mIpm.getInstalledApplications(PackageManager.GET_DISABLED_COMPONENTS
+                                 | PackageManager.GET_DISABLED_UNTIL_USED_COMPONENTS
++                                | PackageManager.GET_META_DATA
+                                 | (user.isAdmin() ? PackageManager.GET_UNINSTALLED_PACKAGES : 0),
+                                 user.id);
+                 for (ApplicationInfo info : list.getList()) {
+diff --git a/src/com/android/settings/applications/ManageApplications.java b/src/com/android/settings/applications/ManageApplications.java
+index 5d3b353..ed61781 100644
+--- a/src/com/android/settings/applications/ManageApplications.java
++++ b/src/com/android/settings/applications/ManageApplications.java
+@@ -1297,6 +1297,12 @@ public class ManageApplications extends InstrumentedFragment
+                         if ((info.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != 0) {
+                             return true;
+                         } else if ((info.flags & ApplicationInfo.FLAG_SYSTEM) == 0) {
++                            if (info.metaData != null) {
++                                if (info.metaData.getString("Substratum_Parent") != null
++                                        || info.metaData.getString("Substratum_IconPack") != null) {
++                                    return false;
++                                }
++                            }
+                             return true;
+                         }
+                         Intent launchIntent = new Intent(Intent.ACTION_MAIN, null)
+-- 
+2.7.4
+

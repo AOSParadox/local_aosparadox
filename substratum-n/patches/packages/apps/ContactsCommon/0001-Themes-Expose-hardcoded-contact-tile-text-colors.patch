@@ -1,4 +1,4 @@
-From 8388ef683c6df1ca85b8bc067f4c4ad760bb288e Mon Sep 17 00:00:00 2001
+From da4a5ea5bbfc76f29da0f37a335d64ef4014d727 Mon Sep 17 00:00:00 2001
 From: bgill55 <bricam55@gmail.com>
 Date: Sat, 24 Jan 2015 18:12:39 -0700
 Subject: [PATCH] Themes: Expose hardcoded contact tile text colors
@@ -83,5 +83,5 @@ index 0000000..a5d6bd3
 +    <color name="starred_quick_contact_name_text_color">@android:color/white</color>
 +</resources>
 -- 
-2.9.3
+2.7.4
 

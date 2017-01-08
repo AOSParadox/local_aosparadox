@@ -1,7 +1,7 @@
-From 9baefc7d519c4872c085db7c1de6d847e03ca721 Mon Sep 17 00:00:00 2001
+From 6bf02e0cfe51eabb0b60ad1cc055d1c1f07e51b4 Mon Sep 17 00:00:00 2001
 From: Dave Kover <dkover@cyngn.com>
 Date: Thu, 14 Apr 2016 10:19:13 +0700
-Subject: [PATCH 24/32] Themes: Allow Navbar ripple color to be themed
+Subject: [PATCH 16/31] Themes: Allow Navbar ripple color to be themed
 
 PS1:
 Layers Commit by @setiawanjimmy
@@ -11,20 +11,20 @@ Distilled from: https://github.com/CyanogenMod/android_frameworks_base/commit/05
 
 Change-Id: I7969e952d7e08f1d12e89291512312421585b70f
 ---
- packages/SystemUI/res/values/projekt_colors.xml    | 23 ++++++++++++++++++++++
- .../systemui/statusbar/policy/KeyButtonRipple.java |  5 ++++-
- 2 files changed, 27 insertions(+), 1 deletion(-)
+ packages/SystemUI/res/values/projekt_colors.xml     | 21 +++++++++++++++++++++
+ .../systemui/statusbar/policy/KeyButtonRipple.java  |  5 ++++-
+ 2 files changed, 25 insertions(+), 1 deletion(-)
  create mode 100644 packages/SystemUI/res/values/projekt_colors.xml
 
 diff --git a/packages/SystemUI/res/values/projekt_colors.xml b/packages/SystemUI/res/values/projekt_colors.xml
 new file mode 100644
-index 0000000..3e21cc7
+index 0000000..a0f1df0
 --- /dev/null
 +++ b/packages/SystemUI/res/values/projekt_colors.xml
-@@ -0,0 +1,23 @@
+@@ -0,0 +1,21 @@
 +<?xml version="1.0" encoding="utf-8"?>
 +<!--
-+    Copyright (c) 2016 Project Substratum
++    Copyright (c) 2016 Projekt Substratum
 +
 +    Licensed under the Apache License, Version 2.0 (the "License");
 +    you may not use this file except in compliance with the License.
@@ -40,10 +40,8 @@ index 0000000..3e21cc7
 +-->
 +
 +<resources>
-+
 +    <!-- Navigation button ripple color -->
 +    <color name="navbutton_ripple_color">#FFFFFFFF</color>
-+
 +</resources>
 diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/policy/KeyButtonRipple.java b/packages/SystemUI/src/com/android/systemui/statusbar/policy/KeyButtonRipple.java
 index 57e092a..2579579 100644
@@ -71,5 +69,5 @@ index 57e092a..2579579 100644
          return mRipplePaint;
      }
 -- 
-2.9.3
+2.7.4
 

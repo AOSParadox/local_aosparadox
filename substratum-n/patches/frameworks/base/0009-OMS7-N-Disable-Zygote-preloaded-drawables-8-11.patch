@@ -1,7 +1,7 @@
-From 1553ef861b53a98f711e620125362eb5fcf50010 Mon Sep 17 00:00:00 2001
+From 4514b46868e52354c621eecd84e649f12108ba77 Mon Sep 17 00:00:00 2001
 From: Josh Guilfoyle <Josh.Guilfoyle@T-Mobile.com>
 Date: Wed, 26 Jan 2011 23:28:43 -0800
-Subject: [PATCH 09/32] OMS7-N: Disable Zygote preloaded drawables [8/11]
+Subject: [PATCH 09/31] OMS7-N: Disable Zygote preloaded drawables [8/11]
 
 With a theme applied, most of these preloaded drawables go unused.  Any
 assets the theme has redirected will need to be loaded with each app
@@ -19,7 +19,7 @@ Change-Id: I253b1a22482ac664c196533a4c2fcd88ae84b996
  1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/core/java/com/android/internal/os/ZygoteInit.java b/core/java/com/android/internal/os/ZygoteInit.java
-index 9c960c0..b7f2920 100644
+index 6829961..01e1e5e 100644
 --- a/core/java/com/android/internal/os/ZygoteInit.java
 +++ b/core/java/com/android/internal/os/ZygoteInit.java
 @@ -108,7 +108,7 @@ public class ZygoteInit {
@@ -41,5 +41,5 @@ index 9c960c0..b7f2920 100644
              mResources.finishPreloading();
          } catch (RuntimeException e) {
 -- 
-2.9.3
+2.7.4
 

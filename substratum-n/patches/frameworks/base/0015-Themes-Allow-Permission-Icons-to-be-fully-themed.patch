@@ -1,7 +1,7 @@
-From 9c9d076ddddff338a88ade034ed9beadef44d68f Mon Sep 17 00:00:00 2001
+From 5fffd32af36917265c413761bafc55c6b037855f Mon Sep 17 00:00:00 2001
 From: Nicholas Chum <nicholaschum@gmail.com>
 Date: Mon, 23 Nov 2015 23:49:15 -0500
-Subject: [PATCH 32/32] Themes: Allow Permission Icons to be fully themed
+Subject: [PATCH 15/31] Themes: Allow Permission Icons to be fully themed
 
 This removes the forced @android:color/black tint on the permission
 icons during app sideload through PackageInstaller.
@@ -30,17 +30,15 @@ index 383d771..a80d40e 100644
      <ImageView
          android:layout_width="wrap_content"
 diff --git a/core/res/res/values/projekt_colors.xml b/core/res/res/values/projekt_colors.xml
-index 56bebcf..9c2311a 100644
+index 7408ae9..a7316ab 100644
 --- a/core/res/res/values/projekt_colors.xml
 +++ b/core/res/res/values/projekt_colors.xml
-@@ -19,6 +19,7 @@
-     <color name="notification_text_default_color">@android:color/notification_default_color</color>
-     <color name="sender_text_color">@android:color/black</color>
-     <color name="resolver_list_bg">@color/white</color>
-+    <color name="app_permission_icon_tint">@android:color/black</color>
-     <color name="immersive_cling_bg_color">#ff009688</color>
+@@ -20,4 +20,5 @@
+     <color name="immersive_cling_bg_color">@color/accent_device_default_light</color>
      <color name="immersive_cling_text_color">@color/primary_text_default_material_light</color>
      <color name="immersive_cling_button_text_color">@android:color/white</color>
++    <color name="app_permission_icon_tint">@android:color/black</color>
+ </resources>
 -- 
-2.9.3
+2.7.4
 

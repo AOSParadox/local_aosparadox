@@ -1,0 +1,86 @@
+From 050fd45a32c6e31c40cc22a9163f3f73a5479691 Mon Sep 17 00:00:00 2001
+From: Ivan Iskandar <iiiiskandar14@gmail.com>
+Date: Wed, 14 Dec 2016 14:58:54 +0100
+Subject: [PATCH 10/11] Hide the "show/hide overlays" when no overlay installed
+
+Change-Id: I54088d27c9492e0992992de59bf340fe2465260a
+---
+ .../settings/applications/ManageApplications.java  | 38 +++++++++++++++++++---
+ 1 file changed, 34 insertions(+), 4 deletions(-)
+
+diff --git a/src/com/android/settings/applications/ManageApplications.java b/src/com/android/settings/applications/ManageApplications.java
+index ed61781..c3bc4d4 100644
+--- a/src/com/android/settings/applications/ManageApplications.java
++++ b/src/com/android/settings/applications/ManageApplications.java
+@@ -195,6 +195,10 @@ public class ManageApplications extends InstrumentedFragment
+     private boolean mShowSubstratum;
+     private boolean mShowSubstratumIcons;
+ 
++    // if app and icon overlay installed
++    private boolean mAppOverlayInstalled;
++    private boolean mIconOverlayInstalled;
++
+     private ApplicationsState mApplicationsState;
+ 
+     public int mListType;
+@@ -556,6 +560,9 @@ public class ManageApplications extends InstrumentedFragment
+     }
+ 
+     void updateOptionsMenu() {
++        mAppOverlayInstalled = isOverlayInstalled("app");
++        mIconOverlayInstalled = isOverlayInstalled("icon");
++
+         if (mOptionsMenu == null) {
+             return;
+         }
+@@ -573,13 +580,13 @@ public class ManageApplications extends InstrumentedFragment
+                 && mListType != LIST_TYPE_HIGH_POWER);
+ 
+         mOptionsMenu.findItem(R.id.show_substratum).setVisible(!mShowSubstratum
+-                && mListType != LIST_TYPE_HIGH_POWER);
++                && mListType != LIST_TYPE_HIGH_POWER && mAppOverlayInstalled);
+         mOptionsMenu.findItem(R.id.hide_substratum).setVisible(mShowSubstratum
+-                && mListType != LIST_TYPE_HIGH_POWER);
++                && mListType != LIST_TYPE_HIGH_POWER && mAppOverlayInstalled);
+         mOptionsMenu.findItem(R.id.show_substratum_icons).setVisible(!mShowSubstratumIcons
+-                && mListType != LIST_TYPE_HIGH_POWER);
++                && mListType != LIST_TYPE_HIGH_POWER && mIconOverlayInstalled);
+         mOptionsMenu.findItem(R.id.hide_substratum_icons).setVisible(mShowSubstratumIcons
+-                && mListType != LIST_TYPE_HIGH_POWER);
++                && mListType != LIST_TYPE_HIGH_POWER && mIconOverlayInstalled);
+     }
+ 
+     @Override
+@@ -668,6 +675,29 @@ public class ManageApplications extends InstrumentedFragment
+         mFilterAdapter.setFilterEnabled(FILTER_APPS_DISABLED, hasDisabledApps);
+     }
+ 
++    boolean isOverlayInstalled(String type) {
++        List<ApplicationInfo> packages = getActivity().getPackageManager()
++                .getInstalledApplications(PackageManager.GET_META_DATA);
++
++        for (ApplicationInfo packageInfo : packages) {
++            if (packageInfo.metaData != null) {
++                if (type.equals("app")) {
++                    if (packageInfo.metaData
++                                    .getString("Substratum_Parent") != null) {
++                        return true;
++                    }
++                }
++                if (type.equals("icon")) {
++                    if (packageInfo.metaData
++                                    .getString("Substratum_IconPack") != null) {
++                        return true;
++                    }
++                }
++            }
++        }
++        return false;
++    }
++
+     static class FilterSpinnerAdapter extends ArrayAdapter<CharSequence> {
+ 
+         private final ManageApplications mManageApplications;
+-- 
+2.7.4
+

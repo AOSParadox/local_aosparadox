@@ -1,7 +1,7 @@
-From 89ca21399ddabaa7387ae6b9cfefff913f8dedc6 Mon Sep 17 00:00:00 2001
+From 8962eafda8de3bd1cdcbc6ce705c33ee91633dcd Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?M=C3=A5rten=20Kongstad?= <marten.kongstad@sonymobile.com>
 Date: Mon, 29 Feb 2016 14:12:35 +0100
-Subject: [PATCH 06/32] OMS7-N: idmap: suppress print for padded resources
+Subject: [PATCH 06/31] OMS7-N: idmap: suppress print for padded resources
  [5/11]
 
 Change-Id: I565ccf515068b96927e4317cc9c06543415bb324
@@ -25,5 +25,5 @@ index 924090f..cb52a39 100644
          }
  
 -- 
-2.9.3
+2.7.4
 

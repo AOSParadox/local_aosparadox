@@ -1,7 +1,7 @@
-From 7874eaf1e9d26d786b17b75d3abb8953079922fd Mon Sep 17 00:00:00 2001
+From 3cbca43ffecdfd8af55acc2cd1268beac997a197 Mon Sep 17 00:00:00 2001
 From: George G <kreach3r@users.noreply.github.com>
 Date: Mon, 4 Jul 2016 12:07:11 +0300
-Subject: [PATCH 1/6] OMS7-N: Apps: show/hide Substratum overlays [2/2]
+Subject: [PATCH 07/11] OMS7-N: Apps: show/hide Substratum overlays [2/2]
 
 Default behavior is "hidden" substratum overlays,
 as they pollute the screen, and you can't notice the
@@ -66,10 +66,10 @@ index 0000000..177e78c
 +
 +</resources>
 diff --git a/src/com/android/settings/applications/ManageApplications.java b/src/com/android/settings/applications/ManageApplications.java
-index d9e28fe..6b58180 100644
+index 8b1dd27..070754a 100644
 --- a/src/com/android/settings/applications/ManageApplications.java
 +++ b/src/com/android/settings/applications/ManageApplications.java
-@@ -108,6 +108,7 @@ public class ManageApplications extends InstrumentedFragment
+@@ -107,6 +107,7 @@ public class ManageApplications extends InstrumentedFragment
  
      private static final String EXTRA_SORT_ORDER = "sortOrder";
      private static final String EXTRA_SHOW_SYSTEM = "showSystem";
@@ -77,7 +77,7 @@ index d9e28fe..6b58180 100644
      private static final String EXTRA_HAS_ENTRIES = "hasEntries";
      private static final String EXTRA_HAS_BRIDGE = "hasBridge";
  
-@@ -140,6 +141,7 @@ public class ManageApplications extends InstrumentedFragment
+@@ -138,6 +139,7 @@ public class ManageApplications extends InstrumentedFragment
      public static final int FILTER_APPS_USAGE_ACCESS = 13;
      public static final int FILTER_APPS_WITH_OVERLAY = 14;
      public static final int FILTER_APPS_WRITE_SETTINGS = 15;
@@ -85,7 +85,7 @@ index d9e28fe..6b58180 100644
  
      // This is the string labels for the filter modes above, the order must be kept in sync.
      public static final int[] FILTER_LABELS = new int[]{
-@@ -189,6 +191,9 @@ public class ManageApplications extends InstrumentedFragment
+@@ -187,6 +189,9 @@ public class ManageApplications extends InstrumentedFragment
      // whether showing system apps.
      private boolean mShowSystem;
  
@@ -95,7 +95,7 @@ index d9e28fe..6b58180 100644
      private ApplicationsState mApplicationsState;
  
      public int mListType;
-@@ -281,6 +286,7 @@ public class ManageApplications extends InstrumentedFragment
+@@ -276,6 +281,7 @@ public class ManageApplications extends InstrumentedFragment
          if (savedInstanceState != null) {
              mSortOrder = savedInstanceState.getInt(EXTRA_SORT_ORDER, mSortOrder);
              mShowSystem = savedInstanceState.getBoolean(EXTRA_SHOW_SYSTEM, mShowSystem);
@@ -103,7 +103,7 @@ index d9e28fe..6b58180 100644
          }
  
          mInvalidSizeStr = getActivity().getText(R.string.invalid_size_value);
-@@ -449,6 +455,7 @@ public class ManageApplications extends InstrumentedFragment
+@@ -440,6 +446,7 @@ public class ManageApplications extends InstrumentedFragment
          mResetAppsHelper.onSaveInstanceState(outState);
          outState.putInt(EXTRA_SORT_ORDER, mSortOrder);
          outState.putBoolean(EXTRA_SHOW_SYSTEM, mShowSystem);
@@ -111,7 +111,7 @@ index d9e28fe..6b58180 100644
          outState.putBoolean(EXTRA_HAS_ENTRIES, mApplications.mHasReceivedLoadEntries);
          outState.putBoolean(EXTRA_HAS_BRIDGE, mApplications.mHasReceivedBridgeCallback);
      }
-@@ -573,6 +580,11 @@ public class ManageApplications extends InstrumentedFragment
+@@ -558,6 +565,11 @@ public class ManageApplications extends InstrumentedFragment
                  && mListType != LIST_TYPE_HIGH_POWER);
          mOptionsMenu.findItem(R.id.hide_system).setVisible(mShowSystem
                  && mListType != LIST_TYPE_HIGH_POWER);
@@ -123,7 +123,7 @@ index d9e28fe..6b58180 100644
      }
  
      @Override
-@@ -592,6 +604,11 @@ public class ManageApplications extends InstrumentedFragment
+@@ -577,6 +589,11 @@ public class ManageApplications extends InstrumentedFragment
                  mShowSystem = !mShowSystem;
                  mApplications.rebuild(false);
                  break;
@@ -135,7 +135,7 @@ index d9e28fe..6b58180 100644
              case R.id.reset_app_preferences:
                  mResetAppsHelper.buildResetDialog();
                  return true;
-@@ -880,9 +897,17 @@ public class ManageApplications extends InstrumentedFragment
+@@ -865,9 +882,17 @@ public class ManageApplications extends InstrumentedFragment
              if (mOverrideFilter != null) {
                  filterObj = mOverrideFilter;
              }
@@ -155,5 +155,5 @@ index d9e28fe..6b58180 100644
              switch (mLastSortMode) {
                  case R.id.sort_order_size:
 -- 
-2.9.3
+2.7.4
 

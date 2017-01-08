@@ -1,0 +1,44 @@
+From 0f293ec6dfe3e82211967d81a2ae26f9fb6e20af Mon Sep 17 00:00:00 2001
+From: daveyannihilation <daveyannihilation@hotmail.com>
+Date: Fri, 25 Nov 2016 15:20:04 -0700
+Subject: [PATCH 04/11] Settings: Expose gesture settings switchbar
+
+In Settings > Gestures, there is a hardcoded white background above each switch. Link to a colors.xml value instead.
+
+Commit written by @nathanchance, idea by @daveyannihilation
+
+Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
+Change-Id: I9857c10ee4e54d27ca1287c80a7d8e420adc9a61
+---
+ res/layout/gesture_preference.xml | 2 +-
+ res/values/projekt_colors.xml     | 3 +++
+ 2 files changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/res/layout/gesture_preference.xml b/res/layout/gesture_preference.xml
+index ccbc42a..9fcd14f 100644
+--- a/res/layout/gesture_preference.xml
++++ b/res/layout/gesture_preference.xml
+@@ -31,7 +31,7 @@
+         android:paddingBottom="16dp"
+         android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+         android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+-        android:background="@android:color/white">
++        android:background="@color/gestures_switchbar_color">
+ 
+         <TextView
+             android:id="@android:id/title"
+diff --git a/res/values/projekt_colors.xml b/res/values/projekt_colors.xml
+index fb0d99e..0025233 100644
+--- a/res/values/projekt_colors.xml
++++ b/res/values/projekt_colors.xml
+@@ -29,4 +29,7 @@
+     <color name="condition_card_second_button_text_color">@*android:color/primary_text_default_material_dark</color>
+     <!-- Storage Summary Title -->
+     <color name="storage_summary_title_color">@*android:color/accent_device_default_light</color>
++    <!-- Gesture settings switchbar background -->
++    <color name="gestures_switchbar_color">@android:color/white</color>
++
+ </resources>
+-- 
+2.7.4
+

@@ -1,0 +1,53 @@
+From 08919d33033330ef45ec9c08b9b910cd8a57a04c Mon Sep 17 00:00:00 2001
+From: Abdulwahab Isam <abdoi94.iq@gmail.com>
+Date: Mon, 19 Sep 2016 18:42:06 +0300
+Subject: [PATCH 2/2] Themes: Expose all elevations
+
+Change-Id: I7d161c1fce17ac3b8a468e1597a3a1632433224b
+---
+ res/layout/display.xml     | 2 +-
+ res/values-port/styles.xml | 2 +-
+ res/values/dimens.xml      | 5 +++++
+ 3 files changed, 7 insertions(+), 2 deletions(-)
+ create mode 100644 res/values/dimens.xml
+
+diff --git a/res/layout/display.xml b/res/layout/display.xml
+index 638f0d2..043b531 100644
+--- a/res/layout/display.xml
++++ b/res/layout/display.xml
+@@ -21,7 +21,7 @@
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:background="@color/display_background_color"
+-    android:elevation="4dip">
++    android:elevation="@dimen/display_elevation">
+ 
+     <Toolbar
+         android:id="@+id/toolbar"
+diff --git a/res/values-port/styles.xml b/res/values-port/styles.xml
+index a6d2013..9e7e1df 100644
+--- a/res/values-port/styles.xml
++++ b/res/values-port/styles.xml
+@@ -65,7 +65,7 @@
+     </style>
+ 
+     <style name="PadLayoutStyle.Advanced">
+-        <item name="android:elevation">4dip</item>
++        <item name="android:elevation">@dimen/pad_elevation</item>
+         <item name="android:paddingTop">12dip</item>
+         <item name="android:paddingBottom">20dip</item>
+         <item name="android:paddingStart">20dip</item>
+diff --git a/res/values/dimens.xml b/res/values/dimens.xml
+new file mode 100644
+index 0000000..065de72
+--- /dev/null
++++ b/res/values/dimens.xml
+@@ -0,0 +1,5 @@
++<?xml version="1.0" encoding="utf-8"?>
++<resources>
++    <dimen name="display_elevation">4.0dip</dimen>
++    <dimen name="pad_elevation">4.0dip</dimen>
++</resources>
+-- 
+2.7.4
+

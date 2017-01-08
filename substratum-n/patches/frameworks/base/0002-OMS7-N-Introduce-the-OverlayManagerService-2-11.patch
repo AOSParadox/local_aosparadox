@@ -1,7 +1,7 @@
-From 57d9155ae389d25e21d7efe291ecc13a45a35a33 Mon Sep 17 00:00:00 2001
+From c5dedeb0fdfc719bceec897340ad5c3d2de90c8f Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?M=C3=A5rten=20Kongstad?= <marten.kongstad@sonymobile.com>
 Date: Tue, 15 Dec 2015 16:40:23 +0100
-Subject: [PATCH 02/32] OMS7-N: Introduce the OverlayManagerService [2/11]
+Subject: [PATCH 02/31] OMS7-N: Introduce the OverlayManagerService [2/11]
 
 Add a new system service to manage Runtime Resource Overlays. This will
 offload the PackageManagerService and allow administration of overlay
@@ -84,10 +84,10 @@ Change-Id: Icc3c7daa25345d20bc5014b865024422eab72f5b
  create mode 100644 services/core/java/com/android/server/om/OverlayManagerShellCommand.java
 
 diff --git a/Android.mk b/Android.mk
-index a8b3f65..ac27a56 100644
+index ef502ae..64e4da1 100644
 --- a/Android.mk
 +++ b/Android.mk
-@@ -135,6 +135,7 @@ LOCAL_SRC_FILES += \
+@@ -136,6 +136,7 @@ LOCAL_SRC_FILES += \
  	core/java/android/content/ISyncContext.aidl \
  	core/java/android/content/ISyncServiceAdapter.aidl \
  	core/java/android/content/ISyncStatusObserver.aidl \
@@ -96,10 +96,10 @@ index a8b3f65..ac27a56 100644
  	core/java/android/content/pm/IOnAppsChangedListener.aidl \
  	core/java/android/content/pm/IOtaDexopt.aidl \
 diff --git a/core/java/android/content/Context.java b/core/java/android/content/Context.java
-index bdf888f..eb814cb 100644
+index 3a2f471..1ca44e0 100644
 --- a/core/java/android/content/Context.java
 +++ b/core/java/android/content/Context.java
-@@ -3652,6 +3652,16 @@ public abstract class Context {
+@@ -3656,6 +3656,16 @@ public abstract class Context {
      public static final String GATEKEEPER_SERVICE = "android.service.gatekeeper.IGateKeeperService";
  
      /**
@@ -117,10 +117,10 @@ index bdf888f..eb814cb 100644
       * process and user ID running in the system.
       *
 diff --git a/core/java/android/content/Intent.java b/core/java/android/content/Intent.java
-index ace54ba..12c6fd2 100644
+index c6aaa48..1d74ee9 100644
 --- a/core/java/android/content/Intent.java
 +++ b/core/java/android/content/Intent.java
-@@ -3060,6 +3060,40 @@ public class Intent implements Parcelable, Cloneable {
+@@ -3076,6 +3076,40 @@ public class Intent implements Parcelable, Cloneable {
              "android.intent.action.MEDIA_RESOURCE_GRANTED";
  
      /**
@@ -618,13 +618,13 @@ index 0000000..a25cf0c
 +    }
 +}
 diff --git a/core/java/android/content/pm/PackageManagerInternal.java b/core/java/android/content/pm/PackageManagerInternal.java
-index 14f7727..daf23b6 100644
+index f5bcf64..bdbdd1e 100644
 --- a/core/java/android/content/pm/PackageManagerInternal.java
 +++ b/core/java/android/content/pm/PackageManagerInternal.java
-@@ -160,4 +160,28 @@ public abstract class PackageManagerInternal {
-      * Whether a package's data be cleared.
+@@ -168,4 +168,28 @@ public abstract class PackageManagerInternal {
+      * @return Whether was launched.
       */
-     public abstract boolean canPackageBeWiped(int userId, String packageName);
+     public abstract boolean wasPackageEverLaunched(String packageName, int userId);
 +
 +    /**
 +     * Get all overlay packages for a user.
@@ -651,10 +651,10 @@ index 14f7727..daf23b6 100644
 +    public abstract void setResourceDirs(int userId, String packageName, String[] resourceDirs);
  }
 diff --git a/core/res/AndroidManifest.xml b/core/res/AndroidManifest.xml
-index 7947154..84189d7 100644
+index a65aa74..68cc51d 100644
 --- a/core/res/AndroidManifest.xml
 +++ b/core/res/AndroidManifest.xml
-@@ -81,6 +81,10 @@
+@@ -82,6 +82,10 @@
      <protected-broadcast android:name="android.intent.action.USER_SWITCHED" />
      <protected-broadcast android:name="android.intent.action.USER_INITIALIZE" />
      <protected-broadcast android:name="android.intent.action.INTENT_FILTER_NEEDS_VERIFICATION" />
@@ -3026,12 +3026,12 @@ index 0000000..d6f5373
 +    }
 +}
 diff --git a/services/core/java/com/android/server/pm/PackageManagerService.java b/services/core/java/com/android/server/pm/PackageManagerService.java
-index edd679b..4dcb342 100755
+index 2703d36..ea55a6d 100755
 --- a/services/core/java/com/android/server/pm/PackageManagerService.java
 +++ b/services/core/java/com/android/server/pm/PackageManagerService.java
-@@ -21036,6 +21036,47 @@ Slog.v(TAG, ":: stepped forward, applying functor at tag " + parser.getName());
-             return mProtectedPackages.canPackageBeWiped(userId,
-                     packageName);
+@@ -21197,6 +21197,47 @@ Slog.v(TAG, ":: stepped forward, applying functor at tag " + parser.getName());
+                 return mSettings.wasPackageEverLaunchedLPr(packageName, userId);
+             }
          }
 +
 +        @Override
@@ -3078,5 +3078,5 @@ index edd679b..4dcb342 100755
  
      @Override
 -- 
-2.9.3
+2.7.4
 

@@ -1,7 +1,7 @@
-From f9186d9a9f61f6bbf14dd16fc7a4e334124f7ff7 Mon Sep 17 00:00:00 2001
+From 54465392fc519090b26651f2b7c910c6a350c4e1 Mon Sep 17 00:00:00 2001
 From: Nicholas Chum <nicholaschum@gmail.com>
 Date: Sun, 19 Jun 2016 10:37:13 -0400
-Subject: [PATCH 10/32] OMS7-N: Persistence on boot through
+Subject: [PATCH 10/31] OMS7-N: Persistence on boot through
  OverlayManagerServiceImpl [9/11]
 
 Overlays should not be enforced by the traditional OverlayManagerService
@@ -74,5 +74,5 @@ index 2a0d88b..4c61968 100644
  
      private void removeIdmapIfPossible(@NonNull final OverlayInfo oi) {
 -- 
-2.9.3
+2.7.4
 

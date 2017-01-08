@@ -1,7 +1,7 @@
-From a736fb4026b1c76ef80aec0ff33f0728faf95fbc Mon Sep 17 00:00:00 2001
+From e9ba4a568fc517daf3e9b5817bdf752b8b96225c Mon Sep 17 00:00:00 2001
 From: Kuba Schenk <abukcz@gmail.com>
 Date: Thu, 1 Dec 2016 21:48:26 +0100
-Subject: [PATCH 18/32] OMS7-N: ApplicationsState: add filter for Substratum
+Subject: [PATCH 29/31] OMS7-N: ApplicationsState: add filter for Substratum
  icon overlays [1/2]
 
 This commit allows the framework to handle the filtering of the icon overlays found for OMS.
@@ -9,15 +9,16 @@ This commit allows the framework to handle the filtering of the icon overlays fo
 Base this off the work from @KreAch3R
 
 Change-Id: I594c993977733e67f566ac65df50ad2e1bbdbdd3
+(cherry picked from commit 4d682464550f71e72e491934c78b8a42fdfc0348)
 ---
  .../android/settingslib/applications/ApplicationsState.java   | 11 +++++++++++
  1 file changed, 11 insertions(+)
 
 diff --git a/packages/SettingsLib/src/com/android/settingslib/applications/ApplicationsState.java b/packages/SettingsLib/src/com/android/settingslib/applications/ApplicationsState.java
-index 70a92d6..3ae984f 100644
+index 6fecd40..d3a6e21 100644
 --- a/packages/SettingsLib/src/com/android/settingslib/applications/ApplicationsState.java
 +++ b/packages/SettingsLib/src/com/android/settingslib/applications/ApplicationsState.java
-@@ -1311,6 +1311,17 @@ public class ApplicationsState {
+@@ -1325,6 +1325,17 @@ public class ApplicationsState {
          }
      };
  
@@ -36,5 +37,5 @@ index 70a92d6..3ae984f 100644
          private int mCurrentUser;
  
 -- 
-2.9.3
+2.7.4
 

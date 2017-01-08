@@ -1,0 +1,55 @@
+From 922d69ca154bbe39e486f05d5e7c97cf4646c03e Mon Sep 17 00:00:00 2001
+From: Abdulwahab Isam <abdoi94.iq@gmail.com>
+Date: Fri, 7 Oct 2016 08:30:11 +0300
+Subject: [PATCH 30/31] Themes: Expose QS battery
+
+This is needed for white themes like Belo. Should function the same with dark themes as well.
+
+Change-Id: I65e3f777a2a2605a06260705f92f8617407d9005
+---
+ packages/SystemUI/res/layout/battery_detail.xml | 6 +++---
+ packages/SystemUI/res/values/projekt_colors.xml | 6 ++++++
+ 2 files changed, 9 insertions(+), 3 deletions(-)
+
+diff --git a/packages/SystemUI/res/layout/battery_detail.xml b/packages/SystemUI/res/layout/battery_detail.xml
+index 8abfcf6..af3acdc 100644
+--- a/packages/SystemUI/res/layout/battery_detail.xml
++++ b/packages/SystemUI/res/layout/battery_detail.xml
+@@ -27,7 +27,7 @@
+         android:layout_height="wrap_content"
+         android:paddingStart="16dp"
+         android:textAppearance="?android:attr/textAppearanceSmall"
+-        android:textColor="?android:attr/colorAccent" />
++        android:textColor="@color/qs_battery_text_color" />
+ 
+     <com.android.systemui.ResizingSpace
+         android:layout_width="match_parent"
+@@ -40,8 +40,8 @@
+         android:layout_marginStart="16dp"
+         android:layout_marginEnd="24dp"
+         systemui:sideLabels="@array/battery_labels"
+-        android:colorAccent="?android:attr/colorAccent"
+-        systemui:textColor="#66FFFFFF" />
++        android:colorAccent="@color/qs_battery_accent"
++        systemui:textColor="@color/qs_battery_graph_text_color" />
+ 
+     <com.android.systemui.ResizingSpace
+         android:layout_width="match_parent"
+diff --git a/packages/SystemUI/res/values/projekt_colors.xml b/packages/SystemUI/res/values/projekt_colors.xml
+index 0f89199..83b8524 100644
+--- a/packages/SystemUI/res/values/projekt_colors.xml
++++ b/packages/SystemUI/res/values/projekt_colors.xml
+@@ -24,4 +24,10 @@
+     <color name="qs_alarm_status_text_color">#64ffffff</color>
+     <!-- QS edit page toolbar text color -->
+     <color name="qs_edit_toolbar_text_color">#FFFFFF</color>
++    <!-- QS battery % text color -->
++    <color name="qs_battery_text_color">@*android:color/accent_device_default_light</color>
++    <!-- QS battery graph text color -->
++    <color name="qs_battery_graph_text_color">#66FFFFFF</color>
++    <!-- QS battery accent color -->
++    <color name="qs_battery_accent">@*android:color/accent_device_default_light</color>
+ </resources>
+-- 
+2.7.4
+

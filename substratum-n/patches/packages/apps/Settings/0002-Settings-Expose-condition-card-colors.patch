@@ -1,18 +1,20 @@
-From dc5203c3447f8b8743e69e8cf696a079d850e9f8 Mon Sep 17 00:00:00 2001
+From beba0851d990b0e72ebbd44d7da48795d374e124 Mon Sep 17 00:00:00 2001
 From: daveyannihilation <daveyannihilation@hotmail.com>
 Date: Tue, 20 Sep 2016 23:35:04 +0800
-Subject: [PATCH 5/6] Themes: Expose condition card colors
+Subject: [PATCH 02/11] Settings: Expose condition card colors
 
 PS2 Change to the actual colors in fwb that these attrs call to.
+
+@nathanchance edit: updated for Nougat 7.1
 
 Change-Id: I8de2e2a4f79a28c0fe1f025b4d23937931fe293a
 ---
  res/layout/condition_card.xml | 18 +++++++++---------
- res/values/projekt_colors.xml | 10 ++++++++++
- 2 files changed, 19 insertions(+), 9 deletions(-)
+ res/values/projekt_colors.xml |  9 +++++++++
+ 2 files changed, 18 insertions(+), 9 deletions(-)
 
 diff --git a/res/layout/condition_card.xml b/res/layout/condition_card.xml
-index 5c82c7e..50a1ca8 100644
+index 7c9e46d..88277c2 100644
 --- a/res/layout/condition_card.xml
 +++ b/res/layout/condition_card.xml
 @@ -1,6 +1,6 @@
@@ -23,25 +25,25 @@ index 5c82c7e..50a1ca8 100644
  
       Licensed under the Apache License, Version 2.0 (the "License");
       you may not use this file except in compliance with the License.
-@@ -26,7 +26,7 @@
+@@ -25,7 +25,7 @@
+         android:layout_width="match_parent"
          android:layout_height="wrap_content"
          android:orientation="vertical"
-         android:paddingStart="16dp"
 -        android:background="?android:attr/colorAccent"
 +        android:background="@color/condition_card_background_color"
          android:elevation="2dp"
          android:clickable="true"
          android:focusable="true">
-@@ -43,7 +43,7 @@
-                 android:layout_width="24dp"
+@@ -44,7 +44,7 @@
                  android:layout_height="wrap_content"
-                 android:layout_marginEnd="36dp"
+                 android:layout_marginStart="16dp"
+                 android:layout_marginEnd="32dp"
 -                android:tint="?android:attr/textColorPrimaryInverse" />
 +                android:tint="@color/condition_card_icon_color" />
  
              <TextView
                  android:id="@android:id/title"
-@@ -51,14 +51,14 @@
+@@ -52,14 +52,14 @@
                  android:layout_height="wrap_content"
                  android:layout_weight="1"
                  android:textAppearance="?android:attr/textAppearanceMedium"
@@ -53,12 +55,12 @@ index 5c82c7e..50a1ca8 100644
                  android:layout_width="wrap_content"
                  android:layout_height="match_parent"
                  android:padding="16dp"
--                android:tint="?android:attr/textColorPrimaryInverse"
-+                android:tint="@color/condition_card_expander_color"
-                 android:clickable="true"
-                 android:focusable="true"
-                 android:background="?android:attr/selectableItemBackground" />
-@@ -83,14 +83,14 @@
+-                android:tint="?android:attr/textColorPrimaryInverse"/>
++                android:tint="@color/condition_card_expander_color" />
+ 
+         </LinearLayout>
+ 
+@@ -81,14 +81,14 @@
                  android:paddingBottom="16dp"
                  android:textAppearance="?android:attr/textAppearanceListItemSecondary"
                  android:alpha=".7"
@@ -76,42 +78,41 @@ index 5c82c7e..50a1ca8 100644
              <com.android.internal.widget.ButtonBarLayout
                  android:id="@+id/buttonBar"
 @@ -107,7 +107,7 @@
-                     android:layout_height="wrap_content"
                      android:paddingStart="0dp"
                      android:alpha=".8"
+                     android:textAlignment="viewStart"
 -                    android:textColor="?android:attr/textColorPrimaryInverse"
 +                    android:textColor="@color/condition_card_first_button_text_color"
                      style="?android:attr/buttonBarButtonStyle" />
  
                  <Button
-@@ -115,7 +115,7 @@
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
+@@ -117,7 +117,7 @@
+                     android:layout_weight="1"
                      android:alpha=".8"
+                     android:textAlignment="viewStart"
 -                    android:textColor="?android:attr/textColorPrimaryInverse"
 +                    android:textColor="@color/condition_card_second_button_text_color"
                      style="?android:attr/buttonBarButtonStyle" />
  
              </com.android.internal.widget.ButtonBarLayout>
 diff --git a/res/values/projekt_colors.xml b/res/values/projekt_colors.xml
-index 5348f79..4ded47e 100644
+index 60419bd..9340830 100644
 --- a/res/values/projekt_colors.xml
 +++ b/res/values/projekt_colors.xml
-@@ -20,4 +20,14 @@
+@@ -18,4 +18,13 @@
+     <!-- Dashboard category and tile background -->
      <color name="dashboard_category_title_background">@color/card_background</color>
      <color name="selectable_card_background">@color/card_background</color>
- 
 +    <!-- Condition card colors -->
-+    <color name="condition_card_background_color">@*android:color/material_deep_teal_500</color>
-+    <color name="condition_card_icon_color">@*android:color/primary_text_material_dark</color>
-+    <color name="condition_card_title_text_color">@*android:color/primary_text_material_dark</color>
-+    <color name="condition_card_expander_color">@*android:color/primary_text_material_dark</color>
-+    <color name="condition_card_summary_text_color">@*android:color/primary_text_material_dark</color>
++    <color name="condition_card_background_color">@*android:color/accent_device_default_light</color>
++    <color name="condition_card_icon_color">@*android:color/primary_text_default_material_dark</color>
++    <color name="condition_card_title_text_color">@*android:color/primary_text_default_material_dark</color>
++    <color name="condition_card_expander_color">@*android:color/primary_text_default_material_dark</color>
++    <color name="condition_card_summary_text_color">@*android:color/primary_text_default_material_dark</color>
 +    <color name="condition_card_divider_color">@android:color/white</color>
-+    <color name="condition_card_first_button_text_color">@*android:color/primary_text_material_dark</color>
-+    <color name="condition_card_second_button_text_color">@*android:color/primary_text_material_dark</color>
-+
++    <color name="condition_card_first_button_text_color">@*android:color/primary_text_default_material_dark</color>
++    <color name="condition_card_second_button_text_color">@*android:color/primary_text_default_material_dark</color>
  </resources>
 -- 
-2.9.3
+2.7.4
 

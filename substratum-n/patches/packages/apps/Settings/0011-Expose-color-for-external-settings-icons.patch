@@ -1,0 +1,77 @@
+From 5c2f00f7e5310a97a169ac99e56510c6c3caccb6 Mon Sep 17 00:00:00 2001
+From: Clark Scheff <clark@scheffsblend.com>
+Date: Fri, 23 Dec 2016 09:52:57 -0500
+Subject: [PATCH 11/11] Expose color for external settings icons
+
+Marhsmallow now allows for system apps to add settings.  An icon is
+loaded from the external package and a tint is applied to the icon
+so that it matches other icons in the dashboard.  The tint color
+uses the colorAccent attribute from the currently applied style.
+Themes can overlay the colorAccent but this color is also used for
+other elements of the UI which may not be ideal.
+
+This patch adds a new color external_tile_icon_tint_color which
+points to the attribute ?android:attr/colorAccent when not themed.
+This retains the original look but offers better flexibility for
+theme designers.
+
+- Ported up to 7.1.1
+
+Change-Id: Ifb4a99a315271cdcf978a796e3dea0eaef8d7750
+---
+ res/values/projekt_colors.xml                            |  4 +++-
+ src/com/android/settings/dashboard/DashboardAdapter.java | 14 +++++++++-----
+ 2 files changed, 12 insertions(+), 6 deletions(-)
+
+diff --git a/res/values/projekt_colors.xml b/res/values/projekt_colors.xml
+index e1977f9..4ecd1b2 100644
+--- a/res/values/projekt_colors.xml
++++ b/res/values/projekt_colors.xml
+@@ -39,9 +39,11 @@
+     <color name="storage_private_3">#fff2a600</color>
+     <color name="storage_private_4">#ffec407a</color>
+     <color name="storage_private_5">#ffc0ca33</color>
+-
+     <!-- Linear color bar -->
+     <color name="linear_color_bar_left">@*android:color/accent_device_default_light</color>
+     <color name="linear_color_bar_middle">@*android:color/accent_device_default_light</color>
+     <color name="linear_color_bar_right">#ffced7db</color>
++
++    <!-- External Icon Tint -->
++    <color name="external_tile_icon_tint_color">?android:attr/colorAccent</color>
+ </resources>
+diff --git a/src/com/android/settings/dashboard/DashboardAdapter.java b/src/com/android/settings/dashboard/DashboardAdapter.java
+index 60d5b67..7b4dc31 100755
+--- a/src/com/android/settings/dashboard/DashboardAdapter.java
++++ b/src/com/android/settings/dashboard/DashboardAdapter.java
+@@ -181,10 +181,10 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Dash
+     public void setCategories(List<DashboardCategory> categories) {
+         mCategories = categories;
+ 
+-        // TODO: Better place for tinting?
+-        TypedValue tintColor = new TypedValue();
+-        mContext.getTheme().resolveAttribute(com.android.internal.R.attr.colorAccent,
+-                tintColor, true);
++        TypedValue tintColorValue = new TypedValue();
++        mContext.getResources().getValue(R.color.external_tile_icon_tint_color,
++                tintColorValue, true);
++
+         for (int i = 0; i < categories.size(); i++) {
+             for (int j = 0; j < categories.get(i).tiles.size(); j++) {
+                 Tile tile = categories.get(i).tiles.get(j);
+@@ -193,7 +193,11 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Dash
+                         tile.intent.getComponent().getPackageName())) {
+                     // If this drawable is coming from outside Settings, tint it to match the
+                     // color.
+-                    tile.icon.setTint(tintColor.data);
++                    if (tintColorValue.type == TypedValue.TYPE_ATTRIBUTE) {
++                        mContext.getTheme().resolveAttribute(tintColorValue.data,
++                                tintColorValue, true);
++                    }
++                    tile.icon.setTint(tintColorValue.data);
+                 }
+             }
+         }
+-- 
+2.7.4
+

@@ -1,7 +1,7 @@
-From bc9b7be0e12e3a4985f6e4d38579155846e5c6b9 Mon Sep 17 00:00:00 2001
+From c2bf6c90568aefc04dae38cd75ad7cb302e4ef94 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?M=C3=A5rten=20Kongstad?= <marten.kongstad@sonymobile.com>
 Date: Tue, 15 Dec 2015 16:08:31 +0100
-Subject: [PATCH 01/32] OMS7-N: Support tagging resources as OK to overlay
+Subject: [PATCH 01/31] OMS7-N: Support tagging resources as OK to overlay
  [1/11]
 
 This will allow applications to have a resource xml defining what
@@ -97,10 +97,10 @@ index 12a6b0f..6094a57 100644
              String8* pTargetPath, String8* pOverlayPath);
  
 diff --git a/libs/androidfw/AssetManager.cpp b/libs/androidfw/AssetManager.cpp
-index f50cff4..bb60e1c 100644
+index 19c0dcd..4b2381e 100644
 --- a/libs/androidfw/AssetManager.cpp
 +++ b/libs/androidfw/AssetManager.cpp
-@@ -248,7 +248,7 @@ bool AssetManager::addOverlayPath(const String8& packagePath, int32_t* cookie)
+@@ -251,7 +251,7 @@ bool AssetManager::addOverlayPath(const String8& packagePath, int32_t* cookie)
      String8 targetPath;
      String8 overlayPath;
      if (!ResTable::getIdmapInfo(idmap->getBuffer(false), idmap->getLength(),
@@ -197,7 +197,7 @@ index fb63b4c..9c194d5 100644
  
                      if (inclValues) {
 diff --git a/tools/aapt/ResourceTable.cpp b/tools/aapt/ResourceTable.cpp
-index 6a4b637..4af5816 100644
+index 9cae00f..b9ec575 100644
 --- a/tools/aapt/ResourceTable.cpp
 +++ b/tools/aapt/ResourceTable.cpp
 @@ -800,6 +800,7 @@ status_t compileResourceFile(Bundle* bundle,
@@ -280,7 +280,7 @@ index 6a4b637..4af5816 100644
  status_t ResourceTable::addEntry(const SourcePos& sourcePos,
                                   const String16& package,
                                   const String16& type,
-@@ -2636,6 +2695,11 @@ status_t ResourceTable::assignResourceIds()
+@@ -2644,6 +2703,11 @@ status_t ResourceTable::assignResourceIds()
                  firstError = err;
              }
  
@@ -292,7 +292,7 @@ index 6a4b637..4af5816 100644
              const size_t N = t->getOrderedConfigs().size();
              t->setIndex(ti + 1 + typeIdOffset);
  
-@@ -3224,7 +3288,7 @@ status_t ResourceTable::flatten(Bundle* bundle, const sp<const ResourceFilter>&
+@@ -3232,7 +3296,7 @@ status_t ResourceTable::flatten(Bundle* bundle, const sp<const ResourceFilter>&
                          index[ei] = htodl(data->getSize()-typeStart-typeSize);
  
                          // Create the entry.
@@ -301,7 +301,7 @@ index 6a4b637..4af5816 100644
                          if (amt < 0) {
                              return amt;
                          }
-@@ -3729,7 +3793,8 @@ status_t ResourceTable::Entry::remapStringValue(StringPool* strings)
+@@ -3737,7 +3801,8 @@ status_t ResourceTable::Entry::remapStringValue(StringPool* strings)
      return NO_ERROR;
  }
  
@@ -311,7 +311,7 @@ index 6a4b637..4af5816 100644
  {
      size_t amt = 0;
      ResTable_entry header;
-@@ -3742,6 +3807,9 @@ ssize_t ResourceTable::Entry::flatten(Bundle* /* bundle */, const sp<AaptFile>&
+@@ -3750,6 +3815,9 @@ ssize_t ResourceTable::Entry::flatten(Bundle* /* bundle */, const sp<AaptFile>&
      if (isPublic) {
          header.flags |= htods(header.FLAG_PUBLIC);
      }
@@ -321,7 +321,7 @@ index 6a4b637..4af5816 100644
      header.key.index = htodl(mNameIndex);
      if (ty != TYPE_BAG) {
          status_t err = data->writeData(&header, sizeof(header));
-@@ -3882,6 +3950,13 @@ status_t ResourceTable::Type::addPublic(const SourcePos& sourcePos,
+@@ -3890,6 +3958,13 @@ status_t ResourceTable::Type::addPublic(const SourcePos& sourcePos,
      return NO_ERROR;
  }
  
@@ -335,7 +335,7 @@ index 6a4b637..4af5816 100644
  void ResourceTable::Type::canAddEntry(const String16& name)
  {
      mCanAddEntries.add(name);
-@@ -3984,6 +4059,7 @@ sp<ResourceTable::ConfigList> ResourceTable::Type::removeEntry(const String16& e
+@@ -3992,6 +4067,7 @@ sp<ResourceTable::ConfigList> ResourceTable::Type::removeEntry(const String16& e
      }
  
      mPublic.removeItem(entry);
@@ -343,7 +343,7 @@ index 6a4b637..4af5816 100644
      return removed;
  }
  
-@@ -4085,6 +4161,22 @@ status_t ResourceTable::Type::applyPublicEntryOrder()
+@@ -4093,6 +4169,22 @@ status_t ResourceTable::Type::applyPublicEntryOrder()
      return hasError ? STATUST(UNKNOWN_ERROR) : NO_ERROR;
  }
  
@@ -470,5 +470,5 @@ index cf1e992..4b9b8b6 100644
          Vector<sp<ConfigList> > mOrderedConfigs;
          SortedVector<String16> mCanAddEntries;
 -- 
-2.9.3
+2.7.4
 

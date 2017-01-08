@@ -1,4 +1,4 @@
-From 6883b24c5a7517d0fea83ad85e040539f59b83bf Mon Sep 17 00:00:00 2001
+From 6233e238e005536fa4492f348ed650a7487b34ae Mon Sep 17 00:00:00 2001
 From: beanstown106 <nbenis106@gmail.com>
 Date: Fri, 20 Nov 2015 17:27:43 -0500
 Subject: [PATCH] Themes: Expose hardcoded layout and styles colors
@@ -61,13 +61,13 @@ index 59ae3b1..a7d0c62 100644
      android:paddingBottom="8dip"
 diff --git a/res/values/projekt_colors.xml b/res/values/projekt_colors.xml
 new file mode 100644
-index 0000000..d258c86
+index 0000000..d2ae4f8
 --- /dev/null
 +++ b/res/values/projekt_colors.xml
 @@ -0,0 +1,29 @@
 +<?xml version="1.0" encoding="utf-8"?>
 +<!--
-+    Copyright (c) 2016 Project Substratum
++    Copyright (c) 2016 Projekt Substratum
 +
 +    Licensed under the Apache License, Version 2.0 (the "License");
 +    you may not use this file except in compliance with the License.
@@ -184,5 +184,5 @@ index 7402235..b34fa12 100644
      </style>
  </resources>
 -- 
-2.9.3
+2.7.4
 

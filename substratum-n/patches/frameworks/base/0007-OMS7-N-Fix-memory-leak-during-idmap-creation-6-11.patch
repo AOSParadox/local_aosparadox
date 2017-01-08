@@ -1,7 +1,7 @@
-From b3b773b04b202732ef7d01f9a921b0be364b00f1 Mon Sep 17 00:00:00 2001
+From ecbba2e8fdde9cf7d738591ab7388bca5380ea93 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?M=C3=A5rten=20Kongstad?= <marten.kongstad@sonymobile.com>
 Date: Thu, 2 Jun 2016 09:34:36 +0200
-Subject: [PATCH 07/32] OMS7-N: Fix memory leak during idmap creation [6/11]
+Subject: [PATCH 07/31] OMS7-N: Fix memory leak during idmap creation [6/11]
 
 Plug a memory leak in AssetManager::createIdmap.
 
@@ -11,10 +11,10 @@ Change-Id: Ieed805c596df931e2167ebb47c1b2907d6bf67f4
  1 file changed, 25 insertions(+), 13 deletions(-)
 
 diff --git a/libs/androidfw/AssetManager.cpp b/libs/androidfw/AssetManager.cpp
-index 5dd9e60..116d4a5 100644
+index 214c0d1..c0690af 100644
 --- a/libs/androidfw/AssetManager.cpp
 +++ b/libs/androidfw/AssetManager.cpp
-@@ -287,22 +287,34 @@ bool AssetManager::createIdmap(const char* targetApkPath, const char* overlayApk
+@@ -290,22 +290,34 @@ bool AssetManager::createIdmap(const char* targetApkPath, const char* overlayApk
  {
      AutoMutex _l(mLock);
      const String8 paths[2] = { String8(targetApkPath), String8(overlayApkPath) };
@@ -63,5 +63,5 @@ index 5dd9e60..116d4a5 100644
  
  bool AssetManager::addDefaultAssets()
 -- 
-2.9.3
+2.7.4
 

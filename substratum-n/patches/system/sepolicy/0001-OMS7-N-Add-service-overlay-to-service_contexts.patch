@@ -1,4 +1,4 @@
-From b51c4e05bf24c16d56c82e8448ee1b03c0373436 Mon Sep 17 00:00:00 2001
+From f5bb41de1c82599bcf8776c88987b55a8b5f05e5 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?M=C3=A5rten=20Kongstad?= <marten.kongstad@sonymobile.com>
 Date: Mon, 22 Jun 2015 09:31:25 +0200
 Subject: [PATCH] OMS7-N: Add service 'overlay' to service_contexts
@@ -6,10 +6,12 @@ Subject: [PATCH] OMS7-N: Add service 'overlay' to service_contexts
 The 'overlay' service is the Overlay Manager Service, which tracks
 packages and their Runtime Resource Overlay overlay packages.
 
-SELinux patch by @nicholaschum
+Bug: 31052947
 
 Co-authored-by: Martin Wallgren <martin.wallgren@sonymobile.com>
-Change-Id: I97de5d927cb0b7435aed3623694e1fe5a3be1209
+Signed-off-by: Zoran Jovanovic <zoran.jovanovic@sonymobile.com>
+
+Change-Id: Ie996707dd02166325271bee49163ac263e560a1d
 ---
  service.te       | 1 +
  service_contexts | 1 +
@@ -17,10 +19,10 @@ Change-Id: I97de5d927cb0b7435aed3623694e1fe5a3be1209
  3 files changed, 3 insertions(+)
 
 diff --git a/service.te b/service.te
-index 6b5838c..9cb9759 100644
+index e7a30f9..6f9ab3f 100644
 --- a/service.te
 +++ b/service.te
-@@ -80,6 +80,7 @@ type network_score_service, system_api_service, system_server_service, service_m
+@@ -81,6 +81,7 @@ type network_score_service, system_api_service, system_server_service, service_m
  type network_time_update_service, system_server_service, service_manager_type;
  type notification_service, app_api_service, system_server_service, service_manager_type;
  type otadexopt_service, system_server_service, service_manager_type;
@@ -29,10 +31,10 @@ index 6b5838c..9cb9759 100644
  type permission_service, app_api_service, system_server_service, service_manager_type;
  type persistent_data_block_service, system_api_service, system_server_service, service_manager_type;
 diff --git a/service_contexts b/service_contexts
-index 0ddbdc1..789c184 100644
+index dd7e49f..b7d7473 100644
 --- a/service_contexts
 +++ b/service_contexts
-@@ -92,6 +92,7 @@ network_time_update_service               u:object_r:network_time_update_service
+@@ -93,6 +93,7 @@ network_time_update_service               u:object_r:network_time_update_service
  nfc                                       u:object_r:nfc_service:s0
  notification                              u:object_r:notification_service:s0
  otadexopt                                 u:object_r:otadexopt_service:s0
@@ -41,10 +43,10 @@ index 0ddbdc1..789c184 100644
  permission                                u:object_r:permission_service:s0
  persistent_data_block                     u:object_r:persistent_data_block_service:s0
 diff --git a/system_server.te b/system_server.te
-index e74f58c..06ef993 100644
+index 03a7ef3..3ca8182 100644
 --- a/system_server.te
 +++ b/system_server.te
-@@ -437,6 +437,7 @@ allow system_server mediacodec_service:service_manager find;
+@@ -441,6 +441,7 @@ allow system_server mediacodec_service:service_manager find;
  allow system_server mediadrmserver_service:service_manager find;
  allow system_server netd_service:service_manager find;
  allow system_server nfc_service:service_manager find;
@@ -53,5 +55,5 @@ index e74f58c..06ef993 100644
  allow system_server system_server_service:service_manager { add find };
  allow system_server surfaceflinger_service:service_manager find;
 -- 
-2.9.3
+2.7.4
 

@@ -1,7 +1,7 @@
-From 81c3afd42f4bebbe3b11376b6c6c3c96b0849c03 Mon Sep 17 00:00:00 2001
+From 3e3e915d45c395e73706cc06d125fe0cca7fb3cb Mon Sep 17 00:00:00 2001
 From: George G <kreach3r@users.noreply.github.com>
 Date: Mon, 4 Jul 2016 06:25:15 +0300
-Subject: [PATCH 16/32] OMS7-N: ApplicationsState: add filter for Substratum
+Subject: [PATCH 28/31] OMS7-N: ApplicationsState: add filter for Substratum
  overlays [1/2]
 
 This commit allows the framework to handle the filtering of the
@@ -13,10 +13,10 @@ Change-Id: I7646115e8f73494d726728fac58cc47aafd69d5d
  1 file changed, 15 insertions(+), 2 deletions(-)
 
 diff --git a/packages/SettingsLib/src/com/android/settingslib/applications/ApplicationsState.java b/packages/SettingsLib/src/com/android/settingslib/applications/ApplicationsState.java
-index 7392453..70a92d6 100644
+index f0ec107..6fecd40 100644
 --- a/packages/SettingsLib/src/com/android/settingslib/applications/ApplicationsState.java
 +++ b/packages/SettingsLib/src/com/android/settingslib/applications/ApplicationsState.java
-@@ -136,9 +136,11 @@ public class ApplicationsState {
+@@ -137,9 +137,11 @@ public class ApplicationsState {
          // Only the owner can see all apps.
          mAdminRetrieveFlags = PackageManager.GET_UNINSTALLED_PACKAGES |
                  PackageManager.GET_DISABLED_COMPONENTS |
@@ -30,7 +30,7 @@ index 7392453..70a92d6 100644
  
          /**
           * This is a trick to prevent the foreground thread from being delayed.
-@@ -1298,6 +1300,17 @@ public class ApplicationsState {
+@@ -1312,6 +1314,17 @@ public class ApplicationsState {
          }
      };
  
@@ -49,5 +49,5 @@ index 7392453..70a92d6 100644
          private int mCurrentUser;
  
 -- 
-2.9.3
+2.7.4
 

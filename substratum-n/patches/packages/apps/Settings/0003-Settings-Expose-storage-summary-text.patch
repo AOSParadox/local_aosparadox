@@ -1,46 +1,47 @@
-From d4363f157bee2b71ba71366ca527e461318fec00 Mon Sep 17 00:00:00 2001
+From 8a109d7ab52836d648a5bb88afd1107e6cb1d816 Mon Sep 17 00:00:00 2001
 From: George G <kreach3r@users.noreply.github.com>
 Date: Tue, 3 Nov 2015 23:57:22 +0200
-Subject: [PATCH 6/6] Settings: Expose storage summary text
+Subject: [PATCH 03/11] Settings: Expose storage summary text
 
 This commit simply exposes the storage summary text hardcodes to allow
 themers to theme them without issue.
 
+@nathanchance edit: updated for Nougat 7.1
+
 Change-Id: I10c124b6a1516a1be7ac234c1dd7dbe2cbe05bb2
 ---
  res/layout/storage_summary.xml                                    | 2 +-
- res/values/projekt_colors.xml                                     | 3 +++
+ res/values/projekt_colors.xml                                     | 2 ++
  src/com/android/settings/deviceinfo/StorageSummaryPreference.java | 8 +++++++-
  src/com/android/settings/deviceinfo/StorageVolumePreference.java  | 8 +++++++-
- 4 files changed, 18 insertions(+), 3 deletions(-)
+ 4 files changed, 17 insertions(+), 3 deletions(-)
 
 diff --git a/res/layout/storage_summary.xml b/res/layout/storage_summary.xml
-index 35201e1..c01d2da 100644
+index 7bc51df..c01d2da 100644
 --- a/res/layout/storage_summary.xml
 +++ b/res/layout/storage_summary.xml
 @@ -33,7 +33,7 @@
          android:singleLine="true"
          android:textAlignment="viewStart"
          android:textAppearance="@android:style/TextAppearance.Material.Subhead"
--        android:textColor="#ff607d8b"
+-        android:textColor="?android:attr/colorAccent"
 +        android:textColor="@color/storage_summary_title_color"
          android:textSize="36sp"
          android:ellipsize="marquee"
          android:fadingEdge="horizontal" />
 diff --git a/res/values/projekt_colors.xml b/res/values/projekt_colors.xml
-index 4ded47e..ecadeed 100644
+index 9340830..fb0d99e 100644
 --- a/res/values/projekt_colors.xml
 +++ b/res/values/projekt_colors.xml
-@@ -30,4 +30,7 @@
-     <color name="condition_card_first_button_text_color">@*android:color/primary_text_material_dark</color>
-     <color name="condition_card_second_button_text_color">@*android:color/primary_text_material_dark</color>
- 
+@@ -27,4 +27,6 @@
+     <color name="condition_card_divider_color">@android:color/white</color>
+     <color name="condition_card_first_button_text_color">@*android:color/primary_text_default_material_dark</color>
+     <color name="condition_card_second_button_text_color">@*android:color/primary_text_default_material_dark</color>
 +    <!-- Storage Summary Title -->
-+    <color name="storage_summary_title_color">#ff607d8b</color>
-+
++    <color name="storage_summary_title_color">@*android:color/accent_device_default_light</color>
  </resources>
 diff --git a/src/com/android/settings/deviceinfo/StorageSummaryPreference.java b/src/com/android/settings/deviceinfo/StorageSummaryPreference.java
-index 9fc1363..cf3cd1c 100644
+index e1cf774..2741798 100644
 --- a/src/com/android/settings/deviceinfo/StorageSummaryPreference.java
 +++ b/src/com/android/settings/deviceinfo/StorageSummaryPreference.java
 @@ -21,6 +21,7 @@ import android.graphics.Color;
@@ -69,7 +70,7 @@ index 9fc1363..cf3cd1c 100644
      }
  
      public void setPercent(int percent) {
-@@ -51,7 +57,7 @@ public class StorageSummaryPreference extends Preference {
+@@ -52,7 +58,7 @@ public class StorageSummaryPreference extends Preference {
          }
  
          final TextView summary = (TextView) view.findViewById(android.R.id.summary);
@@ -79,7 +80,7 @@ index 9fc1363..cf3cd1c 100644
          super.onBindViewHolder(view);
      }
 diff --git a/src/com/android/settings/deviceinfo/StorageVolumePreference.java b/src/com/android/settings/deviceinfo/StorageVolumePreference.java
-index dba636c..063d87a 100644
+index 2ef42fa..a3c2650 100644
 --- a/src/com/android/settings/deviceinfo/StorageVolumePreference.java
 +++ b/src/com/android/settings/deviceinfo/StorageVolumePreference.java
 @@ -27,6 +27,7 @@ import android.support.v7.preference.PreferenceViewHolder;
@@ -97,8 +98,8 @@ index dba636c..063d87a 100644
 +    private int mSecondaryColor;
      private int mUsedPercent = -1;
  
-     public StorageVolumePreference(Context context, VolumeInfo volume, int color) {
-@@ -53,6 +55,10 @@ public class StorageVolumePreference extends Preference {
+     // TODO: ideally, VolumeInfo should have a total physical size.
+@@ -54,6 +56,10 @@ public class StorageVolumePreference extends Preference {
          mVolume = volume;
          mColor = color;
  
@@ -109,7 +110,7 @@ index dba636c..063d87a 100644
          setLayoutResource(R.layout.storage_volume);
  
          setKey(volume.getId());
-@@ -103,7 +109,7 @@ public class StorageVolumePreference extends Preference {
+@@ -106,7 +112,7 @@ public class StorageVolumePreference extends Preference {
      public void onBindViewHolder(PreferenceViewHolder view) {
          final ImageView unmount = (ImageView) view.findViewById(R.id.unmount);
          if (unmount != null) {
@@ -119,5 +120,5 @@ index dba636c..063d87a 100644
          }
  
 -- 
-2.9.3
+2.7.4
 
