@@ -128,14 +128,14 @@
   <!-- AOSPA -->
   <remove-project name="platform/external/jemalloc" />
   <remove-project name="platform/external/libjpeg-turbo" />
-  <remove-project name="platform/external/libpng" />
   <remove-project name="platform/external/skia" />
   <remove-project name="platform/external/sqlite" />
-  <project path="external/jemalloc" name="AOSPA/android_external_jemalloc" remote="github" revision="nougat-caf" />
-  <project path="external/libjpeg-turbo" name="AOSPA/android_external_libjpeg-turbo" remote="github" revision="nougat-caf" />
-  <project path="external/libpng" name="AOSPA/android_external_libpng" remote="github" revision="nougat-caf" />
-  <project path="external/skia" name="AOSPA/android_external_skia" remote="github" revision="nougat-caf" />
-  <project path="external/sqlite" name="AOSPA/android_external_sqlite" remote="github" revision="nougat-caf" />
+  <remove-project name="platform/external/zlib" />
+  <project path="external/jemalloc" name="AOSPA/android_external_jemalloc" remote="github" revision="nougat-mr1" />
+  <project path="external/libjpeg-turbo" name="AOSPA/android_external_libjpeg-turbo" remote="github" revision="nougat-mr1" />
+  <project path="external/skia" name="AOSPA/android_external_skia" remote="github" revision="nougat-mr1" />
+  <project path="external/sqlite" name="AOSPA/android_external_sqlite" remote="github" revision="nougat-mr1" />
+  <project path="external/zlib" name="AOSPA/android_external_sqlite" remote="github" revision="nougat-mr1" />
   <project path="vendor/qcom/sdclang-3.8/linux-x86" name="ThankYouMario/proprietary_vendor_qcom_sdclang-3.8_linux-x86" remote="github" revision="nougat-caf" />
 
   <!-- Toolchains -->
