@@ -1,0 +1,77 @@
+From 96a5f14f8e280ab81a3b26d61c6380d037e2db9e Mon Sep 17 00:00:00 2001
+From: Ivan Iskandar <iiiiskandar14@gmail.com>
+Date: Sun, 8 Jan 2017 01:22:47 +0100
+Subject: [PATCH 13/13] Expose switchbar background color
+
+Change-Id: Idc8b09c921bb57c9464d6ea956cfdd9b2b95e6a8
+---
+ res/values/projekt_colors.xml                  |  2 ++
+ res/values/themes.xml                          |  4 ++--
+ src/com/android/settings/widget/SwitchBar.java | 11 ++++++++++-
+ 3 files changed, 14 insertions(+), 3 deletions(-)
+
+diff --git a/res/values/projekt_colors.xml b/res/values/projekt_colors.xml
+index 4ecd1b2..f37cc54 100644
+--- a/res/values/projekt_colors.xml
++++ b/res/values/projekt_colors.xml
+@@ -46,4 +46,6 @@
+ 
+     <!-- External Icon Tint -->
+     <color name="external_tile_icon_tint_color">?android:attr/colorAccent</color>
++    <!-- Settings switchbar background -->
++    <color name="switchbar_background_color">?android:attr/colorSecondary</color>
+ </resources>
+diff --git a/res/values/themes.xml b/res/values/themes.xml
+index ffe802e..acabe21 100644
+--- a/res/values/themes.xml
++++ b/res/values/themes.xml
+@@ -196,13 +196,13 @@
+     <style name="ThemeOverlay.SwitchBar.Settings" parent="@*android:style/ThemeOverlay.DeviceDefault.Dark.ActionBar.Accent">
+         <item name="switchBarMarginStart">@dimen/switchbar_subsettings_margin_start</item>
+         <item name="switchBarMarginEnd">@dimen/switchbar_subsettings_margin_end</item>
+-        <item name="switchBarBackgroundColor">?android:attr/colorSecondary</item>
++        <item name="switchBarBackgroundColor">@color/switchbar_background_color</item>
+     </style>
+ 
+     <style name="ThemeOverlay.SwitchBar.SubSettings" parent="@android:style/ThemeOverlay.Material.Dark.ActionBar">
+         <item name="switchBarMarginStart">@dimen/switchbar_subsettings_margin_start</item>
+         <item name="switchBarMarginEnd">@dimen/switchbar_subsettings_margin_end</item>
+-        <item name="switchBarBackgroundColor">?android:attr/colorSecondary</item>
++        <item name="switchBarBackgroundColor">@color/switchbar_background_color</item>
+     </style>
+ 
+     <style name="Theme.DialogWhenLarge" parent="@*android:style/Theme.DeviceDefault.Settings.DialogWhenLarge">
+diff --git a/src/com/android/settings/widget/SwitchBar.java b/src/com/android/settings/widget/SwitchBar.java
+index 240c062..ce73a39 100644
+--- a/src/com/android/settings/widget/SwitchBar.java
++++ b/src/com/android/settings/widget/SwitchBar.java
+@@ -24,6 +24,7 @@ import android.text.SpannableStringBuilder;
+ import android.text.TextUtils;
+ import android.text.style.TextAppearanceSpan;
+ import android.util.AttributeSet;
++import android.util.TypedValue;
+ import android.view.LayoutInflater;
+ import android.view.View;
+ import android.view.ViewGroup;
+@@ -96,9 +97,17 @@ public class SwitchBar extends LinearLayout implements CompoundButton.OnCheckedC
+         final TypedArray a = context.obtainStyledAttributes(attrs, XML_ATTRIBUTES);
+         int switchBarMarginStart = (int) a.getDimension(0, 0);
+         int switchBarMarginEnd = (int) a.getDimension(1, 0);
+-        int switchBarBackgroundColor = (int) a.getColor(2, 0);
+         a.recycle();
+ 
++        TypedValue backgroundColorValue = new TypedValue();
++        mContext.getResources().getValue(R.color.switchbar_background_color,
++                backgroundColorValue, true);
++        if (backgroundColorValue.type == TypedValue.TYPE_ATTRIBUTE) {
++            context.getTheme().resolveAttribute(backgroundColorValue.data,
++                    backgroundColorValue, true);
++        }
++        int switchBarBackgroundColor = backgroundColorValue.data;
++
+         mTextView = (TextView) findViewById(R.id.switch_text);
+         mTextView.setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_NO);
+         mLabel = getResources().getString(R.string.switch_off_text);
+-- 
+2.7.4
+

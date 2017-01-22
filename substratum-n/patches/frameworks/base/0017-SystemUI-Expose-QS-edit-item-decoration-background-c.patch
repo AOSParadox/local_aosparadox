@@ -1,7 +1,7 @@
-From 05544613f0e03b08dd3d1a1153259629bb6512a6 Mon Sep 17 00:00:00 2001
+From 90a82c05622422ad685f1f552d18f11ad25b66f9 Mon Sep 17 00:00:00 2001
 From: Ivan Iskandar <iiiiskandar14@gmail.com>
 Date: Sun, 18 Sep 2016 21:33:18 +0700
-Subject: [PATCH 17/31] SystemUI: Expose QS edit item decoration background
+Subject: [PATCH 17/35] SystemUI: Expose QS edit item decoration background
  color
 
 PS2:

@@ -1,7 +1,7 @@
-From 5c2f00f7e5310a97a169ac99e56510c6c3caccb6 Mon Sep 17 00:00:00 2001
+From 8d91b37ed67dee639a376da484de375badda4d2b Mon Sep 17 00:00:00 2001
 From: Clark Scheff <clark@scheffsblend.com>
 Date: Fri, 23 Dec 2016 09:52:57 -0500
-Subject: [PATCH 11/11] Expose color for external settings icons
+Subject: [PATCH 11/13] Expose color for external settings icons
 
 Marhsmallow now allows for system apps to add settings.  An icon is
 loaded from the external package and a tint is applied to the icon

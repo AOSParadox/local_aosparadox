@@ -1,7 +1,7 @@
-From 9a638dceda4daa6370c04636df6f4d5979a137dd Mon Sep 17 00:00:00 2001
+From 6bcaa0e2db50e2489689bd5f3b8da70f509e1e5c Mon Sep 17 00:00:00 2001
 From: George G <kreach3r@users.noreply.github.com>
 Date: Mon, 14 Nov 2016 14:49:47 +0200
-Subject: [PATCH 21/31] Notification dynamic colors bool compatible with OMS7
+Subject: [PATCH 21/35] Notification dynamic colors bool compatible with OMS7
 
 OMS7 introduced this fine piece of code: https://github.com/SubstratumResources/platform_frameworks_base/blob/n-oms7/core/java/android/app/ResourcesManager.java#L897..#L904
 

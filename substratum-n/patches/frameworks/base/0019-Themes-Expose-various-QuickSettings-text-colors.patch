@@ -1,7 +1,7 @@
-From b6262a89e05119eac89fb683b87710a8913dd9aa Mon Sep 17 00:00:00 2001
+From 69abd553df779510b70b8454e47f22a61726c0d9 Mon Sep 17 00:00:00 2001
 From: "Niklas Schnettler (Sh4dowSoul)" <niklas.schnettler@gmail.com>
 Date: Wed, 5 Oct 2016 18:07:43 +0200
-Subject: [PATCH 19/31] Themes: Expose various QuickSettings text colors
+Subject: [PATCH 19/35] Themes: Expose various QuickSettings text colors
 
 Change-Id: Iaea71ca83afbc3d8cc6faea6afac16cabb46cfff
 ---
