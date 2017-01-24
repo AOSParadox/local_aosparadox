@@ -135,7 +135,7 @@
   <project path="external/libjpeg-turbo" name="AOSPA/android_external_libjpeg-turbo" remote="github" revision="nougat-mr1" />
   <project path="external/skia" name="AOSPA/android_external_skia" remote="github" revision="nougat-mr1" />
   <project path="external/sqlite" name="AOSPA/android_external_sqlite" remote="github" revision="nougat-mr1" />
-  <project path="external/zlib" name="AOSPA/android_external_sqlite" remote="github" revision="nougat-mr1" />
+  <project path="external/zlib" name="AOSPA/android_external_zlib" remote="github" revision="nougat-mr1" />
   <project path="vendor/qcom/sdclang-3.8/linux-x86" name="ThankYouMario/proprietary_vendor_qcom_sdclang-3.8_linux-x86" remote="github" revision="nougat-caf" />
 
   <!-- Toolchains -->
