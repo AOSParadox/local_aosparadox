@@ -1,4 +1,4 @@
-From 1fc3dbadd1bd862f0c27eda2c80173b7e7acbc4f Mon Sep 17 00:00:00 2001
+From cea4e649543d096175942b54a491c9d1ddb5f781 Mon Sep 17 00:00:00 2001
 From: Nicholas Chum <nicholaschum@gmail.com>
 Date: Tue, 17 Nov 2015 18:57:11 -0500
 Subject: [PATCH 14/35] Themes: Allow Immersive cling colors to be fully themed

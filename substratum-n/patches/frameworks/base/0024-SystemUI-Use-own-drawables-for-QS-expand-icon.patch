@@ -1,4 +1,4 @@
-From b29c6a5861ed0b18d091cb426741d9d7bb20162a Mon Sep 17 00:00:00 2001
+From dd6f45a3c0baf697892954fdb04a0fcf95e6d37b Mon Sep 17 00:00:00 2001
 From: Ivan Iskandar <iiiiskandar14@gmail.com>
 Date: Mon, 5 Dec 2016 19:00:04 +0700
 Subject: [PATCH 24/35] SystemUI: Use own drawables for QS expand icon

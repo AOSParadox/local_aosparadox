@@ -1,4 +1,4 @@
-From ef06077f9c4a3c7da14814b12e0ad10b07eed942 Mon Sep 17 00:00:00 2001
+From b102965eb87b887785f740f904a27f413c4f14c6 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?M=C3=A5rten=20Kongstad?= <marten.kongstad@sonymobile.com>
 Date: Thu, 2 Jun 2016 09:35:31 +0200
 Subject: [PATCH 04/35] OMS7-N: Integrate OverlayManagerService into framework
@@ -813,7 +813,7 @@ index 914ac3d..651765b 100644
      private:
          void closeZip(int idx);
 diff --git a/libs/androidfw/AssetManager.cpp b/libs/androidfw/AssetManager.cpp
-index b3cfe24..214c0d1 100644
+index 6ed788d..214c0d1 100644
 --- a/libs/androidfw/AssetManager.cpp
 +++ b/libs/androidfw/AssetManager.cpp
 @@ -213,15 +213,6 @@ bool AssetManager::addAssetPath(
@@ -905,8 +905,8 @@ index b3cfe24..214c0d1 100644
 -            sharedRes->add(oass, oidmap, offset + 1, false);
 -            const_cast<AssetManager*>(this)->mAssetPaths.add(oap);
 -            const_cast<AssetManager*>(this)->mZipSet.addOverlay(targetPackagePath, oap);
--        }
--    }
+-       }
+-  }
 -
 -#ifndef _WIN32
 -    TEMP_FAILURE_RETRY(flock(fileno(fin), LOCK_UN));

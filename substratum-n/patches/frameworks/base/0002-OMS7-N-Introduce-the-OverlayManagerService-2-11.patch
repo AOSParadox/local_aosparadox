@@ -1,4 +1,4 @@
-From e812095e6b0b79a99ff1d22552f58f92d95eb9bf Mon Sep 17 00:00:00 2001
+From ed044e60ef0dd1c12c72540ee69c209205fafc61 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?M=C3=A5rten=20Kongstad?= <marten.kongstad@sonymobile.com>
 Date: Tue, 15 Dec 2015 16:40:23 +0100
 Subject: [PATCH 02/35] OMS7-N: Introduce the OverlayManagerService [2/11]

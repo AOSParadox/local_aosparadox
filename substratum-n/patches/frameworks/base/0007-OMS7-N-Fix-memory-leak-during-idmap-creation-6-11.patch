@@ -1,4 +1,4 @@
-From 17ae9d31f3792e42abe436360b41bc8575acda94 Mon Sep 17 00:00:00 2001
+From 74cc972ec5257d6b0ac4364c049d5bd6336b6b07 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?M=C3=A5rten=20Kongstad?= <marten.kongstad@sonymobile.com>
 Date: Thu, 2 Jun 2016 09:34:36 +0200
 Subject: [PATCH 07/35] OMS7-N: Fix memory leak during idmap creation [6/11]

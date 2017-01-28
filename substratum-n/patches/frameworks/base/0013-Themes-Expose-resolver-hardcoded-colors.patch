@@ -1,4 +1,4 @@
-From f9107f3b8aab3988fcaa37858f4e245e8c056702 Mon Sep 17 00:00:00 2001
+From 53be995e3c52edfa51ae348dce7b1e8fbee50cb7 Mon Sep 17 00:00:00 2001
 From: Dave Kover <dkover@cyngn.com>
 Date: Fri, 9 Dec 2016 10:47:17 -0700
 Subject: [PATCH 13/35] Themes: Expose resolver hardcoded colors

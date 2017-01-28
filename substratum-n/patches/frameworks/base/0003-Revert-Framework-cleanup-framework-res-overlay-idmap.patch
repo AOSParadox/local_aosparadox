@@ -1,14 +1,14 @@
-From ddedebce5a1cbecbd15780f2a5257f3164d94d25 Mon Sep 17 00:00:00 2001
+From 1aa69e8e11da0047dbd44f15271ec71a5fa72929 Mon Sep 17 00:00:00 2001
 From: Louis Popi <theh2o64@gmail.com>
-Date: Sun, 8 Jan 2017 09:19:46 +0100
+Date: Sat, 28 Jan 2017 11:36:57 +0100
 Subject: [PATCH 03/35] Revert "Framework:cleanup framework res-overlay/idmap
  fd"
 
 This reverts commit c1fd64b3838e0b48ee56428599d0dcc7ff4842a9.
 ---
  include/androidfw/AssetManager.h |  2 +-
- libs/androidfw/AssetManager.cpp  | 28 ++--------------------------
- 2 files changed, 3 insertions(+), 27 deletions(-)
+ libs/androidfw/AssetManager.cpp  | 22 ----------------------
+ 2 files changed, 1 insertion(+), 23 deletions(-)
 
 diff --git a/include/androidfw/AssetManager.h b/include/androidfw/AssetManager.h
 index 2d5f4c2..914ac3d 100644
@@ -24,29 +24,24 @@ index 2d5f4c2..914ac3d 100644
          void closeZip(int idx);
  
 diff --git a/libs/androidfw/AssetManager.cpp b/libs/androidfw/AssetManager.cpp
-index 4b2381e..b3cfe24 100644
+index d5f2666..6ed788d 100644
 --- a/libs/androidfw/AssetManager.cpp
 +++ b/libs/androidfw/AssetManager.cpp
-@@ -804,16 +804,8 @@ void AssetManager::addSystemOverlays(const char* pathOverlaysList,
+@@ -804,13 +804,7 @@ void AssetManager::addSystemOverlays(const char* pathOverlaysList,
              sharedRes->add(oass, oidmap, offset + 1, false);
              const_cast<AssetManager*>(this)->mAssetPaths.add(oap);
              const_cast<AssetManager*>(this)->mZipSet.addOverlay(targetPackagePath, oap);
--
--            oidmap->close();
--            ALOGD("close idmap=%s pid=%d\n", oap.idmap.string(), getpid());
--       }
+-            delete oidmap;
+        }
 -
 -        if (oap.path.find(OVERLAY_DIR) != -1) {
 -           const_cast<AssetManager*>(this)->mZipSet.closeZipFromPath(oap.path);
 -           ALOGD("close: %s and reset entry\n", oap.path.string());
 -      }
--  }
-+        }
-+    }
+   }
  
  #ifndef _WIN32
-     TEMP_FAILURE_RETRY(flock(fileno(fin), LOCK_UN));
-@@ -2014,22 +2006,6 @@ AssetManager::ZipSet::~ZipSet(void)
+@@ -2012,22 +2006,6 @@ AssetManager::ZipSet::~ZipSet(void)
  }
  
  /*

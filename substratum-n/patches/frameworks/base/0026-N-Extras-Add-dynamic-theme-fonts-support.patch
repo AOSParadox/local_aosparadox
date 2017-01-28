@@ -1,4 +1,4 @@
-From 30322394919fce17ffe33a3a33f3da47acca03e3 Mon Sep 17 00:00:00 2001
+From 88febd6344fc4ce41bb96439bfa3aa12af5afc03 Mon Sep 17 00:00:00 2001
 From: 0xD34D <clark@scheffsblend.com>
 Date: Wed, 22 Jun 2016 23:54:23 +0300
 Subject: [PATCH 26/35] N-Extras: Add dynamic theme fonts support

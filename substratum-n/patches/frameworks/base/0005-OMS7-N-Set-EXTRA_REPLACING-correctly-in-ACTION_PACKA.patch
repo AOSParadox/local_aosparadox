@@ -1,4 +1,4 @@
-From c6e5e9f71cbf22a61444e9428f003eed0d717de6 Mon Sep 17 00:00:00 2001
+From 850ea9288fba4e825b08b79ebb3b55c7127a7c52 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?M=C3=A5rten=20Kongstad?= <marten.kongstad@sonymobile.com>
 Date: Mon, 25 Apr 2016 16:29:22 +0200
 Subject: [PATCH 05/35] OMS7-N: Set EXTRA_REPLACING correctly in

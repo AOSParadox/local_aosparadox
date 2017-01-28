@@ -1,4 +1,4 @@
-From 3d58929cf55d9eba0a65f2d0909066b7cee89e8b Mon Sep 17 00:00:00 2001
+From b34f7577f3a6087c065a02484a75dbc838471b03 Mon Sep 17 00:00:00 2001
 From: Dave Kover <dkover@cyngn.com>
 Date: Thu, 14 Apr 2016 10:19:13 +0700
 Subject: [PATCH 16/35] Themes: Allow Navbar ripple color to be themed

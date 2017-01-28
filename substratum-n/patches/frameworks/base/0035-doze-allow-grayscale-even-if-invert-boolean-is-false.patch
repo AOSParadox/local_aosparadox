@@ -1,4 +1,4 @@
-From 1fd33c9519f149b519b48cf9ad98a72bcd96d99b Mon Sep 17 00:00:00 2001
+From 84d287d92ad73d988d0a825dcf9824a4e312f4c6 Mon Sep 17 00:00:00 2001
 From: Daniel Koman <dankoman30@gmail.com>
 Date: Wed, 28 Sep 2016 15:28:26 +0200
 Subject: [PATCH 35/35] doze: allow grayscale even if invert boolean is false
