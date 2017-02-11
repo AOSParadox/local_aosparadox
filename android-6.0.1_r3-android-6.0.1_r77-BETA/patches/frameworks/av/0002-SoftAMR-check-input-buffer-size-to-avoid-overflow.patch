@@ -1,4 +1,4 @@
-From 7fb5c5e0175686395d25b40d2ae76e08e32756e4 Mon Sep 17 00:00:00 2001
+From 6f7856c461b66b3144a01bf5c775a4ddf0841373 Mon Sep 17 00:00:00 2001
 From: Wei Jia <wjia@google.com>
 Date: Fri, 18 Mar 2016 18:17:14 -0700
 Subject: [PATCH 2/6] SoftAMR: check input buffer size to avoid overflow.

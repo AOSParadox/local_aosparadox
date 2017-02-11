@@ -1,4 +1,4 @@
-From fd660fca33ed320d7063bab789e94dea105f4dda Mon Sep 17 00:00:00 2001
+From 91790dddaf92af2f7bbfc25ed20179e7cb317d35 Mon Sep 17 00:00:00 2001
 From: Adam Seaton <aseaton@google.com>
 Date: Thu, 18 Aug 2016 10:33:30 -0700
 Subject: [PATCH 49/55] Update Security String to 2016-10-01 to platform and

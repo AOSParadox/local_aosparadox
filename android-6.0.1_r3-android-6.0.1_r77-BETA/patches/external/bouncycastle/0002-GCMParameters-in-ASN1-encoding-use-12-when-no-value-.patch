@@ -1,4 +1,4 @@
-From 01dd9821964670e7b1323dc495f3a27927991786 Mon Sep 17 00:00:00 2001
+From eb6a6a527a4dff9316f4ff9141d754a3b182cc0e Mon Sep 17 00:00:00 2001
 From: Sergio Giro <sgiro@google.com>
 Date: Tue, 19 Jul 2016 13:19:53 +0100
 Subject: [PATCH 2/2] GCMParameters: in ASN1 encoding, use 12 when no value is

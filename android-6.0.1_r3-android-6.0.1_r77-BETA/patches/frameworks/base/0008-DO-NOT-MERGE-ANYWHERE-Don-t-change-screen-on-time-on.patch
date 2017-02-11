@@ -1,4 +1,4 @@
-From e6ccedae4480fe131f1d14664ad726cfeb1fdf3e Mon Sep 17 00:00:00 2001
+From 93db5e470fc15b4b4db4d96fdd0a2a5dd034e10d Mon Sep 17 00:00:00 2001
 From: Adam Lesinski <adamlesinski@google.com>
 Date: Tue, 26 Jan 2016 18:18:19 -0800
 Subject: [PATCH 08/11] DO NOT MERGE ANYWHERE: Don't change screen on time on

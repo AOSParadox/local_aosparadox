@@ -1,4 +1,4 @@
-From ee588a4f91e33f1d2d2d11e90537fd2e8533a8fe Mon Sep 17 00:00:00 2001
+From b599294b01af66a9da9fff63369ea1b969a064bc Mon Sep 17 00:00:00 2001
 From: Kenny Root <kroot@google.com>
 Date: Thu, 25 Feb 2016 23:17:43 -0800
 Subject: [PATCH 2/2] CipherTest: add test for multiple updateAAD calls

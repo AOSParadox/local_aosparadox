@@ -1,4 +1,4 @@
-From 1073bba7485a6dca0ed2e4fb795320dce6bc65d8 Mon Sep 17 00:00:00 2001
+From c523e7e4fef924d4ee96ba08d8e70ae58bb7d751 Mon Sep 17 00:00:00 2001
 From: Amith Yamasani <yamasani@google.com>
 Date: Fri, 22 Jan 2016 11:27:16 -0800
 Subject: [PATCH 06/11] DO NOT MERGE Check apps idle states on time changes

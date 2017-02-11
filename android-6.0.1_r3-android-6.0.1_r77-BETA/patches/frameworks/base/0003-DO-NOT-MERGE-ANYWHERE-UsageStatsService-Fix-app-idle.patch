@@ -1,4 +1,4 @@
-From 2ec18499637276e1703f9ed5e566263be1963f33 Mon Sep 17 00:00:00 2001
+From 3402556f9de11a62340c92511067a2a1d1708c04 Mon Sep 17 00:00:00 2001
 From: Adam Lesinski <adamlesinski@google.com>
 Date: Thu, 7 Jan 2016 18:24:53 -0800
 Subject: [PATCH 03/11] DO NOT MERGE ANYWHERE: UsageStatsService: Fix app idle

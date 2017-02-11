@@ -1,4 +1,4 @@
-From a1cc1f9eba44fc4abdc5d7b2ef9b46cd3bda4a6d Mon Sep 17 00:00:00 2001
+From aae5fc8b6f0f315efeecaea950d391d759308c8f Mon Sep 17 00:00:00 2001
 From: Bart Sears <bsears@google.com>
 Date: Sat, 14 Nov 2015 23:50:18 -0800
 Subject: [PATCH 02/55] Change version back to 6.0
@@ -12,7 +12,7 @@ Change-Id: Idb09d6bab89362b18ae9657e3ed931d614c1894b
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/core/version_defaults.mk b/core/version_defaults.mk
-index 2699c67..a130799 100644
+index cb8ba51..a130799 100644
 --- a/core/version_defaults.mk
 +++ b/core/version_defaults.mk
 @@ -42,7 +42,7 @@ ifeq "" "$(PLATFORM_VERSION)"
@@ -28,7 +28,7 @@ index 2699c67..a130799 100644
    # Can be an arbitrary string, but must be a single word.
    #
    # If there is no $PLATFORM_SECURITY_PATCH set, keep it empty.
--  PLATFORM_SECURITY_PATCH := xxxx-xx-xx
+-  PLATFORM_SECURITY_PATCH := 2016-07-05
 +  PLATFORM_SECURITY_PATCH := 2015-11-01
  endif
  

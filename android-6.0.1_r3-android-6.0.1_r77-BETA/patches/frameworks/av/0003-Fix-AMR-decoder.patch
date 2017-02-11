@@ -1,4 +1,4 @@
-From 456179c83eed851337a78547800b1587eb74b34e Mon Sep 17 00:00:00 2001
+From adccbaa0a89da4b2e0e47581e92a099f2b1df5a3 Mon Sep 17 00:00:00 2001
 From: Marco Nelissen <marcone@google.com>
 Date: Fri, 25 Mar 2016 08:26:18 -0700
 Subject: [PATCH 3/6] Fix AMR decoder

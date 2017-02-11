@@ -1,4 +1,4 @@
-From 4305c75ecf073b1946f5d0bd5a2aa769333c0164 Mon Sep 17 00:00:00 2001
+From efa81f0bc4f5651f1aac7843c3eeeec8a3e06d54 Mon Sep 17 00:00:00 2001
 From: Wei Jia <wjia@google.com>
 Date: Fri, 28 Aug 2015 10:35:35 -0700
 Subject: [PATCH 5/6] MPEG4Extractor: ensure kKeyTrackID exists before creating

@@ -1,4 +1,4 @@
-From 0f793f612204b5a0a4da06d703ca7428a63d98f6 Mon Sep 17 00:00:00 2001
+From ee3627db7cdf653f26bd46bfad7f2149409bb052 Mon Sep 17 00:00:00 2001
 From: Andre Eisenbach <eisenbach@google.com>
 Date: Thu, 14 Jan 2016 02:06:23 -0800
 Subject: [PATCH 2/2] DO NOT MERGE Read Bluetooth interop database entries from
@@ -21,10 +21,10 @@ Change-Id: I5903930178b70d1eb52d64b1c6051ce8ee346da4
  2 files changed, 82 insertions(+), 2 deletions(-)
 
 diff --git a/jni/com_android_bluetooth_btservice_AdapterService.cpp b/jni/com_android_bluetooth_btservice_AdapterService.cpp
-index 04a9b92..1a7a86d 100644
+index bff2a69..032d95f 100644
 --- a/jni/com_android_bluetooth_btservice_AdapterService.cpp
 +++ b/jni/com_android_bluetooth_btservice_AdapterService.cpp
-@@ -1259,6 +1259,27 @@ static jboolean factoryResetNative(JNIEnv *env, jobject obj) {
+@@ -1256,6 +1256,27 @@ static jboolean factoryResetNative(JNIEnv *env, jobject obj) {
      return (ret == BT_STATUS_SUCCESS) ? JNI_TRUE : JNI_FALSE;
  }
  
@@ -52,7 +52,7 @@ index 04a9b92..1a7a86d 100644
  static JNINativeMethod sMethods[] = {
      /* name, signature, funcPtr */
      {"classInitNative", "()V", (void *) classInitNative},
-@@ -1290,8 +1311,9 @@ static JNINativeMethod sMethods[] = {
+@@ -1287,8 +1308,9 @@ static JNINativeMethod sMethods[] = {
      {"dumpNative", "(Ljava/io/FileDescriptor;)V", (void*) dumpNative},
      {"factoryResetNative", "()Z", (void*)factoryResetNative},
      {"getSocketOptNative", "(III[B)I", (void*) getSocketOptNative},
@@ -65,7 +65,7 @@ index 04a9b92..1a7a86d 100644
  
  int register_com_android_bluetooth_btservice_AdapterService(JNIEnv* env)
 diff --git a/src/com/android/bluetooth/btservice/AdapterService.java b/src/com/android/bluetooth/btservice/AdapterService.java
-index 9c875db..c23fe41 100644
+index 296072b..a29bf5f 100644
 --- a/src/com/android/bluetooth/btservice/AdapterService.java
 +++ b/src/com/android/bluetooth/btservice/AdapterService.java
 @@ -393,6 +393,8 @@ public class AdapterService extends Service {
@@ -137,7 +137,7 @@ index 9c875db..c23fe41 100644
      @Override
      public void onCreate() {
          super.onCreate();
-@@ -2537,6 +2592,9 @@ public class AdapterService extends Service {
+@@ -2544,6 +2599,9 @@ public class AdapterService extends Service {
      private native void alarmFiredNative();
      private native void dumpNative(FileDescriptor fd);
  

@@ -1,4 +1,4 @@
-From 292e038db6f6476b013e4906b24b401029846d35 Mon Sep 17 00:00:00 2001
+From 0a4dff1d2af41f5b734731dfe1e327efe7711aec Mon Sep 17 00:00:00 2001
 From: Louis Popi <theh2o64@gmail.com>
 Date: Thu, 22 Dec 2016 09:52:07 +0100
 Subject: [PATCH 4/6] Revert "MPEG4Extractor: ensure kKeyTrackID exists"

@@ -1,4 +1,4 @@
-From 858255ff882772667a278141d3aa2fa62998ba21 Mon Sep 17 00:00:00 2001
+From 6fab2755562202534a3706b37985586855ca4253 Mon Sep 17 00:00:00 2001
 From: Adam Lesinski <adamlesinski@google.com>
 Date: Tue, 12 Jan 2016 10:36:09 -0800
 Subject: [PATCH 04/11] DO NOT MERGE ANYWHERE: UsageStats: Fix issue where

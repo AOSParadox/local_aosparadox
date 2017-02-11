@@ -1,4 +1,4 @@
-From 46b2bd27a03ef57986deaca61d11245998fc22f7 Mon Sep 17 00:00:00 2001
+From cafdb3c5462a3c05a2dadf3bf352a7ea58dc6055 Mon Sep 17 00:00:00 2001
 From: Dave Weinstein <olorin@google.com>
 Date: Tue, 14 Jun 2016 11:05:01 -0700
 Subject: [PATCH 6/6] Resolve a merge issue between lmp and lmp-mr1+

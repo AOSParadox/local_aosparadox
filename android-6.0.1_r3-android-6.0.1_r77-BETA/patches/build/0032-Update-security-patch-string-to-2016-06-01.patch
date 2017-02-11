@@ -1,4 +1,4 @@
-From e407bff4e4287ff0d43addf55a1f60f2f42b0983 Mon Sep 17 00:00:00 2001
+From f0891a0273863ae995a6f6ba322f60fa633b6735 Mon Sep 17 00:00:00 2001
 From: Zach Jang <zachjang@google.com>
 Date: Tue, 19 Apr 2016 10:56:31 -0700
 Subject: [PATCH 32/55] Update security patch string to 2016-06-01

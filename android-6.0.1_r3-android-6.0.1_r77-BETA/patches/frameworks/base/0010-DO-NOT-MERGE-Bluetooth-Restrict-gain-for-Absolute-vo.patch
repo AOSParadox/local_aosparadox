@@ -1,4 +1,4 @@
-From 5028473d874e1168de99870f6beaebc23243e9f6 Mon Sep 17 00:00:00 2001
+From d0c29e12ba636252201f939e6d71f5e92c01b0a5 Mon Sep 17 00:00:00 2001
 From: Liejun Tao <baibai@motorola.com>
 Date: Wed, 20 Jan 2016 17:52:20 -0600
 Subject: [PATCH 10/11] DO NOT MERGE Bluetooth: Restrict gain for Absolute
@@ -16,10 +16,10 @@ Signed-off-by: Liejun Tao <baibai@motorola.com>
  1 file changed, 23 insertions(+), 2 deletions(-)
 
 diff --git a/services/core/java/com/android/server/audio/AudioService.java b/services/core/java/com/android/server/audio/AudioService.java
-index 9f9f36a..df16cdd 100644
+index 6fa9fd1..0da1f37 100644
 --- a/services/core/java/com/android/server/audio/AudioService.java
 +++ b/services/core/java/com/android/server/audio/AudioService.java
-@@ -3910,8 +3910,29 @@ public class AudioService extends IAudioService.Stub {
+@@ -3904,8 +3904,29 @@ public class AudioService extends IAudioService.Stub {
              int index;
              if (mIsMuted) {
                  index = 0;

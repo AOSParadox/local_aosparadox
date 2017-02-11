@@ -1,4 +1,4 @@
-From 17d1c4d7c6dcb10b960d20a281807b9304b16f2a Mon Sep 17 00:00:00 2001
+From 6664172f79e32ae2fd686e260eeda10fce025381 Mon Sep 17 00:00:00 2001
 From: Jeff Sharkey <jsharkey@android.com>
 Date: Fri, 29 Jan 2016 10:45:45 -0700
 Subject: [PATCH 09/11] DO NOT MERGE ANYWHERE: Hack to get devices booting

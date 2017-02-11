@@ -1,4 +1,4 @@
-From 7df63359eaa2419ce3cee37c19cf6f23cc393b96 Mon Sep 17 00:00:00 2001
+From 6d81ae7c64ddfdd5596199dfff8ee635c4446c45 Mon Sep 17 00:00:00 2001
 From: "mspector@google.com" <mspector@google.com>
 Date: Fri, 19 Feb 2016 12:10:48 -0800
 Subject: [PATCH 1/6] Fixing safteynet logging bug introduced in ag/862848
