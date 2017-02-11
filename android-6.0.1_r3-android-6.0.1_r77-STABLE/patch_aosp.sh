@@ -13,8 +13,6 @@ function extract() {
         fi
 	cd $MY_NICE_FOLDER
 	cd $FILE
-	git checkout -b old
-	git checkout -b new
 	git am -3 $PATCHES/$FILE/*
 	cd $MY_NICE_FOLDER
     done
