@@ -15,5 +15,4 @@ packages/providers/MediaProvider
 system/core
 system/extras
 system/vold
-vendor/qcom/opensource/wlan/prima
 vendor/qcom/opensource/fm
