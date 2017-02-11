@@ -1,4 +1,4 @@
-From fdb1a615f6323428bbacd748a4dc6162350d1811 Mon Sep 17 00:00:00 2001
+From fb4c863ae9dc01791e27c2ff65b55e794c04b116 Mon Sep 17 00:00:00 2001
 From: The Android Automerger <android-build@google.com>
 Date: Fri, 24 Jun 2016 15:14:36 -0700
 Subject: [PATCH 40/55] "M4B30Q"
@@ -18,5 +18,5 @@ index df6c9c4..fb70c8d 100644
 -export BUILD_ID=MOB30P
 +export BUILD_ID=M4B30Q
 -- 
-2.9.3
+2.7.4
 

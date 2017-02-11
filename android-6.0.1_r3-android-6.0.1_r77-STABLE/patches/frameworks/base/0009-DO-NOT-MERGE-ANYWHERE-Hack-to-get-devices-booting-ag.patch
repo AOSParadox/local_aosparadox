@@ -1,4 +1,4 @@
-From ee8ee710491ce4df322636d50799e8b7e1867f31 Mon Sep 17 00:00:00 2001
+From 17d1c4d7c6dcb10b960d20a281807b9304b16f2a Mon Sep 17 00:00:00 2001
 From: Jeff Sharkey <jsharkey@android.com>
 Date: Fri, 29 Jan 2016 10:45:45 -0700
 Subject: [PATCH 09/11] DO NOT MERGE ANYWHERE: Hack to get devices booting
@@ -54,5 +54,5 @@ index 85bde07..583bac2 100644
  
      /** Check all running users' or specified user's apps to see if they enter an idle state. */
 -- 
-2.9.3
+2.7.4
 

@@ -1,4 +1,4 @@
-From a15ee9d2fb55402abe8d05b0a2614cb6a1f82026 Mon Sep 17 00:00:00 2001
+From 0f793f612204b5a0a4da06d703ca7428a63d98f6 Mon Sep 17 00:00:00 2001
 From: Andre Eisenbach <eisenbach@google.com>
 Date: Thu, 14 Jan 2016 02:06:23 -0800
 Subject: [PATCH 2/2] DO NOT MERGE Read Bluetooth interop database entries from
@@ -65,7 +65,7 @@ index 04a9b92..1a7a86d 100644
  
  int register_com_android_bluetooth_btservice_AdapterService(JNIEnv* env)
 diff --git a/src/com/android/bluetooth/btservice/AdapterService.java b/src/com/android/bluetooth/btservice/AdapterService.java
-index 6fd8bd2..4e50f6a 100644
+index 9c875db..c23fe41 100644
 --- a/src/com/android/bluetooth/btservice/AdapterService.java
 +++ b/src/com/android/bluetooth/btservice/AdapterService.java
 @@ -393,6 +393,8 @@ public class AdapterService extends Service {
@@ -137,7 +137,7 @@ index 6fd8bd2..4e50f6a 100644
      @Override
      public void onCreate() {
          super.onCreate();
-@@ -2533,6 +2588,9 @@ public class AdapterService extends Service {
+@@ -2537,6 +2592,9 @@ public class AdapterService extends Service {
      private native void alarmFiredNative();
      private native void dumpNative(FileDescriptor fd);
  
@@ -148,5 +148,5 @@ index 6fd8bd2..4e50f6a 100644
          cleanup();
          if (TRACE_REF) {
 -- 
-2.9.3
+2.7.4
 

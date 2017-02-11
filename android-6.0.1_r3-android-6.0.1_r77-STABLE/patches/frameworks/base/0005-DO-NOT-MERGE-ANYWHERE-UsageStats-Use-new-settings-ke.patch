@@ -1,4 +1,4 @@
-From a4354fd5fa6aee445186c3ce4e63c81341c945dc Mon Sep 17 00:00:00 2001
+From 4e681384891dfb2b1da6b0f6981b412238d78988 Mon Sep 17 00:00:00 2001
 From: Adam Lesinski <adamlesinski@google.com>
 Date: Wed, 13 Jan 2016 12:26:07 -0800
 Subject: [PATCH 05/11] DO NOT MERGE ANYWHERE: UsageStats: Use new settings key
@@ -17,10 +17,10 @@ Change-Id: Iff9de843ad6e547d29c1583687fc7f7ce7e15090
  3 files changed, 20 insertions(+), 4 deletions(-)
 
 diff --git a/core/java/android/provider/Settings.java b/core/java/android/provider/Settings.java
-index f654577..c0c6ec2 100644
+index 0a6478c..a597110 100644
 --- a/core/java/android/provider/Settings.java
 +++ b/core/java/android/provider/Settings.java
-@@ -7568,10 +7568,12 @@ public final class Settings {
+@@ -7577,10 +7577,12 @@ public final class Settings {
           * The following keys are supported:
           *
           * <pre>
@@ -92,5 +92,5 @@ index addb1a1..25cc13c 100644
                      public void combine(IntervalStats stats, boolean mutable,
                                          List<IntervalStats> accumulatedResult) {
 -- 
-2.9.3
+2.7.4
 

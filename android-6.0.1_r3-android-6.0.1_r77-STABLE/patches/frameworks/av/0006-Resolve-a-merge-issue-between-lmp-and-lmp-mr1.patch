@@ -1,4 +1,4 @@
-From 7f0bd7f427dd3172936b01efe2cdbf62899f0ac4 Mon Sep 17 00:00:00 2001
+From 46b2bd27a03ef57986deaca61d11245998fc22f7 Mon Sep 17 00:00:00 2001
 From: Dave Weinstein <olorin@google.com>
 Date: Tue, 14 Jun 2016 11:05:01 -0700
 Subject: [PATCH 6/6] Resolve a merge issue between lmp and lmp-mr1+
@@ -25,5 +25,5 @@ index d5867f9..641d81b 100644
      }
      return INVALID_OPERATION;
 -- 
-2.9.3
+2.7.4
 

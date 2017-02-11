@@ -1,4 +1,4 @@
-From f22056f94f0bd4d841840af23bfc7e005ac46bb6 Mon Sep 17 00:00:00 2001
+From 1073bba7485a6dca0ed2e4fb795320dce6bc65d8 Mon Sep 17 00:00:00 2001
 From: Amith Yamasani <yamasani@google.com>
 Date: Fri, 22 Jan 2016 11:27:16 -0800
 Subject: [PATCH 06/11] DO NOT MERGE Check apps idle states on time changes
@@ -37,5 +37,5 @@ index 90511f5..6a0056a 100644
                              /* idle = */ 0, event.mPackage));
                      notifyBatteryStats(event.mPackage, userId, false);
 -- 
-2.9.3
+2.7.4
 

@@ -1,4 +1,4 @@
-From e1e26a3b14ce16c08f0f72b962a78922be7264d1 Mon Sep 17 00:00:00 2001
+From ae5040e1a4a5186adae907cf2854156a03117b3d Mon Sep 17 00:00:00 2001
 From: Shreyas Basarge <snb@google.com>
 Date: Mon, 11 Jan 2016 15:43:54 +0000
 Subject: [PATCH 07/11] DO NOT MERGE Fix for syncs being dropped when appIdle
@@ -83,5 +83,5 @@ index 3ec0bee..ef086da 100644
                      operations.add(op);
                  }
 -- 
-2.9.3
+2.7.4
 

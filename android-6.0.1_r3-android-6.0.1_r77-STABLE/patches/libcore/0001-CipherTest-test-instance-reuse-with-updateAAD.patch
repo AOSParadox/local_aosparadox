@@ -1,4 +1,4 @@
-From fe36496a603cfba532218bfadbc83a9b35b9f91a Mon Sep 17 00:00:00 2001
+From 94185c1d29c76063967b0650366cbf111e4377c6 Mon Sep 17 00:00:00 2001
 From: Kenny Root <kroot@google.com>
 Date: Thu, 25 Feb 2016 23:15:47 -0800
 Subject: [PATCH 1/2] CipherTest: test instance reuse with updateAAD
@@ -65,5 +65,5 @@ index 116f45f..e0e15cb 100644
 +    }
  }
 -- 
-2.9.3
+2.7.4
 

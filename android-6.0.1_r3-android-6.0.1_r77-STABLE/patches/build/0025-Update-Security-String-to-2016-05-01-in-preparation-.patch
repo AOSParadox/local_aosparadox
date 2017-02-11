@@ -1,4 +1,4 @@
-From 02ecc5aaaf1a5adfd91a7a97b6a3c7ef23e5bfcf Mon Sep 17 00:00:00 2001
+From f92c48ace8ce7542ac4bfeb578425cb5185b720c Mon Sep 17 00:00:00 2001
 From: Zach Jang <zachjang@google.com>
 Date: Mon, 21 Mar 2016 17:42:55 -0700
 Subject: [PATCH 25/55] Update Security String to 2016-05-01 in preparation for
@@ -25,5 +25,5 @@ index 40ddfa0..721e5b4 100644
  
  ifeq "" "$(PLATFORM_BASE_OS)"
 -- 
-2.9.3
+2.7.4
 

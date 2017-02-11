@@ -1,4 +1,4 @@
-From 97aa6dd8d8854f5b00769a8b1053405a4b53f4a3 Mon Sep 17 00:00:00 2001
+From 1c9d310d8f68cfa2a72cd65105bec54c8334347a Mon Sep 17 00:00:00 2001
 From: Zach Jang <zachjang@google.com>
 Date: Fri, 20 Nov 2015 14:37:14 -0800
 Subject: [PATCH 04/55] Update Security String to 2016-01-01 to mnc-dev
@@ -24,5 +24,5 @@ index a67a82e..2939224 100644
  
  ifeq "" "$(PLATFORM_BASE_OS)"
 -- 
-2.9.3
+2.7.4
 

@@ -1,4 +1,4 @@
-From 8dbcc85c5e14cc6417fdafdc90b5afa594e55085 Mon Sep 17 00:00:00 2001
+From 432c5ecd3299c8bf9fdd6a8d1c89f62c826f5524 Mon Sep 17 00:00:00 2001
 From: Bart Sears <bsears@google.com>
 Date: Sun, 15 Nov 2015 17:57:13 +0000
 Subject: [PATCH 03/55] Revert "Change version back to 6.0"
@@ -33,5 +33,5 @@ index a130799..a67a82e 100644
  
  ifeq "" "$(PLATFORM_BASE_OS)"
 -- 
-2.9.3
+2.7.4
 

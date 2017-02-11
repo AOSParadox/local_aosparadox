@@ -1,4 +1,4 @@
-From 10734a399bd2c7c88d05fa069dfb27c569f703e7 Mon Sep 17 00:00:00 2001
+From a2471b37457f37b3a2c45754ab542c77a8ddc3f6 Mon Sep 17 00:00:00 2001
 From: The Android Automerger <android-build@android.com>
 Date: Tue, 22 Mar 2016 16:00:09 -0700
 Subject: [PATCH 24/55] MOB30D
@@ -18,5 +18,5 @@ index a28103c..28fdc2b 100644
 -export BUILD_ID=MOB30C
 +export BUILD_ID=MOB30D
 -- 
-2.9.3
+2.7.4
 

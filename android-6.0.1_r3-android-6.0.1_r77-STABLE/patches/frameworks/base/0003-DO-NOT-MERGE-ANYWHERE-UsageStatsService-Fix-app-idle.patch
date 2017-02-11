@@ -1,4 +1,4 @@
-From 8974adea27dfa319eda18ab07b13bd201793d5b4 Mon Sep 17 00:00:00 2001
+From 2ec18499637276e1703f9ed5e566263be1963f33 Mon Sep 17 00:00:00 2001
 From: Adam Lesinski <adamlesinski@google.com>
 Date: Thu, 7 Jan 2016 18:24:53 -0800
 Subject: [PATCH 03/11] DO NOT MERGE ANYWHERE: UsageStatsService: Fix app idle
@@ -194,5 +194,5 @@ index b07b815..d8f26ed 100644
  
      private String formatDateTime(long dateTime, boolean pretty) {
 -- 
-2.9.3
+2.7.4
 

@@ -1,4 +1,4 @@
-From a18c941ae309e408dcdfb1273e3563f744d90471 Mon Sep 17 00:00:00 2001
+From 17e6396ff30fba57dd235d73ab880204a9cd91de Mon Sep 17 00:00:00 2001
 From: Tingting Wang <tingtingw@google.com>
 Date: Fri, 4 Dec 2015 15:35:42 -0800
 Subject: [PATCH] Update directories when initializing ContactsProvider.
@@ -27,5 +27,5 @@ index 9024b90..93f7c75 100644
              }
  
 -- 
-2.9.3
+2.7.4
 

@@ -1,4 +1,4 @@
-From 87936d2ee54abc16a98cf87c9d1b60fa3b1275f4 Mon Sep 17 00:00:00 2001
+From 2a2dcaa02c2e3a8a850433ba5830a90e89cdfa6a Mon Sep 17 00:00:00 2001
 From: The Android Automerger <android-build@android.com>
 Date: Tue, 8 Dec 2015 12:35:29 -0800
 Subject: [PATCH 06/55] MMN29P
@@ -18,5 +18,5 @@ index 1eb4d73..3d097a0 100644
 -export BUILD_ID=MMB29O
 +export BUILD_ID=MMB29P
 -- 
-2.9.3
+2.7.4
 

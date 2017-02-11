@@ -1,4 +1,4 @@
-From 59b0dd6da3d61a42a1960526563f42226165ee71 Mon Sep 17 00:00:00 2001
+From ae8d06b01918f162319125a79f02ecadec268b68 Mon Sep 17 00:00:00 2001
 From: Zach Jang <zachjang@google.com>
 Date: Fri, 19 Feb 2016 13:50:29 -0800
 Subject: [PATCH 19/55] Updating security string patch to 2016-04-01
@@ -24,5 +24,5 @@ index be5833d..8cc6900 100644
  
  ifeq "" "$(PLATFORM_BASE_OS)"
 -- 
-2.9.3
+2.7.4
 

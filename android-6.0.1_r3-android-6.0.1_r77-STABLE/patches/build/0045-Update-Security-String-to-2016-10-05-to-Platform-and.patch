@@ -1,4 +1,4 @@
-From aeef8d7521032f42985c684aec20cf3d13b6a955 Mon Sep 17 00:00:00 2001
+From 08b66c5c893ef792c104a98e4dd43df127135c3b Mon Sep 17 00:00:00 2001
 From: Adam Seaton <aseaton@google.com>
 Date: Thu, 18 Aug 2016 14:11:04 -0700
 Subject: [PATCH 45/55] Update Security String to 2016-10-05 to Platform and
@@ -25,5 +25,5 @@ index 1b3c7d8..558a035 100644
  
  ifeq "" "$(PLATFORM_BASE_OS)"
 -- 
-2.9.3
+2.7.4
 

@@ -1,4 +1,4 @@
-From c8ed965ec5b01c962d0de565da7b843b3a026127 Mon Sep 17 00:00:00 2001
+From 8c635b7fe87748059d72a0e9ac633ada26e8bb5a Mon Sep 17 00:00:00 2001
 From: Hall Liu <hallliu@google.com>
 Date: Wed, 27 Jan 2016 11:07:07 -0800
 Subject: [PATCH] DO NOT MERGE - Restrict ability to add call based on device
@@ -13,7 +13,7 @@ Change-Id: I9c4ebc8b954a79562b2ec83d59314a3fb621ddfb
  1 file changed, 1 insertion(+)
 
 diff --git a/src/com/android/server/telecom/CallsManager.java b/src/com/android/server/telecom/CallsManager.java
-index 8ab7063..18ba442 100644
+index 8131fd1..672c80d 100644
 --- a/src/com/android/server/telecom/CallsManager.java
 +++ b/src/com/android/server/telecom/CallsManager.java
 @@ -25,6 +25,7 @@ import android.os.Message;
@@ -25,5 +25,5 @@ index 8ab7063..18ba442 100644
  import android.provider.Settings;
  import android.telecom.Conference;
 -- 
-2.9.3
+2.7.4
 

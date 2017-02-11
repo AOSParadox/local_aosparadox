@@ -1,4 +1,4 @@
-From 8712c8a1491de1274bc3009195d4f762c0a5e5a0 Mon Sep 17 00:00:00 2001
+From baca244d2ebc4d1bf77e8d01bb012032a7cde1ac Mon Sep 17 00:00:00 2001
 From: The Android Automerger <android-build@google.com>
 Date: Mon, 28 Mar 2016 18:12:02 -0700
 Subject: [PATCH 27/55] "MOB30F"
@@ -18,5 +18,5 @@ index 5d9fcf9..d212d32 100644
 -export BUILD_ID=MOB30E
 +export BUILD_ID=MOB30F
 -- 
-2.9.3
+2.7.4
 

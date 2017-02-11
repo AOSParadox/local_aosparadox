@@ -1,4 +1,4 @@
-From cbfd8b84aa29a78ba4ca81f93a002b9d025fb67d Mon Sep 17 00:00:00 2001
+From 7ef9c06e1cc16bf0247db3ed3af452bd96fdddda Mon Sep 17 00:00:00 2001
 From: The Android Automerger <android-build@google.com>
 Date: Fri, 27 May 2016 11:34:22 -0700
 Subject: [PATCH 38/55] "MOB30O"
@@ -18,5 +18,5 @@ index 3f45e70..b8cfd9c 100644
 -export BUILD_ID=MOB30N
 +export BUILD_ID=MOB30O
 -- 
-2.9.3
+2.7.4
 

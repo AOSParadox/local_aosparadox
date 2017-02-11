@@ -1,4 +1,4 @@
-From 80322736d8b6787bd6713dd51ba6b09b7780a677 Mon Sep 17 00:00:00 2001
+From 95c2e2041dfdf8c08651a3cbdf1f92310ed846fd Mon Sep 17 00:00:00 2001
 From: Dan Sandler <dsandler@android.com>
 Date: Tue, 29 Dec 2015 15:45:39 -0500
 Subject: [PATCH 01/11] DO NOT MERGE: Use GregorianCalendar.add() when
@@ -28,5 +28,5 @@ index 3337714..07ec843 100644
          if (nextAlarmMs > 0) {
              GregorianCalendar nextAlarm = new GregorianCalendar();
 -- 
-2.9.3
+2.7.4
 

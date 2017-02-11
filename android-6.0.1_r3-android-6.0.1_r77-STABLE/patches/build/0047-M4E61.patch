@@ -1,4 +1,4 @@
-From f30ba4ac541c5ef5ccf9dc44fb7549c1e5eb145a Mon Sep 17 00:00:00 2001
+From 1181d303bfb2e9c2ed7642f9b290b277040b5f53 Mon Sep 17 00:00:00 2001
 From: gitbuildkicker <android-build@google.com>
 Date: Tue, 30 Aug 2016 17:49:20 -0700
 Subject: [PATCH 47/55] M4E61
@@ -18,5 +18,5 @@ index 336f112..361f7ce 100644
 -export BUILD_ID=M4B30U
 +export BUILD_ID=M4E61
 -- 
-2.9.3
+2.7.4
 

@@ -1,4 +1,4 @@
-From 7392d53718cc4a536510310b4f8646ee29fad109 Mon Sep 17 00:00:00 2001
+From 01dd9821964670e7b1323dc495f3a27927991786 Mon Sep 17 00:00:00 2001
 From: Sergio Giro <sgiro@google.com>
 Date: Tue, 19 Jul 2016 13:19:53 +0100
 Subject: [PATCH 2/2] GCMParameters: in ASN1 encoding, use 12 when no value is
@@ -55,5 +55,5 @@ index 7fcaa01..0f03c87 100644
              v.add(new ASN1Integer(icvLen));
          }
 -- 
-2.9.3
+2.7.4
 

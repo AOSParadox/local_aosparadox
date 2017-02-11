@@ -1,4 +1,4 @@
-From 3b74d6faea6aec0a8c61dae003076048781a689f Mon Sep 17 00:00:00 2001
+From a89871e38d3f750d465f3e4a85d9b5c415c0d4a0 Mon Sep 17 00:00:00 2001
 From: Zach Jang <zachjang@google.com>
 Date: Wed, 9 Dec 2015 12:46:59 -0800
 Subject: [PATCH 07/55] Update Security String to 2016-02-01
@@ -24,5 +24,5 @@ index 2939224..bf9b2e8 100644
  
  ifeq "" "$(PLATFORM_BASE_OS)"
 -- 
-2.9.3
+2.7.4
 

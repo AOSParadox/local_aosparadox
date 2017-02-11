@@ -1,4 +1,4 @@
-From 7f8b283c2b0e707c80702adf37a147940755b8f9 Mon Sep 17 00:00:00 2001
+From 858255ff882772667a278141d3aa2fa62998ba21 Mon Sep 17 00:00:00 2001
 From: Adam Lesinski <adamlesinski@google.com>
 Date: Tue, 12 Jan 2016 10:36:09 -0800
 Subject: [PATCH 04/11] DO NOT MERGE ANYWHERE: UsageStats: Fix issue where
@@ -193,5 +193,5 @@ index d8f26ed..addb1a1 100644
              mAppIdleRollingWindow = stats.get(0);
          }
 -- 
-2.9.3
+2.7.4
 

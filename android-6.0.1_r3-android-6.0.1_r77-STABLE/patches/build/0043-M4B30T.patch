@@ -1,4 +1,4 @@
-From 26a7652c3c5c38568a6dc89888daf37ddf19e582 Mon Sep 17 00:00:00 2001
+From b259f08e8851e86672c32a9393c992de0653a8d7 Mon Sep 17 00:00:00 2001
 From: gitbuildkicker <android-build@google.com>
 Date: Fri, 26 Aug 2016 16:22:11 -0700
 Subject: [PATCH 43/55] M4B30T
@@ -18,5 +18,5 @@ index 0fe0dc7..e9b9179 100644
 -export BUILD_ID=M4B30S
 +export BUILD_ID=M4B30T
 -- 
-2.9.3
+2.7.4
 

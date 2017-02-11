@@ -1,4 +1,4 @@
-From 0c51dfdc115cccbafdac51fe93b7438d6919dde9 Mon Sep 17 00:00:00 2001
+From 2670556f1b2184552782fb2e94dc3566977cca75 Mon Sep 17 00:00:00 2001
 From: The Android Automerger <android-build@google.com>
 Date: Tue, 15 Dec 2015 12:55:01 -0800
 Subject: [PATCH 10/55] "MMB76"
@@ -18,5 +18,5 @@ index 8376343..f70407f 100644
 -export BUILD_ID=MMB29R
 +export BUILD_ID=MMB76
 -- 
-2.9.3
+2.7.4
 

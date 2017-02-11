@@ -1,8 +1,7 @@
-From 0968eeda226e8c633454b26580bfa5e88daef47c Mon Sep 17 00:00:00 2001
+From 5edad9c00dcabb9e3d43b1125c2762735a55fb4b Mon Sep 17 00:00:00 2001
 From: Ajay Panicker <apanicke@google.com>
 Date: Thu, 7 Jan 2016 16:05:11 -0800
-Subject: [PATCH 1/2] [DO NOT MERGE ANYWHERE] Null terminate MAP instance
- information
+Subject: [PATCH 1/2] Null terminate MAP instance information
 
 Bug: 26437927
 Change-Id: I673de7f7c68b9a02b234bb99c6f89c7fc36f90c9
@@ -35,5 +34,5 @@ index 1537807..7ca5530 100644
               * then strip previous bytes until utf-8 start byte is found */
              if ( (utf8Bytes[maxLength - 1] & 0xC0) == 0x80 ) {
 -- 
-2.9.3
+2.7.4
 

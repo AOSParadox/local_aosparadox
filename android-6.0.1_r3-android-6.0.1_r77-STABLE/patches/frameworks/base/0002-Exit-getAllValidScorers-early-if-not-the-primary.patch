@@ -1,4 +1,4 @@
-From 703e529da306d8d41715beef9f374a65a0f6a767 Mon Sep 17 00:00:00 2001
+From 138959fa31fc7aaeea6735809d71fa7239bf7592 Mon Sep 17 00:00:00 2001
 From: Jeremy Joslin <jjoslin@google.com>
 Date: Thu, 17 Dec 2015 17:38:04 -0800
 Subject: [PATCH 02/11] Exit getAllValidScorers early if not the primary.
@@ -64,5 +64,5 @@ index 29daf35..5880e5d 100644
                      receiverInfo.applicationInfo.uid, receiverInfo.loadLabel(pm),
                      configurationActivityClassName));
 -- 
-2.9.3
+2.7.4
 

@@ -1,4 +1,4 @@
-From bc955157e2cb0e8c01a1b87fe080bae72a2ef63b Mon Sep 17 00:00:00 2001
+From 7fb5c5e0175686395d25b40d2ae76e08e32756e4 Mon Sep 17 00:00:00 2001
 From: Wei Jia <wjia@google.com>
 Date: Fri, 18 Mar 2016 18:17:14 -0700
 Subject: [PATCH 2/6] SoftAMR: check input buffer size to avoid overflow.
@@ -28,5 +28,5 @@ index edf648d..0d57bb3 100644
          OMX_BUFFERHEADERTYPE *outHeader = outInfo->mHeader;
  
 -- 
-2.9.3
+2.7.4
 

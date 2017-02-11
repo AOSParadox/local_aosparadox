@@ -1,4 +1,4 @@
-From 66be030fbcef87e28211215cc34d1e6e27c2350b Mon Sep 17 00:00:00 2001
+From 5028473d874e1168de99870f6beaebc23243e9f6 Mon Sep 17 00:00:00 2001
 From: Liejun Tao <baibai@motorola.com>
 Date: Wed, 20 Jan 2016 17:52:20 -0600
 Subject: [PATCH 10/11] DO NOT MERGE Bluetooth: Restrict gain for Absolute
@@ -52,5 +52,5 @@ index 9f9f36a..df16cdd 100644
              } else {
                  index = (getIndex(device) + 5)/10;
 -- 
-2.9.3
+2.7.4
 

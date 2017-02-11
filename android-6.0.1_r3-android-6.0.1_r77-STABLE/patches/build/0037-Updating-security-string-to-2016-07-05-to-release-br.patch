@@ -1,4 +1,4 @@
-From e6df729d336743a0ee6b6eb1d1992be1cd7f4f85 Mon Sep 17 00:00:00 2001
+From 248b8f5f32946fd044f6227cc4b49f98451d6cbc Mon Sep 17 00:00:00 2001
 From: Zach Jang <zachjang@google.com>
 Date: Thu, 26 May 2016 16:00:38 -0700
 Subject: [PATCH 37/55] Updating security string to 2016-07-05 to release
@@ -25,5 +25,5 @@ index e0c68cf..cb8ba51 100644
  
  ifeq "" "$(PLATFORM_BASE_OS)"
 -- 
-2.9.3
+2.7.4
 

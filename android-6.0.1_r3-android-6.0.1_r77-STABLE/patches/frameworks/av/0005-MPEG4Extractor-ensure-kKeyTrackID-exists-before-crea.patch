@@ -1,4 +1,4 @@
-From 6bc727b77a850d222d4aa6ba0cf6a21aa3e4b16a Mon Sep 17 00:00:00 2001
+From 4305c75ecf073b1946f5d0bd5a2aa769333c0164 Mon Sep 17 00:00:00 2001
 From: Wei Jia <wjia@google.com>
 Date: Fri, 28 Aug 2015 10:35:35 -0700
 Subject: [PATCH 5/6] MPEG4Extractor: ensure kKeyTrackID exists before creating
@@ -85,10 +85,10 @@ index c9800c4..d5867f9 100644
      }
      return INVALID_OPERATION;
 diff --git a/media/libstagefright/MPEG4Extractor.cpp b/media/libstagefright/MPEG4Extractor.cpp
-index 426613e..7a01513 100755
+index 3ff241b..0d5d69f 100755
 --- a/media/libstagefright/MPEG4Extractor.cpp
 +++ b/media/libstagefright/MPEG4Extractor.cpp
-@@ -1009,6 +1009,11 @@ status_t MPEG4Extractor::parseChunk(off64_t *offset, int depth) {
+@@ -1033,6 +1033,11 @@ status_t MPEG4Extractor::parseChunk(off64_t *offset, int depth) {
              }
  
              if (isTrack) {
@@ -100,7 +100,7 @@ index 426613e..7a01513 100755
                  if (mLastTrack->skipTrack) {
                      Track *cur = mFirstTrack;
  
-@@ -3066,6 +3071,9 @@ sp<MediaSource> MPEG4Extractor::getTrack(size_t index) {
+@@ -3090,6 +3095,9 @@ sp<MediaSource> MPEG4Extractor::getTrack(size_t index) {
                  break;
              }
          }
@@ -111,7 +111,7 @@ index 426613e..7a01513 100755
  
      ALOGV("getTrack called, pssh: %zu", mPssh.size());
 diff --git a/media/libstagefright/SampleIterator.cpp b/media/libstagefright/SampleIterator.cpp
-index 2748349..c5f359e 100644
+index 685f48b..335bd5d 100644
 --- a/media/libstagefright/SampleIterator.cpp
 +++ b/media/libstagefright/SampleIterator.cpp
 @@ -84,6 +84,11 @@ status_t SampleIterator::seekTo(uint32_t sampleIndex) {
@@ -127,5 +127,5 @@ index 2748349..c5f359e 100644
          (sampleIndex - mFirstChunkSampleIndex) / mSamplesPerChunk
          + mFirstChunk;
 -- 
-2.9.3
+2.7.4
 

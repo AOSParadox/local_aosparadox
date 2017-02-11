@@ -1,4 +1,4 @@
-From fc5a55b61e5f09febbcc30342c7bd4e301e49ddd Mon Sep 17 00:00:00 2001
+From 9f32f3fb5fd9032089fb27096c82ebf756801a36 Mon Sep 17 00:00:00 2001
 From: Sergio Giro <sgiro@google.com>
 Date: Tue, 23 Feb 2016 12:15:15 +0000
 Subject: [PATCH 1/2] GCMParameters: fix insecure tag size
@@ -53,5 +53,5 @@ index 0f03c87..7fcaa01 100644
              v.add(new ASN1Integer(icvLen));
          }
 -- 
-2.9.3
+2.7.4
 
