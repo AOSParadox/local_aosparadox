@@ -61,7 +61,7 @@
 
   <!-- Snapdragon Apps -->
   <project path="packages/apps/SnapdragonGallery" name="android_packages_apps_SnapdragonGallery" remote="par" revision="8916-par-7.0"/>
-  <project path="packages/apps/SnapdragonLauncher" name="android_packages_apps_SnapdragonLauncher" remote="par" revision="android_ui.lnx.2.1.r9-rel"/>
+  <project path="packages/apps/SnapdragonLauncher" name="SnapdragonLauncher" remote="qcom" revision="android_ui.lnx.2.1.r9-rel"/>
   <project path="packages/apps/SnapdragonMusic" name="SnapdragonMusic" remote="qcom" revision="android_ui.lnx.2.1.r9-rel"/>
 
   <!-- YU Devices -->
