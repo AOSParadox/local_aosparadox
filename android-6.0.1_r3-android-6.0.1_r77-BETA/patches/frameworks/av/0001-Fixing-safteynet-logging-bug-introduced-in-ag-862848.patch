@@ -1,0 +1,30 @@
+From 7df63359eaa2419ce3cee37c19cf6f23cc393b96 Mon Sep 17 00:00:00 2001
+From: "mspector@google.com" <mspector@google.com>
+Date: Fri, 19 Feb 2016 12:10:48 -0800
+Subject: [PATCH 1/6] Fixing safteynet logging bug introduced in ag/862848
+
+We moved the safteynet logging into storeMetaDataInBuffers_l
+Bug: 26324358
+Change-Id: I2171742b53192ebb71d546bcb8970bb3c68f366f
+---
+ media/libmedia/IOMX.cpp | 4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/media/libmedia/IOMX.cpp b/media/libmedia/IOMX.cpp
+index 479d775..0d91638 100644
+--- a/media/libmedia/IOMX.cpp
++++ b/media/libmedia/IOMX.cpp
+@@ -981,10 +981,6 @@ status_t BnOMX::onTransact(
+                  port_index != 1 /* kOutputPortIndex */ ? BAD_VALUE :
+                  storeMetaDataInBuffers(node, port_index, enable, &type);
+ 
+-            if ((err != OK) && (type == kMetadataBufferTypeInvalid)) {
+-                android_errorWriteLog(0x534e4554, "26324358");
+-            }
+-
+             reply->writeInt32(type);
+             reply->writeInt32(err);
+ 
+-- 
+2.7.4
+

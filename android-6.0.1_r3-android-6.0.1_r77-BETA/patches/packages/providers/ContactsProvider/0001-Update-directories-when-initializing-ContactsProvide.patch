@@ -1,0 +1,31 @@
+From 17e6396ff30fba57dd235d73ab880204a9cd91de Mon Sep 17 00:00:00 2001
+From: Tingting Wang <tingtingw@google.com>
+Date: Fri, 4 Dec 2015 15:35:42 -0800
+Subject: [PATCH] Update directories when initializing ContactsProvider.
+
+This is to fix a bug when reading exchange provider. Updating directories
+can fix it without factory reset or account changed.
+
+BUG 22398175
+
+Change-Id: I36e05ff5f7bc83dc25ab165e5f5fb122bbe6c160
+(cherry picked from commit 59af846139224607b667c61ee191bf363ef929ba)
+---
+ src/com/android/providers/contacts/ContactsProvider2.java | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/com/android/providers/contacts/ContactsProvider2.java b/src/com/android/providers/contacts/ContactsProvider2.java
+index 9024b90..93f7c75 100644
+--- a/src/com/android/providers/contacts/ContactsProvider2.java
++++ b/src/com/android/providers/contacts/ContactsProvider2.java
+@@ -1813,6 +1813,7 @@ public class ContactsProvider2 extends AbstractContactsProvider
+                 initForDefaultLocale();
+                 mReadAccessLatch.countDown();
+                 mReadAccessLatch = null;
++                updateDirectoriesInBackground(true);
+                 break;
+             }
+ 
+-- 
+2.7.4
+

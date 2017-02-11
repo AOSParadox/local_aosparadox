@@ -1,0 +1,57 @@
+From 9f32f3fb5fd9032089fb27096c82ebf756801a36 Mon Sep 17 00:00:00 2001
+From: Sergio Giro <sgiro@google.com>
+Date: Tue, 23 Feb 2016 12:15:15 +0000
+Subject: [PATCH 1/2] GCMParameters: fix insecure tag size
+
+Note: port of cr/110497945
+
+Bug: 26231099
+Bug: 26234568
+Change-Id: I3eef233b15ded9553c3cdfd1c51ffef306276f7d
+---
+ .../java/org/bouncycastle/asn1/cms/GCMParameters.java     | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
+
+diff --git a/bcprov/src/main/java/org/bouncycastle/asn1/cms/GCMParameters.java b/bcprov/src/main/java/org/bouncycastle/asn1/cms/GCMParameters.java
+index 0f03c87..7fcaa01 100644
+--- a/bcprov/src/main/java/org/bouncycastle/asn1/cms/GCMParameters.java
++++ b/bcprov/src/main/java/org/bouncycastle/asn1/cms/GCMParameters.java
+@@ -16,7 +16,10 @@ import org.bouncycastle.util.Arrays;
+  * <pre>
+  GCMParameters ::= SEQUENCE {
+    aes-nonce        OCTET STRING, -- recommended size is 12 octets
+-   aes-ICVlen       AES-GCM-ICVlen DEFAULT 12 }
++   // BEGIN android-changed
++   // Was: aes-ICVlen       AES-GCM-ICVlen DEFAULT 12 }
++   aes-ICVlen       AES-GCM-ICVlen DEFAULT 16 }
++   // END android-changed
+  * </pre>
+  */
+ public class GCMParameters
+@@ -64,7 +67,10 @@ public class GCMParameters
+         }
+         else
+         {
+-            this.icvLen = 12;
++            // BEGIN android-changed
++            // Was: this.icvLen = 12;
++            this.icvLen = 16;
++            // END android-changed
+         }
+     }
+ 
+@@ -92,7 +98,10 @@ public class GCMParameters
+ 
+         v.add(new DEROctetString(nonce));
+ 
+-        if (icvLen != 12)
++        // BEGIN android-changed
++        // Was: if (icvLen != 12)
++        if (icvLen != 16)
++        // END android-changed
+         {
+             v.add(new ASN1Integer(icvLen));
+         }
+-- 
+2.7.4
+

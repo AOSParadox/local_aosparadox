@@ -1,0 +1,38 @@
+From a1cc1f9eba44fc4abdc5d7b2ef9b46cd3bda4a6d Mon Sep 17 00:00:00 2001
+From: Bart Sears <bsears@google.com>
+Date: Sat, 14 Nov 2015 23:50:18 -0800
+Subject: [PATCH 02/55] Change version back to 6.0
+
+Temporarily set the version back to 6.0 and security patch to
+2015-11-01.
+
+Change-Id: Idb09d6bab89362b18ae9657e3ed931d614c1894b
+---
+ core/version_defaults.mk | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/core/version_defaults.mk b/core/version_defaults.mk
+index 2699c67..a130799 100644
+--- a/core/version_defaults.mk
++++ b/core/version_defaults.mk
+@@ -42,7 +42,7 @@ ifeq "" "$(PLATFORM_VERSION)"
+   # which is the version that we reveal to the end user.
+   # Update this value when the platform version changes (rather
+   # than overriding it somewhere else).  Can be an arbitrary string.
+-  PLATFORM_VERSION := 6.0.1
++  PLATFORM_VERSION := 6.0
+ endif
+ 
+ ifeq "" "$(PLATFORM_SDK_VERSION)"
+@@ -103,7 +103,7 @@ ifeq "" "$(PLATFORM_SECURITY_PATCH)"
+   # Can be an arbitrary string, but must be a single word.
+   #
+   # If there is no $PLATFORM_SECURITY_PATCH set, keep it empty.
+-  PLATFORM_SECURITY_PATCH := xxxx-xx-xx
++  PLATFORM_SECURITY_PATCH := 2015-11-01
+ endif
+ 
+ ifeq "" "$(PLATFORM_BASE_OS)"
+-- 
+2.7.4
+

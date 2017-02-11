@@ -1,0 +1,50 @@
+From 7dd88d5085c36609d2cbdac33a5f7010cc14b87f Mon Sep 17 00:00:00 2001
+From: Svetoslav <svetoslavganov@google.com>
+Date: Tue, 24 Nov 2015 11:31:13 -0800
+Subject: [PATCH] DO NOT MERGE Modify system settings: incorrect UI state
+
+The privilege for an app to write to the system settings is protected
+by an app-op signature permission. App-op permissions are special: if
+the app-op is deny/allow we deny/allow write access; if the app-op is
+default holding the permission determies write access. The settings
+code assumes that CHANGE_NETWORK_STATE is an app op permission
+(system|appop) while it is a normal permission which any app gets by
+declaring it used in the manifest.
+
+The side effect is that the state of the toggle in the UI for write
+system settings will initially be in the wrong state if the app uses
+both WRITE_SETTINGS and CHANGE_NETWORK_STATE. However, the code in
+the public API an app uses to check write settings access would return
+the opposite since it checks the WRITE_SETTINGS permission and its
+app op. Hence, if an app requires write settings to start the user
+will see in the settings UI it has access but the app will not have
+access, so the app would prompt the user to allow write settings.
+The non-obvious fix is for the user to toggle the setting off and on
+to get the app op in the right state and be able to launch the app.
+
+bug:25843134
+
+Change-Id: I3d726a66c7f9857bc7dbd5946fdbb8f340c6eb4d
+(cherry picked from commit 356fb2d10d9f4c236b0f10d0e2facb93028b9f3c)
+(cherry picked from commit 119d589ea5aa9c2ccc5164279d718a20d0865f20)
+---
+ src/com/android/settings/applications/AppStateWriteSettingsBridge.java | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/src/com/android/settings/applications/AppStateWriteSettingsBridge.java b/src/com/android/settings/applications/AppStateWriteSettingsBridge.java
+index c2ba1f6..ef743fa 100644
+--- a/src/com/android/settings/applications/AppStateWriteSettingsBridge.java
++++ b/src/com/android/settings/applications/AppStateWriteSettingsBridge.java
+@@ -34,8 +34,7 @@ public class AppStateWriteSettingsBridge extends AppStateAppOpsBridge {
+     private static final String TAG = "AppStateWriteSettingsBridge";
+     private static final int APP_OPS_OP_CODE = AppOpsManager.OP_WRITE_SETTINGS;
+     private static final String PM_WRITE_SETTINGS = Manifest.permission.WRITE_SETTINGS;
+-    private static final String PM_CHANGE_NETWORK_STATE = Manifest.permission.CHANGE_NETWORK_STATE;
+-    // CHANGE_NETWORK_STATE is now merged with WRITE_SETTINGS
++
+     private static final String[] PM_PERMISSIONS = {
+             PM_WRITE_SETTINGS
+     };
+-- 
+2.7.4
+

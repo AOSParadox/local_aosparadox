@@ -1,0 +1,29 @@
+From 46b2bd27a03ef57986deaca61d11245998fc22f7 Mon Sep 17 00:00:00 2001
+From: Dave Weinstein <olorin@google.com>
+Date: Tue, 14 Jun 2016 11:05:01 -0700
+Subject: [PATCH 6/6] Resolve a merge issue between lmp and lmp-mr1+
+
+Change-Id: I336cb003fb7f50fd7d95c30ca47e45530a7ad503
+(cherry picked from commit 33f6da1092834f1e4be199cfa3b6310d66b521c0)
+(cherry picked from commit bb3a0338b58fafb01ac5b34efc450b80747e71e4)
+(cherry picked from commit d112f7d0c1dbaf0368365885becb11ca8d3f13a4)
+---
+ media/libmediaplayerservice/nuplayer/GenericSource.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/media/libmediaplayerservice/nuplayer/GenericSource.cpp b/media/libmediaplayerservice/nuplayer/GenericSource.cpp
+index d5867f9..641d81b 100644
+--- a/media/libmediaplayerservice/nuplayer/GenericSource.cpp
++++ b/media/libmediaplayerservice/nuplayer/GenericSource.cpp
+@@ -332,7 +332,7 @@ int64_t NuPlayer::GenericSource::getLastReadPosition() {
+ 
+ status_t NuPlayer::GenericSource::setBuffers(
+         bool audio, Vector<MediaBuffer *> &buffers) {
+-    if ((mIsWidevine|| mUseSetBuffers) && !audio && mVideoTrack.mSource != NULL) {
++    if ((mIsSecure || mUseSetBuffers) && !audio && mVideoTrack.mSource != NULL) {
+         return mVideoTrack.mSource->setBuffers(buffers);
+     }
+     return INVALID_OPERATION;
+-- 
+2.7.4
+

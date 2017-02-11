@@ -1,0 +1,34 @@
+From fe109acce0b031b3c930c7a3b6fcfaa3c81ce4c5 Mon Sep 17 00:00:00 2001
+From: Adam Seaton <aseaton@google.com>
+Date: Thu, 25 Aug 2016 15:24:56 -0700
+Subject: [PATCH 51/55] Update comments around PLATFORM_SECURITY_LEVEL
+
+Bug: 29881091
+Change-Id: Ib30aac55540513e43af147914f4470a78f368ef6
+(cherry picked from commit f45494279a4f46c51ce26935e221a121262f49ee)
+---
+ core/version_defaults.mk | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/core/version_defaults.mk b/core/version_defaults.mk
+index 558a035..068ed0e 100644
+--- a/core/version_defaults.mk
++++ b/core/version_defaults.mk
+@@ -100,9 +100,11 @@ endif
+ 
+ ifeq "" "$(PLATFORM_SECURITY_PATCH)"
+   # Used to indicate the security patch that has been applied to the device.
+-  # Can be an arbitrary string, but must be a single word.
+-  #
+-  # If there is no $PLATFORM_SECURITY_PATCH set, keep it empty.
++  #  It must signify that the build includes all security patches issued up through the designated Android Public Security Bulletin.
++  #  It must be of the form "YYYY-MM-DD" on production devices.
++  #  It must match one of the Android Security Patch Level strings of the Public Security Bulletins.
++  # 
++  #  If there is no $PLATFORM_SECURITY_PATCH set, keep it empty.
+   PLATFORM_SECURITY_PATCH := 2016-10-05
+ endif
+ 
+-- 
+2.7.4
+

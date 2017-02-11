@@ -1,0 +1,56 @@
+From 5028473d874e1168de99870f6beaebc23243e9f6 Mon Sep 17 00:00:00 2001
+From: Liejun Tao <baibai@motorola.com>
+Date: Wed, 20 Jan 2016 17:52:20 -0600
+Subject: [PATCH 10/11] DO NOT MERGE Bluetooth: Restrict gain for Absolute
+ volume case
+
+For the lowest music volume steps 1 and 2, restrict the gain to 50% and
+75%. This will avoid the lowest volume steps being too loud for some
+accessories. For music volume 0, set phone gain to 0 as some
+accessories won't mute on their end.
+
+Change-Id: I24e0fa7be8c8635b428a11c91ea153aad7cec55f
+Signed-off-by: Liejun Tao <baibai@motorola.com>
+---
+ .../com/android/server/audio/AudioService.java     | 25 ++++++++++++++++++++--
+ 1 file changed, 23 insertions(+), 2 deletions(-)
+
+diff --git a/services/core/java/com/android/server/audio/AudioService.java b/services/core/java/com/android/server/audio/AudioService.java
+index 9f9f36a..df16cdd 100644
+--- a/services/core/java/com/android/server/audio/AudioService.java
++++ b/services/core/java/com/android/server/audio/AudioService.java
+@@ -3910,8 +3910,29 @@ public class AudioService extends IAudioService.Stub {
+             int index;
+             if (mIsMuted) {
+                 index = 0;
+-            } else if (((device & AudioSystem.DEVICE_OUT_ALL_A2DP) != 0 && mAvrcpAbsVolSupported)
+-                    || ((device & mFullVolumeDevices) != 0)) {
++            } else if ((device & AudioSystem.DEVICE_OUT_ALL_A2DP) != 0 && mAvrcpAbsVolSupported) {
++                /* Special handling for Bluetooth Absolute Volume scenario
++                 * If we send full audio gain, some accessories are too loud even at its lowest
++                 * volume. We are not able to enumerate all such accessories, so here is the
++                 * workaround from phone side.
++                 * For the lowest volume steps 1 and 2, restrict audio gain to 50% and 75%.
++                 * For volume step 0, set audio gain to 0 as some accessories won't mute on their end.
++                 */
++                int i = (getIndex(device) + 5)/10;
++                if (i == 0) {
++                    // 0% for volume 0
++                    index = 0;
++                } else if (i == 1) {
++                    // 50% for volume 1
++                    index = (int)(mIndexMax * 0.5) /10;
++                } else if (i == 2) {
++                    // 75% for volume 2
++                    index = (int)(mIndexMax * 0.75) /10;
++                } else {
++                    // otherwise, full gain
++                    index = (mIndexMax + 5)/10;
++                }
++            } else if ((device & mFullVolumeDevices) != 0) {
+                 index = (mIndexMax + 5)/10;
+             } else {
+                 index = (getIndex(device) + 5)/10;
+-- 
+2.7.4
+

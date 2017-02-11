@@ -1,0 +1,39 @@
+From 87ffa97d78ab9a50b256981ebcf6b04c27044e3c Mon Sep 17 00:00:00 2001
+From: Adam Seaton <aseaton@google.com>
+Date: Thu, 18 Aug 2016 10:33:30 -0700
+Subject: [PATCH 44/55] Update Security String to 2016-10-01 to platform and
+ CTS for October Security
+
+Change-Id: I7ccdd54c1d269422c5e2e1f3e268fc539b6eb684
+(cherry picked from commit cb60b2dedbf6a346f3affc66a2e89a8068c530e2)
+---
+ core/build_id.mk         | 2 +-
+ core/version_defaults.mk | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/core/build_id.mk b/core/build_id.mk
+index e9b9179..336f112 100644
+--- a/core/build_id.mk
++++ b/core/build_id.mk
+@@ -18,4 +18,4 @@
+ # (like "CRB01").  It must be a single word, and is
+ # capitalized by convention.
+ 
+-export BUILD_ID=M4B30T
++export BUILD_ID=M4B30U
+diff --git a/core/version_defaults.mk b/core/version_defaults.mk
+index cb8ba51..1b3c7d8 100644
+--- a/core/version_defaults.mk
++++ b/core/version_defaults.mk
+@@ -103,7 +103,7 @@ ifeq "" "$(PLATFORM_SECURITY_PATCH)"
+   # Can be an arbitrary string, but must be a single word.
+   #
+   # If there is no $PLATFORM_SECURITY_PATCH set, keep it empty.
+-  PLATFORM_SECURITY_PATCH := 2016-07-05
++  PLATFORM_SECURITY_PATCH := 2016-10-01
+ endif
+ 
+ ifeq "" "$(PLATFORM_BASE_OS)"
+-- 
+2.7.4
+

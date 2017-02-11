@@ -1,0 +1,41 @@
+From 1073bba7485a6dca0ed2e4fb795320dce6bc65d8 Mon Sep 17 00:00:00 2001
+From: Amith Yamasani <yamasani@google.com>
+Date: Fri, 22 Jan 2016 11:27:16 -0800
+Subject: [PATCH 06/11] DO NOT MERGE Check apps idle states on time changes
+
+And ensure that the listeners are informed of app standby transitions
+that might occur during time changes.
+
+Fix for apps that sometimes don't have network access until reboot.
+
+Bug: 26488100
+Change-Id: Ic342c188a6cd19faee88f50b2c6a342a6968cb23
+(cherry picked from commit c465e71cdc401e1565c29a895a5c6d366ba5344c)
+---
+ services/usage/java/com/android/server/usage/UsageStatsService.java | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/services/usage/java/com/android/server/usage/UsageStatsService.java b/services/usage/java/com/android/server/usage/UsageStatsService.java
+index 90511f5..6a0056a 100644
+--- a/services/usage/java/com/android/server/usage/UsageStatsService.java
++++ b/services/usage/java/com/android/server/usage/UsageStatsService.java
+@@ -557,6 +557,7 @@ public class UsageStatsService extends SystemService implements
+             }
+             mRealTimeSnapshot = actualRealtime;
+             mSystemTimeSnapshot = actualSystemTime;
++            postCheckIdleStates(UserHandle.USER_ALL);
+         }
+         return actualSystemTime;
+     }
+@@ -601,7 +602,7 @@ public class UsageStatsService extends SystemService implements
+                     || event.mEventType == Event.SYSTEM_INTERACTION
+                     || event.mEventType == Event.USER_INTERACTION)) {
+                 if (previouslyIdle) {
+-                    // Slog.d(TAG, "Informing listeners of out-of-idle " + event.mPackage);
++                    //Slog.d(TAG, "Informing listeners of out-of-idle " + event.mPackage);
+                     mHandler.sendMessage(mHandler.obtainMessage(MSG_INFORM_LISTENERS, userId,
+                             /* idle = */ 0, event.mPackage));
+                     notifyBatteryStats(event.mPackage, userId, false);
+-- 
+2.7.4
+
