@@ -14,8 +14,8 @@ The branches for the devices trees are :
 
 How to sync ?
 =============
-- 1- Repo init the LA.BR.1.2.7-05310-8x16.0 CAF Tag
-	- To do so, use this command "repo init -u git://codeaurora.org/platform/manifest.git -b release -m default_LA.BR.1.2.7-05310-8x16.0.xml"
+- 1- Repo init the LA.BR.1.2.7-05410-8x16.0 CAF Tag
+	- To do so, use this command "repo init -u git://codeaurora.org/platform/manifest.git -b release -m default_LA.BR.1.2.7-05410-8x16.0.xml"
 	- List of the CAF Tags here : https://www.codeaurora.org/xwiki/bin/QAEP/release
 - 2- Add the linked yu_par.xml to .repo/local_manifests
 - 3- "repo sync" to sync everything
