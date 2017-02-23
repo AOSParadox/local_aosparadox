@@ -1,0 +1,58 @@
+From 3e94baf0238dff5803c69948c946d2d643f53383 Mon Sep 17 00:00:00 2001
+From: Ekin Oguz <ekinoguz@google.com>
+Date: Mon, 28 Nov 2016 15:34:02 -0800
+Subject: [PATCH] Don't allow file attachment from /data through GET_CONTENT.
+
+A custom picker can be used to attach files to Compose activity. With
+this change, we are disallowing files belonging to file:///data/... to
+be attached from custom pickers, in order not to expose internal
+application data.
+
+If the Intent Uri is a "file" and the file is in
+`Environment.getDataDirectory()`, then throw a
+AttachmentFailureException
+which is caught immediately and shows a toast to the user.
+
+Details b/31494146#comment13
+Fix b/32615212
+
+Change-Id: I037888b01fef1cdf5053602cdf9194286d5648df
+(cherry picked from commit eace8b43e8d1512a205554715ca840324bfbe35f)
+---
+ src/com/android/mail/compose/ComposeActivity.java | 18 +++++++-----------
+ 1 file changed, 7 insertions(+), 11 deletions(-)
+
+diff --git a/src/com/android/mail/compose/ComposeActivity.java b/src/com/android/mail/compose/ComposeActivity.java
+index c3c8006..2ab7a99 100644
+--- a/src/com/android/mail/compose/ComposeActivity.java
++++ b/src/com/android/mail/compose/ComposeActivity.java
+@@ -2042,19 +2042,15 @@ public class ComposeActivity extends ActionBarActivity
+         if (contentUri == null) {
+             return;
+         }
+-        try {
+ 
+-            if (handleSpecialAttachmentUri(contentUri)) {
+-                return;
+-            }
++        if (handleSpecialAttachmentUri(contentUri)) {
++            return;
++        }
+ 
+-            addAttachmentAndUpdateView(mAttachmentsView.generateLocalAttachment(contentUri));
+-        } catch (AttachmentFailureException e) {
+-            LogUtils.e(LOG_TAG, e, "Error adding attachment");
+-            showErrorToast(getResources().getString(
+-                    e.getErrorRes(),
+-                    AttachmentUtils.convertToHumanReadableSize(
+-                            getApplicationContext(), mAccount.settings.getMaxAttachmentSize())));
++        final long size = handleAttachmentUrisFromIntent(Arrays.asList(contentUri));
++        if (size > 0) {
++            mAttachmentsChanged = true;
++            updateSaveUi();
+         }
+     }
+ 
+-- 
+2.7.4
+

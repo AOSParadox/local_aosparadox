@@ -1,0 +1,27 @@
+From e724b6025e24c8f995169c2dce38e247b599e1ed Mon Sep 17 00:00:00 2001
+From: Adam Seaton <aseaton@google.com>
+Date: Wed, 7 Dec 2016 15:00:20 -0800
+Subject: [PATCH 03/27] Update Security String to 2017-02-01 on nyc-dev
+
+Change-Id: I0e2dd0afcb6dd490dd81afb879890eeb41bf121d
+(cherry picked from commit 35901a7fd0eb5eae6c26cc11291da990364e663d)
+---
+ core/version_defaults.mk | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/core/version_defaults.mk b/core/version_defaults.mk
+index ffd6148..3bda486 100644
+--- a/core/version_defaults.mk
++++ b/core/version_defaults.mk
+@@ -114,7 +114,7 @@ ifeq "" "$(PLATFORM_SECURITY_PATCH)"
+     #  It must be of the form "YYYY-MM-DD" on production devices.
+     #  It must match one of the Android Security Patch Level strings of the Public Security Bulletins.
+     #  If there is no $PLATFORM_SECURITY_PATCH set, keep it empty.
+-      PLATFORM_SECURITY_PATCH := 2017-02-05
++      PLATFORM_SECURITY_PATCH := 2017-02-01
+ endif
+ 
+ ifeq "" "$(PLATFORM_BASE_OS)"
+-- 
+2.7.4
+

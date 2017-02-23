@@ -1,0 +1,96 @@
+From 5a7a8bb899e36dfddeeb68085a1d3c1e92c1fc47 Mon Sep 17 00:00:00 2001
+From: Keun-young Park <keunyoung@google.com>
+Date: Thu, 3 Nov 2016 19:33:22 -0700
+Subject: [PATCH] fix build
+
+- doclava has changed signature for generic types
+
+Test: build
+Change-Id: I5309bcbcd160ae900ab07edbcee91332e01677dc
+(cherry picked from commit 69bc432bacb8609fbe518988c1783839209593b9)
+---
+ car-lib/api/system-current.txt  | 12 ++++++------
+ car-support-lib/api/current.txt |  6 +++---
+ 2 files changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/car-lib/api/system-current.txt b/car-lib/api/system-current.txt
+index b6fdd90..0a2eaec 100644
+--- a/car-lib/api/system-current.txt
++++ b/car-lib/api/system-current.txt
+@@ -348,7 +348,7 @@ package android.car.content.pm {
+ 
+ package android.car.hardware {
+ 
+-  public class CarPropertyConfig implements android.os.Parcelable {
++  public class CarPropertyConfig<T> implements android.os.Parcelable {
+     method public int describeContents();
+     method public int getAreaCount();
+     method public int[] getAreaIds();
+@@ -362,13 +362,13 @@ package android.car.hardware {
+     method public java.lang.Class<T> getPropertyType();
+     method public boolean hasArea(int);
+     method public boolean isGlobalProperty();
+-    method public static android.car.hardware.CarPropertyConfig.Builder<T> newBuilder(java.lang.Class<T>, int, int, int);
+-    method public static android.car.hardware.CarPropertyConfig.Builder<T> newBuilder(java.lang.Class<T>, int, int);
++    method public static <T> android.car.hardware.CarPropertyConfig.Builder<T> newBuilder(java.lang.Class<T>, int, int, int);
++    method public static <T> android.car.hardware.CarPropertyConfig.Builder<T> newBuilder(java.lang.Class<T>, int, int);
+     method public void writeToParcel(android.os.Parcel, int);
+     field public static final android.os.Parcelable.Creator<android.car.hardware.CarPropertyConfig> CREATOR;
+   }
+ 
+-  public static class CarPropertyConfig.AreaConfig implements android.os.Parcelable {
++  public static class CarPropertyConfig.AreaConfig<T> implements android.os.Parcelable {
+     method public int describeContents();
+     method public T getMaxValue();
+     method public T getMinValue();
+@@ -376,14 +376,14 @@ package android.car.hardware {
+     field public static final android.os.Parcelable.Creator<android.car.hardware.CarPropertyConfig.AreaConfig<java.lang.Object>> CREATOR;
+   }
+ 
+-  public static class CarPropertyConfig.Builder {
++  public static class CarPropertyConfig.Builder<T> {
+     method public android.car.hardware.CarPropertyConfig.Builder<T> addArea(int);
+     method public android.car.hardware.CarPropertyConfig.Builder<T> addAreaConfig(int, T, T);
+     method public android.car.hardware.CarPropertyConfig.Builder<T> addAreas(int[]);
+     method public android.car.hardware.CarPropertyConfig<T> build();
+   }
+ 
+-  public class CarPropertyValue implements android.os.Parcelable {
++  public class CarPropertyValue<T> implements android.os.Parcelable {
+     ctor public CarPropertyValue(int, T);
+     ctor public CarPropertyValue(int, int, T);
+     ctor public CarPropertyValue(android.os.Parcel);
+diff --git a/car-support-lib/api/current.txt b/car-support-lib/api/current.txt
+index 1256f7f..9baf200 100644
+--- a/car-support-lib/api/current.txt
++++ b/car-support-lib/api/current.txt
+@@ -829,7 +829,7 @@ package android.support.car.ui {
+     method public static int getTintColor(double, int, int...);
+   }
+ 
+-  public abstract class CursorRecyclerViewAdapter extends android.support.v7.widget.RecyclerView.Adapter {
++  public abstract class CursorRecyclerViewAdapter<VH extends android.support.v7.widget.RecyclerView.ViewHolder> extends android.support.v7.widget.RecyclerView.Adapter {
+     ctor public CursorRecyclerViewAdapter(android.content.Context, android.database.Cursor);
+     method public void changeCursor(android.database.Cursor);
+     method public android.database.Cursor getCursor();
+@@ -869,7 +869,7 @@ package android.support.car.ui {
+     method public void setStrokeColor(int);
+   }
+ 
+-  public abstract class GroupingCursorRecyclerViewAdapter extends android.support.car.ui.CursorRecyclerViewAdapter {
++  public abstract class GroupingCursorRecyclerViewAdapter<VH extends android.support.v7.widget.RecyclerView.ViewHolder> extends android.support.car.ui.CursorRecyclerViewAdapter {
+     ctor public GroupingCursorRecyclerViewAdapter(android.content.Context, android.database.Cursor);
+     method protected void addGroup(int, int, boolean);
+     method protected abstract void buildGroups(android.database.Cursor);
+@@ -898,7 +898,7 @@ package android.support.car.ui {
+     ctor public GroupingCursorRecyclerViewAdapter.PositionMetadata(int, int, android.support.car.ui.GroupingCursorRecyclerViewAdapter.GroupMetadata);
+   }
+ 
+-  public abstract class GroupingRecyclerViewAdapter extends android.support.v7.widget.RecyclerView.Adapter {
++  public abstract class GroupingRecyclerViewAdapter<E, VH extends android.support.v7.widget.RecyclerView.ViewHolder> extends android.support.v7.widget.RecyclerView.Adapter {
+     ctor public GroupingRecyclerViewAdapter(android.content.Context);
+     method protected void addGroup(int, int, boolean);
+     method protected abstract void buildGroups(java.util.List<E>);
+-- 
+2.7.4
+

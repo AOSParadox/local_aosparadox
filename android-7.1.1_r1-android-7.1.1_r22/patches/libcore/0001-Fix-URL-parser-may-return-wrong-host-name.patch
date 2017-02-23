@@ -1,0 +1,71 @@
+From 91c4f750d332f9499c33af3c1e39f7920985752b Mon Sep 17 00:00:00 2001
+From: Yi Kong <yikong@google.com>
+Date: Wed, 19 Oct 2016 15:46:47 +0100
+Subject: [PATCH] Fix URL parser may return wrong host name
+
+Due to a missing bound check in parseURL, it may include part of the
+fragment in the authority field, and returns wrong host name.
+
+Bug: 31858037
+Test: libcore.java.net.URLTest#testFragmentWith{Slash,Query}
+Change-Id: I1fc39907cc67f6d674a3790070833123fdef9414
+(cherry picked from commit 78a4344540081fd229b188504d2fee820b7d452a)
+(cherry picked from commit f98287d57549ccaae7b6e8dec9feadd4e0d413c3)
+---
+ luni/src/test/java/libcore/java/net/URLTest.java   | 22 ++++++++++++++++++++++
+ .../src/main/java/java/net/URLStreamHandler.java   |  8 ++++++++
+ 2 files changed, 30 insertions(+)
+
+diff --git a/luni/src/test/java/libcore/java/net/URLTest.java b/luni/src/test/java/libcore/java/net/URLTest.java
+index 789e3e9..629015f 100644
+--- a/luni/src/test/java/libcore/java/net/URLTest.java
++++ b/luni/src/test/java/libcore/java/net/URLTest.java
+@@ -757,4 +757,26 @@ public final class URLTest extends TestCase {
+         assertEquals("/some/path", new URL("http://foobar.com/some/path#").getFile());
+         assertEquals("/some/path", new URL("http://foobar.com/some/path?#").getFile());
+     }
++
++    // http://b/31858037
++    public void testFragmentWithSlash() throws Exception {
++        final String host = "example.com";
++        final String fragment = "@not-a-host-name/a";
++        URL url = new URL(String.format("http://%s#%s", host, fragment));
++        assertNull(url.getUserInfo());
++        assertEquals(host, url.getAuthority());
++        assertEquals(host, url.getHost());
++        assertEquals(fragment, url.getRef());
++    }
++
++    // http://b/31858037
++    public void testFragmentWithQuery() throws Exception {
++        final String host = "example.com";
++        final String fragment = "@not-a-host-name?a";
++        URL url = new URL(String.format("http://%s#%s", host, fragment));
++        assertNull(url.getUserInfo());
++        assertEquals(host, url.getAuthority());
++        assertEquals(host, url.getHost());
++        assertEquals(fragment, url.getRef());
++    }
+ }
+diff --git a/ojluni/src/main/java/java/net/URLStreamHandler.java b/ojluni/src/main/java/java/net/URLStreamHandler.java
+index e177363..ddea036 100755
+--- a/ojluni/src/main/java/java/net/URLStreamHandler.java
++++ b/ojluni/src/main/java/java/net/URLStreamHandler.java
+@@ -175,6 +175,14 @@ public abstract class URLStreamHandler {
+                     i = limit;
+             }
+ 
++            // ----- BEGIN android -----
++            // i may become greater than limit
++            // b/31858037
++            if (i > limit) {
++                i = limit;
++            }
++            // ----- END android -----
++
+             host = authority = spec.substring(start, i);
+ 
+             int ind = authority.indexOf('@');
+-- 
+2.7.4
+

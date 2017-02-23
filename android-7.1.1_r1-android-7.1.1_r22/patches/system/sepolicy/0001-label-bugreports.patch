@@ -1,0 +1,35 @@
+From ec0e515be9c9f17c687e22f3bc3d9f8617f87fc9 Mon Sep 17 00:00:00 2001
+From: Nick Kralevich <nnk@google.com>
+Date: Sat, 19 Nov 2016 12:13:02 -0800
+Subject: [PATCH] label /bugreports
+
+/data/bugreports is moving to /bugreports
+
+Bug: 27262109
+Bug: 27204904
+Bug: 32799236
+Test: new symlink is in /bugreports and is labeled correctly
+
+(cherry picked from commit d314376da9def2f4a62fd078a177c8521f65eecf)
+
+Change-Id: Ia9aca3ff642b2171e9b0ece7c2b420a0d38006cc
+(cherry picked from commit 87a56541916d8416c98bdb313bebd2e36a5fd43d)
+---
+ file_contexts | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/file_contexts b/file_contexts
+index 3d91e2b..3448f21 100644
+--- a/file_contexts
++++ b/file_contexts
+@@ -29,6 +29,7 @@
+ /sys                u:object_r:sysfs:s0
+ 
+ # Symlinks
++/bugreports         u:object_r:rootfs:s0
+ /d                  u:object_r:rootfs:s0
+ /etc                u:object_r:rootfs:s0
+ /sdcard             u:object_r:rootfs:s0
+-- 
+2.7.4
+

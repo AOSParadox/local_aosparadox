@@ -1,0 +1,136 @@
+From 6f9940345fbb62a2d63d91683c240a3b0ba9a3c4 Mon Sep 17 00:00:00 2001
+From: Tony Mantler <nicoya@google.com>
+Date: Thu, 10 Nov 2016 15:11:08 -0800
+Subject: [PATCH] Provide stub intent filters for CTS
+
+b/32307358
+Test: adb shell am start -a .. -d ..
+
+Change-Id: I89ccacd7cb2b4433c95b4aa1b4f16eea03ff9675
+(cherry picked from commit 92adc442b0efc42691a0be4c9fb9229edb5b0b30)
+---
+ Settings/AndroidManifest.xml                       | 26 +++++++++++++++----
+ .../com/android/tv/settings/EmptyStubActivity.java | 29 +++++++++++++++++++++
+ .../tv/settings/system/WebViewImplementation.java  | 30 ----------------------
+ 3 files changed, 50 insertions(+), 35 deletions(-)
+ create mode 100644 Settings/src/com/android/tv/settings/EmptyStubActivity.java
+ delete mode 100644 Settings/src/com/android/tv/settings/system/WebViewImplementation.java
+
+diff --git a/Settings/AndroidManifest.xml b/Settings/AndroidManifest.xml
+index 882b561..fbade5f 100644
+--- a/Settings/AndroidManifest.xml
++++ b/Settings/AndroidManifest.xml
+@@ -560,9 +560,8 @@
+             </intent-filter>
+         </activity>
+ 
+-        <!-- Dummy activity for CTS
+-         TODO: implement something useful -->
+-        <activity android:name=".system.WebViewImplementation"
++        <!-- Dummy intent filters for CTS TODO: implement something useful -->
++        <activity android:name=".EmptyStubActivity"
+                   android:exported="true"
+                   android:excludeFromRecents="true"
+                   android:theme="@android:style/Theme.NoDisplay">
+@@ -570,8 +569,25 @@
+                 <action android:name="android.settings.WEBVIEW_SETTINGS" />
+                 <category android:name="android.intent.category.DEFAULT" />
+             </intent-filter>
+-            <meta-data android:name="com.android.settings.PRIMARY_PROFILE_CONTROLLED"
+-                       android:value="true" />
++            <intent-filter android:priority="1">
++                <action android:name="android.settings.IGNORE_BATTERY_OPTIMIZATION_SETTINGS" />
++                <category android:name="android.intent.category.DEFAULT" />
++            </intent-filter>
++            <intent-filter android:priority="1">
++                <action android:name="android.settings.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
++                <category android:name="android.intent.category.DEFAULT" />
++                <data android:scheme="package" />
++            </intent-filter>
++            <intent-filter android:priority="1">
++                <action android:name="android.settings.IGNORE_BACKGROUND_DATA_RESTRICTIONS_SETTINGS" />
++                <category android:name="android.intent.category.DEFAULT" />
++                <data android:scheme="package" />
++            </intent-filter>
++            <intent-filter android:priority="1">
++                <action android:name="android.settings.MANAGE_DEFAULT_APPS_SETTINGS" />
++                <action android:name="android.settings.HOME_SETTINGS" />
++                <category android:name="android.intent.category.DEFAULT" />
++            </intent-filter>
+         </activity>
+     </application>
+ 
+diff --git a/Settings/src/com/android/tv/settings/EmptyStubActivity.java b/Settings/src/com/android/tv/settings/EmptyStubActivity.java
+new file mode 100644
+index 0000000..ce6a699
+--- /dev/null
++++ b/Settings/src/com/android/tv/settings/EmptyStubActivity.java
+@@ -0,0 +1,29 @@
++/*
++ * Copyright (C) 2016 The Android Open Source Project
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License
++ */
++
++package com.android.tv.settings;
++
++import android.annotation.Nullable;
++import android.app.Activity;
++import android.os.Bundle;
++
++public class EmptyStubActivity extends Activity {
++    @Override
++    protected void onCreate(@Nullable Bundle savedInstanceState) {
++        super.onCreate(savedInstanceState);
++        finish();
++    }
++}
+diff --git a/Settings/src/com/android/tv/settings/system/WebViewImplementation.java b/Settings/src/com/android/tv/settings/system/WebViewImplementation.java
+deleted file mode 100644
+index 8853b41..0000000
+--- a/Settings/src/com/android/tv/settings/system/WebViewImplementation.java
++++ /dev/null
+@@ -1,30 +0,0 @@
+-/*
+- * Copyright (C) 2016 The Android Open Source Project
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *      http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License
+- */
+-
+-package com.android.tv.settings.system;
+-
+-import android.annotation.Nullable;
+-import android.app.Activity;
+-import android.os.Bundle;
+-
+-// TODO: implement a webview choice screen here. See WebViewImplementation in mobile Settings
+-public class WebViewImplementation extends Activity {
+-    @Override
+-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+-        super.onCreate(savedInstanceState);
+-        finish();
+-    }
+-}
+-- 
+2.7.4
+

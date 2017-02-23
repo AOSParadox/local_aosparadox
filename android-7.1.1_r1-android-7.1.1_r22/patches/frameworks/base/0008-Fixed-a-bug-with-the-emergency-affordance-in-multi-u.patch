@@ -1,0 +1,40 @@
+From f7ab244263c9ba6f40c3cb96b33f9c0b3aa58653 Mon Sep 17 00:00:00 2001
+From: Selim Cinek <cinek@google.com>
+Date: Thu, 3 Nov 2016 14:55:40 -0700
+Subject: [PATCH 8/8] Fixed a bug with the emergency affordance in multi user
+
+The emergency call was not launched in the current user
+and therefore was only launching once the user had switched.
+
+Change-Id: If6f3bcf77d88a0658b6e0f91f7e4da5d6264b04f
+Fixes: 32424103
+Test: manual: switch to secondary user and launch emergency affordance
+(cherry picked from commit b8a7f78d242cafb0c3ec10868c28583e8aacdf7a)
+---
+ core/java/com/android/internal/policy/EmergencyAffordanceManager.java | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/core/java/com/android/internal/policy/EmergencyAffordanceManager.java b/core/java/com/android/internal/policy/EmergencyAffordanceManager.java
+index bed7c1b..eb75bd4 100644
+--- a/core/java/com/android/internal/policy/EmergencyAffordanceManager.java
++++ b/core/java/com/android/internal/policy/EmergencyAffordanceManager.java
+@@ -20,6 +20,7 @@ import android.content.Context;
+ import android.content.Intent;
+ import android.net.Uri;
+ import android.os.Build;
++import android.os.UserHandle;
+ import android.provider.Settings;
+ 
+ /**
+@@ -72,7 +73,7 @@ public class EmergencyAffordanceManager {
+         Intent intent = new Intent(Intent.ACTION_CALL_EMERGENCY);
+         intent.setData(getPhoneUri(context));
+         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+-        context.startActivity(intent);
++        context.startActivityAsUser(intent, UserHandle.CURRENT);
+     }
+ 
+     /**
+-- 
+2.7.4
+

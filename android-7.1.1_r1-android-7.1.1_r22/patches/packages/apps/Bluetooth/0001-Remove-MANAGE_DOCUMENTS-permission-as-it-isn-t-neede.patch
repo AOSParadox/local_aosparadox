@@ -1,0 +1,28 @@
+From f44c56c083301820264a6729a79cbdab4fe8bf11 Mon Sep 17 00:00:00 2001
+From: Ajay Panicker <apanicke@google.com>
+Date: Thu, 17 Nov 2016 15:50:36 -0800
+Subject: [PATCH] Remove MANAGE_DOCUMENTS permission as it isn't needed
+
+Fix Merge Conflict in nyc-mr1-security-a-release
+Bug: 32612586
+Change-Id: Iebe7dc9b198ce99d5921f5a349ba9d5d4424d156
+(cherry picked from commit 22d032fc493070d3c4b2efffa6aa592e20cf8578)
+---
+ AndroidManifest.xml | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/AndroidManifest.xml b/AndroidManifest.xml
+index e53db06..937984e 100755
+--- a/AndroidManifest.xml
++++ b/AndroidManifest.xml
+@@ -60,7 +60,6 @@
+     <uses-permission android:name="android.permission.WRITE_SMS" />
+     <uses-permission android:name="android.permission.READ_CONTACTS" />
+     <uses-permission android:name="android.permission.MEDIA_CONTENT_CONTROL" />
+-    <uses-permission android:name="android.permission.MANAGE_DOCUMENTS" />
+     <uses-permission android:name="android.permission.UPDATE_APP_OPS_STATS" />
+     <uses-permission android:name="android.permission.VIBRATE" />
+     <uses-permission android:name="android.permission.DEVICE_POWER" />
+-- 
+2.7.4
+

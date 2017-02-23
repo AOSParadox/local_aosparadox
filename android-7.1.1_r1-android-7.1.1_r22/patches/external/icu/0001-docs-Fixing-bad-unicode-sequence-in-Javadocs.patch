@@ -1,0 +1,73 @@
+From 7e1b1620a0634e30d168f69b0d418aaf767f3cad Mon Sep 17 00:00:00 2001
+From: Andrew Solovay <asolovay@google.com>
+Date: Fri, 21 Oct 2016 12:24:21 -0700
+Subject: [PATCH] docs: Fixing bad unicode sequence in Javadocs.
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+The source file /external/icu/icu4j/main/classes/…/UnicodeSet.java
+has a comment with the character sequence '\u0000', which is being
+output verbatim to a Javadoc comment the generated file
+java/android/icu/text/UnicodeSet.java . (See bug b/32309442)
+
+That character sequence is being output as a null byte in the
+generated HTML file: https://screenshot.googleplex.com/ixQ4G2QTZkY.png
+https://developer.android.com/reference/android/icu/text/UnicodeSet.html#applyPropertyAlias(java.lang.String,%20java.lang.String)
+
+Besides generating bad documentation (the sequence shows up as "\u"
+instead of "\u0000"), this also means we won't be able to check the
+generated docs in to Piper as text files.
+
+Per instructions from JS, I've modified the external file, run the
+script to generate the java/android/icu file from it, and included
+both files in this CL. I've also generated the Javadoc from the
+modified file and staged it to:
+
+https//go/dods-stage/reference/android/icu/text/UnicodeSet.html#applyPropertyAlias(java.lang.String,%20java.lang.String)
+
+NOTE: Currently, a double-backslash sequence is incorrectly output to
+the Javadoc as a double-backslash instead of being treated as an
+escape character. I filed a separate bug about that, b/32335850
+
+bug: 32309442
+Change-Id: If25fe0767769ecf15d5f8b73a18eb9e0f87b3752
+(cherry picked from commit 06ec6d9c5ca6a2e72ac506c8729e0a31db19e211)
+---
+ android_icu4j/src/main/java/android/icu/text/UnicodeSet.java | 4 ++--
+ icu4j/main/classes/core/src/com/ibm/icu/text/UnicodeSet.java | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/android_icu4j/src/main/java/android/icu/text/UnicodeSet.java b/android_icu4j/src/main/java/android/icu/text/UnicodeSet.java
+index 9d934ae..c4d8009 100644
+--- a/android_icu4j/src/main/java/android/icu/text/UnicodeSet.java
++++ b/android_icu4j/src/main/java/android/icu/text/UnicodeSet.java
+@@ -3318,8 +3318,8 @@ public class UnicodeSet extends UnicodeFilter implements Iterable<String>, Compa
+      * property alias, or a special ID.  Special IDs are matched
+      * loosely and correspond to the following sets:
+      *
+-     * "ANY" = [\u0000-\U0010FFFF],
+-     * "ASCII" = [\u0000-\u007F].
++     * "ANY" = [\\u0000-\\u0010FFFF],
++     * "ASCII" = [\\u0000-\\u007F].
+      *
+      * @param valueAlias a value alias, either short or long.  The
+      * name is matched loosely.  See PropertyValueAliases.txt for
+diff --git a/icu4j/main/classes/core/src/com/ibm/icu/text/UnicodeSet.java b/icu4j/main/classes/core/src/com/ibm/icu/text/UnicodeSet.java
+index 957bb82..bcdaf24 100644
+--- a/icu4j/main/classes/core/src/com/ibm/icu/text/UnicodeSet.java
++++ b/icu4j/main/classes/core/src/com/ibm/icu/text/UnicodeSet.java
+@@ -3393,8 +3393,8 @@ public class UnicodeSet extends UnicodeFilter implements Iterable<String>, Compa
+      * property alias, or a special ID.  Special IDs are matched
+      * loosely and correspond to the following sets:
+      *
+-     * "ANY" = [\u0000-\U0010FFFF],
+-     * "ASCII" = [\u0000-\u007F].
++     * "ANY" = [\\u0000-\\u0010FFFF],
++     * "ASCII" = [\\u0000-\\u007F].
+      *
+      * @param valueAlias a value alias, either short or long.  The
+      * name is matched loosely.  See PropertyValueAliases.txt for
+-- 
+2.7.4
+

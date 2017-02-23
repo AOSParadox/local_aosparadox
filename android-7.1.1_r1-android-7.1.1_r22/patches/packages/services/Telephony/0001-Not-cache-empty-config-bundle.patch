@@ -1,0 +1,39 @@
+From 574e0eace30e33d686270db5e301d79d446c0a6a Mon Sep 17 00:00:00 2001
+From: Junda Liu <junda@google.com>
+Date: Tue, 15 Nov 2016 13:46:43 -0800
+Subject: [PATCH] Not cache empty config bundle.
+
+In case of failure, caching empty bundle will not recover until clear phone data.
+This change will retry loading on next sim loaded if bundle is empty.
+
+Bug: b/32668103
+Change-Id: Ieb210db88a640be8c44c11ab543064cbf4b10ed3
+(cherry picked from commit 0259650d985a6279de7a0a8ce4ec823011dd7a4b)
+(cherry picked from commit c8d0b18e7a346968b54c85c0a8753365ffbf42a0)
+---
+ src/com/android/phone/CarrierConfigLoader.java | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/src/com/android/phone/CarrierConfigLoader.java b/src/com/android/phone/CarrierConfigLoader.java
+index 9dfad26..f754b18 100755
+--- a/src/com/android/phone/CarrierConfigLoader.java
++++ b/src/com/android/phone/CarrierConfigLoader.java
+@@ -491,8 +491,13 @@ public class CarrierConfigLoader extends ICarrierConfigLoader.Stub {
+             loge("Cannot save config with null packageName or iccid.");
+             return;
+         }
+-        if (config == null) {
+-          config = new PersistableBundle();
++        // b/32668103 Only save to file if config isn't empty.
++        // In case of failure, not caching an empty bundle will
++        // try loading config again on next power on or sim loaded.
++        // Downside is for genuinely empty bundle, will bind and load
++        // on every power on.
++        if (config == null || config.isEmpty()) {
++            return;
+         }
+ 
+         final String version = getPackageVersion(packageName);
+-- 
+2.7.4
+

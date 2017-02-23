@@ -1,0 +1,22 @@
+From 8a398d69b72f59ea6fd55ff56da5b6e1e28087e7 Mon Sep 17 00:00:00 2001
+From: gitbuildkicker <android-build@google.com>
+Date: Fri, 18 Nov 2016 18:16:46 -0800
+Subject: [PATCH 20/27] NMF26M
+
+---
+ core/build_id.mk | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/core/build_id.mk b/core/build_id.mk
+index 3a9c566..c3be51a 100644
+--- a/core/build_id.mk
++++ b/core/build_id.mk
+@@ -18,4 +18,4 @@
+ # (like "CRB01").  It must be a single word, and is
+ # capitalized by convention.
+ 
+-export BUILD_ID=NMF26N
++export BUILD_ID=NMF26M
+-- 
+2.7.4
+
