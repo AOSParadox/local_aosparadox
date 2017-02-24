@@ -31,6 +31,7 @@
   <remove-project name="platform/external/tinycompress"/>
   <remove-project name="platform/frameworks/base"/>
   <remove-project name="platform/frameworks/native"/>
+  <remove-project name="platform/frameworks/support"/>
   <remove-project name="platform/frameworks/opt/telephony"/>
   <remove-project name="platform/frameworks/opt/net/ims"/>
   <remove-project name="platform/hardware/libhardware"/>
@@ -122,8 +123,9 @@
   <project path="external/busybox" name="omnirom/android_external_busybox" remote="github" revision="android-7.0" /> -->
 
   <!-- Needed LineageOS repos -->
-  <project path="external/connectivity" name="LineageOS/android_external_connectivity" remote="github" revision="cm-14.0" />
-  <project path="external/f2fs-tools" name="LineageOS/android_external_f2fs-tools" remote="github" revision="cm-14.0" />
+  <project path="external/connectivity" name="LineageOS/android_external_connectivity" remote="github" revision="cm-14.1" />
+  <project path="external/f2fs-tools" name="LineageOS/android_external_f2fs-tools" remote="github" revision="cm-14.1" />
+  <project path="frameworks/support" name="LineageOS/android_frameworks_support" remote="github" revision="cm-14.1" />
 
   <!-- AOSPA -->
   <remove-project name="platform/external/jemalloc" />
