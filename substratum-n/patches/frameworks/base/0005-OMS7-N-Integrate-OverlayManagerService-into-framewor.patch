@@ -1,8 +1,7 @@
-From 0709e08f9524d60e6b1d9c9bdf22ce28ac059014 Mon Sep 17 00:00:00 2001
+From 49b61cd94714d8a156254084e99853e5f31059f8 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?M=C3=A5rten=20Kongstad?= <marten.kongstad@sonymobile.com>
 Date: Thu, 2 Jun 2016 09:35:31 +0200
-Subject: [PATCH 05/41] OMS7-N: Integrate OverlayManagerService into framework
- [3/11]
+Subject: [PATCH 05/41] OMS7-N: Integrate OverlayManagerService into framework [3/11]
 
 Hand over ownership of overlays to OverlayManagerService.
 
@@ -61,8 +60,8 @@ Change-Id: If0b1eaa690c38f9c33f7c8dc981314205a73fa9c
  .../android/server/pm/PackageManagerService.java   | 132 ++++-----------------
  .../com/android/server/pm/PackageSettingBase.java  |   8 +-
  .../core/java/com/android/server/pm/Settings.java  |   6 +-
- services/java/com/android/server/SystemServer.java |   5 +-
- 21 files changed, 334 insertions(+), 460 deletions(-)
+ services/java/com/android/server/SystemServer.java |   4 +
+ 21 files changed, 334 insertions(+), 459 deletions(-)
 
 diff --git a/cmds/idmap/Android.mk b/cmds/idmap/Android.mk
 index 50ccb07..eb6da18 100644
@@ -1425,19 +1424,18 @@ index b0c536f..18cb42d 100644
                      readPreferredActivitiesLPw(parser, userId);
                  } else if (tagName.equals(TAG_PERSISTENT_PREFERRED_ACTIVITIES)) {
 diff --git a/services/java/com/android/server/SystemServer.java b/services/java/com/android/server/SystemServer.java
-index 1477f0a..aa78dfb 100644
+index 1477f0a..55196fa 100644
 --- a/services/java/com/android/server/SystemServer.java
 +++ b/services/java/com/android/server/SystemServer.java
-@@ -82,7 +82,7 @@ import com.android.server.media.projection.MediaProjectionManagerService;
- import com.android.server.net.NetworkPolicyManagerService;
+@@ -83,6 +83,7 @@ import com.android.server.net.NetworkPolicyManagerService;
  import com.android.server.net.NetworkStatsService;
  import com.android.server.notification.NotificationManagerService;
--import com.android.server.os.RegionalizationService;
+ import com.android.server.os.RegionalizationService;
 +import com.android.server.om.OverlayManagerService;
  import com.android.server.os.SchedulingPolicyService;
  import com.android.server.pm.BackgroundDexOptService;
  import com.android.server.pm.Installer;
-@@ -511,6 +511,9 @@ public final class SystemServer {
+@@ -511,6 +512,9 @@ public final class SystemServer {
          // Set up the Application instance for the system process and get started.
          mActivityManagerService.setSystemProcess();
  
