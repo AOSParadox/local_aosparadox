@@ -1,4 +1,4 @@
-From 6f9940345fbb62a2d63d91683c240a3b0ba9a3c4 Mon Sep 17 00:00:00 2001
+From d2b7b7ae3ffc3472eee95c02f27f5e23d3920e89 Mon Sep 17 00:00:00 2001
 From: Tony Mantler <nicoya@google.com>
 Date: Thu, 10 Nov 2016 15:11:08 -0800
 Subject: [PATCH] Provide stub intent filters for CTS

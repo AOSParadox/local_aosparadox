@@ -1,0 +1,22 @@
+From 15889669ff7f8fd3c6d392a4c16e1f13be91a883 Mon Sep 17 00:00:00 2001
+From: The Android Automerger <android-build@android.com>
+Date: Thu, 8 Dec 2016 10:39:05 -0800
+Subject: [PATCH 04/23] NMF26T
+
+---
+ core/build_id.mk | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/core/build_id.mk b/core/build_id.mk
+index ca5cd08..2e8dab6 100644
+--- a/core/build_id.mk
++++ b/core/build_id.mk
+@@ -18,4 +18,4 @@
+ # (like "CRB01").  It must be a single word, and is
+ # capitalized by convention.
+ 
+-export BUILD_ID=NMF26U
++export BUILD_ID=NMF26T
+-- 
+2.7.4
+

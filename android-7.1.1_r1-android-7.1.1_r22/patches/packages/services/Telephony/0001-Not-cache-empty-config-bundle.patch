@@ -1,4 +1,4 @@
-From 574e0eace30e33d686270db5e301d79d446c0a6a Mon Sep 17 00:00:00 2001
+From 9e2c423ef8891777bd20ed62ab3bf90d38d94380 Mon Sep 17 00:00:00 2001
 From: Junda Liu <junda@google.com>
 Date: Tue, 15 Nov 2016 13:46:43 -0800
 Subject: [PATCH] Not cache empty config bundle.
