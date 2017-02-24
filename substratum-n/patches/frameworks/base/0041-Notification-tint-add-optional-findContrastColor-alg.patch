@@ -1,0 +1,146 @@
+From 7b4a1ef29d1eed2f27e1c2ee6de9335fa93effa6 Mon Sep 17 00:00:00 2001
+From: SpiritCroc <spiritcroc@gmail.com>
+Date: Sun, 5 Feb 2017 12:00:54 +0100
+Subject: [PATCH 41/41] Notification tint: add optional findContrastColor
+ algorithm for dark backgrounds
+
+Overlay config_useDarkBgNotificationIconTextTinting to enable dark bg tinting
+
+Change-Id: I80cb01caf185c8fcd012ba409eacfa91e887c511
+---
+ .../internal/util/NotificationColorUtil.java       | 65 +++++++++++++++++++++-
+ core/res/res/values/projekt_config.xml             |  4 ++
+ core/res/res/values/projekt_symbols.xml            |  1 +
+ 3 files changed, 68 insertions(+), 2 deletions(-)
+
+diff --git a/core/java/com/android/internal/util/NotificationColorUtil.java b/core/java/com/android/internal/util/NotificationColorUtil.java
+index 4748e6f..bbc9a24 100644
+--- a/core/java/com/android/internal/util/NotificationColorUtil.java
++++ b/core/java/com/android/internal/util/NotificationColorUtil.java
+@@ -37,6 +37,8 @@ import android.text.style.TextAppearanceSpan;
+ import android.util.Log;
+ import android.util.Pair;
+ 
++import com.android.internal.R;
++
+ import java.util.Arrays;
+ import java.util.WeakHashMap;
+ 
+@@ -268,6 +270,44 @@ public class NotificationColorUtil {
+     }
+ 
+     /**
++     * Finds a suitable color such that there's enough contrast, optimised for dark backgrounds
++     *
++     * @param color the color to start searching from.
++     * @param other the color to ensure contrast against. Assumed to be darker than {@param color}
++     * @param findFg if true, we assume {@param color} is a foreground, otherwise a background.
++     * @param minRatio the minimum contrast ratio required.
++     * @return a color with the same hue as {@param color}, potentially lightened to meet the
++     *          contrast ratio.
++     */
++    private static int findDarkContrastColor(int color, int other, boolean findFg, double minRatio) {
++        int fg = findFg ? color : other;
++        int bg = findFg ? other : color;
++        if (ColorUtilsFromCompat.calculateContrast(fg, bg) >= minRatio) {
++            return color;
++        }
++
++        double[] lab = new double[3];
++        ColorUtilsFromCompat.colorToLAB(findFg ? fg : bg, lab);
++
++        double low = lab[0], high = 100d;
++        final double a = lab[1], b = lab[2];
++        for (int i = 0; i < 15 && high - low > 0.00001; i++) {
++            final double l = (low + high) / 2;
++            if (findFg) {
++                fg = ColorUtilsFromCompat.LABToColor(l, a, b);
++            } else {
++                bg = ColorUtilsFromCompat.LABToColor(l, a, b);
++            }
++            if (ColorUtilsFromCompat.calculateContrast(fg, bg) > minRatio) {
++                high = l;
++            } else {
++                low = l;
++            }
++        }
++        return ColorUtilsFromCompat.LABToColor(high, a, b);
++    }
++
++    /**
+      * Finds a text color with sufficient contrast over bg that has the same hue as the original
+      * color, assuming it is for large text.
+      */
+@@ -277,12 +317,28 @@ public class NotificationColorUtil {
+ 
+     /**
+      * Finds a text color with sufficient contrast over bg that has the same hue as the original
++     * color, assuming it is for large text. Optimised for dark backgrounds.
++     */
++    public static int ensureLargeDarkTextContrast(int color, int bg) {
++        return findDarkContrastColor(color, bg, true, 3);
++    }
++
++    /**
++     * Finds a text color with sufficient contrast over bg that has the same hue as the original
+      * color.
+      */
+     private static int ensureTextContrast(int color, int bg) {
+         return findContrastColor(color, bg, true, 4.5);
+     }
+ 
++    /**
++     * Finds a text color with sufficient contrast over bg that has the same hue as the original
++     * color. Optimised for dark backgrounds.
++     */
++    private static int ensureDarkTextContrast(int color, int bg) {
++        return findDarkContrastColor(color, bg, true, 4.5);
++    }
++
+     /** Finds a background color for a text view with given text color and hint text color, that
+      * has the same hue as the original color.
+      */
+@@ -323,8 +379,13 @@ public class NotificationColorUtil {
+                 com.android.internal.R.color.notification_material_background_color);
+ 
+         int color = resolvedColor;
+-        color = NotificationColorUtil.ensureLargeTextContrast(color, actionBg);
+-        color = NotificationColorUtil.ensureTextContrast(color, notiBg);
++        if (context.getResources().getBoolean(R.bool.config_useDarkBgNotificationIconTextTinting)) {
++            color = NotificationColorUtil.ensureLargeDarkTextContrast(color, actionBg);
++            color = NotificationColorUtil.ensureDarkTextContrast(color, notiBg);
++        } else {
++            color = NotificationColorUtil.ensureLargeTextContrast(color, actionBg);
++            color = NotificationColorUtil.ensureTextContrast(color, notiBg);
++        }
+ 
+         if (color != resolvedColor) {
+             if (DEBUG){
+diff --git a/core/res/res/values/projekt_config.xml b/core/res/res/values/projekt_config.xml
+index 5234959..8cf5666 100644
+--- a/core/res/res/values/projekt_config.xml
++++ b/core/res/res/values/projekt_config.xml
+@@ -27,4 +27,8 @@
+     needs to be set to false, to prevent the doze notifications from being light -->
+     <bool name="config_invert_colors_on_doze">true</bool>
+ 
++    <!-- True if the notification's dynamic app icon/title tint should be optimised for dark
++    backgrounds (requires config_allowNotificationIconTextTinting to be true)-->
++    <bool name="config_useDarkBgNotificationIconTextTinting">false</bool>
++
+ </resources>
+diff --git a/core/res/res/values/projekt_symbols.xml b/core/res/res/values/projekt_symbols.xml
+index 16a5728..faa71e0 100644
+--- a/core/res/res/values/projekt_symbols.xml
++++ b/core/res/res/values/projekt_symbols.xml
+@@ -19,6 +19,7 @@
+ 
+   <!-- Notification icon/text dynamic tint -->
+   <java-symbol type="bool" name="config_allowNotificationIconTextTinting" />
++  <java-symbol type="bool" name="config_useDarkBgNotificationIconTextTinting" />
+   <java-symbol type="color" name="notification_text_default_color" />
+   <java-symbol type="color" name="sender_text_color" />
+ 
+-- 
+2.7.4
+

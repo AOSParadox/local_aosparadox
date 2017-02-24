@@ -1,7 +1,7 @@
-From 75fb8f5a2ad6d20b94500640eaf21df94e33ec34 Mon Sep 17 00:00:00 2001
+From b57f927f27d3d4073d9fabe68445784f38f6c6c0 Mon Sep 17 00:00:00 2001
 From: daveyannihilation <daveyannihilation@hotmail.com>
 Date: Tue, 20 Sep 2016 23:35:04 +0800
-Subject: [PATCH 02/13] Settings: Expose condition card colors
+Subject: [PATCH 02/15] Settings: Expose condition card colors
 
 PS2 Change to the actual colors in fwb that these attrs call to.
 

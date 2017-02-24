@@ -1,0 +1,38 @@
+From 2626b7d5df66c8875f959d23580d07d9782c3cb2 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?M=C3=A5rten=20Kongstad?= <marten.kongstad@sonymobile.com>
+Date: Thu, 2 Jun 2016 09:35:09 +0200
+Subject: [PATCH 09/41] OMS7-N: installd: add command 'rmidmap' [7/11]
+
+Add an installd command to remove an idmap file. This is the inverse of
+the 'idmap' command and is intended for clean-up once an idmap file is
+no longer needed because an APK was removed, etc.
+
+This commit depends on a corresponding commit in frameworks/native (with
+the same Change-Id).
+
+Change-Id: I58f55f643da99c0bd69136ee43c1c8c70c352797
+---
+ services/core/java/com/android/server/pm/Installer.java | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/services/core/java/com/android/server/pm/Installer.java b/services/core/java/com/android/server/pm/Installer.java
+index 2e18b1c..7f618b8 100644
+--- a/services/core/java/com/android/server/pm/Installer.java
++++ b/services/core/java/com/android/server/pm/Installer.java
+@@ -170,6 +170,13 @@ public final class Installer extends SystemService {
+         mInstaller.execute("idmap", targetApkPath, overlayApkPath, uid);
+     }
+ 
++    public void removeIdmap(String overlayApkPath) throws InstallerException {
++        StringBuilder builder = new StringBuilder("rmidmap");
++        builder.append(' ');
++        builder.append(overlayApkPath);
++        mInstaller.execute(builder.toString());
++    }
++
+     public void rmdex(String codePath, String instructionSet) throws InstallerException {
+         assertValidInstructionSet(instructionSet);
+         mInstaller.execute("rmdex", codePath, instructionSet);
+-- 
+2.7.4
+

@@ -1,0 +1,58 @@
+From 6badf76ad32c58482a98ad48511f1ce709e26919 Mon Sep 17 00:00:00 2001
+From: Ivan Iskandar <iiiiskandar14@gmail.com>
+Date: Sun, 18 Sep 2016 21:33:18 +0700
+Subject: [PATCH 18/41] SystemUI: Expose QS edit item decoration background
+ color
+
+PS2:
+More descriptive color name
+
+@nathanchance edit: updated for 7.1 Nougat
+
+Change-Id: I9867ca26e7d9dacad37d2b70180a98fede0fb0e8
+---
+ packages/SystemUI/res/values/projekt_colors.xml                     | 2 ++
+ .../SystemUI/src/com/android/systemui/qs/customize/TileAdapter.java | 6 ++++--
+ 2 files changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/packages/SystemUI/res/values/projekt_colors.xml b/packages/SystemUI/res/values/projekt_colors.xml
+index a0f1df0..42f4a15 100644
+--- a/packages/SystemUI/res/values/projekt_colors.xml
++++ b/packages/SystemUI/res/values/projekt_colors.xml
+@@ -18,4 +18,6 @@
+ <resources>
+     <!-- Navigation button ripple color -->
+     <color name="navbutton_ripple_color">#FFFFFFFF</color>
++    <!-- QS edit page background color -->
++    <color name="qs_edit_item_decoration_bg">@*android:color/secondary_device_default_settings</color>
+ </resources>
+diff --git a/packages/SystemUI/src/com/android/systemui/qs/customize/TileAdapter.java b/packages/SystemUI/src/com/android/systemui/qs/customize/TileAdapter.java
+index 8d7f6ee..c7a1441 100644
+--- a/packages/SystemUI/src/com/android/systemui/qs/customize/TileAdapter.java
++++ b/packages/SystemUI/src/com/android/systemui/qs/customize/TileAdapter.java
+@@ -471,11 +471,10 @@ public class TileAdapter extends RecyclerView.Adapter<Holder> implements TileSta
+         private TileItemDecoration(Context context) {
+             TypedArray ta =
+                     context.obtainStyledAttributes(new int[]{android.R.attr.colorSecondary});
+-            mDrawable = new ColorDrawable(ta.getColor(0, 0));
++            mDrawable = new ColorDrawable();
+             ta.recycle();
+         }
+ 
+-
+         @Override
+         public void onDraw(Canvas c, RecyclerView parent, State state) {
+             super.onDraw(c, parent, state);
+@@ -494,6 +493,9 @@ public class TileAdapter extends RecyclerView.Adapter<Holder> implements TileSta
+                         .getLayoutParams();
+                 final int top = child.getTop() + params.topMargin +
+                         Math.round(ViewCompat.getTranslationY(child));
++                // Set drawable color
++                mDrawable.setColor(mContext.getResources().getColor(
++                        R.color.qs_edit_item_decoration_bg));
+                 // Draw full width, in case there aren't tiles all the way across.
+                 mDrawable.setBounds(0, top, width, bottom);
+                 mDrawable.draw(c);
+-- 
+2.7.4
+

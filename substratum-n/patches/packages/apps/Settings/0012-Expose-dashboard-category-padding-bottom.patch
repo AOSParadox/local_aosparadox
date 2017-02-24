@@ -1,7 +1,7 @@
-From acc4f963d80b6b673f4e267885bf671ee3afd0c0 Mon Sep 17 00:00:00 2001
+From eebcfa90d25b204d2ad3e6a553f08e852cde34e8 Mon Sep 17 00:00:00 2001
 From: Ivan Iskandar <iiiiskandar14@gmail.com>
 Date: Sun, 8 Jan 2017 00:18:47 +0100
-Subject: [PATCH 12/13] Expose dashboard category padding bottom
+Subject: [PATCH 12/15] Expose dashboard category padding bottom
 
 Change-Id: I5a0d3266bbe96dbe6a136f78ed84cb1ee0a6a19b
 ---

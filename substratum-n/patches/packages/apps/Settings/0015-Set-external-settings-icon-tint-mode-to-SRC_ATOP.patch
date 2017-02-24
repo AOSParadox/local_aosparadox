@@ -1,0 +1,42 @@
+From aea63019c6280a27c856c86932c29409e461d94f Mon Sep 17 00:00:00 2001
+From: Ivan Iskandar <iiiiskandar14@gmail.com>
+Date: Sat, 28 Jan 2017 13:40:55 +0100
+Subject: [PATCH 15/15] Set external settings icon tint mode to SRC_ATOP
+
+With "Expose color for external settings icons" commit, themers can change
+the color of the external settings icon to whatever they want except
+transparent. When they set the tint color to transparent the icon will be
+dissapeared, this commits fixed the problem by changing the tint mode.
+
+Before: http://i.imgur.com/ghDPs27.jpg
+After: http://i.imgur.com/AUEFgNO.jpg
+
+Change-Id: I65b710e2abefd1052b3af154a98247de9b4fe98d
+---
+ src/com/android/settings/dashboard/DashboardAdapter.java | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/src/com/android/settings/dashboard/DashboardAdapter.java b/src/com/android/settings/dashboard/DashboardAdapter.java
+index 7b4dc31..24215d6 100755
+--- a/src/com/android/settings/dashboard/DashboardAdapter.java
++++ b/src/com/android/settings/dashboard/DashboardAdapter.java
+@@ -24,6 +24,7 @@ import android.content.pm.PackageManager;
+ import android.graphics.drawable.Drawable;
+ import android.graphics.drawable.Icon;
+ import android.provider.Settings;
++import android.graphics.PorterDuff.Mode;
+ import android.os.Bundle;
+ import android.support.v7.widget.PopupMenu;
+ import android.support.v7.widget.RecyclerView;
+@@ -197,7 +198,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Dash
+                         mContext.getTheme().resolveAttribute(tintColorValue.data,
+                                 tintColorValue, true);
+                     }
+-                    tile.icon.setTint(tintColorValue.data);
++                    tile.icon.setTint(tintColorValue.data).setTintMode(Mode.SRC_ATOP);
+                 }
+             }
+         }
+-- 
+2.7.4
+

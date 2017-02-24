@@ -1,0 +1,40 @@
+From 0dc2666dc24f623928eebbd9960afbbed5f9846a Mon Sep 17 00:00:00 2001
+From: Bryan Owens <djbryan3540@gmail.com>
+Date: Fri, 11 Dec 2015 22:04:15 -0600
+Subject: [PATCH 2/2] Themes: Define back arrow tint color for themes
+
+This will make it easier to theme and keep stock look
+
+Change-Id: I0385f7773a988c08e41acc1fd54bf32d13e0cddd
+Signed-off-by: Bryan Owens <djbryan3540@gmail.com>
+---
+ res/layout/search_bar_expanded.xml | 2 +-
+ res/values/projekt_colors.xml      | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/res/layout/search_bar_expanded.xml b/res/layout/search_bar_expanded.xml
+index c530299..e5e180a 100644
+--- a/res/layout/search_bar_expanded.xml
++++ b/res/layout/search_bar_expanded.xml
+@@ -30,7 +30,7 @@
+         android:src="@drawable/ic_back_arrow"
+         android:background="?android:attr/selectableItemBackgroundBorderless"
+         android:contentDescription="@string/action_menu_back_from_search"
+-        android:tint="@color/actionbar_background_color" />
++        android:tint="@color/back_arrow_icon_tint_color" />
+ 
+     <EditText
+         android:id="@+id/search_view"
+diff --git a/res/values/projekt_colors.xml b/res/values/projekt_colors.xml
+index a5d6bd3..07d6963 100644
+--- a/res/values/projekt_colors.xml
++++ b/res/values/projekt_colors.xml
+@@ -19,4 +19,5 @@
+     <color name="frequent_contact_text_color">@android:color/black</color>
+     <color name="contact_tile_text_color">#ff202020</color>
+     <color name="starred_quick_contact_name_text_color">@android:color/white</color>
++    <color name="back_arrow_icon_tint_color">@color/actionbar_background_color</color>
+ </resources>
+-- 
+2.7.4
+

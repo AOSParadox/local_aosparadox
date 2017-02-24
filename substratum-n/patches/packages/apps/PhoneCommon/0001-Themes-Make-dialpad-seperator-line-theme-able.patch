@@ -1,4 +1,4 @@
-From a1568c9135c1ce18b03aab0344fae5d6247f95e3 Mon Sep 17 00:00:00 2001
+From eb0fe1faac5d3816442dea578167442730f0be34 Mon Sep 17 00:00:00 2001
 From: Thyrus11 <thyrus11@gmail.com>
 Date: Sat, 21 Feb 2015 10:41:01 +0100
 Subject: [PATCH] Themes: Make dialpad seperator line theme-able

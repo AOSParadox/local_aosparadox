@@ -1,0 +1,28 @@
+From 44c216b3f333fb8ab3e5216f36a98799ffc46c46 Mon Sep 17 00:00:00 2001
+From: Louis Popi <theh2o64@gmail.com>
+Date: Fri, 24 Feb 2017 10:50:08 +0100
+Subject: [PATCH 01/41] Revert "Fix idmap leak in zygote process"
+
+This reverts commit fbe5031b433dd2ba5adace30ad9f45988180646c.
+---
+ libs/androidfw/AssetManager.cpp | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/libs/androidfw/AssetManager.cpp b/libs/androidfw/AssetManager.cpp
+index ed30291..19c0dcd 100644
+--- a/libs/androidfw/AssetManager.cpp
++++ b/libs/androidfw/AssetManager.cpp
+@@ -804,7 +804,9 @@ void AssetManager::addSystemOverlays(const char* pathOverlaysList,
+             sharedRes->add(oass, oidmap, offset + 1, false);
+             const_cast<AssetManager*>(this)->mAssetPaths.add(oap);
+             const_cast<AssetManager*>(this)->mZipSet.addOverlay(targetPackagePath, oap);
+-            delete oidmap;
++
++            oidmap->close();
++            ALOGD("close idmap=%s pid=%d\n", oap.idmap.string(), getpid());
+        }
+ 
+         if (oap.path.find(OVERLAY_DIR) != -1) {
+-- 
+2.7.4
+

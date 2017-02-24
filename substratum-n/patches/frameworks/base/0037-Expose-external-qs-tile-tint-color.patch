@@ -1,0 +1,42 @@
+From 3fafe7fe59a64090af252997c11a0603986b5abd Mon Sep 17 00:00:00 2001
+From: Alex Cruz <mazdarider23@gmail.com>
+Date: Tue, 24 Jan 2017 11:14:46 +0100
+Subject: [PATCH 37/41] Expose external qs tile tint color
+
+This should allow themers to get around issues like this (see pic below)
+
+https://i.imgur.com/cG2OzRT.jpg
+
+Change-Id: If6dbf9ab29f8007d85a3c45524b1cf4ba1b032fb
+---
+ packages/SystemUI/res/values/projekt_colors.xml                         | 2 ++
+ .../SystemUI/src/com/android/systemui/qs/customize/TileQueryHelper.java | 2 +-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/packages/SystemUI/res/values/projekt_colors.xml b/packages/SystemUI/res/values/projekt_colors.xml
+index 83b8524..e31d124 100644
+--- a/packages/SystemUI/res/values/projekt_colors.xml
++++ b/packages/SystemUI/res/values/projekt_colors.xml
+@@ -30,4 +30,6 @@
+     <color name="qs_battery_graph_text_color">#66FFFFFF</color>
+     <!-- QS battery accent color -->
+     <color name="qs_battery_accent">@*android:color/accent_device_default_light</color>
++    <!-- External QS tile tint color -->
++    <color name="external_qs_tile_tint_color">@android:color/white</color>
+ </resources>
+diff --git a/packages/SystemUI/src/com/android/systemui/qs/customize/TileQueryHelper.java b/packages/SystemUI/src/com/android/systemui/qs/customize/TileQueryHelper.java
+index 40ef6eb..8c9ba71 100644
+--- a/packages/SystemUI/src/com/android/systemui/qs/customize/TileQueryHelper.java
++++ b/packages/SystemUI/src/com/android/systemui/qs/customize/TileQueryHelper.java
+@@ -172,7 +172,7 @@ public class TileQueryHelper {
+                     continue;
+                 }
+                 icon.mutate();
+-                icon.setTint(mContext.getColor(android.R.color.white));
++                icon.setTint(mContext.getColor(R.color.external_qs_tile_tint_color));
+                 CharSequence label = info.serviceInfo.loadLabel(pm);
+                 addTile(spec, icon, label != null ? label.toString() : "null", appLabel, mContext);
+             }
+-- 
+2.7.4
+

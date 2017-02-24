@@ -1,4 +1,4 @@
-From c2eab8f091d914cbaaf2d2ffe652005d70dc7ac2 Mon Sep 17 00:00:00 2001
+From 14456f5bd7338e65a92dd17ec72bc288984a9086 Mon Sep 17 00:00:00 2001
 From: Alex Cruz <mazdarider23@gmail.com>
 Date: Thu, 5 May 2016 11:55:05 -0500
 Subject: [PATCH 1/2] Themes: Separate background color from text color

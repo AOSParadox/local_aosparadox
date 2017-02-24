@@ -1,7 +1,7 @@
-From d390b50693bb5145abd13288c321b9a9edef51e3 Mon Sep 17 00:00:00 2001
+From 31a82ccfd8996f39741c1c80e3049a4474bc4826 Mon Sep 17 00:00:00 2001
 From: Ivan Iskandar <iiiiskandar14@gmail.com>
 Date: Wed, 14 Dec 2016 14:58:54 +0100
-Subject: [PATCH 10/13] Hide the "show/hide overlays" when no overlay installed
+Subject: [PATCH 10/15] Hide the "show/hide overlays" when no overlay installed
 
 Change-Id: I54088d27c9492e0992992de59bf340fe2465260a
 ---

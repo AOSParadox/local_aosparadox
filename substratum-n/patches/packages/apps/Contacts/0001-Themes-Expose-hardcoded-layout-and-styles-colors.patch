@@ -1,4 +1,4 @@
-From 6233e238e005536fa4492f348ed650a7487b34ae Mon Sep 17 00:00:00 2001
+From 3c32d0bc37c9205c2ec3fadd1949f8c379366705 Mon Sep 17 00:00:00 2001
 From: beanstown106 <nbenis106@gmail.com>
 Date: Fri, 20 Nov 2015 17:27:43 -0500
 Subject: [PATCH] Themes: Expose hardcoded layout and styles colors

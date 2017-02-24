@@ -1,0 +1,38 @@
+From a3b7736e180a3a979b8db0816ac6b259068eaf06 Mon Sep 17 00:00:00 2001
+From: Branden M <wasabi.dev@gmail.com>
+Date: Wed, 1 Feb 2017 22:22:45 -0600
+Subject: [PATCH 40/41] Themes: Expose Keyguard affordance circle background
+
+Change-Id: Id4a078cdbc944fa0c0736103045a0382d49ecb80
+---
+ packages/SystemUI/res/values/projekt_colors.xml                         | 2 ++
+ .../src/com/android/systemui/statusbar/KeyguardAffordanceView.java      | 2 +-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/packages/SystemUI/res/values/projekt_colors.xml b/packages/SystemUI/res/values/projekt_colors.xml
+index e31d124..e8f8e50 100644
+--- a/packages/SystemUI/res/values/projekt_colors.xml
++++ b/packages/SystemUI/res/values/projekt_colors.xml
+@@ -32,4 +32,6 @@
+     <color name="qs_battery_accent">@*android:color/accent_device_default_light</color>
+     <!-- External QS tile tint color -->
+     <color name="external_qs_tile_tint_color">@android:color/white</color>
++    <!-- Keyguard affordance circle background -->
++    <color name="keyguard_affordance_circle_background">@android:color/white</color>
+ </resources>
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/KeyguardAffordanceView.java b/packages/SystemUI/src/com/android/systemui/statusbar/KeyguardAffordanceView.java
+index 8b4225a..ad2bd1f 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/KeyguardAffordanceView.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/KeyguardAffordanceView.java
+@@ -126,7 +126,7 @@ public class KeyguardAffordanceView extends ImageView {
+         super(context, attrs, defStyleAttr, defStyleRes);
+         mCirclePaint = new Paint();
+         mCirclePaint.setAntiAlias(true);
+-        mCircleColor = 0xffffffff;
++        mCircleColor = mContext.getResources().getColor(R.color.keyguard_affordance_circle_background);
+         mCirclePaint.setColor(mCircleColor);
+ 
+         mNormalColor = 0xffffffff;
+-- 
+2.7.4
+

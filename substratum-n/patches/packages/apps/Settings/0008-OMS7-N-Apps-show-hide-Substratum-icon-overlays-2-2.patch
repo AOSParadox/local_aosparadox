@@ -1,7 +1,7 @@
-From a2a023d226e02bd73951f1644ad05837d9e701f5 Mon Sep 17 00:00:00 2001
+From bd7554fe900ddc3dd148c97ccb0227c07d7329f5 Mon Sep 17 00:00:00 2001
 From: Kuba Schenk <abukcz@gmail.com>
 Date: Thu, 1 Dec 2016 22:00:31 +0100
-Subject: [PATCH 08/13] OMS7-N: Apps: show/hide Substratum icon overlays [2/2]
+Subject: [PATCH 08/15] OMS7-N: Apps: show/hide Substratum icon overlays [2/2]
 
 Default behavior is "hidden" substratum icon overlays,
 as they pollute the screen, and you can't notice the

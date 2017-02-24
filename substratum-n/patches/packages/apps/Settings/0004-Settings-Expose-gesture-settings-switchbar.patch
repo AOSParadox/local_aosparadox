@@ -1,7 +1,7 @@
-From 3ae2e58993260ba81e34f7c3451f6ea75b6a12d6 Mon Sep 17 00:00:00 2001
+From 21ee35ffee64a70ff8ae40380b375c63e3269a8c Mon Sep 17 00:00:00 2001
 From: daveyannihilation <daveyannihilation@hotmail.com>
 Date: Fri, 25 Nov 2016 15:20:04 -0700
-Subject: [PATCH 04/13] Settings: Expose gesture settings switchbar
+Subject: [PATCH 04/15] Settings: Expose gesture settings switchbar
 
 In Settings > Gestures, there is a hardcoded white background above each switch. Link to a colors.xml value instead.
 

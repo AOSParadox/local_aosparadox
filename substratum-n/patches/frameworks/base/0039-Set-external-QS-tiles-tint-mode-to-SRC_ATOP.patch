@@ -1,0 +1,43 @@
+From 0128bb4fbf1aaaa7b2ad4f0aa15426251097e8bc Mon Sep 17 00:00:00 2001
+From: Alex Cruz <mazdarider23@gmail.com>
+Date: Sat, 4 Feb 2017 14:13:26 +0100
+Subject: [PATCH 39/41] Set external QS tiles tint mode to SRC_ATOP
+
+While the external qs tile tint color was exposed, we had the same problem
+we had with the external icons in Settings which is if a themer set the color
+to transparent, they were SOL.
+
+This mirrors what @iskandar1023 did in the commit below
+http://review.projektsubstratum.com/#/c/286/
+
+Before - https://i.imgur.com/trpefmZ.png
+After - https://i.imgur.com/ugAqrju.png
+
+Change-Id: I6d577573dd494d61a3e87abebd919b02a481db56
+---
+ .../SystemUI/src/com/android/systemui/qs/customize/TileQueryHelper.java | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/packages/SystemUI/src/com/android/systemui/qs/customize/TileQueryHelper.java b/packages/SystemUI/src/com/android/systemui/qs/customize/TileQueryHelper.java
+index 8c9ba71..de283d1 100644
+--- a/packages/SystemUI/src/com/android/systemui/qs/customize/TileQueryHelper.java
++++ b/packages/SystemUI/src/com/android/systemui/qs/customize/TileQueryHelper.java
+@@ -23,6 +23,7 @@ import android.content.Context;
+ import android.content.Intent;
+ import android.content.pm.PackageManager;
+ import android.content.pm.ResolveInfo;
++import android.graphics.PorterDuff.Mode;
+ import android.graphics.drawable.Drawable;
+ import android.os.AsyncTask;
+ import android.os.Handler;
+@@ -173,6 +174,7 @@ public class TileQueryHelper {
+                 }
+                 icon.mutate();
+                 icon.setTint(mContext.getColor(R.color.external_qs_tile_tint_color));
++                icon.setTintMode(Mode.SRC_ATOP);
+                 CharSequence label = info.serviceInfo.loadLabel(pm);
+                 addTile(spec, icon, label != null ? label.toString() : "null", appLabel, mContext);
+             }
+-- 
+2.7.4
+

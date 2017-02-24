@@ -1,4 +1,4 @@
-From f5bb41de1c82599bcf8776c88987b55a8b5f05e5 Mon Sep 17 00:00:00 2001
+From 2670100d0d5fa58e79fad9f59a607b62e7723d2d Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?M=C3=A5rten=20Kongstad?= <marten.kongstad@sonymobile.com>
 Date: Mon, 22 Jun 2015 09:31:25 +0200
 Subject: [PATCH] OMS7-N: Add service 'overlay' to service_contexts

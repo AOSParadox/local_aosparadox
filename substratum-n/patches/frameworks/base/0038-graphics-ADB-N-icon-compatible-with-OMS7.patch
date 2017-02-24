@@ -1,0 +1,45 @@
+From e6a833fdd42dec82da11a5723414e6aad134d28c Mon Sep 17 00:00:00 2001
+From: George G <kreach3r@users.noreply.github.com>
+Date: Thu, 2 Feb 2017 01:52:27 +0200
+Subject: [PATCH 38/41] graphics: ADB "N" icon compatible with OMS7
+
+It's the same problem as the booleans again. This time, it affected the adb "N" icon in the statusbar.
+This commit should fix this.
+
+After: http://i.imgur.com/RPh6WKK.jpg
+
+Previous commits on the same matter:
+OMS7 introduced this fine piece of code: https://github.com/SubstratumResources/platform_frameworks_base/blob/n-oms7/core/java/android/app/ResourcesManager.java#L897..#L904
+
+// Resources.getSystem Resources are created on request and aren't tracked by
+// mResourceReferences.
+//
+// If overlays targeting "android" are to be used, we must create the system
+// resources regardless of whether they already exist, since otherwise the
+// information on what overlays to use would be lost. This is wasteful for most
+// applications, so limit this operation to the system user only. (This means
+// Resources.getSystem() will *not* use overlays for applications.)
+
+Replaced deprecated Resources.getSystem() with compatible method.
+
+Change-Id: Ibab2ce1571360a9e03043d1bf3144c89e54e1947
+---
+ graphics/java/android/graphics/drawable/Icon.java | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/graphics/java/android/graphics/drawable/Icon.java b/graphics/java/android/graphics/drawable/Icon.java
+index 2b950d3..fb26bee 100644
+--- a/graphics/java/android/graphics/drawable/Icon.java
++++ b/graphics/java/android/graphics/drawable/Icon.java
+@@ -294,7 +294,7 @@ public final class Icon implements Parcelable {
+                         resPackage = context.getPackageName();
+                     }
+                     if ("android".equals(resPackage)) {
+-                        mObj1 = Resources.getSystem();
++                        mObj1 = context.getResources();
+                     } else {
+                         final PackageManager pm = context.getPackageManager();
+                         try {
+-- 
+2.7.4
+

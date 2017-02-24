@@ -1,7 +1,7 @@
-From 7171a394211ad52410957fc312c68f82b8fb25cc Mon Sep 17 00:00:00 2001
+From 6dd01e8ac8e0de43de7937ca2d2bed2bede56f46 Mon Sep 17 00:00:00 2001
 From: SpiritCroc <spiritcroc@gmail.com>
 Date: Fri, 9 Dec 2016 12:47:54 +0100
-Subject: [PATCH 06/13] Settings: Expose LinearColorBar default colors
+Subject: [PATCH 06/15] Settings: Expose LinearColorBar default colors
 
 Change-Id: I8e63f10f9e4079d1a03eaece18e8343102f4a755
 ---

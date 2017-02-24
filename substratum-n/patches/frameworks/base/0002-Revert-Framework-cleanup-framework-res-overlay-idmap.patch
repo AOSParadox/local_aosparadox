@@ -1,0 +1,74 @@
+From f943af84a67491dac29d829c38b0bb089202c928 Mon Sep 17 00:00:00 2001
+From: Louis Popi <theh2o64@gmail.com>
+Date: Fri, 24 Feb 2017 10:50:14 +0100
+Subject: [PATCH 02/41] Revert "Framework:cleanup framework res-overlay/idmap
+ fd"
+
+This reverts commit c1fd64b3838e0b48ee56428599d0dcc7ff4842a9.
+---
+ include/androidfw/AssetManager.h |  2 +-
+ libs/androidfw/AssetManager.cpp  | 28 ++--------------------------
+ 2 files changed, 3 insertions(+), 27 deletions(-)
+
+diff --git a/include/androidfw/AssetManager.h b/include/androidfw/AssetManager.h
+index 2d5f4c2..914ac3d 100644
+--- a/include/androidfw/AssetManager.h
++++ b/include/androidfw/AssetManager.h
+@@ -359,7 +359,7 @@ private:
+ 
+         void addOverlay(const String8& path, const asset_path& overlay);
+         bool getOverlay(const String8& path, size_t idx, asset_path* out) const;
+-        void closeZipFromPath(const String8& zip);
++        
+     private:
+         void closeZip(int idx);
+ 
+diff --git a/libs/androidfw/AssetManager.cpp b/libs/androidfw/AssetManager.cpp
+index 19c0dcd..07044d0 100644
+--- a/libs/androidfw/AssetManager.cpp
++++ b/libs/androidfw/AssetManager.cpp
+@@ -804,16 +804,8 @@ void AssetManager::addSystemOverlays(const char* pathOverlaysList,
+             sharedRes->add(oass, oidmap, offset + 1, false);
+             const_cast<AssetManager*>(this)->mAssetPaths.add(oap);
+             const_cast<AssetManager*>(this)->mZipSet.addOverlay(targetPackagePath, oap);
+-
+-            oidmap->close();
+-            ALOGD("close idmap=%s pid=%d\n", oap.idmap.string(), getpid());
+-       }
+-
+-        if (oap.path.find(OVERLAY_DIR) != -1) {
+-           const_cast<AssetManager*>(this)->mZipSet.closeZipFromPath(oap.path);
+-           ALOGD("close: %s and reset entry\n", oap.path.string());
+-      }
+-  }
++        }
++    }
+ 
+ #ifndef _WIN32
+     TEMP_FAILURE_RETRY(flock(fileno(fin), LOCK_UN));
+@@ -2014,22 +2006,6 @@ AssetManager::ZipSet::~ZipSet(void)
+ }
+ 
+ /*
+- * Close a Zip file from path and reset the entry
+- */
+-void AssetManager::ZipSet::closeZipFromPath(const String8& zip)
+-{
+-    //close zip fd
+-    int fd = getZip(zip)->getFileDescriptor();
+-
+-    if (fd > 0) {
+-        close(fd);
+-        //reset zip object and entry
+-        int idx = getIndex(zip);
+-        mZipFile.editItemAt(idx) = NULL;
+-    }
+-}
+-
+-/*
+  * Close a Zip file and reset the entry.
+  */
+ void AssetManager::ZipSet::closeZip(int idx)
+-- 
+2.7.4
+

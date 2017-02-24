@@ -1,0 +1,45 @@
+From 0ad349fc8930fd2974452499ab2eee58a62a1628 Mon Sep 17 00:00:00 2001
+From: Daniel Koman <dankoman30@gmail.com>
+Date: Wed, 28 Sep 2016 15:28:26 +0200
+Subject: [PATCH 36/41] doze: allow grayscale even if invert boolean is false
+
+for dark themes, we are setting the config boolean for inverting
+    doze notifications to false.  in addition to preventing
+    color inversion, this was also preventing the notification
+    from grayscaling.  as a result, on dark themes (boolean false), we
+    were seeing color icons on doze notifications.  this commit fixes
+    the grayscaling, and brings back the very aesthetically pleasing
+    (imo) grayscale-to-color fade-in for the notifications' app icons.
+
+Change-Id: Ifc5efbccbeb02910684b76793721b10f1d64f870
+---
+ packages/SystemUI/src/com/android/systemui/ViewInvertHelper.java | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/packages/SystemUI/src/com/android/systemui/ViewInvertHelper.java b/packages/SystemUI/src/com/android/systemui/ViewInvertHelper.java
+index 605f381..16d46c0 100644
+--- a/packages/SystemUI/src/com/android/systemui/ViewInvertHelper.java
++++ b/packages/SystemUI/src/com/android/systemui/ViewInvertHelper.java
+@@ -92,7 +92,7 @@ public class ViewInvertHelper {
+     }
+ 
+     public void update(boolean invert) {
+-        if (invert && mThemeInvert) {
++        if (invert) {
+             updateInvertPaint(1f);
+             for (int i = 0; i < mTargets.size(); i++) {
+                 mTargets.get(i).setLayerType(View.LAYER_TYPE_HARDWARE, mDarkPaint);
+@@ -115,7 +115,9 @@ public class ViewInvertHelper {
+         mMatrix.set(invert);
+         mGrayscaleMatrix.setSaturation(1 - intensity);
+         mMatrix.preConcat(mGrayscaleMatrix);
+-        mDarkPaint.setColorFilter(new ColorMatrixColorFilter(mMatrix));
++        mDarkPaint.setColorFilter(new ColorMatrixColorFilter(
++                mThemeInvert ? mMatrix : mGrayscaleMatrix));
++
+     }
+ 
+     public void setInverted(boolean invert, boolean fade, long delay) {
+-- 
+2.7.4
+

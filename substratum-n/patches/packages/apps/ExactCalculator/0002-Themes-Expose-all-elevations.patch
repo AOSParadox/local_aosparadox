@@ -1,4 +1,4 @@
-From 08919d33033330ef45ec9c08b9b910cd8a57a04c Mon Sep 17 00:00:00 2001
+From 1fd7f2dc0e0426a29068d1db0e36ad98c96f8143 Mon Sep 17 00:00:00 2001
 From: Abdulwahab Isam <abdoi94.iq@gmail.com>
 Date: Mon, 19 Sep 2016 18:42:06 +0300
 Subject: [PATCH 2/2] Themes: Expose all elevations

@@ -1,7 +1,7 @@
-From 9226f4689ba693b0b0480fc66b84af7d5dab5c3c Mon Sep 17 00:00:00 2001
+From cff4a9efddb1ab1de2464b0a51b269615e498c28 Mon Sep 17 00:00:00 2001
 From: Ivan Iskandar <iiiiskandar14@gmail.com>
 Date: Fri, 9 Dec 2016 02:19:20 +0100
-Subject: [PATCH 09/13] Exclude overlays from the app counter
+Subject: [PATCH 09/15] Exclude overlays from the app counter
 
 This exclude overlays from the app counter that shows
 in manage app summary.
