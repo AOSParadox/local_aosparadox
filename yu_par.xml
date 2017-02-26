@@ -121,7 +121,7 @@
   <project path="vendor/yu/" name="proprietary_vendor_yu" remote="par" revision="yu-par-BETA-6.0" />
 
   <!-- Substratum -->
-  <project path="packages/apps/masquerade" name="masquerade" remote="TeamSubstratum" revision="586edd65a961bd14e37dd3c54ee30dba2796837f"/>
+  <project name="SubstratumResources/platform_packages_apps_masquerade" path="packages/apps/masquerade" remote="github" revision="586edd65a961bd14e37dd3c54ee30dba2796837f" />
 
   <!-- TWRP -->
   <!-- <project path="external/busybox" name="omnirom/android_external_busybox" remote="github" revision="android-6.0" /> -->
