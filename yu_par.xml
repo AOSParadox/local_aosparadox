@@ -123,7 +123,7 @@
   <project path="vendor/yu/" name="proprietary_vendor_yu" remote="par" revision="yu-par-6.0" />
 
   <!-- Substratum -->
-  <project name="SubstratumResources/platform_packages_apps_masquerade" path="packages/apps/masquerade" remote="github" revision="586edd65a961bd14e37dd3c54ee30dba2796837f" />
+  <project name="substratum/masquerade" path="packages/apps/masquerade" remote="github" revision="586edd65a961bd14e37dd3c54ee30dba2796837f" />
 
   <!-- TWRP -->
   <!-- <project path="bootable/recovery" name="sandroid_bootable_recovery" remote="par" revision="android-6.0" />
